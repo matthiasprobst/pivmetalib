@@ -3,4 +3,6 @@ pydantic[email]
 appdirs
 python-dateutil
 requests
+xmltodict
+pyyaml>6.0.0
 ssnolib @ git+https://github.com/matthiasprobst/SSNOlib@main
