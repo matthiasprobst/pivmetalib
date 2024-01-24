@@ -1,6 +1,6 @@
 from pydantic import HttpUrl
 
-from .dcat import Distribution
+from ..dcat import Distribution
 
 
 class PivDistribution(Distribution):
