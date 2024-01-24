@@ -1,7 +1,7 @@
 import abc
 from datetime import datetime
 from pydantic import field_validator
-from typing import Any
+from typing import Any, List, Union
 
 from .method import Method
 from .tool import Tool
@@ -38,7 +38,7 @@ class ProcessingStep(Activity):
     investigates: Thing = None
     usage_instruction: str = None
     has_employed_tool: Tool = None
-    realizes_method: Method = None
+    realizes_method: Union[Method, List[Method]] = None
     has_input: Thing = None
     has_output: Thing = None
     part_of: ResearchProject = None

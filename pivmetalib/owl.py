@@ -64,10 +64,11 @@ class Thing(AbstractModel):
         def _repr(obj):
             if hasattr(obj, '_repr_html_'):
                 return obj._repr_html_()
-            elif isinstance(obj, list):
+            if isinstance(obj, list):
                 return f"[{', '.join([_repr(i) for i in obj])}]"
-            else:
-                return repr(obj)
+            if isinstance(obj, rdflib.URIRef):
+                return f"<a href='{obj}'>{obj}</a>"
+            return repr(obj)
 
         _fields = {k: getattr(self, k) for k in self.model_fields if getattr(self, k) is not None}
         repr_fields = ", ".join([f"{k}={_repr(v)}" for k, v in _fields.items()])

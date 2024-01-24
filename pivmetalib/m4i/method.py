@@ -16,9 +16,5 @@ class Method(Thing):
     ----------
     tbd
     """
-    label: str
+    label: str = None
     has_parameter: Union[Variable, List[Variable]] = None
-
-    def _repr_html_(self) -> str:
-        """Returns the HTML representation of the class"""
-        return f"{self.__class__.__name__}({self.mbox})"
