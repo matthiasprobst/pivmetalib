@@ -8,6 +8,7 @@ import unittest
 from datetime import datetime
 
 import pivmetalib
+from pivmetalib import pivmeta, prov
 
 __this_dir__ = pathlib.Path(__file__).parent
 CACHE_DIR = pivmetalib.utils.get_cache_dir()
@@ -39,6 +40,43 @@ class TestPIVProcess(unittest.TestCase):
 
         jsonld_string = ps1.dump_jsonld()
         self.check_jsonld_string(jsonld_string)
+
+    def test_piv_software(self):
+        mycompany = pivmeta.PIVSoftware(
+            author=prov.Organization(
+                name='My GmbH',
+                mbox='info@mycompany.com',
+                url='https://www.mycompany.com/'
+            ),
+        )
+        self.assertEqual(mycompany.author.name, 'My GmbH')
+        self.assertEqual(mycompany.author.mbox, 'info@mycompany.com')
+        self.assertIsInstance(mycompany, pivmetalib.Thing)
+        self.assertIsInstance(mycompany, pivmeta.PIVSoftware)
+        self.assertIsInstance(mycompany.author, pivmetalib.Thing)
+        self.assertIsInstance(mycompany.author, prov.Organization)
+
+        mycompany2 = pivmeta.PIVSoftware(
+            author=[
+                prov.Organization(
+                    name='My GmbH',
+                    mbox='info@mycompany.com',
+                    url='https://www.mycompany.com/'
+                ),
+                prov.Person(
+                    first_name='John'
+                )
+            ],
+        )
+        self.assertIsInstance(mycompany2.author, list)
+        self.assertIsInstance(mycompany2.author[0], pivmetalib.Thing)
+        self.assertIsInstance(mycompany2.author[0], prov.Organization)
+        self.assertEqual(mycompany2.author[0].name, 'My GmbH')
+        self.assertEqual(mycompany2.author[0].mbox, 'info@mycompany.com')
+        self.assertIsInstance(mycompany2.author[1], pivmetalib.Thing)
+        self.assertIsInstance(mycompany2.author[1], prov.Person)
+        self.assertIsInstance(mycompany2, pivmetalib.Thing)
+        self.assertIsInstance(mycompany2, pivmeta.PIVSoftware)
 
     def test_variable(self):
         var1 = pivmetalib.Variable(value=4.2)

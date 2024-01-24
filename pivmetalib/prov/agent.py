@@ -1,6 +1,7 @@
 from pydantic import EmailStr
+from pydantic import HttpUrl
 
-from ..core import Thing
+from ..owl import Thing
 
 
 class Agent(Thing):
@@ -18,9 +19,9 @@ class Agent(Thing):
     """
     mbox: EmailStr = None  # foaf:mbox
 
-    def _repr_html_(self) -> str:
-        """Returns the HTML representation of the class"""
-        return f"{self.__class__.__name__}({self.mbox})"
+    # def _repr_html_(self) -> str:
+    #     """Returns the HTML representation of the class"""
+    #     return f"{self.__class__.__name__}({self.mbox})"
 
 
 class Organization(Agent):

@@ -1,7 +1,7 @@
 from typing import List, Union
 
 from .variable import Variable
-from ..core import Thing
+from ..owl import Thing
 
 
 class Method(Thing):

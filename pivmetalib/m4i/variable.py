@@ -1,7 +1,7 @@
 from ssnolib import StandardName
 from typing import Union, Optional
 
-from ..core import Thing
+from ..owl import Thing
 
 
 class Variable(Thing):

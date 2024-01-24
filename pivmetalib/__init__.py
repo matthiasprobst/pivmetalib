@@ -1,5 +1,5 @@
 from ._version import __version__
-from .core import Thing
+from .owl import Thing
 from .m4i import ProcessingStep, Variable, Method
 from .utils import get_cache_dir
 

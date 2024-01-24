@@ -4,9 +4,9 @@ from pydantic import field_validator
 from typing import Any
 
 from .method import Method
-from ..schemaorg import ResearchProject
 from .tool import Tool
-from ..core import Thing
+from ..owl import Thing
+from ..schema import ResearchProject
 
 
 class Assignment(Thing):
@@ -60,7 +60,3 @@ class ProcessingStep(Activity):
         if isinstance(ends_with, dict):
             return ProcessingStep(**ends_with)
         raise TypeError("ends_with must be of type ProcessingStep or a dictionary")
-
-    def _repr_html_(self) -> str:
-        """Returns the HTML representation of the class"""
-        return f"{self.__class__.__name__}({self.mbox})"

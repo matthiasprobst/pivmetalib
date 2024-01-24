@@ -2,7 +2,7 @@ from datetime import datetime
 from ssnolib import Person, Organization
 from typing import Union, List
 
-from ..core import Thing
+from ..owl import Thing
 
 
 class Project(Thing):

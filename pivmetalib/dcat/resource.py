@@ -11,13 +11,13 @@ from dateutil import parser
 from pydantic import HttpUrl, FileUrl, field_validator
 from typing import Union, List
 
-from ..core import Thing
+from ..owl import Thing
 from ..prov import Person, Organization
 from ..utils import download_file
 
 
 class Resource(Thing):
-    """Pyantic implementation of dcat:Resource
+    """Pdyantic implementation of dcat:Resource
 
     .. note::
 
@@ -70,7 +70,9 @@ class Distribution(Resource):
 
     def _repr_html_(self):
         """Returns the HTML representation of the class"""
-        return f"{self.__class__.__name__}({self.download_URL})"
+        if self.download_URL is not None:
+            return f"{self.__class__.__name__}({self.download_URL})"
+        return super()._repr_html_()
 
     def download(self,
                  dest_filename: Union[str, pathlib.Path] = None,

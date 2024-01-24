@@ -1,6 +1,5 @@
-import pathlib
-
 import appdirs
+import pathlib
 import requests
 
 

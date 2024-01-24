@@ -1,9 +1,9 @@
-import abc
 import json
 import rdflib
 from datetime import datetime
-from pydantic import BaseModel
 from typing import Dict
+
+from .template import AbstractModel
 
 
 def serialize_fields(obj, exclude_none: bool = True) -> Dict:
@@ -27,23 +27,7 @@ def serialize_fields(obj, exclude_none: bool = True) -> Dict:
     return {"@type": f"ssno:{obj.__class__.__name__}", **serialized_fields}
 
 
-class PIVMetalibModel(abc.ABC, BaseModel):
-    """Abstract class to be used by model classes used within PIVMetalib"""
-
-    class Config:
-        validate_assignment = True
-
-    def __repr__(self):
-        """Returns the representation of the class, which is all none-None fields"""
-        fields = ", ".join([f"{k}={v}" for k, v in self.model_dump(exclude_none=True).items()])
-        return f"{self.__class__.__name__}({fields})"
-
-    @abc.abstractmethod
-    def _repr_html_(self) -> str:
-        """Returns the HTML representation of the class"""
-
-
-class Thing(PIVMetalibModel):
+class Thing(AbstractModel):
     """owl:Thing"""
 
     def dump_jsonld(self, id=None, context=None, exclude_none: bool = True) -> str:
@@ -73,3 +57,18 @@ class Thing(PIVMetalibModel):
                                context={"@import": context},
                                indent=4)
         return g.serialize(format='json-ld', indent=4)
+
+    def _repr_html_(self) -> str:
+        """Returns the HTML representation of the class"""
+
+        def _repr(obj):
+            if hasattr(obj, '_repr_html_'):
+                return obj._repr_html_()
+            elif isinstance(obj, list):
+                return f"[{', '.join([_repr(i) for i in obj])}]"
+            else:
+                return repr(obj)
+
+        _fields = {k: getattr(self, k) for k in self.model_fields if getattr(self, k) is not None}
+        repr_fields = ", ".join([f"{k}={_repr(v)}" for k, v in _fields.items()])
+        return f"{self.__class__.__name__}({repr_fields})"
