@@ -1,5 +1,6 @@
 from typing import List, Union
 
+from .tool import Tool
 from .variable import Variable
 from ..owl import Thing
 
@@ -16,5 +17,5 @@ class Method(Thing):
     ----------
     tbd
     """
-    label: str = None
+    description: str = None
     has_parameter: Union[Variable, List[Variable]] = None

@@ -27,8 +27,30 @@ def serialize_fields(obj, exclude_none: bool = True) -> Dict:
     return {"@type": f"ssno:{obj.__class__.__name__}", **serialized_fields}
 
 
+def _repr(obj):
+    if hasattr(obj, '_repr_html_'):
+        return obj._repr_html_()
+    if isinstance(obj, list):
+        return f"[{', '.join([_repr(i) for i in obj])}]"
+    if isinstance(obj, rdflib.URIRef):
+        return str(obj)
+    return repr(obj)
+
+
+def _html_repr(obj):
+    if hasattr(obj, '_repr_html_'):
+        return obj._repr_html_()
+    if isinstance(obj, list):
+        return f"[{', '.join([_repr(i) for i in obj])}]"
+    if isinstance(obj, rdflib.URIRef):
+        return f"<a href='{obj}'>{obj}</a>"
+    return repr(obj)
+
+
 class Thing(AbstractModel):
-    """owl:Thing"""
+    """owl:Thing
+    """
+    name: str = None
 
     def dump_jsonld(self, id=None, context=None, exclude_none: bool = True) -> str:
         """alias for model_dump_json()"""
@@ -38,8 +60,6 @@ class Thing(AbstractModel):
 
         g = rdflib.Graph()
         _atemp_json_dict = serialize_fields(self, exclude_none=exclude_none)
-
-        _qudt_unit_dict = {"K": "https://qudt.org/vocab/unit/K"}
 
         if id is None:
             _id = '_:'
@@ -58,18 +78,13 @@ class Thing(AbstractModel):
                                indent=4)
         return g.serialize(format='json-ld', indent=4)
 
+    def __repr__(self):
+        _fields = {k: getattr(self, k) for k in self.model_fields if getattr(self, k) is not None}
+        repr_fields = ", ".join([f"{k}={v}" for k, v in _fields.items()])
+        return f"{self.__class__.__name__}({repr_fields})"
+
     def _repr_html_(self) -> str:
         """Returns the HTML representation of the class"""
-
-        def _repr(obj):
-            if hasattr(obj, '_repr_html_'):
-                return obj._repr_html_()
-            if isinstance(obj, list):
-                return f"[{', '.join([_repr(i) for i in obj])}]"
-            if isinstance(obj, rdflib.URIRef):
-                return f"<a href='{obj}'>{obj}</a>"
-            return repr(obj)
-
         _fields = {k: getattr(self, k) for k in self.model_fields if getattr(self, k) is not None}
-        repr_fields = ", ".join([f"{k}={_repr(v)}" for k, v in _fields.items()])
+        repr_fields = ", ".join([f"{k}={v}" for k, v in _fields.items()])
         return f"{self.__class__.__name__}({repr_fields})"

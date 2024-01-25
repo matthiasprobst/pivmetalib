@@ -1,0 +1,194 @@
+{
+    "@context": {
+        "@import": "https://raw.githubusercontent.com/matthiasprobst/pivmeta/main/pivmeta_context.jsonld"
+    },
+    "@graph": [
+        {
+            "@id": "_:",
+            "@type": "ssno:PivProcessingStep",
+            "has_employed_tool": {
+                "@id": "_:Nb72d289a879345d69db587cbf7fb520b"
+            },
+            "name": "piv evaluation",
+            "obo:BFO_0000063": {
+                "@id": "_:Nd9252c25ac9942a08c40647c96dbfa8c"
+            },
+            "realizes_method": {
+                "@id": "_:N35feafbbce794c1e87d0f7e2bfee49da"
+            }
+        },
+        {
+            "@id": "_:Nb72d289a879345d69db587cbf7fb520b",
+            "@type": "ssno:PIVSoftware",
+            "author": {
+                "@id": "_:N1eaaa0b9e6c84706a9ba5b97b8143bdd"
+            },
+            "has_documentation": "https://www.pivtec.com/download/docs/PIVview_v36_Manual.pdf"
+        },
+        {
+            "@id": "_:N1eaaa0b9e6c84706a9ba5b97b8143bdd",
+            "@type": "ssno:Organization",
+            "mbox": "info@pivtec.com",
+            "name": "PIVTEC GmbH"
+        },
+        {
+            "@id": "_:N35feafbbce794c1e87d0f7e2bfee49da",
+            "@type": "ssno:InterrogationMethod",
+            "correlation_algorithm": {
+                "@id": "_:N8404f680a22f41bdb2393c3c8629c706"
+            },
+            "description": "Run a multigrid PIV algorithm on all images",
+            "has_parameter": [
+                {
+                    "@id": "_:Nf2f95bf96c5f47a2ad17f53363cc0aff"
+                },
+                {
+                    "@id": "_:Nf53626085c9943ecb81d5c756b30b828"
+                },
+                {
+                    "@id": "_:Nd9246b1a603b4a79bce84e05a1260981"
+                },
+                {
+                    "@id": "_:N70866a2f3c7541aeb3b139a21212d937"
+                },
+                {
+                    "@id": "_:Nf03614d34de243e3bc0b44adca48d577"
+                },
+                {
+                    "@id": "_:Na20aa653fc1a47aebdd9d1f89d0396a2"
+                },
+                {
+                    "@id": "_:Nd923853da78f47a892bf7aaf447249d3"
+                }
+            ],
+            "name": "MultiGridInterrogationMethod"
+        },
+        {
+            "@id": "_:Nf2f95bf96c5f47a2ad17f53363cc0aff",
+            "@type": "ssno:Variable",
+            "Wert": "16"
+        },
+        {
+            "@id": "_:Nf53626085c9943ecb81d5c756b30b828",
+            "@type": "ssno:Variable",
+            "Wert": "16"
+        },
+        {
+            "@id": "_:Nd9246b1a603b4a79bce84e05a1260981",
+            "@type": "ssno:Variable",
+            "Wert": "64"
+        },
+        {
+            "@id": "_:N70866a2f3c7541aeb3b139a21212d937",
+            "@type": "ssno:Variable",
+            "Wert": "64"
+        },
+        {
+            "@id": "_:Nf03614d34de243e3bc0b44adca48d577",
+            "@type": "ssno:Variable",
+            "Wert": "8"
+        },
+        {
+            "@id": "_:Na20aa653fc1a47aebdd9d1f89d0396a2",
+            "@type": "ssno:Variable",
+            "Wert": "8"
+        },
+        {
+            "@id": "_:Nd923853da78f47a892bf7aaf447249d3",
+            "@type": "ssno:Variable",
+            "Wert": "3"
+        },
+        {
+            "@id": "_:N8404f680a22f41bdb2393c3c8629c706",
+            "@type": "ssno:CorrelationAlgorithm",
+            "description": "The default mode of cross-correlation using FFTs to speed the computation. In principle the sum of pixel-wise multiplication of intensities is computed for each correlation offset (For implementation details please refer to Raffel et al. 2007).",
+            "name": "Standard (FFT) Correlation"
+        },
+        {
+            "@id": "_:Nd9252c25ac9942a08c40647c96dbfa8c",
+            "@type": "ssno:ProcessingStep",
+            "has_employed_tool": {
+                "@id": "_:N82e584d939654084a48ed2c597519817"
+            },
+            "has_output": {
+                "@id": "_:N37c0dd9fad2d4f018dca2dcc6a1651e9"
+            },
+            "name": "OutlierDetection",
+            "realizes_method": [
+                {
+                    "@id": "_:N7cfb9b71c9044501837945793ae3e086"
+                },
+                {
+                    "@id": "_:N372e2687cf204d429a9bda4bd331221e"
+                }
+            ]
+        },
+        {
+            "@id": "_:N82e584d939654084a48ed2c597519817",
+            "@type": "ssno:PIVSoftware",
+            "author": {
+                "@id": "_:N28d5374f1d7e44afa8b05a9b0fba528b"
+            },
+            "has_documentation": "https://www.pivtec.com/download/docs/PIVview_v36_Manual.pdf"
+        },
+        {
+            "@id": "_:N28d5374f1d7e44afa8b05a9b0fba528b",
+            "@type": "ssno:Organization",
+            "mbox": "info@pivtec.com",
+            "name": "PIVTEC GmbH"
+        },
+        {
+            "@id": "_:N7cfb9b71c9044501837945793ae3e086",
+            "@type": "ssno:Method",
+            "has_parameter": {
+                "@id": "_:N5b9fcd13017e42bf8c9896700bca8881"
+            },
+            "name": "normalized median test"
+        },
+        {
+            "@id": "_:N5b9fcd13017e42bf8c9896700bca8881",
+            "@type": "ssno:Variable",
+            "Wert": "3.0",
+            "name": "threshold"
+        },
+        {
+            "@id": "_:N372e2687cf204d429a9bda4bd331221e",
+            "@type": "ssno:Method",
+            "has_parameter": [
+                {
+                    "@id": "_:Need6909d3d84445abdecff0bb6c753a2"
+                },
+                {
+                    "@id": "_:N64dc483970724070a415fe8f3508bd13"
+                }
+            ],
+            "name": "dynmaic mean test"
+        },
+        {
+            "@id": "_:Need6909d3d84445abdecff0bb6c753a2",
+            "@type": "ssno:Variable",
+            "Wert": "2.0",
+            "name": "mean"
+        },
+        {
+            "@id": "_:N64dc483970724070a415fe8f3508bd13",
+            "@type": "ssno:Variable",
+            "Wert": "1.0",
+            "name": "var"
+        },
+        {
+            "@id": "_:N37c0dd9fad2d4f018dca2dcc6a1651e9",
+            "@type": "ssno:Dataset",
+            "distribution": {
+                "@id": "_:N2c0f6107beb34e769eb1dd8daccc708e"
+            },
+            "title": "ILA Vortex Pair"
+        },
+        {
+            "@id": "_:N2c0f6107beb34e769eb1dd8daccc708e",
+            "@type": "ssno:PivResultDistribution",
+            "download_URL": "file:///vp1a.dat",
+            "title": "Result File"
+        }
+    ]
+}

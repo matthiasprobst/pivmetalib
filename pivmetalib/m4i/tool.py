@@ -14,5 +14,4 @@ class Tool(Thing):
     ----------
     tbd
     """
-    label: str = None
     has_parameter: Variable = None

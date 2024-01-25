@@ -3,8 +3,16 @@ from pydantic import PositiveInt
 from .. import m4i
 
 
+class CorrelationAlgorithm(m4i.Method):
+    """Implementation of pivmeta:CorrelationAlgorithm
+
+    used by pivmeta:InterrogationMethod via property 'correlation algorithm'
+    """
+
+
 class InterrogationMethod(m4i.Method):
     """Implementation of pivmeta:InterrogationMethod"""
+    correlation_algorithm: CorrelationAlgorithm
 
 
 class ImageManipulationMethod(m4i.Method):

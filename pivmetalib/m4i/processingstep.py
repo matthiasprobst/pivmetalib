@@ -29,7 +29,6 @@ class ProcessingStep(Activity):
     ----------
     tbd
     """
-    label: str
     start_time: datetime = None
     end_time: datetime = None
     starts_with: Any = None
@@ -41,7 +40,8 @@ class ProcessingStep(Activity):
     realizes_method: Union[Method, List[Method]] = None
     has_input: Thing = None
     has_output: Thing = None
-    part_of: ResearchProject = None
+    part_of: Union[ResearchProject, "ProcessingStep"] = None
+    precedes: "ProcessingStep" = None
 
     @field_validator('starts_with', mode='before')
     @classmethod
