@@ -6,7 +6,7 @@ from typing import Dict
 from .template import AbstractModel
 
 
-def serialize_fields(obj, exclude_none: bool = True) -> Dict:
+def serialize_fields(obj, exclude_none: bool = True, prefix: str = None) -> Dict:
     """Serializes the fields of a Thing object into a json-ld dictionary (without context!)"""
 
     def _parse_key(_key):
@@ -28,7 +28,11 @@ def serialize_fields(obj, exclude_none: bool = True) -> Dict:
             serialized_fields[k] = [serialize_fields(i, exclude_none=exclude_none) for i in v]
         else:
             serialized_fields[k] = str(v)
-    return {"@type": f"ssno:{obj.__class__.__name__}", **serialized_fields}
+    if prefix is not None:
+        _type = f"{prefix}:{obj.__class__.__name__}"
+    else:
+        _type = f"{obj.__class__.__name__}"
+    return {"@type": _type, **serialized_fields}
 
 
 def _repr(obj):
@@ -55,15 +59,17 @@ class Thing(AbstractModel):
     """owl:Thing
     """
     name: str = None
+    _PREFIX = None
 
     def dump_jsonld(self, id=None, context=None, exclude_none: bool = True) -> str:
         """alias for model_dump_json()"""
+
         if context is None:
             from . import CONTEXT
             context = CONTEXT
 
         g = rdflib.Graph()
-        _atemp_json_dict = serialize_fields(self, exclude_none=exclude_none)
+        _atemp_json_dict = serialize_fields(self, exclude_none=exclude_none, prefix=self._PREFIX)
 
         if id is None:
             _id = '_:'

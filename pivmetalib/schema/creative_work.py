@@ -2,12 +2,12 @@ from pydantic import HttpUrl
 from typing import Union, List
 
 from .thing import Thing
-from ..prov import Person, Organization
+from ..prov import Person, Organisation
 
 
 class CreativeWork(Thing):
     """schema:CreativeWork (not intended to use for modeling)"""
-    author: Union[Person, Organization, List[Union[Person, Organization]]] = None
+    author: Union[Person, Organisation, List[Union[Person, Organisation]]] = None
     abstract: str = None
 
 

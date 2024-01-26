@@ -12,7 +12,7 @@ from pydantic import HttpUrl, FileUrl, field_validator
 from typing import Union, List
 
 from ..owl import Thing
-from ..prov import Person, Organization
+from ..prov import Person, Organisation
 from ..utils import download_file
 
 
@@ -31,14 +31,14 @@ class Resource(Thing):
         Title of the resource (dcterms:title)
     description: str = None
         Description of the resource (dcterms:description)
-    creator: Union[Person, Organization] = None
+    creator: Union[Person, Organisation] = None
         Creator of the resource (dcterms:creator)
     version: str = None
         Version of the resource (dcat:version)
     """
     title: str  # dcterms:title
     description: str = None  # dcterms:description
-    creator: Union[Person, Organization] = None  # dcterms:creator
+    creator: Union[Person, Organisation] = None  # dcterms:creator
     version: str = None  # dcat:version
 
     def _repr_html_(self):
@@ -127,14 +127,14 @@ class Dataset(Resource):
         Title of the resource (dcterms:title)
     description: str = None
         Description of the resource (dcterms:description)
-    creator: Union[Person, Organization] = None
+    creator: Union[Person, Organisation] = None
         Creator of the resource (dcterms:creator)
     version: str = None
         Version of the resource (dcat:version)
     identifier: HttpUrl = None
         Identifier of the resource (dcterms:identifier)
-    contact: Union[Person, Organization] = None
-        Contact person or organization of the resource (http://www.w3.org/ns/prov#Person)
+    contact: Union[Person, Organisation] = None
+        Contact person or Organisation of the resource (http://www.w3.org/ns/prov#Person)
     distribution: List[Distribution] = None
         Distribution of the resource (dcat:Distribution)
     modified: datetime = None
@@ -142,7 +142,7 @@ class Dataset(Resource):
     """
     identifier: HttpUrl = None  # dcterms:identifier, see https://www.w3.org/TR/vocab-dcat-3/#ex-identifier
     # http://www.w3.org/ns/prov#Person, see https://www.w3.org/TR/vocab-dcat-3/#ex-adms-identifier
-    contact: Union[Person, Organization] = None
+    contact: Union[Person, Organisation] = None
     distribution: Union[Distribution, List[Distribution]] = None  # dcat:Distribution
     modified: datetime = None  # dcterms:modified
     landingPage: HttpUrl = None  # dcat:landingPage

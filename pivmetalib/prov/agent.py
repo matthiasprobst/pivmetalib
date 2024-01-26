@@ -18,14 +18,15 @@ class Agent(Thing):
         Email address (foaf:mbox)
     """
     mbox: EmailStr = None  # foaf:mbox
+    _PREFIX = "prov"
 
     # def _repr_html_(self) -> str:
     #     """Returns the HTML representation of the class"""
     #     return f"{self.__class__.__name__}({self.mbox})"
 
 
-class Organization(Agent):
-    """Pydantic Model for https://www.w3.org/ns/prov#Organization
+class Organisation(Agent):
+    """Pydantic Model for https://www.w3.org/ns/prov#Organisation
 
     .. note::
 
@@ -35,7 +36,7 @@ class Organization(Agent):
     Parameters
     ----------
     name: str
-        Name of the organization (foaf:name)
+        Name of the Organisation (foaf:name)
     mbox: EmailStr = None
         Email address (foaf:mbox)
     """

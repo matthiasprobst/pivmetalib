@@ -1,7 +1,6 @@
 from typing import List, Union
 
-from .tool import Tool
-from .variable import Variable
+from .variable import Variable, NumericalVariable
 from ..owl import Thing
 
 
@@ -18,4 +17,7 @@ class Method(Thing):
     tbd
     """
     description: str = None
-    has_parameter: Union[Variable, List[Variable]] = None
+    has_parameter: Union[Variable,
+                         NumericalVariable,
+                         List[Variable],
+                         List[NumericalVariable]] = None

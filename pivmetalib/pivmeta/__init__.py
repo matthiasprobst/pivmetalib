@@ -1,15 +1,16 @@
 from .distribution import PivDistribution, PivImageDistribution, PivResultDistribution
 from .method import (ImageManipulationMethod,
-                     ImageRotation,
-                     ImageFilter,
                      InterrogationMethod,
                      CorrelationAlgorithm)
 from .processingstep import (PivProcessingStep,
-                             ImageManipulation,
+                             ImageRotation,
                              MaskGeneration,
+                             PivPreProcessing,
+                             PivPostProcessing,
+                             PivEvaluation,
                              BackgroundImageGeneration)
 from .tool import PIVSoftware
-from .variable import Variable
+from .variable import NumericalVariable
 
 __all__ = ('PivDistribution',
            'PivImageDistribution',
@@ -18,11 +19,12 @@ __all__ = ('PivDistribution',
            'ImageManipulationMethod',
            'InterrogationMethod',
            'ImageRotation',
-           'ImageFilter',
-           'Variable',
+           'NumericalVariable',
            'PivProcessingStep',
            'CorrelationAlgorithm',
-           'ImageManipulation',
+           'PivPreProcessing',
+           'PivPostProcessing',
+           'PivEvaluation',
            'MaskGeneration',
            'BackgroundImageGeneration'
            )

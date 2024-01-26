@@ -23,6 +23,17 @@ class TestPIVProcess(unittest.TestCase):
         for s, p, o in g:
             self.assertIsInstance(p, rdflib.URIRef)
 
+    def test_serialization(self):
+        pivtec = pivmeta.PIVSoftware(
+            author=prov.Organisation(
+                name='PIVTEC GmbH',
+                mbox='info@pivtec.com',
+                url='https://www.pivtec.com/'
+            ),
+            has_documentation='https://www.pivtec.com/download/docs/PIVview_v36_Manual.pdf',
+        )
+        print(pivtec.dump_jsonld())
+
     def test_preprocessing_step(self):
         ps1 = m4i.ProcessingStep(name='p1', start_time=datetime.now())
         time.sleep(1)
@@ -43,7 +54,7 @@ class TestPIVProcess(unittest.TestCase):
 
     def test_piv_software(self):
         mycompany = pivmeta.PIVSoftware(
-            author=prov.Organization(
+            author=prov.Organisation(
                 name='My GmbH',
                 mbox='info@mycompany.com',
                 url='https://www.mycompany.com/'
@@ -54,11 +65,11 @@ class TestPIVProcess(unittest.TestCase):
         self.assertIsInstance(mycompany, owl.Thing)
         self.assertIsInstance(mycompany, pivmeta.PIVSoftware)
         self.assertIsInstance(mycompany.author, owl.Thing)
-        self.assertIsInstance(mycompany.author, prov.Organization)
+        self.assertIsInstance(mycompany.author, prov.Organisation)
 
         mycompany2 = pivmeta.PIVSoftware(
             author=[
-                prov.Organization(
+                prov.Organisation(
                     name='My GmbH',
                     mbox='info@mycompany.com',
                     url='https://www.mycompany.com/'
@@ -70,7 +81,7 @@ class TestPIVProcess(unittest.TestCase):
         )
         self.assertIsInstance(mycompany2.author, list)
         self.assertIsInstance(mycompany2.author[0], owl.Thing)
-        self.assertIsInstance(mycompany2.author[0], prov.Organization)
+        self.assertIsInstance(mycompany2.author[0], prov.Organisation)
         self.assertEqual(mycompany2.author[0].name, 'My GmbH')
         self.assertEqual(mycompany2.author[0].mbox, 'info@mycompany.com')
         self.assertIsInstance(mycompany2.author[1], owl.Thing)

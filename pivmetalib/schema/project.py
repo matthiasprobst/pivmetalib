@@ -1,8 +1,8 @@
 from datetime import datetime
-from ssnolib import Person, Organization
 from typing import Union, List
 
 from ..owl import Thing
+from ..prov import Organisation, Person
 
 
 class Project(Thing):
@@ -10,7 +10,7 @@ class Project(Thing):
     has_project_ID: str
     project_start_date: datetime
     project_end_date: datetime
-    project_participant: Union[Person, Organization, List[Union[Person, Organization]]]
+    project_participant: Union[Person, Organisation, List[Union[Person, Organisation]]]
 
 
 class ResearchProject(Project):

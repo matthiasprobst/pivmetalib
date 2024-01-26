@@ -2,7 +2,7 @@ from pydantic import HttpUrl, AnyUrl
 from typing import Union, List
 
 from .. import schema
-from ..prov import Person, Organization
+from ..prov import Person, Organisation
 
 
 class SourceCode(schema.SoftwareSourceCode):
@@ -24,5 +24,5 @@ class Software(schema.SoftwareApplication):
     short_description: str = None
     has_documentation: AnyUrl = None
     has_download_URL: HttpUrl = None
-    author: Union[Person, Organization, List[Union[Person, Organization]]] = None
+    author: Union[Person, Organisation, List[Union[Person, Organisation]]] = None
     has_source_code: SourceCode = None

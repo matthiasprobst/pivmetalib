@@ -2,30 +2,29 @@ from .. import m4i
 
 
 class PivProcessingStep(m4i.ProcessingStep):
-    """Pydantic Model for pivmeta:PivProcessingStep
-
-    .. note::
-
-        More than the below parameters are possible but not explicitly defined here.
+    """Pydantic Model for pivmeta:PivProcessingStep"""
 
 
-    Parameters
-    ----------
-    tbd
-    """
+class PivPostProcessing(PivProcessingStep):
+    """Pydantic Model for pivmeta:PivPostProcessing"""
+
+
+class PivPreProcessing(PivProcessingStep):
+    """Pydantic Model for pivmeta:PivPreProcessing"""
+
+
+class PivEvaluation(PivProcessingStep):
+    """Pydantic Model for pivmeta:PivEvaluation"""
 
 
 class MaskGeneration(PivProcessingStep):
     """Pydantic Model for pivmeta:MaskGeneration"""
 
 
-class ImageManipulation(PivProcessingStep):
-    """Pydantic Model for pivmeta:ImageManipulation"""
+class ImageRotation(PivProcessingStep):
+    """Pydantic Model for pivmeta:ImageRotation"""
 
 
 class BackgroundImageGeneration(PivProcessingStep):
     """Pydantic Model for pivmeta:BackgroundImageGeneration"""
 
-
-class PostProcessingStep(PivProcessingStep):
-    """Pydantic Model for pivmeta:PostProcessingStep"""

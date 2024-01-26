@@ -5,8 +5,8 @@ from typing import Union
 from .. import m4i
 
 
-class Variable(m4i.Variable):
-    """Pydantic Model for m4i:Variable
+class NumericalVariable(m4i.NumericalVariable):
+    """Pydantic Model for pivmeta:NumericalVariable
 
     .. note::
 
@@ -18,4 +18,9 @@ class Variable(m4i.Variable):
     standard_name: Union[StandardName, HttpUrl]
         The standard name of the variable
     """
-    standard_name: Union[StandardName, HttpUrl] = None
+    has_standard_name: Union[StandardName, HttpUrl] = None
+
+    # def dump_jsonld(self, id=None, context=None, exclude_none: bool = True) -> str:
+    #     ret = super().dump_jsonld(id=id, context=context, exclude_none=exclude_none)
+    #     ret['@type'] = 'm4i:NumericalVariable'
+    #     return ret
