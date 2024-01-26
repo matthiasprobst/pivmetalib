@@ -126,7 +126,7 @@ class TestPIVProcess(unittest.TestCase):
         self.check_jsonld_string(jsonld_string)
 
         jsonld_dict = json.loads(jsonld_string)
-        self.assertEqual(len(jsonld_dict['@graph'][0]['has_parameter']), 2)
+        self.assertEqual(len(jsonld_dict['@graph'][0]['m4i:hasParameter']), 2)
 
     def test_parameter_with_standard_name(self):
         sn1 = ssnolib.StandardName(standard_name='x_velocity',
