@@ -13,4 +13,19 @@ class PivProcessingStep(m4i.ProcessingStep):
     ----------
     tbd
     """
-    pass
+
+
+class MaskGeneration(PivProcessingStep):
+    """Pydantic Model for pivmeta:MaskGeneration"""
+
+
+class ImageManipulation(PivProcessingStep):
+    """Pydantic Model for pivmeta:ImageManipulation"""
+
+
+class BackgroundImageGeneration(PivProcessingStep):
+    """Pydantic Model for pivmeta:BackgroundImageGeneration"""
+
+
+class PostProcessingStep(PivProcessingStep):
+    """Pydantic Model for pivmeta:PostProcessingStep"""

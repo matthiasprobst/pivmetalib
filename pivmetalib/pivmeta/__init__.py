@@ -4,7 +4,10 @@ from .method import (ImageManipulationMethod,
                      ImageFilter,
                      InterrogationMethod,
                      CorrelationAlgorithm)
-from .processingstep import PivProcessingStep
+from .processingstep import (PivProcessingStep,
+                             ImageManipulation,
+                             MaskGeneration,
+                             BackgroundImageGeneration)
 from .tool import PIVSoftware
 from .variable import Variable
 
@@ -18,5 +21,8 @@ __all__ = ('PivDistribution',
            'ImageFilter',
            'Variable',
            'PivProcessingStep',
-           'CorrelationAlgorithm'
+           'CorrelationAlgorithm',
+           'ImageManipulation',
+           'MaskGeneration',
+           'BackgroundImageGeneration'
            )

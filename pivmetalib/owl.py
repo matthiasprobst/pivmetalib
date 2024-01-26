@@ -8,10 +8,14 @@ from .template import AbstractModel
 
 def serialize_fields(obj, exclude_none: bool = True) -> Dict:
     """Serializes the fields of a Thing object into a json-ld dictionary (without context!)"""
+
+    def _parse_key(_key):
+        return _key.replace('_', ' ')
+
     if exclude_none:
-        serialized_fields = {k: getattr(obj, k) for k in obj.model_fields if getattr(obj, k) is not None}
+        serialized_fields = {_parse_key(k): getattr(obj, k) for k in obj.model_fields if getattr(obj, k) is not None}
     else:
-        serialized_fields = {k: getattr(obj, k) for k in obj.model_fields}
+        serialized_fields = {_parse_key(k): getattr(obj, k) for k in obj.model_fields}
 
     # datetime
     for k, v in serialized_fields.copy().items():
