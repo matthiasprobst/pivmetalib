@@ -3,7 +3,6 @@ import pathlib
 import requests
 
 
-
 def get_cache_dir() -> pathlib.Path:
     """Get the cache directory and create it if it does not exist"""
     cache_dir = pathlib.Path(appdirs.user_cache_dir('pivmetalib'))
@@ -16,7 +15,7 @@ def download_file(url,
                   dest_filename=None,
                   known_hash=None,
                   overwrite_existing: bool = False,
-                  show_pbar:bool=False) -> pathlib.Path:
+                  show_pbar: bool = False) -> pathlib.Path:
     """Download a file from a URL and check its hash
     
     Parameter
@@ -73,7 +72,10 @@ def download_file(url,
         raise FileExistsError(f'File {dest_filename} already exists and overwrite_existing is set to False.')
 
     if show_pbar:
-        from tqdm import tqdm
+        try:
+            from tqdm import tqdm
+        except ImportError:
+            raise ImportError('tqdm is required to show progress bar. Please install it or set show_pbar to False.')
         with tqdm(total=total_size, unit="B", unit_scale=True) as progress_bar:
             with open(dest_filename, "wb") as f:
                 for data in response.iter_content(block_size):
