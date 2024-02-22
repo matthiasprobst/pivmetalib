@@ -1,6 +1,7 @@
 from pydantic import HttpUrl
 
 from ..dcat import Distribution
+from ..template import namespaces, context
 
 
 class PivDistribution(Distribution):
@@ -24,6 +25,9 @@ def make_href(url, text=None):
     return f'<a href="{url}">{url}</a>'
 
 
+@namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
+@context(PivImageDistribution='pivmeta:PivImageDistribution',
+         piv_image_type='pivmeta:pivImageType')
 class PivImageDistribution(Distribution):
     """Implementation of pivmeta:PivImageDistribution
 

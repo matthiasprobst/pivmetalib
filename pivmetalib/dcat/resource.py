@@ -13,9 +13,17 @@ from typing import Union, List
 
 from ..owl import Thing
 from ..prov import Person, Organisation
+from ..template import namespaces, context
 from ..utils import download_file
 
 
+@namespaces(dcat="http://www.w3.org/ns/dcat#",
+            dcterms="http://purl.org/dc/terms/", )
+@context(Resource='dcat:Resource',
+         title='dcterms:title',
+         description='dcterms:description',
+         creator='dcterms:creator',
+         version='dcat:version')
 class Resource(Thing):
     """Pdyantic implementation of dcat:Resource
 
@@ -40,12 +48,19 @@ class Resource(Thing):
     description: str = None  # dcterms:description
     creator: Union[Person, Organisation] = None  # dcterms:creator
     version: str = None  # dcat:version
+    _PREFIX = 'dcat'
 
     def _repr_html_(self):
         """Returns the HTML representation of the class"""
         return f"{self.__class__.__name__}({self.title})"
 
 
+@namespaces(dcat="http://www.w3.org/ns/dcat#", )
+@context(Distribution='dcat:Distribution',
+         download_URL='dcat:downloadURL',
+         media_type='dcat:mediaType',
+         byte_size='dcat:byteSize',
+         keyword='dcat:keyword')
 class Distribution(Resource):
     """Implementation of dcat:Distribution
 
@@ -63,8 +78,8 @@ class Distribution(Resource):
     byte_size: int = None
         Size of the distribution in bytes (dcat:byte_size)
     """
-    download_URL: Union[HttpUrl, FileUrl]  # dcat:download_URL, e.g.
-    media_type: HttpUrl = None  # dcat:media_type
+    download_URL: Union[HttpUrl, FileUrl]  # dcat:downloadURL, e.g.
+    media_type: HttpUrl = None  # dcat:mediaType
     byte_size: int = None  # dcat:byte_size
     keyword: List[str] = None  # dcat:keyword
 

@@ -10,7 +10,6 @@ class CorrelationAlgorithm(m4i.Method):
 
 class InterrogationMethod(m4i.Method):
     """Implementation of pivmeta:InterrogationMethod"""
-    correlation_algorithm: CorrelationAlgorithm
 
 
 class Multigrid(InterrogationMethod):

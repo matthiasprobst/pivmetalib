@@ -7,16 +7,30 @@ from .method import Method
 from .tool import Tool
 from ..owl import Thing
 from ..schema import ResearchProject
+from ..template import namespaces, context
 
 
 class Assignment(Thing):
     """not yet implemented"""
+    _PREFIX = 'm4i'
 
 
 class Activity(Thing, abc.ABC):
     """m4i:Activity (not intended to use for modeling)"""
+    _PREFIX = 'm4i'
 
 
+@namespaces(m4i="https://pivmeta.github.io/pivmeta/m4i/")
+@context(ProcessingStep='m4i:ProcessingStep',
+         has_runtime_assignment='m4i:hasRuntimeAssignment',
+         investigates='m4i:investigates',
+         usage_instruction='m4i:usageInstruction',
+         has_employed_tool='m4i:hasEmployedTool',
+         realizes_method='m4i:realizesMethod',
+         has_input='m4i:hasInput',
+         has_output='m4i:hasOutput',
+         part_of='m4i:partOf',
+         precedes='m4i:precedes')
 class ProcessingStep(Activity):
     """Pydantic Model for m4i:ProcessingStep
 

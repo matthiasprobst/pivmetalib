@@ -6,15 +6,19 @@ class PIVMETA(DefinedNamespace):
     # uri = "https://w3id.org/nfdi4ing/metadata4ing#"
     # Generated with h5rdmtoolbox.data.m4i.generate_namespace_file()
     time: URIRef  # ['time']
+    BackgroundImageGeneration: URIRef  # ['background image generation']
     BackgroundSubtractionMethod: URIRef  # ['background subtraction']
-    CorrelationAlgorithm: URIRef  # ['CorrelationAlgorithm']
+    CorrelationAlgorithm: URIRef  # ['has correlation algorithm']
     ImageDewarp: URIRef  # ['image dewarp']
     ImageFilter: URIRef  # ['image filter']
+    ImageRotation: URIRef  # ['image rotation']
     InterrogationMethod: URIRef  # ['Interrogation Method']
+    MaskGeneration: URIRef  # ['mask generation']
     Multigrid: URIRef  # ['Multigrid']
     Multipass: URIRef  # ['Multipass']
     OutlierDetectionMethod: URIRef  # ['Outlier Detection Method']
     PIVEvaluation: URIRef  # ['piv evaluation']
+    PIVSoftware: URIRef  # ['Piv Software']
     PivImageDistribution: URIRef  # ['piv image distribution']
     PivPostProcessing: URIRef  # ['piv post processing']
     PivPreProcessing: URIRef  # ['piv pre processing']
@@ -77,15 +81,19 @@ class PIVMETA(DefinedNamespace):
 
 
 setattr(PIVMETA, "time", PIVMETA.time)
+setattr(PIVMETA, "background_image_generation", PIVMETA.BackgroundImageGeneration)
 setattr(PIVMETA, "background_subtraction", PIVMETA.BackgroundSubtractionMethod)
-setattr(PIVMETA, "CorrelationAlgorithm", PIVMETA.CorrelationAlgorithm)
+setattr(PIVMETA, "has_correlation_algorithm", PIVMETA.CorrelationAlgorithm)
 setattr(PIVMETA, "image_dewarp", PIVMETA.ImageDewarp)
 setattr(PIVMETA, "image_filter", PIVMETA.ImageFilter)
+setattr(PIVMETA, "image_rotation", PIVMETA.ImageRotation)
 setattr(PIVMETA, "Interrogation_Method", PIVMETA.InterrogationMethod)
+setattr(PIVMETA, "mask_generation", PIVMETA.MaskGeneration)
 setattr(PIVMETA, "Multigrid", PIVMETA.Multigrid)
 setattr(PIVMETA, "Multipass", PIVMETA.Multipass)
 setattr(PIVMETA, "Outlier_Detection_Method", PIVMETA.OutlierDetectionMethod)
 setattr(PIVMETA, "piv_evaluation", PIVMETA.PIVEvaluation)
+setattr(PIVMETA, "Piv_Software", PIVMETA.PIVSoftware)
 setattr(PIVMETA, "piv_image_distribution", PIVMETA.PivImageDistribution)
 setattr(PIVMETA, "piv_post_processing", PIVMETA.PivPostProcessing)
 setattr(PIVMETA, "piv_pre_processing", PIVMETA.PivPreProcessing)
