@@ -6,7 +6,7 @@ from ..template import namespaces, context
 
 
 @namespaces(m4i="https://pivmeta.github.io/pivmeta/m4i/")
-@context(M4IProcessingStep='m4i:M4IProcessingStep',
+@context(Variable='m4i:Variable',
          has_variable_description='m4i:hasVariableDescription',
          has_symbol='m4i:hasSymbol', )
 class Variable(Thing, abc.ABC):

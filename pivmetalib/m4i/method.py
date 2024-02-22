@@ -4,9 +4,12 @@ from .variable import Variable, NumericalVariable
 from .. import Thing
 from ..template import namespaces, context
 
-@namespaces(m4i="https://pivmeta.github.io/pivmeta/m4i/")
-@context(M4IProcessingStep='m4i:M4IProcessingStep',
-            has_parameter='m4i:hasParameter')
+
+@namespaces(m4i="https://pivmeta.github.io/pivmeta/m4i/",
+            schema="https://schema.org/")
+@context(Method='m4i:Method',
+         description='schema:description',
+         has_parameter='m4i:hasParameter')
 class Method(Thing):
     """Pydantic Model for m4i:M4IProcessingStep
 
