@@ -1,7 +1,8 @@
 import json
 import rdflib
 from datetime import datetime
-from typing import Dict
+from pydantic import HttpUrl, FileUrl, Field
+from typing import Dict, Union
 
 from .template import AbstractModel, context, namespaces
 
@@ -69,7 +70,7 @@ def dump_hdf(g, data: Dict):
         else:
             g.attrs[k] = v
 
-
+from pydantic import Field
 @namespaces(owl='http://www.w3.org/2002/07/owl#',
             rdfs='http://www.w3.org/2000/01/rdf-schema#',
             local='http://example.com/')
@@ -77,6 +78,7 @@ def dump_hdf(g, data: Dict):
 class Thing(AbstractModel):
     """owl:Thing
     """
+    id: Union[str, HttpUrl, FileUrl, None] # @id
     label: str = None  # rdfs:label
     _PREFIX = None
 
@@ -120,7 +122,8 @@ class Thing(AbstractModel):
     def __repr__(self):
         _fields = {k: getattr(self, k) for k in self.model_fields if getattr(self, k) is not None}
         repr_fields = ", ".join([f"{k}={v}" for k, v in _fields.items()])
-        return f"{self.__class__.__name__}({repr_fields})"
+        repr_extra = ", ".join([f"{k}={v}" for k, v in self.model_extra.items()])
+        return f"{self.__class__.__name__}({repr_fields}, {repr_extra})"
 
     def _repr_html_(self) -> str:
         """Returns the HTML representation of the class"""

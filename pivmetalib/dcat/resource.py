@@ -12,17 +12,17 @@ from pydantic import HttpUrl, FileUrl, field_validator
 from typing import Union, List
 
 from ..owl import Thing
-from ..prov import Person, Organisation
+from ..prov import Person, Organisation, Agent
 from ..template import namespaces, context
 from ..utils import download_file
 
 
 @namespaces(dcat="http://www.w3.org/ns/dcat#",
-            dcterms="http://purl.org/dc/terms/", )
+            dct="http://purl.org/dc/terms/", )
 @context(Resource='dcat:Resource',
-         title='dcterms:title',
-         description='dcterms:description',
-         creator='dcterms:creator',
+         title='dct:title',
+         description='dct:description',
+         creator='dct:creator',
          version='dcat:version')
 class Resource(Thing):
     """Pdyantic implementation of dcat:Resource
@@ -36,17 +36,17 @@ class Resource(Thing):
     Parameters
     ----------
     title: str
-        Title of the resource (dcterms:title)
+        Title of the resource (dct:title)
     description: str = None
-        Description of the resource (dcterms:description)
+        Description of the resource (dct:description)
     creator: Union[Person, Organisation] = None
-        Creator of the resource (dcterms:creator)
+        Creator of the resource (dct:creator)
     version: str = None
         Version of the resource (dcat:version)
     """
-    title: str  # dcterms:title
-    description: str = None  # dcterms:description
-    creator: Union[Person, Organisation] = None  # dcterms:creator
+    title: str = None  # dct:title
+    description: str = None  # dct:description
+    creator: Union[Person, Organisation] = None  # dct:creator
     version: str = None  # dcat:version
     _PREFIX = 'dcat'
 
@@ -55,7 +55,7 @@ class Resource(Thing):
         return f"{self.__class__.__name__}({self.title})"
 
 
-@namespaces(dcat="http://www.w3.org/ns/dcat#", )
+@namespaces(dcat="http://www.w3.org/ns/dcat#")
 @context(Distribution='dcat:Distribution',
          download_URL='dcat:downloadURL',
          media_type='dcat:mediaType',
@@ -78,7 +78,7 @@ class Distribution(Resource):
     byte_size: int = None
         Size of the distribution in bytes (dcat:byte_size)
     """
-    download_URL: Union[HttpUrl, FileUrl]  # dcat:downloadURL, e.g.
+    download_URL: Union[HttpUrl, FileUrl] = None  # dcat:downloadURL, e.g.
     media_type: HttpUrl = None  # dcat:mediaType
     byte_size: int = None  # dcat:byte_size
     keyword: List[str] = None  # dcat:keyword
@@ -127,6 +127,14 @@ class Distribution(Resource):
         return media_type
 
 
+@namespaces(dcat="http://www.w3.org/ns/dcat#",
+            prov="http://www.w3.org/ns/prov#",
+            dct="http://purl.org/dc/terms/")
+@context(Dataset='dcat:Dataset',
+         identifier='dct:identifier',
+         creator='dct:creator',
+         distribution='dcat:distribution',
+         modified='dct:modified')
 class Dataset(Resource):
     """Pydantic implementation of dcat:Dataset
 
@@ -139,28 +147,43 @@ class Dataset(Resource):
     Parameters
     ----------
     title: str
-        Title of the resource (dcterms:title)
+        Title of the resource (dct:title)
     description: str = None
-        Description of the resource (dcterms:description)
-    creator: Union[Person, Organisation] = None
-        Creator of the resource (dcterms:creator)
+        Description of the resource (dct:description)
+    creator: Agent = None
+        Creator of the resource (dct:creator)
     version: str = None
         Version of the resource (dcat:version)
     identifier: HttpUrl = None
-        Identifier of the resource (dcterms:identifier)
-    contact: Union[Person, Organisation] = None
+        Identifier of the resource (dct:identifier)
+    creator: Union[Person, Organisation] = None  # dct:creator
         Contact person or Organisation of the resource (http://www.w3.org/ns/prov#Person)
     distribution: List[Distribution] = None
         Distribution of the resource (dcat:Distribution)
     modified: datetime = None
-        Last modified date of the resource (dcterms:modified)
+        Last modified date of the resource (dct:modified)
     """
-    identifier: HttpUrl = None  # dcterms:identifier, see https://www.w3.org/TR/vocab-dcat-3/#ex-identifier
+    identifier: HttpUrl = None  # dct:identifier, see https://www.w3.org/TR/vocab-dcat-3/#ex-identifier
     # http://www.w3.org/ns/prov#Person, see https://www.w3.org/TR/vocab-dcat-3/#ex-adms-identifier
-    contact: Union[Person, Organisation] = None
+    creator: Agent = None
     distribution: Union[Distribution, List[Distribution]] = None  # dcat:Distribution
-    modified: datetime = None  # dcterms:modified
+    modified: datetime = None  # dct:modified
     landingPage: HttpUrl = None  # dcat:landingPage
+
+    @field_validator('distribution', mode='before')
+    @classmethod
+    def _distribution(cls, distribution):
+        if not isinstance(distribution, list):
+            return [distribution]
+        return distribution
+        # def _parse_dist(_dist):
+        #     if isinstance(_dist, str):
+        #         return Distribution(id=_dist)
+        #     return _dist
+        #
+        # if isinstance(distribution, list):
+        #     return [_parse_dist(_dist) for _dist in distribution]
+        # return _parse_dist(distribution)
 
     @field_validator('modified', mode='before')
     @classmethod

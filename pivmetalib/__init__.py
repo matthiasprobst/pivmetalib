@@ -3,6 +3,7 @@ from typing import Dict
 
 from ._version import __version__
 from .owl import Thing
+from .query_util import query
 from .utils import get_cache_dir
 
 CONTEXT = "https://raw.githubusercontent.com/matthiasprobst/pivmeta/main/pivmeta_context.jsonld"

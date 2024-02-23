@@ -1,8 +1,10 @@
 import abc
 import pathlib
 import rdflib
-from pydantic import BaseModel
+from pydantic import BaseModel, Extra
 from typing import Iterable, Union, Dict
+
+from .query_util import query, get_query_string
 
 
 def namespaces(**kwargs):
@@ -27,40 +29,30 @@ def context(**kwargs):
     return _decorator
 
 
-def get_query_string(cls) -> str:
-    def _get_namespace(key):
-        ns = cls.Context.namespace.get(key, f'local:{key}')
-        if ':' in ns:
-            return ns
-        return f'{ns}:{key}'
+#         res_str_dict['_id'] = res_str_dict.pop('id', None)
+#         # now check if any of the values is an ID within the graph
+#         # for this, first get all IDs:
+#         ids_query = """
+# SELECT DISTINCT ?id
+# WHERE {
+#   ?id a ?class
+# }
+# """
+#         ids = {str(_id): _id.n3() for _id, in g.query(ids_query)}
+#         for k, _id in res_str_dict.items():
+#             if _id in ids.keys():
+#                 # get the class of the ID
+#                 class_query = f"""
+# SELECT ?class
+# WHERE {{
+#     ?id a {ids[_id]}
+# }}
+# """
+#                 class_res = g.query(class_query)
+#                 # res_str_dict[k] = {str(_class) for _class
 
-    # generate query automatically based on fields
-    fields = " ".join([f"?{k}" for k in cls.model_fields.keys()])
-    # better in a one-liner:
-    query_str = "".join([f"PREFIX {k}: <{v}>\n" for k, v in cls.Namespaces.namespaces.items()])
-
-    query_str += f"""
-SELECT ?id {fields}
-WHERE {{{{
-    ?id a {_get_namespace(cls.__name__)} ."""
-
-    for field in cls.model_fields.keys():
-        if cls.model_fields[field].is_required():
-            query_str += f"\n    ?id {_get_namespace(field)} ?{field} ."
-        else:
-            query_str += f"\n    OPTIONAL {{ ?id {_get_namespace(field)} ?{field} . }}"
-    query_str += "\n}}"
-    return query_str
-
-
-def query(cls, *args, **kwargs):
-    query_string = get_query_string(cls)
-    g = rdflib.Graph()
-    g.parse(*args, **kwargs)
-
-    res = g.query(query_string)
-    for binding in res.bindings:
-        yield cls(**{str(k): str(v) for k, v in binding.items() if str(k) != 'id'})
+# yield cls.parse_jsonld(res_str_dict)
+# yield cls(**res_str_dict)
 
 
 class AbstractModel(abc.ABC, BaseModel):
@@ -74,21 +66,27 @@ class AbstractModel(abc.ABC, BaseModel):
 
     class Config:
         validate_assignment = True
+        extra = Extra.allow
 
     @abc.abstractmethod
     def _repr_html_(self) -> str:
         """Returns the HTML representation of the class"""
 
-    @classmethod
-    def query(cls, *args, **kwargs):
+    def query(self, source: Union[str, Dict, pathlib.Path]):
         """Return a generator of results from the query."""
-        return query(cls, *args, **kwargs)
+        res = query(self.__class__, source)
+        if res is None:
+            return None
 
-    @classmethod
-    def mquery(cls,
+        for r in res:
+            if r.id == self.id:
+                return r
+
+    def mquery(self,
                sources: Iterable[Union[str, Dict, pathlib.Path]] = None,
                format='json-ld'):
         """Performs query on multiple files or data sources"""
+        cls = self.__class__
         mkwargs = [{'source': s, 'format': format} for s in sources]
         query_string = get_query_string(cls)
         bindings = []
@@ -102,17 +100,3 @@ class AbstractModel(abc.ABC, BaseModel):
         for binding in bindings:
             if len(binding) > 0:
                 yield cls(**{str(k): str(v) for k, v in binding.items() if str(k) != 'id'})
-
-    @classmethod
-    def mquery_one(cls,
-                   sources: Iterable[Union[str, Dict, pathlib.Path]] = None,
-                   format='json-ld'):
-        """Return the first result of the query, or None if no results are found."""
-        for r in cls.mquery(cls, sources, format):
-            return r
-
-    @classmethod
-    def query_one(cls, *args, **kwargs):
-        """Return the first result of the query, or None if no results are found."""
-        for r in cls.query(cls, *args, **kwargs):
-            return r
