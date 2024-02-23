@@ -12,16 +12,20 @@ from ..template import namespaces, context
 
 class Assignment(Thing):
     """not yet implemented"""
-    _PREFIX = 'm4i'
 
 
 class Activity(Thing, abc.ABC):
     """m4i:Activity (not intended to use for modeling)"""
-    _PREFIX = 'm4i'
 
 
-@namespaces(m4i="https://pivmeta.github.io/pivmeta/m4i/")
+@namespaces(m4i="https://pivmeta.github.io/pivmeta/m4i/",
+            schema="https://schema.org/",
+            obo="http://purl.obolibrary.org/obo/")
 @context(ProcessingStep='m4i:ProcessingStep',
+         start_time='schema:startTime',
+         end_time='schema:endTime',
+         starts_with='obo:starts_with',
+         ends_with='obo:ends_with',
          has_runtime_assignment='m4i:hasRuntimeAssignment',
          investigates='m4i:investigates',
          usage_instruction='m4i:usageInstruction',

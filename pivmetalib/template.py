@@ -7,10 +7,29 @@ from typing import Iterable, Union, Dict
 from .query_util import query, get_query_string
 
 
+class _Manager:
+    def __init__(self):
+        self.data = {}
+
+    def __getitem__(self, cls):
+        if cls not in self.data:
+            self.data[cls] = {}
+        # there might be subclass to this cls. get those data as well
+        for k, v in self.data.items():
+            if k != cls:
+                if issubclass(cls, k):
+                    self.data[cls].update(v)
+        return self.data[cls]
+
+
+Context = _Manager()
+Namespaces = _Manager()
+
+
 def namespaces(**kwargs):
     def _decorator(cls):
         for k, v in kwargs.items():
-            cls.Namespaces.namespaces[k] = v
+            Namespaces[cls][k] = v
         return cls
 
     return _decorator
@@ -20,49 +39,19 @@ def context(**kwargs):
     def _decorator(cls):
         fields = list(cls.model_fields.keys())
         fields.append(cls.__name__)
+
+        # add fields to the class
         for k, v in kwargs.items():
             if k not in fields:
                 raise KeyError(f"Field '{k}' not found in {cls.__name__}")
-            cls.Context.namespace[k] = v
+            Context[cls][k] = v
         return cls
 
     return _decorator
 
 
-#         res_str_dict['_id'] = res_str_dict.pop('id', None)
-#         # now check if any of the values is an ID within the graph
-#         # for this, first get all IDs:
-#         ids_query = """
-# SELECT DISTINCT ?id
-# WHERE {
-#   ?id a ?class
-# }
-# """
-#         ids = {str(_id): _id.n3() for _id, in g.query(ids_query)}
-#         for k, _id in res_str_dict.items():
-#             if _id in ids.keys():
-#                 # get the class of the ID
-#                 class_query = f"""
-# SELECT ?class
-# WHERE {{
-#     ?id a {ids[_id]}
-# }}
-# """
-#                 class_res = g.query(class_query)
-#                 # res_str_dict[k] = {str(_class) for _class
-
-# yield cls.parse_jsonld(res_str_dict)
-# yield cls(**res_str_dict)
-
-
 class AbstractModel(abc.ABC, BaseModel):
     """Abstract class to be used by model classes used within PIVMetalib"""
-
-    class Namespaces:
-        namespaces = {}
-
-    class Context:
-        namespace = {}
 
     class Config:
         validate_assignment = True
@@ -71,6 +60,10 @@ class AbstractModel(abc.ABC, BaseModel):
     @abc.abstractmethod
     def _repr_html_(self) -> str:
         """Returns the HTML representation of the class"""
+
+    @property
+    def model_iri_fields(self) -> Dict:
+        return Context[self.__class__]
 
     def query(self, source: Union[str, Dict, pathlib.Path]):
         """Return a generator of results from the query."""

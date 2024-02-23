@@ -18,7 +18,6 @@ class Project(Thing):
     project_start_date: datetime
     project_end_date: datetime
     project_participant: Union[Person, Organisation, List[Union[Person, Organisation]]]
-    _PREFIX = 'schema'
 
 
 @context(ResearchProject='schema:ResearchProject')

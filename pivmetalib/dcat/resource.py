@@ -48,7 +48,7 @@ class Resource(Thing):
     description: str = None  # dct:description
     creator: Union[Person, Organisation] = None  # dct:creator
     version: str = None  # dcat:version
-    _PREFIX = 'dcat'
+
 
     def _repr_html_(self):
         """Returns the HTML representation of the class"""

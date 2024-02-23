@@ -35,9 +35,9 @@ class TestPIVProcess(unittest.TestCase):
         print(pivtec.dump_jsonld())
 
     def test_preprocessing_step(self):
-        ps1 = m4i.ProcessingStep(name='p1', start_time=datetime.now())
+        ps1 = m4i.ProcessingStep(label='p1', start_time=datetime.now())
         time.sleep(1)
-        ps2 = m4i.ProcessingStep(name='p2', start_time=datetime.now())
+        ps2 = m4i.ProcessingStep(label='p2', start_time=datetime.now())
 
         ps1.starts_with = ps2
         with self.assertRaises(TypeError):
@@ -49,8 +49,34 @@ class TestPIVProcess(unittest.TestCase):
         self.assertIsInstance(ps1.starts_with, m4i.ProcessingStep)
         self.assertEqual(ps1.starts_with, ps2)
 
+        print(ps1.model_iri_fields)
+
         jsonld_string = ps1.dump_jsonld()
         self.check_jsonld_string(jsonld_string)
+
+        tool = m4i.Tool(label='tool1')
+        ps1.has_employed_tool = tool
+        print(ps1.dump_jsonld())
+
+    def test_tool(self):
+        from pivmetalib.namespace import QUDT_UNIT
+        from pivmetalib.m4i import NumericalVariable
+        tool = m4i.Tool(label='tool')
+        tool.add_numerical_variable(
+            NumericalVariable(
+                label='myvar',
+                has_numerical_value=3.4,
+                has_unit='m/s',
+                has_kind_of_quantity=QUDT_UNIT.M_PER_SEC
+            )
+        )
+        self.assertIsInstance(tool.has_parameter[0], NumericalVariable)
+        self.assertEqual(tool.has_parameter[0].label, 'myvar')
+        self.assertEqual(tool.has_parameter[0].has_variable_description,
+                         None)
+        self.assertEqual(tool.has_parameter[0].has_numerical_value,
+                         3.4)
+        # print(tool.dump_jsonld(context=CONTEXT))
 
     def test_piv_software(self):
         mycompany = pivmeta.PIVSoftware(
@@ -90,32 +116,52 @@ class TestPIVProcess(unittest.TestCase):
         self.assertIsInstance(mycompany2, pivmeta.PIVSoftware)
 
     def test_variable(self):
-        var1 = m4i.Variable(value=4.2)
+        var1 = m4i.NumericalVariable(label='Name of the variable',
+                                     name='var1',
+                                     # not part of ontology and defined in model. will not add a namespace
+                                     has_numerical_value=4.2)
         self.assertIsInstance(var1, owl.Thing)
-        self.assertIsInstance(var1, m4i.Variable)
-        self.assertEqual(var1.value, 4.2)
+        self.assertIsInstance(var1, m4i.NumericalVariable)
+        self.assertEqual(var1.label, 'Name of the variable')
+        self.assertEqual(var1.has_numerical_value, 4.2)
 
         jsonld_string = var1.dump_jsonld()
         self.check_jsonld_string(jsonld_string)
         print(jsonld_string)
 
+        g = rdflib.Graph()
+        g.parse(data=json.loads(jsonld_string), format='json-ld')
+
+        for t in g:
+            print(t)
+
+        query = ("""PREFIX schema: <https://schema.org/>
+PREFIX m4i: <http://w3id.org/nfdi4ing/metadata4ing#>
+SELECT ?id ?name
+    WHERE {
+        ?id rdf:type m4i:NumericalVariable .
+        ?id rdfs:label ?name .
+}""")
+        _id, _name = list(g.query(query))[0]
+        self.assertEqual(str(_name), "Name of the variable")
+
     def test_method_no_parameters(self):
         # method without parameters:
-        method1 = m4i.Method(name='method1')
+        method1 = m4i.Method(label='method1')
         self.assertIsInstance(method1, owl.Thing)
         self.assertIsInstance(method1, m4i.Method)
-        self.assertEqual(method1.name, 'method1')
+        self.assertEqual(method1.label, 'method1')
 
         jsonld_string = method1.dump_jsonld()
         self.check_jsonld_string(jsonld_string)
 
     def test_method_one_parameters(self):
         # method with 1 parameter:
-        var1 = m4i.Variable(value=4.2)
-        method2 = m4i.Method(name='method2', has_parameter=var1)
+        var1 = m4i.NumericalVariable(has_numerical_value=4.2)
+        method2 = m4i.Method(label='method2', has_parameter=var1)
         self.assertIsInstance(method2, owl.Thing)
         self.assertIsInstance(method2, m4i.Method)
-        self.assertEqual(method2.name, 'method2')
+        self.assertEqual(method2.label, 'method2')
         self.assertEqual(method2.has_parameter, var1)
 
         jsonld_string = method2.dump_jsonld()
@@ -124,12 +170,12 @@ class TestPIVProcess(unittest.TestCase):
 
     def test_method_n_parameters(self):
         # method with 2 parameters:
-        var1 = m4i.Variable(value=4.2)
-        var2 = m4i.Variable(value=5.2)
-        method3 = m4i.Method(name='method3', has_parameter=[var1, var2])
+        var1 = m4i.NumericalVariable(has_numerical_value=4.2)
+        var2 = m4i.NumericalVariable(has_numerical_value=5.2)
+        method3 = m4i.Method(label='method3', has_parameter=[var1, var2])
         self.assertIsInstance(method3, owl.Thing)
         self.assertIsInstance(method3, m4i.Method)
-        self.assertEqual(method3.name, 'method3')
+        self.assertEqual(method3.label, 'method3')
         self.assertIsInstance(method3.has_parameter, list)
         self.assertEqual(method3.has_parameter, [var1, var2])
 
@@ -137,7 +183,12 @@ class TestPIVProcess(unittest.TestCase):
         self.check_jsonld_string(jsonld_string)
 
         jsonld_dict = json.loads(jsonld_string)
-        self.assertEqual(len(jsonld_dict['@graph'][0]['m4i:hasParameter']), 2)
+
+        graph_entries = sorted(jsonld_dict['@graph'], key=lambda x: x['@id'])
+
+        for entry in jsonld_dict['@graph']:
+            if 'm4i:hasParameter' in entry:
+                self.assertEqual(len(entry['m4i:hasParameter']), 2)
 
     def test_parameter_with_standard_name(self):
         sn1 = ssnolib.StandardName(standard_name='x_velocity',
@@ -146,14 +197,15 @@ class TestPIVProcess(unittest.TestCase):
         sn2 = ssnolib.StandardName(standard_name='y_velocity',
                                    description='y component of velocity',
                                    canonical_units='m s-1')
-        var1 = m4i.Variable(value=4.2, standard_name=sn1)
-        var2 = m4i.Variable(value=5.2, standard_name=sn2)
+        var1 = m4i.NumericalVariable(has_numerical_value=4.2, standard_name=sn1)
+        var2 = m4i.NumericalVariable(has_numerical_value=5.2, standard_name=sn2)
         self.assertIsInstance(var1, owl.Thing)
-        self.assertIsInstance(var1, m4i.Variable)
-        self.assertIsInstance(var2, m4i.Variable)
-        self.assertEqual(var1.value, 4.2)
-        with self.assertRaises(AttributeError):
-            self.assertEqual(var1.standard_name, sn1)
+        self.assertIsInstance(var1, m4i.NumericalVariable)
+        self.assertIsInstance(var2, m4i.NumericalVariable)
+        self.assertEqual(var1.has_numerical_value, 4.2)
+
+        self.assertEqual(var1.standard_name, sn1)
+        self.assertNotEqual(var1.standard_name, sn2)
 
         sn1 = ssnolib.StandardName(standard_name='x_velocity',
                                    description='x component of velocity',
@@ -161,17 +213,17 @@ class TestPIVProcess(unittest.TestCase):
         sn2 = ssnolib.StandardName(standard_name='y_velocity',
                                    description='y component of velocity',
                                    canonical_units='m s-1')
-        var1 = pivmeta.Variable(value=4.2, standard_name=sn1)
-        var2 = pivmeta.Variable(value=5.2, standard_name=sn2)
+        var1 = pivmeta.NumericalVariable(has_numerical_value=4.2, standard_name=sn1)
+        var2 = pivmeta.NumericalVariable(has_numerical_value=5.2, standard_name=sn2)
         self.assertIsInstance(var1, owl.Thing)
-        self.assertIsInstance(var1, pivmeta.Variable)
-        self.assertEqual(var1.value, 4.2)
+        self.assertIsInstance(var1, pivmeta.NumericalVariable)
+        self.assertEqual(var1.has_numerical_value, 4.2)
 
         with self.assertRaises(pydantic.ValidationError):
             var1.standard_name = 123
         var1.standard_name = sn1
 
-        method = m4i.Method(name='method1')
+        method = m4i.Method(label='method1')
         method.has_parameter = [var1, var2]
 
         jsonld_string = method.dump_jsonld()

@@ -22,11 +22,11 @@ class Agent(Thing):
         Email address (foaf:mbox)
     """
     mbox: EmailStr = None  # foaf:mbox
-    _PREFIX = "prov"
 
     # def _repr_html_(self) -> str:
     #     """Returns the HTML representation of the class"""
     #     return f"{self.__class__.__name__}({self.mbox})"
+
 
 @context(Organisation='prov:Organisation',
          name='foaf:name')
@@ -47,9 +47,10 @@ class Organisation(Agent):
     """
     name: str  # foaf:name
 
+
 @context(Person='prov:Person',
-            first_name='foaf:firstName',
-            last_name='foaf:lastName')
+         first_name='foaf:firstName',
+         last_name='foaf:lastName')
 class Person(Agent):
     """Pydantic Model for https://www.w3.org/ns/prov#Person
 

@@ -13,4 +13,3 @@ class Thing(owl.Thing):
     The most generic type of item."""
     description: str = None
     url: HttpUrl = None
-    _PREFIX = 'schema'

@@ -3,8 +3,13 @@ from ssnolib import StandardName
 from typing import Union
 
 from .. import m4i
+from ..template import namespaces, context
 
 
+@namespaces(m4i="https://pivmeta.github.io/pivmeta/m4i/",
+            ssno="https://matthiasprobst.github.io/ssno#")
+@context(NumericalVariable='m4i:NumericalVariable',
+         standard_name='ssno:standard_name')
 class NumericalVariable(m4i.NumericalVariable):
     """Pydantic Model for pivmeta:NumericalVariable
 
@@ -18,7 +23,7 @@ class NumericalVariable(m4i.NumericalVariable):
     standard_name: Union[StandardName, HttpUrl]
         The standard name of the variable
     """
-    has_standard_name: Union[StandardName, HttpUrl] = None
+    standard_name: Union[StandardName, HttpUrl] = None
 
     # def dump_jsonld(self, id=None, context=None, exclude_none: bool = True) -> str:
     #     ret = super().dump_jsonld(id=id, context=context, exclude_none=exclude_none)

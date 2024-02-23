@@ -13,7 +13,6 @@ class Variable(Thing, abc.ABC):
     """Pydantic Model for m4i:Variable. Not intended to use for modeling. Use NumericalVariable or Text instead."""
     has_variable_description: str = None  # M4I.hasVariableDescription
     has_symbol: Optional[str] = None  # "http://w3id.org/nfdi4ing/metadata4ing#hasSymbol"
-    _PREFIX = 'm4i'
 
 
 @context(TextVariable='m4i:TextVariable',

@@ -14,7 +14,6 @@ class CreativeWork(Thing):
     """schema:CreativeWork (not intended to use for modeling)"""
     author: Union[Person, Organisation, List[Union[Person, Organisation]]] = None
     abstract: str = None
-    _PREFIX = 'schema'
 
 
 @context(SoftwareApplication='schema:SoftwareApplication',

@@ -1,30 +1,52 @@
 import json
 import rdflib
+import uuid
 from datetime import datetime
-from pydantic import HttpUrl, FileUrl, Field
+from pydantic import HttpUrl, FileUrl
 from typing import Dict, Union
 
-from .template import AbstractModel, context, namespaces
+from .template import AbstractModel, context, namespaces, Context
+
+
+# def serialize(obj):
+#     data = {Context[obj.__class__][k]: getattr(obj, k) for k in obj.model_fields if
+#      getattr(obj, k) is not None}
+#
+#     for k, v in data.copy().items():
+#         if isinstance(v, datetime):
+#             data[k] = v.isoformat()
+#         elif isinstance(v, dict):
+#             return serialize(v)
+#         elif isinstance(v, list):
+#             for i in v:
+#                 if isinstance(i, dict):
+#                     return serialize(i)
+#         elif isinstance(v, AbstractModel):
+#             data[k] = serialize(v)
+#     return data
 
 
 def serialize_fields(obj, exclude_none: bool = True, prefix: str = None) -> Dict:
     """Serializes the fields of a Thing object into a json-ld dictionary (without context!)"""
 
-    def _parse_key(_key):
-        return _key.replace('_', ' ')
-
     if exclude_none:
-        serialized_fields = {_parse_key(k): getattr(obj, k) for k in obj.model_fields if getattr(obj, k) is not None}
+        serialized_fields = {Context[obj.__class__][k]: getattr(obj, k) for k in obj.model_fields if
+                             getattr(obj, k) is not None}
+        # serialized_fields = {_parse_key(k): getattr(obj, k) for k in obj.model_fields if getattr(obj, k) is not None}
     else:
-        serialized_fields = {_parse_key(k): getattr(obj, k) for k in obj.model_fields}
+        serialized_fields = {Context[obj.__class__][k]: getattr(obj, k) for k in obj.model_fields}
+        # serialized_fields = {_parse_key(k): getattr(obj, k) for k in obj.model_fields}
+    for k, v in obj.model_extra.items():
+        serialized_fields[Context[obj.__class__].get(k, k)] = v
 
     # datetime
     for k, v in serialized_fields.copy().items():
         _field = serialized_fields.pop(k)
-        if hasattr(v, '_KEY_PREFIX'):
-            key = f"{v._KEY_PREFIX}:{k}"
-        else:
-            key = k
+        # if hasattr(v, '_KEY_PREFIX'):
+        #     key = f"{v._KEY_PREFIX}:{k}"
+        # else:
+        #     key = k
+        key = k
         if isinstance(v, datetime):
             # field_dict[k] = v.strftime('%Y-%m-%d')
             serialized_fields[key] = v.isoformat()
@@ -34,11 +56,11 @@ def serialize_fields(obj, exclude_none: bool = True, prefix: str = None) -> Dict
             serialized_fields[key] = [serialize_fields(i, exclude_none=exclude_none) for i in v]
         else:
             serialized_fields[key] = str(v)
-    if prefix is not None:
-        _type = f"{prefix}:{obj.__class__.__name__}"
-    else:
-        _type = f"{obj.__class__.__name__}"
-    return {"@type": _type, **serialized_fields}
+
+    _type = Context[obj.__class__].get(obj.__class__.__name__, obj.__class__.__name__)
+
+    return {"@type": _type, **serialized_fields,
+            "@id": obj.id if obj.id is not None else f'local:{str(uuid.uuid4())}'}
 
 
 def _repr(obj):
@@ -70,7 +92,7 @@ def dump_hdf(g, data: Dict):
         else:
             g.attrs[k] = v
 
-from pydantic import Field
+
 @namespaces(owl='http://www.w3.org/2002/07/owl#',
             rdfs='http://www.w3.org/2000/01/rdf-schema#',
             local='http://example.com/')
@@ -78,11 +100,12 @@ from pydantic import Field
 class Thing(AbstractModel):
     """owl:Thing
     """
-    id: Union[str, HttpUrl, FileUrl, None] # @id
+    id: Union[str, HttpUrl, FileUrl, None] = None  # @id
     label: str = None  # rdfs:label
-    _PREFIX = None
+    None
 
-    def dump_jsonld(self, id=None, context=None, exclude_none: bool = True) -> str:
+    def dump_jsonld(self, context=None, exclude_none: bool = True,
+                    local_namespace: HttpUrl = 'https://local-domain.org/') -> str:
         """alias for model_dump_json()"""
 
         if context is None:
@@ -90,21 +113,15 @@ class Thing(AbstractModel):
             context = CONTEXT
 
         g = rdflib.Graph()
-        _atemp_json_dict = serialize_fields(
-            self,
-            exclude_none=exclude_none,
-            prefix=self._PREFIX
-        )
 
-        if id is None:
-            _id = '_:'
-        else:
-            _id = id
-        jsonld = {"@context": {"@import": context},
-                  "@graph": [
-                      {"@id": _id,
-                       **_atemp_json_dict}
-                  ]}
+        at_context: Dict = {"@import": context,
+                            "local": local_namespace}
+        jsonld = {
+            "@context": at_context,
+            "@graph": [
+                serialize_fields(self)
+            ]
+        }
 
         g.parse(data=json.dumps(jsonld), format='json-ld')
         if context:

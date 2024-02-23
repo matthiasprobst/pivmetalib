@@ -25,7 +25,6 @@ class Method(Thing):
     description: str = None
     has_parameter: Union[Variable,
                          List[Variable]] = None
-    _PREFIX = 'm4i'
 
     def add_numerical_variable(self, name, has_numerical_value,
                                has_unit, has_kind_of_quantity,

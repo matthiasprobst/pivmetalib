@@ -21,22 +21,14 @@ class Tool(Thing):
     tbd
     """
     has_parameter: Union[Variable, List[Variable]] = None
-    _PREFIX = 'm4i'
 
-    def add_numerical_variable(self, name, has_numerical_value,
-                               has_unit, has_kind_of_quantity,
-                               **kwargs):
+    def add_numerical_variable(self, numerical_variable: NumericalVariable):
         """add numerical variable to tool"""
-        var = NumericalVariable(name=name,
-                                has_numerical_value=has_numerical_value,
-                                has_unit=has_unit,
-                                has_kind_of_quantity=has_kind_of_quantity,
-                                **kwargs)
 
         if self.has_parameter is None:
-            self.has_parameter = [var, ]
+            self.has_parameter = [numerical_variable, ]
         elif isinstance(self.has_parameter, list):
-            self.has_parameter.append(var)
+            self.has_parameter.append(numerical_variable)
         else:
             self.has_parameter = [self.has_parameter,
-                                  var]
+                                  numerical_variable]
