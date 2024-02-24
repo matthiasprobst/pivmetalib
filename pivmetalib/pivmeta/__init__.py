@@ -1,4 +1,4 @@
-from .distribution import PivDistribution, PivImageDistribution, PivResultDistribution
+from .distribution import PivDistribution, PivImageDistribution, PivResultDistribution, PivImageType
 from .method import (ImageManipulationMethod,
                      InterrogationMethod,
                      CorrelationAlgorithm)
@@ -26,5 +26,6 @@ __all__ = ('PivDistribution',
            'PivPostProcessing',
            'PivEvaluation',
            'MaskGeneration',
-           'BackgroundImageGeneration'
+           'BackgroundImageGeneration',
+           'PivImageType'
            )

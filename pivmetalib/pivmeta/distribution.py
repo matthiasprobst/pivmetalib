@@ -1,4 +1,6 @@
-from pydantic import HttpUrl
+from enum import Enum
+from pydantic import HttpUrl, field_validator
+from typing import Union
 
 from ..dcat import Distribution
 from ..template import namespaces, context
@@ -25,6 +27,12 @@ def make_href(url, text=None):
     return f'<a href="{url}">{url}</a>'
 
 
+class PivImageType(Enum):
+    """Enumeration of possible PIV image types"""
+    ExperimentalImage = "https://matthiasprobst.github.io/pivmeta#ExperimentalImage"
+    SyntheticImage = "https://matthiasprobst.github.io/pivmeta#SyntheticImage"
+
+
 @namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
 @context(PivImageDistribution='pivmeta:PivImageDistribution',
          piv_image_type='pivmeta:pivImageType')
@@ -33,7 +41,7 @@ class PivImageDistribution(Distribution):
 
     Describes PIV images (e.g. tiff files) which are experimental or synthetic data.
     """
-    piv_image_type: HttpUrl
+    piv_image_type: Union[HttpUrl, PivImageType]
 
     def _repr_html_(self):
         """Returns the HTML representation of the class"""
@@ -44,3 +52,9 @@ class PivImageDistribution(Distribution):
             pit = make_href("https://matthiasprobst.github.io/pivmeta#SyntheticImage", "synthetic")
             return f"{self.__class__.__name__}('{pit}', {make_href(self.download_URL)})"
         return f"{self.__class__.__name__}({make_href(self.download_URL)})"
+
+    @field_validator('piv_image_type', mode='before')
+    @classmethod
+    def _piv_image_type(cls, piv_image_type):
+        if isinstance(piv_image_type, PivImageType):
+            return piv_image_type.value
