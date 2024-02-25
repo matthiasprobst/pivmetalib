@@ -1,3 +1,4 @@
+import rdflib
 from enum import Enum
 from pydantic import HttpUrl, field_validator
 from typing import Union
@@ -56,5 +57,8 @@ class PivImageDistribution(Distribution):
     @field_validator('piv_image_type', mode='before')
     @classmethod
     def _piv_image_type(cls, piv_image_type):
+        if isinstance(piv_image_type, rdflib.URIRef):
+            return str(piv_image_type)
         if isinstance(piv_image_type, PivImageType):
             return piv_image_type.value
+        return piv_image_type

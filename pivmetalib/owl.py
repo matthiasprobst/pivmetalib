@@ -5,25 +5,7 @@ from datetime import datetime
 from pydantic import HttpUrl, FileUrl
 from typing import Dict, Union
 
-from .template import AbstractModel, context, namespaces, Context
-
-
-# def serialize(obj):
-#     data = {Context[obj.__class__][k]: getattr(obj, k) for k in obj.model_fields if
-#      getattr(obj, k) is not None}
-#
-#     for k, v in data.copy().items():
-#         if isinstance(v, datetime):
-#             data[k] = v.isoformat()
-#         elif isinstance(v, dict):
-#             return serialize(v)
-#         elif isinstance(v, list):
-#             for i in v:
-#                 if isinstance(i, dict):
-#                     return serialize(i)
-#         elif isinstance(v, AbstractModel):
-#             data[k] = serialize(v)
-#     return data
+from .template import AbstractModel, context, namespaces, Context, Namespaces
 
 
 def serialize_fields(obj, exclude_none: bool = True, prefix: str = None) -> Dict:
@@ -83,12 +65,15 @@ def _html_repr(obj):
     return repr(obj)
 
 
-def dump_hdf(g, data: Dict):
+def dump_hdf(g, data: Dict, iris: Dict = None):
     """Write a dictionary to a hdf group. Nested dictionaries result in nested groups"""
+    iris = iris or {}
     for k, v in data.items():
         if isinstance(v, dict):
             sub_g = g.create_group(k)
-            dump_hdf(sub_g, v)
+            if k in iris:
+                sub_g.iri = iris[k]
+            dump_hdf(sub_g, v, iris)
         else:
             g.attrs[k] = v
 
@@ -102,7 +87,6 @@ class Thing(AbstractModel):
     """
     id: Union[str, HttpUrl, FileUrl, None] = None  # @id
     label: str = None  # rdfs:label
-    None
 
     def dump_jsonld(self, context=None, exclude_none: bool = True,
                     local_namespace: HttpUrl = 'https://local-domain.org/') -> str:
@@ -134,7 +118,69 @@ class Thing(AbstractModel):
         """Write the object to an hdf group. Nested dictionaries result in nested groups"""
         if name is None:
             name = self.__class__.__name__
-        dump_hdf(g, {name: self.model_dump(exclude_none=True)})
+
+        def _get_explained_dict(obj):
+            model_fields = {k: getattr(obj, k) for k in obj.model_fields if getattr(obj, k) is not None}
+            _context_manager = Context[obj.__class__]
+            _namespace_manager = Namespaces[obj.__class__]
+            namespaced_fields = {}
+
+            assert isinstance(obj, AbstractModel)
+
+            rdf_type = Context[obj.__class__][obj.__class__.__name__]
+            if ':' in rdf_type:
+                ns, field = rdf_type.split(':', 1)
+                at_type = f'{_namespace_manager[ns]}{field}'
+            else:
+                at_type = rdf_type
+            namespaced_fields[('http://www.w3.org/1999/02/22-rdf-syntax-ns#type', '@type')] = at_type
+            # g.attrs['@type', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'] = full_iri
+
+            for k, v in model_fields.items():
+                nskey = _context_manager.get(k, k)
+                if ':' in nskey:
+                    ns, field = nskey.split(':', 1)
+                    ns_iri = _namespace_manager.get(ns, None)
+                    explained_key = (f'{ns_iri}{k}', k)
+                else:
+                    explained_key = (None, k)
+
+                # namespaced_key = _resolve_namespaced_field(_context_manager.get(k, k))
+                # namespace_dict[k] = _context_manager.get(key, key)
+                if isinstance(v, AbstractModel):
+                    namespaced_fields[explained_key] = _get_explained_dict(v)
+                else:
+                    if isinstance(v, list):
+                        if all(isinstance(i, AbstractModel) for i in v):
+                            namespaced_fields[explained_key] = [_get_explained_dict(i) for i in v]
+                        else:
+                            namespaced_fields[explained_key] = v
+                    else:
+                        namespaced_fields[explained_key] = v
+            return namespaced_fields
+
+        def _dump_hdf(g, explained_data: Dict):
+            for (iri, key), v in explained_data.items():
+                if isinstance(v, dict):
+                    sub_g = g.create_group(key)
+                    if iri:
+                        sub_g.iri = iri
+                    _dump_hdf(sub_g, v)
+                elif isinstance(v, list):
+                    sub_g = g.create_group(key)
+                    if iri:
+                        sub_g.iri = iri
+                    for i, item in enumerate(v):
+                        assert isinstance(item, dict)
+                        if isinstance(item, dict):
+                            sub_sub_g = sub_g.create_group(str(i))
+                            _dump_hdf(sub_sub_g, item)
+                else:
+                    g.attrs[key] = v
+                    if iri:
+                        g.attrs[key, iri] = v
+
+        _dump_hdf(g, _get_explained_dict(self))
 
     def __repr__(self):
         _fields = {k: getattr(self, k) for k in self.model_fields if getattr(self, k) is not None}
