@@ -72,7 +72,3 @@ class Person(Agent):
     """
     first_name: str = None  # foaf:firstName
     last_name: str = None  # foaf:lastName
-
-    def _repr_html_(self) -> str:
-        """Returns the HTML representation of the class"""
-        return f"{self.__class__.__name__}({self.first_name} {self.last_name}, {self.mbox})"

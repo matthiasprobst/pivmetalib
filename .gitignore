@@ -15,3 +15,8 @@ build/
 dist/
 docs/class_structure_pub.svg
 .coverage
+*.zip
+*.tif
+*.json
+*.h5
+*.doc
