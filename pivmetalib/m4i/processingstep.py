@@ -18,7 +18,7 @@ class Activity(Thing, abc.ABC):
     """m4i:Activity (not intended to use for modeling)"""
 
 
-@namespaces(m4i="https://pivmeta.github.io/pivmeta/m4i/",
+@namespaces(m4i="http://w3id.org/nfdi4ing/metadata4ing#",
             schema="https://schema.org/",
             obo="http://purl.obolibrary.org/obo/")
 @context(ProcessingStep='m4i:ProcessingStep',

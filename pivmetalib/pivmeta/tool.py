@@ -2,7 +2,7 @@ from .. import sd, m4i
 from ..template import namespaces, context
 
 
-@namespaces(pivmeta="https://pivmeta.github.io/pivmeta/")
+@namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
 @context(PIVSoftware='pivmeta:PIVSoftware')
 class PIVSoftware(m4i.Tool, sd.Software):
     """Pydantic implementation of pivmeta:PIVSoftware

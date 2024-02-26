@@ -5,7 +5,7 @@ from ..owl import Thing
 from ..template import namespaces, context
 
 
-@namespaces(m4i="https://pivmeta.github.io/pivmeta/m4i/")
+@namespaces(m4i="http://w3id.org/nfdi4ing/metadata4ing#")
 @context(Variable='m4i:Variable',
          has_variable_description='m4i:hasVariableDescription',
          has_symbol='m4i:hasSymbol', )

@@ -5,7 +5,7 @@ from .. import Thing
 from ..template import namespaces, context
 
 
-@namespaces(m4i="https://pivmeta.github.io/pivmeta/m4i/",
+@namespaces(m4i="http://w3id.org/nfdi4ing/metadata4ing#",
             schema="https://schema.org/")
 @context(Method='m4i:Method',
          description='schema:description',

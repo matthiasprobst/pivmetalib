@@ -6,7 +6,7 @@ from .. import m4i
 from ..template import namespaces, context
 
 
-@namespaces(m4i="https://pivmeta.github.io/pivmeta/m4i/",
+@namespaces(m4i="http://w3id.org/nfdi4ing/metadata4ing#",
             ssno="https://matthiasprobst.github.io/ssno#")
 @context(NumericalVariable='m4i:NumericalVariable',
          standard_name='ssno:standard_name')
