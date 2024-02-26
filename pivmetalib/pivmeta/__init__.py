@@ -1,4 +1,8 @@
-from .distribution import PivDistribution, PivImageDistribution, PivResultDistribution, PivImageType
+from .distribution import (PivDistribution,
+                           PivImageDistribution,
+                           PivResultDistribution,
+                           PivImageType,
+                           PivMaskDistribution)
 from .method import (ImageManipulationMethod,
                      InterrogationMethod,
                      CorrelationAlgorithm)
@@ -14,6 +18,7 @@ from .variable import NumericalVariable
 
 __all__ = ('PivDistribution',
            'PivImageDistribution',
+           'PivMaskDistribution',
            'PivResultDistribution',
            'PIVSoftware',
            'ImageManipulationMethod',

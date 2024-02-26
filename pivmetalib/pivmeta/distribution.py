@@ -1,6 +1,6 @@
 import rdflib
 from enum import Enum
-from pydantic import HttpUrl, field_validator
+from pydantic import HttpUrl, PositiveInt, field_validator
 from typing import Union
 
 from ..dcat import Distribution
@@ -36,13 +36,19 @@ class PivImageType(Enum):
 
 @namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
 @context(PivImageDistribution='pivmeta:PivImageDistribution',
-         piv_image_type='pivmeta:pivImageType')
+         piv_image_type='pivmeta:pivImageType',
+         bit_depth='pivmeta:bitDepth',
+         number_of_records='pivmeta:numberOfRecords',
+         filename_pattern='pivmeta:filenamePattern')
 class PivImageDistribution(Distribution):
     """Implementation of pivmeta:PivImageDistribution
 
     Describes PIV images (e.g. tiff files) which are experimental or synthetic data.
     """
     piv_image_type: Union[HttpUrl, PivImageType]
+    bit_depth: PositiveInt = None
+    number_of_records: PositiveInt = None
+    filename_pattern: str = None  # e.g. "image_{:04d}.tif"
 
     def _repr_html_(self):
         """Returns the HTML representation of the class"""
@@ -62,3 +68,12 @@ class PivImageDistribution(Distribution):
         if isinstance(piv_image_type, PivImageType):
             return piv_image_type.value
         return piv_image_type
+
+
+@namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
+@context(PivMaskDistribution='pivmeta:PivMaskDistribution',
+         bit_depth='pivmeta:bitDepth',
+         filename_pattern='pivmeta:filenamePattern')
+class PivMaskDistribution(Distribution):
+    bit_depth: PositiveInt = None
+    filename_pattern: str = None  # e.g. "image_{:04d}.tif"
