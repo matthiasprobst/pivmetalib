@@ -1,6 +1,45 @@
 import appdirs
+import json
+import logging
 import pathlib
+import rdflib
 import requests
+from typing import List
+from typing import Union
+
+logger = logging.getLogger(__package__)
+logger.setLevel('DEBUG')
+
+
+def merge_jsonld(jsonld_strings: List[str]) -> str:
+    """Merge multiple json-ld strings into one json-ld string."""
+    jsonld_dicts = [json.loads(jlds) for jlds in jsonld_strings]
+
+    contexts = []
+    for jlds in jsonld_dicts:
+        if jlds['@context'] not in contexts:
+            contexts.append(jlds['@context'])
+
+    out = {'@context': contexts,
+           '@graph': []}
+
+    for jlds in jsonld_dicts:
+        if '@graph' in jlds:
+            out['@graph'].append(jlds['@graph'])
+        else:
+            data = dict(jlds.items())
+            data.pop('@context')
+            out['@graph'].append(data)
+
+    return json.dumps(out, indent=2)
+
+
+def is_zip_file(mediaType: Union[str, rdflib.URIRef]):
+    """checks the media type"""
+    return str(mediaType) in (
+        'https://www.iana.org/assignments/media-types/application/zip',
+        'zip',
+    )
 
 
 def get_cache_dir() -> pathlib.Path:
@@ -41,6 +80,7 @@ def download_file(url,
     HTTPError if the request is not successful
     ValueError if the hash of the downloaded file does not match the expected hash
     """
+    logger.debug(f'Performing request to {url}')
     response = requests.get(url, stream=True)
     if not response.ok:
         response.raise_for_status()
@@ -59,17 +99,25 @@ def download_file(url,
 
     # Save the content to a file
     if dest_filename is None:
-        from uuid import uuid4
-        dest_filename = pathlib.Path(f"{uuid4()}.tmp")
+        filename = response.url.rsplit('/', 1)[1]
+        dest_parent = get_cache_dir() / f'{total_size}'
+        dest_filename = dest_parent / filename
+        if dest_filename.exists():
+            logger.debug(f'Taking existing file {dest_filename} and returning it.')
+            return dest_filename
     else:
         dest_filename = pathlib.Path(dest_filename)
     dest_parent = dest_filename.parent
     if not dest_parent.exists():
         dest_parent.mkdir(parents=True)
-    if dest_filename.exists() and overwrite_existing:
-        dest_filename.unlink()
-    elif dest_filename.exists() and not overwrite_existing:
-        raise FileExistsError(f'File {dest_filename} already exists and overwrite_existing is set to False.')
+
+    if dest_filename.exists():
+        if overwrite_existing:
+            logger.debug(f'Destination filename found: {dest_filename}. Deleting it, as overwrite_existing is True.')
+            dest_filename.unlink()
+        else:
+            logger.debug(f'Destination filename found: {dest_filename}. Returning it')
+            return dest_filename
 
     if show_pbar:
         try:

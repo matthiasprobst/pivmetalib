@@ -1,5 +1,5 @@
 from .. import sd, m4i
-from ..template import namespaces, context
+from ..model import namespaces, context
 
 
 @namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")

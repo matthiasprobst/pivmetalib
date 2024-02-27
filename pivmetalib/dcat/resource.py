@@ -6,6 +6,7 @@
 import pathlib
 import re
 import shutil
+import uuid
 from datetime import datetime
 from dateutil import parser
 from pydantic import HttpUrl, FileUrl, field_validator
@@ -13,8 +14,9 @@ from typing import Union, List
 
 from ..owl import Thing
 from ..prov import Person, Organisation, Agent
-from ..template import namespaces, context
+from ..model import namespaces, context
 from ..utils import download_file
+from ..utils import is_zip_file, get_cache_dir
 
 
 @namespaces(dcat="http://www.w3.org/ns/dcat#",
@@ -49,7 +51,6 @@ class Resource(Thing):
     creator: Union[Person, Organisation] = None  # dct:creator
     version: str = None  # dcat:version
 
-
     def _repr_html_(self):
         """Returns the HTML representation of the class"""
         return f"{self.__class__.__name__}({self.title})"
@@ -57,9 +58,9 @@ class Resource(Thing):
 
 @namespaces(dcat="http://www.w3.org/ns/dcat#")
 @context(Distribution='dcat:Distribution',
-         download_URL='dcat:downloadURL',
-         media_type='dcat:mediaType',
-         byte_size='dcat:byteSize',
+         downloadURL='dcat:downloadURL',
+         mediaType='dcat:mediaType',
+         byteSize='dcat:byteSize',
          keyword='dcat:keyword')
 class Distribution(Resource):
     """Implementation of dcat:Distribution
@@ -70,23 +71,23 @@ class Distribution(Resource):
 
     Parameters
     ----------
-    download_URL: Union[HttpUrl, FileUrl]
-        Download URL of the distribution (dcat:download_URL)
-    media_type: HttpUrl = None
-        Media type of the distribution (dcat:media_type).
+    downloadURL: Union[HttpUrl, FileUrl]
+        Download URL of the distribution (dcat:downloadURL)
+    mediaType: HttpUrl = None
+        Media type of the distribution (dcat:mediaType).
         Should be defined by the [IANA Media Types registry](https://www.iana.org/assignments/media-types/media-types.xhtml)
-    byte_size: int = None
-        Size of the distribution in bytes (dcat:byte_size)
+    byteSize: int = None
+        Size of the distribution in bytes (dcat:byteSize)
     """
-    download_URL: Union[HttpUrl, FileUrl] = None  # dcat:downloadURL, e.g.
-    media_type: HttpUrl = None  # dcat:mediaType
-    byte_size: int = None  # dcat:byte_size
+    downloadURL: Union[HttpUrl, FileUrl] = None  # dcat:downloadURL, e.g.
+    mediaType: HttpUrl = None  # dcat:mediaType
+    byteSize: int = None  # dcat:byteSize
     keyword: List[str] = None  # dcat:keyword
 
     def _repr_html_(self):
         """Returns the HTML representation of the class"""
-        if self.download_URL is not None:
-            return f"{self.__class__.__name__}({self.download_URL})"
+        if self.downloadURL is not None:
+            return f"{self.__class__.__name__}({self.downloadURL})"
         return super()._repr_html_()
 
     def download(self,
@@ -99,32 +100,53 @@ class Distribution(Resource):
             fname = pathlib.Path(furl)
             if fname.exists():
                 return fname
-            fname = pathlib.Path(self.download_URL.path[1:])
+            fname = pathlib.Path(self.downloadURL.path[1:])
             if fname.exists():
                 return fname
-            raise FileNotFoundError(f'File {self.download_URL.path} does not exist')
+            raise FileNotFoundError(f'File {self.downloadURL.path} does not exist')
 
-        if self.download_URL.scheme == 'file':
+        if self.downloadURL.scheme == 'file':
             if dest_filename is None:
-                return _parse_file_url(self.download_URL.path)
+                return _parse_file_url(self.downloadURL.path)
             else:
-                return shutil.copy(_parse_file_url(self.download_URL.path), dest_filename)
-        return download_file(self.download_URL,
+                return shutil.copy(_parse_file_url(self.downloadURL.path), dest_filename)
+        dest_filename = pathlib.Path(dest_filename or self.downloadURL.path.split('/')[-1])
+        if dest_filename.exists():
+            return dest_filename
+        return download_file(self.downloadURL,
                              dest_filename,
                              overwrite_existing=overwrite_existing)
 
-    @field_validator('media_type', mode='before')
+    def download_and_unpack(
+            self,
+            target_dir: Union[str, pathlib.Path]) -> pathlib.Path:
+        """Download the data and unpack it. This makes sense if the file
+        source is a zip file"""
+        if not is_zip_file(self.mediaType):
+            raise ValueError('The distribution does not seem to be a ZIP file. '
+                             f'The media type is {self.mediaType} but '
+                             '"https://www.iana.org/assignments/media-types/application/zip" '
+                             'is expected')
+        import zipfile
+        zip_filename = self.download(
+            dest_filename=get_cache_dir() / f'{uuid.uuid4()}.zip'
+        )
+        with zipfile.ZipFile(zip_filename, 'r') as zip_ref:
+            zip_ref.extractall(target_dir)
+        return target_dir
+
+    @field_validator('mediaType', mode='before')
     @classmethod
-    def _mediaType(cls, media_type):
+    def _mediaType(cls, mediaType):
         """should be a valid URI, like: https://www.iana.org/assignments/media-types/text/markdown"""
-        if isinstance(media_type, str):
-            if media_type.startswith('http'):
-                return HttpUrl(media_type)
-            elif media_type.startswith('iana:'):
-                return HttpUrl("https://www.iana.org/assignments/media-types/" + media_type.split(":", 1)[-1])
-            elif re.match('[a-z].*/[a-z].*', media_type):
-                return HttpUrl("https://www.iana.org/assignments/media-types/" + media_type)
-        return media_type
+        if isinstance(mediaType, str):
+            if mediaType.startswith('http'):
+                return HttpUrl(mediaType)
+            elif mediaType.startswith('iana:'):
+                return HttpUrl("https://www.iana.org/assignments/media-types/" + mediaType.split(":", 1)[-1])
+            elif re.match('[a-z].*/[a-z].*', mediaType):
+                return HttpUrl("https://www.iana.org/assignments/media-types/" + mediaType)
+        return mediaType
 
 
 @namespaces(dcat="http://www.w3.org/ns/dcat#",
@@ -134,7 +156,8 @@ class Distribution(Resource):
          identifier='dct:identifier',
          creator='dct:creator',
          distribution='dcat:distribution',
-         modified='dct:modified')
+         modified='dct:modified',
+         landingPage='dcat:landingPage')
 class Dataset(Resource):
     """Pydantic implementation of dcat:Dataset
 

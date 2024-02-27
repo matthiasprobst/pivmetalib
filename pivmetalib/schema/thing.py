@@ -1,7 +1,7 @@
 from pydantic import HttpUrl
 
 from .. import owl
-from ..template import namespaces, context
+from ..model import namespaces, context
 
 
 @namespaces(schema="https://schema.org/")

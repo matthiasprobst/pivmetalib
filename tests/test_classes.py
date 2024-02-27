@@ -9,6 +9,7 @@ from datetime import datetime
 
 import pivmetalib
 from pivmetalib import pivmeta, prov, m4i, owl
+from pivmetalib.model import Context
 
 __this_dir__ = pathlib.Path(__file__).parent
 CACHE_DIR = pivmetalib.utils.get_cache_dir()
@@ -32,17 +33,19 @@ class TestPIVProcess(unittest.TestCase):
             ),
             has_documentation='https://www.pivtec.com/download/docs/PIVview_v36_Manual.pdf',
         )
-        print(pivtec.dump_jsonld())
+        with open('software.jsonld', 'w') as f:
+            f.write(pivtec.dump_jsonld())
+        print(pivmetalib.query(pivmeta.PIVSoftware, 'software.jsonld'))
 
     def test_preprocessing_step(self):
-        ps1 = m4i.ProcessingStep(label='p1', start_time=datetime.now())
+        ps1 = m4i.ProcessingStep(label='p1', startTime=datetime.now())
         time.sleep(1)
-        ps2 = m4i.ProcessingStep(label='p2', start_time=datetime.now())
+        ps2 = m4i.ProcessingStep(label='p2', startTime=datetime.now())
 
         ps1.starts_with = ps2
         with self.assertRaises(TypeError):
             ps1.starts_with = 123
-        self.assertTrue(ps2.start_time > ps1.start_time)
+        self.assertTrue(ps2.startTime > ps1.startTime)
         self.assertIsInstance(ps1, owl.Thing)
         self.assertIsInstance(ps1, m4i.ProcessingStep)
         self.assertIsInstance(ps1.starts_with, owl.Thing)
@@ -55,7 +58,7 @@ class TestPIVProcess(unittest.TestCase):
         self.check_jsonld_string(jsonld_string)
 
         tool = m4i.Tool(label='tool1')
-        ps1.has_employed_tool = tool
+        ps1.hasEmployedTool = tool
         print(ps1.dump_jsonld())
 
     def test_tool(self):
@@ -66,15 +69,15 @@ class TestPIVProcess(unittest.TestCase):
             NumericalVariable(
                 label='myvar',
                 has_numerical_value=3.4,
-                has_unit='m/s',
-                has_kind_of_quantity=QUDT_UNIT.M_PER_SEC
+                hasUnit='m/s',
+                hasKindOfQuantity=QUDT_UNIT.M_PER_SEC
             )
         )
-        self.assertIsInstance(tool.has_parameter[0], NumericalVariable)
-        self.assertEqual(tool.has_parameter[0].label, 'myvar')
-        self.assertEqual(tool.has_parameter[0].has_variable_description,
+        self.assertIsInstance(tool.hasParameter[0], NumericalVariable)
+        self.assertEqual(tool.hasParameter[0].label, 'myvar')
+        self.assertEqual(tool.hasParameter[0].hasVariableDescription,
                          None)
-        self.assertEqual(tool.has_parameter[0].has_numerical_value,
+        self.assertEqual(tool.hasParameter[0].has_numerical_value,
                          3.4)
         # print(tool.dump_jsonld(context=CONTEXT))
 
@@ -101,7 +104,7 @@ class TestPIVProcess(unittest.TestCase):
                     url='https://www.mycompany.com/'
                 ),
                 prov.Person(
-                    first_name='John'
+                    firstName='John'
                 )
             ],
         )
@@ -158,11 +161,11 @@ SELECT ?id ?name
     def test_method_one_parameters(self):
         # method with 1 parameter:
         var1 = m4i.NumericalVariable(has_numerical_value=4.2)
-        method2 = m4i.Method(label='method2', has_parameter=var1)
+        method2 = m4i.Method(label='method2', hasParameter=var1)
         self.assertIsInstance(method2, owl.Thing)
         self.assertIsInstance(method2, m4i.Method)
         self.assertEqual(method2.label, 'method2')
-        self.assertEqual(method2.has_parameter, var1)
+        self.assertEqual(method2.hasParameter, var1)
 
         jsonld_string = method2.dump_jsonld()
         self.check_jsonld_string(jsonld_string)
@@ -172,12 +175,12 @@ SELECT ?id ?name
         # method with 2 parameters:
         var1 = m4i.NumericalVariable(has_numerical_value=4.2)
         var2 = m4i.NumericalVariable(has_numerical_value=5.2)
-        method3 = m4i.Method(label='method3', has_parameter=[var1, var2])
+        method3 = m4i.Method(label='method3', hasParameter=[var1, var2])
         self.assertIsInstance(method3, owl.Thing)
         self.assertIsInstance(method3, m4i.Method)
         self.assertEqual(method3.label, 'method3')
-        self.assertIsInstance(method3.has_parameter, list)
-        self.assertEqual(method3.has_parameter, [var1, var2])
+        self.assertIsInstance(method3.hasParameter, list)
+        self.assertEqual(method3.hasParameter, [var1, var2])
 
         jsonld_string = method3.dump_jsonld()
         self.check_jsonld_string(jsonld_string)
@@ -224,9 +227,25 @@ SELECT ?id ?name
         var1.standard_name = sn1
 
         method = m4i.Method(label='method1')
-        method.has_parameter = [var1, var2]
+        method.hasParameter = [var1, var2]
 
         jsonld_string = method.dump_jsonld()
         self.check_jsonld_string(jsonld_string)
 
         print(jsonld_string)
+
+    def test_PivDistribution(self):
+        piv_dist = pivmeta.PivDistribution(label='piv_distribution',
+                                           filename_pattern=r'img\d{4}_[a,b].tif')
+        self.assertEqual(Context[pivmeta.PivDistribution]['filename_pattern'], 'pivmeta:filenamePattern')
+
+        self.assertIsInstance(piv_dist, owl.Thing)
+        self.assertIsInstance(piv_dist, pivmeta.PivDistribution)
+        self.assertEqual(piv_dist.label, 'piv_distribution')
+        self.assertEqual(piv_dist.filename_pattern, r'img\d{4}_[a,b].tif')
+        jsonld_string = piv_dist.dump_jsonld()
+        found_dist = pivmetalib.query(pivmeta.PivDistribution,
+                                      json.loads(jsonld_string))
+        self.assertEqual(len(found_dist), 1)
+        self.assertEqual(found_dist[0].label, 'piv_distribution')
+        self.assertEqual(found_dist[0].filename_pattern, r'img\d{4}_[a,b].tif')

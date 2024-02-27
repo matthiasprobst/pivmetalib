@@ -2,14 +2,14 @@ from typing import List, Union
 
 from .variable import Variable, NumericalVariable
 from .. import Thing
-from ..template import namespaces, context
+from ..model import namespaces, context
 
 
 @namespaces(m4i="http://w3id.org/nfdi4ing/metadata4ing#",
             schema="https://schema.org/")
 @context(Method='m4i:Method',
          description='schema:description',
-         has_parameter='m4i:hasParameter')
+         hasParameter='m4i:hasParameter')
 class Method(Thing):
     """Pydantic Model for m4i:M4IProcessingStep
 
@@ -23,23 +23,23 @@ class Method(Thing):
     tbd
     """
     description: str = None
-    has_parameter: Union[Variable,
+    hasParameter: Union[Variable,
                          List[Variable]] = None
 
     def add_numerical_variable(self, name, has_numerical_value,
-                               has_unit, has_kind_of_quantity,
+                               hasUnit, hasKindOfQuantity,
                                **kwargs):
         """add numerical variable to tool"""
         var = NumericalVariable(name=name,
                                 has_numerical_value=has_numerical_value,
-                                has_unit=has_unit,
-                                has_kind_of_quantity=has_kind_of_quantity,
+                                hasUnit=hasUnit,
+                                hasKindOfQuantity=hasKindOfQuantity,
                                 **kwargs)
 
-        if self.has_parameter is None:
-            self.has_parameter = [var, ]
-        elif isinstance(self.has_parameter, list):
-            self.has_parameter.append(var)
+        if self.hasParameter is None:
+            self.hasParameter = [var, ]
+        elif isinstance(self.hasParameter, list):
+            self.hasParameter.append(var)
         else:
-            self.has_parameter = [self.has_parameter,
+            self.hasParameter = [self.hasParameter,
                                   var]

@@ -1,7 +1,7 @@
-from pydantic import EmailStr
+from pydantic import EmailStr, HttpUrl
 
 from ..owl import Thing
-from ..template import namespaces, context
+from ..model import namespaces, context
 
 
 @namespaces(prov="https://www.w3.org/ns/prov#",
@@ -28,8 +28,11 @@ class Agent(Thing):
     #     return f"{self.__class__.__name__}({self.mbox})"
 
 
+@namespaces(schema='http://schema.org/')
 @context(Organisation='prov:Organisation',
-         name='foaf:name')
+         name='foaf:name',
+         url='schema:url'
+         )
 class Organisation(Agent):
     """Pydantic Model for https://www.w3.org/ns/prov#Organisation
 
@@ -44,13 +47,15 @@ class Organisation(Agent):
         Name of the Organisation (foaf:name)
     mbox: EmailStr = None
         Email address (foaf:mbox)
+    url: str = None
     """
     name: str  # foaf:name
+    url: HttpUrl = None
 
 
 @context(Person='prov:Person',
-         first_name='foaf:firstName',
-         last_name='foaf:lastName')
+         firstName='foaf:firstName',
+         lastName='foaf:lastName')
 class Person(Agent):
     """Pydantic Model for https://www.w3.org/ns/prov#Person
 
@@ -61,14 +66,14 @@ class Person(Agent):
 
     Parameters
     ----------
-    first_name: str = None
+    firstName: str = None
         First name (foaf:firstName)
-    last_name: str = None
+    lastName: str = None
         Last name (foaf:lastName)
     mbox: EmailStr = None
         Email address (foaf:mbox)
 
     Extra fields are possible but not explicitly defined here.
     """
-    first_name: str = None  # foaf:firstName
-    last_name: str = None  # foaf:lastName
+    firstName: str = None  # foaf:firstName
+    lastName: str = None  # foaf:lastName

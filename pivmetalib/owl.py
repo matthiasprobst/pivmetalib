@@ -3,12 +3,14 @@ import rdflib
 import uuid
 from datetime import datetime
 from pydantic import HttpUrl, FileUrl
+from pydantic.functional_validators import WrapValidator
 from typing import Dict, Union
+from typing_extensions import Annotated
 
-from .template import AbstractModel, context, namespaces, Context, Namespaces
+from .model import AbstractModel, context, namespaces, Context, NamespacePrefixManager
 
 
-def serialize_fields(obj, exclude_none: bool = True, prefix: str = None) -> Dict:
+def serialize_fields(obj, exclude_none: bool = True) -> Dict:
     """Serializes the fields of a Thing object into a json-ld dictionary (without context!)"""
 
     if exclude_none:
@@ -24,13 +26,8 @@ def serialize_fields(obj, exclude_none: bool = True, prefix: str = None) -> Dict
     # datetime
     for k, v in serialized_fields.copy().items():
         _field = serialized_fields.pop(k)
-        # if hasattr(v, '_KEY_PREFIX'):
-        #     key = f"{v._KEY_PREFIX}:{k}"
-        # else:
-        #     key = k
         key = k
         if isinstance(v, datetime):
-            # field_dict[k] = v.strftime('%Y-%m-%d')
             serialized_fields[key] = v.isoformat()
         elif isinstance(v, Thing):
             serialized_fields[key] = serialize_fields(v, exclude_none=exclude_none)
@@ -78,6 +75,15 @@ def dump_hdf(g, data: Dict, iris: Dict = None):
             g.attrs[k] = v
 
 
+def __validate_blank_node(value, handler, info):
+    if value.startswith('_:'):
+        return value
+    raise ValueError(f"Blank node must start with _: {value}")
+
+
+BlankNodeType = Annotated[str, WrapValidator(__validate_blank_node)]
+
+
 @namespaces(owl='http://www.w3.org/2002/07/owl#',
             rdfs='http://www.w3.org/2000/01/rdf-schema#',
             local='http://example.com/')
@@ -85,10 +91,12 @@ def dump_hdf(g, data: Dict, iris: Dict = None):
 class Thing(AbstractModel):
     """owl:Thing
     """
-    id: Union[str, HttpUrl, FileUrl, None] = None  # @id
+    id: Union[str, HttpUrl, FileUrl, BlankNodeType, None] = None  # @id
     label: str = None  # rdfs:label
 
-    def dump_jsonld(self, context=None, exclude_none: bool = True,
+    def dump_jsonld(self,
+                    context=None,
+                    exclude_none: bool = True,
                     local_namespace: HttpUrl = 'https://local-domain.org/') -> str:
         """alias for model_dump_json()"""
 
@@ -103,7 +111,7 @@ class Thing(AbstractModel):
         jsonld = {
             "@context": at_context,
             "@graph": [
-                serialize_fields(self)
+                serialize_fields(self, exclude_none=exclude_none)
             ]
         }
 
@@ -114,15 +122,17 @@ class Thing(AbstractModel):
                                indent=4)
         return g.serialize(format='json-ld', indent=4)
 
-    def dump_hdf(self, g, name: str = None):
+    def dump_hdf(self, g):
         """Write the object to an hdf group. Nested dictionaries result in nested groups"""
-        if name is None:
-            name = self.__class__.__name__
+
+        # if name is None:
+        #     name = self.__class__.__name__
 
         def _get_explained_dict(obj):
             model_fields = {k: getattr(obj, k) for k in obj.model_fields if getattr(obj, k) is not None}
+            model_fields.pop('id', None)
             _context_manager = Context[obj.__class__]
-            _namespace_manager = Namespaces[obj.__class__]
+            _namespace_manager = NamespacePrefixManager[obj.__class__]
             namespaced_fields = {}
 
             assert isinstance(obj, AbstractModel)
@@ -134,7 +144,8 @@ class Thing(AbstractModel):
             else:
                 at_type = rdf_type
             namespaced_fields[('http://www.w3.org/1999/02/22-rdf-syntax-ns#type', '@type')] = at_type
-            # g.attrs['@type', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'] = full_iri
+            if obj.id is not None:
+                namespaced_fields[('http://www.w3.org/1999/02/22-rdf-syntax-ns#id', '@id')] = obj.id
 
             for k, v in model_fields.items():
                 nskey = _context_manager.get(k, k)

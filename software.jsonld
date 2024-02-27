@@ -1,0 +1,22 @@
+{
+    "@context": {
+        "@import": "https://raw.githubusercontent.com/matthiasprobst/pivmeta/main/pivmeta_context.jsonld"
+    },
+    "@graph": [
+        {
+            "@id": "https://local-domain.org/d6c32981-7fa2-4e99-994f-4439e284c89d",
+            "@type": "Piv Software",
+            "schema:author": {
+                "@id": "https://local-domain.org/b611d43f-f88d-45c8-9e25-1b79407ddcc0"
+            },
+            "sd:hasDocumentation": "https://www.pivtec.com/download/docs/PIVview_v36_Manual.pdf"
+        },
+        {
+            "@id": "https://local-domain.org/b611d43f-f88d-45c8-9e25-1b79407ddcc0",
+            "@type": "prov:Organisation",
+            "foaf:mbox": "info@pivtec.com",
+            "foaf:name": "PIVTEC GmbH",
+            "schema:url": "https://www.pivtec.com/"
+        }
+    ]
+}

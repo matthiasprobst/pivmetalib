@@ -3,7 +3,7 @@ from typing import Union, List
 
 from .thing import Thing
 from ..prov import Person, Organisation
-from ..template import namespaces, context
+from ..model import namespaces, context
 
 
 @namespaces(schema="https://schema.org/")

@@ -4,8 +4,6 @@ import rdflib
 from pydantic import BaseModel, Extra
 from typing import Iterable, Union, Dict
 
-from .query_util import query, get_query_string
-
 
 class _Manager:
     def __init__(self):
@@ -23,13 +21,13 @@ class _Manager:
 
 
 Context = _Manager()
-Namespaces = _Manager()
+NamespacePrefixManager = _Manager()
 
 
 def namespaces(**kwargs):
     def _decorator(cls):
         for k, v in kwargs.items():
-            Namespaces[cls][k] = v
+            NamespacePrefixManager[cls][k] = v
         return cls
 
     return _decorator
@@ -67,6 +65,7 @@ class AbstractModel(abc.ABC, BaseModel):
 
     def query(self, source: Union[str, Dict, pathlib.Path]):
         """Return a generator of results from the query."""
+        from .query_util import query
         res = query(self.__class__, source)
         if res is None:
             return None
@@ -79,6 +78,7 @@ class AbstractModel(abc.ABC, BaseModel):
                sources: Iterable[Union[str, Dict, pathlib.Path]] = None,
                format='json-ld'):
         """Performs query on multiple files or data sources"""
+        from .query_util import get_query_string
         cls = self.__class__
         mkwargs = [{'source': s, 'format': format} for s in sources]
         query_string = get_query_string(cls)

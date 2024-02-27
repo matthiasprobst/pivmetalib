@@ -3,7 +3,7 @@ from ssnolib import StandardName
 from typing import Union
 
 from .. import m4i
-from ..template import namespaces, context
+from ..model import namespaces, context
 
 
 @namespaces(m4i="http://w3id.org/nfdi4ing/metadata4ing#",
