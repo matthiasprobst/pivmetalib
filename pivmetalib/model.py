@@ -53,6 +53,7 @@ class AbstractModel(abc.ABC, BaseModel):
 
     class Config:
         validate_assignment = True
+        # extra = Extra.forbid
         extra = Extra.allow
 
     @abc.abstractmethod

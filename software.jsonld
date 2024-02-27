@@ -4,15 +4,15 @@
     },
     "@graph": [
         {
-            "@id": "https://local-domain.org/d6c32981-7fa2-4e99-994f-4439e284c89d",
+            "@id": "https://local-domain.org/37c29f73-8b4a-4a7c-9bdc-c798966b8d99",
             "@type": "Piv Software",
             "schema:author": {
-                "@id": "https://local-domain.org/b611d43f-f88d-45c8-9e25-1b79407ddcc0"
+                "@id": "https://local-domain.org/f8cb15af-d77d-40f0-adf6-ff4a9dd8ec4b"
             },
             "sd:hasDocumentation": "https://www.pivtec.com/download/docs/PIVview_v36_Manual.pdf"
         },
         {
-            "@id": "https://local-domain.org/b611d43f-f88d-45c8-9e25-1b79407ddcc0",
+            "@id": "https://local-domain.org/f8cb15af-d77d-40f0-adf6-ff4a9dd8ec4b",
             "@type": "prov:Organisation",
             "foaf:mbox": "info@pivtec.com",
             "foaf:name": "PIVTEC GmbH",

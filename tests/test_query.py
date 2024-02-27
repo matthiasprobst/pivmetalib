@@ -27,14 +27,14 @@ class TestQuery(unittest.TestCase):
                     mediaType='application/zip',
                     pivImageType=PIVMETA.SyntheticImage,
                     numberOfRecords=1,  # It contains one double image
-                    filename_pattern="^C\d{3}_\d.tif$",  # the regex for the filename
+                    filenamePattern="^C\d{3}_\d.tif$",  # the regex for the filename
                     bit_depth=8
                 ),
                 pivmeta.PivMaskDistribution(
                     title='mask data',
                     downloadURL='https://www.pivchallenge.org/pub/C/C.zip',
                     mediaType='application/zip',
-                    filename_pattern="^Cmask_1.tif$",  # the regex for the filename
+                    filenamePattern="^Cmask_1.tif$",  # the regex for the filename
                     bit_depth=8
                 ),
                 dcat.Distribution(
@@ -53,7 +53,7 @@ class TestQuery(unittest.TestCase):
         dist = pivmetalib.query(pivmeta.PivImageDistribution, source='piv_challenge.jsonld')
         self.assertEqual(len(dist), 1)
         self.assertEqual(dist[0].title, 'raw piv image data')
-        self.assertEqual(dist[0].filename_pattern, '^C\d{3}_\d.tif$')
+        self.assertEqual(dist[0].filenamePattern, '^C\d{3}_\d.tif$')
 
     def test_query_dataset(self):
         ds = dcat.Dataset(
@@ -69,14 +69,14 @@ class TestQuery(unittest.TestCase):
                     mediaType='application/zip',
                     pivImageType=PIVMETA.SyntheticImage,
                     numberOfRecords=1,  # It contains one double image
-                    filename_pattern=r"^C\d{3}_\d.tif$",  # the regex for the filename
+                    filenamePattern=r"^C\d{3}_\d.tif$",  # the regex for the filename
                     imageBitDepth=8
                 ),
                 pivmeta.PivMaskDistribution(
                     title='mask data',
                     downloadURL='https://www.pivchallenge.org/pub/C/C.zip',
                     mediaType='application/zip',
-                    filename_pattern="^Cmask_1.tif$",  # the regex for the filename
+                    filenamePattern="^Cmask_1.tif$",  # the regex for the filename
                 ),
                 dcat.Distribution(
                     title='ReadMe file',

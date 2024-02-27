@@ -232,20 +232,18 @@ SELECT ?id ?name
         jsonld_string = method.dump_jsonld()
         self.check_jsonld_string(jsonld_string)
 
-        print(jsonld_string)
-
     def test_PivDistribution(self):
         piv_dist = pivmeta.PivDistribution(label='piv_distribution',
-                                           filename_pattern=r'img\d{4}_[a,b].tif')
-        self.assertEqual(Context[pivmeta.PivDistribution]['filename_pattern'], 'pivmeta:filenamePattern')
+                                           filenamePattern=r'img\d{4}_[a,b].tif')
+        self.assertEqual(Context[pivmeta.PivDistribution]['filenamePattern'], 'pivmeta:filenamePattern')
 
         self.assertIsInstance(piv_dist, owl.Thing)
         self.assertIsInstance(piv_dist, pivmeta.PivDistribution)
         self.assertEqual(piv_dist.label, 'piv_distribution')
-        self.assertEqual(piv_dist.filename_pattern, r'img\d{4}_[a,b].tif')
+        self.assertEqual(piv_dist.filenamePattern, r'img\d{4}_[a,b].tif')
         jsonld_string = piv_dist.dump_jsonld()
         found_dist = pivmetalib.query(pivmeta.PivDistribution,
                                       json.loads(jsonld_string))
         self.assertEqual(len(found_dist), 1)
         self.assertEqual(found_dist[0].label, 'piv_distribution')
-        self.assertEqual(found_dist[0].filename_pattern, r'img\d{4}_[a,b].tif')
+        self.assertEqual(found_dist[0].filenamePattern, r'img\d{4}_[a,b].tif')

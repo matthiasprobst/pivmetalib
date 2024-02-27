@@ -15,13 +15,14 @@ def serialize_fields(obj, exclude_none: bool = True) -> Dict:
 
     if exclude_none:
         serialized_fields = {Context[obj.__class__][k]: getattr(obj, k) for k in obj.model_fields if
-                             getattr(obj, k) is not None}
+                             getattr(obj, k) is not None and k not in ('id', '@id')}
         # serialized_fields = {_parse_key(k): getattr(obj, k) for k in obj.model_fields if getattr(obj, k) is not None}
     else:
-        serialized_fields = {Context[obj.__class__][k]: getattr(obj, k) for k in obj.model_fields}
+        serialized_fields = {Context[obj.__class__][k]: getattr(obj, k) for k in obj.model_fields if k not in ('id', '@id')}
         # serialized_fields = {_parse_key(k): getattr(obj, k) for k in obj.model_fields}
-    for k, v in obj.model_extra.items():
-        serialized_fields[Context[obj.__class__].get(k, k)] = v
+    if obj.Config.extra == 'allow':
+        for k, v in obj.model_extra.items():
+            serialized_fields[Context[obj.__class__].get(k, k)] = v
 
     # datetime
     for k, v in serialized_fields.copy().items():
@@ -175,12 +176,12 @@ class Thing(AbstractModel):
                 if isinstance(v, dict):
                     sub_g = g.create_group(key)
                     if iri:
-                        sub_g.iri = iri
+                        sub_g.iri.subject = iri
                     _dump_hdf(sub_g, v)
                 elif isinstance(v, list):
                     sub_g = g.create_group(key)
                     if iri:
-                        sub_g.iri = iri
+                        sub_g.iri.subject = iri
                     for i, item in enumerate(v):
                         assert isinstance(item, dict)
                         if isinstance(item, dict):
@@ -196,8 +197,10 @@ class Thing(AbstractModel):
     def __repr__(self):
         _fields = {k: getattr(self, k) for k in self.model_fields if getattr(self, k) is not None}
         repr_fields = ", ".join([f"{k}={v}" for k, v in _fields.items()])
-        repr_extra = ", ".join([f"{k}={v}" for k, v in self.model_extra.items()])
-        return f"{self.__class__.__name__}({repr_fields}, {repr_extra})"
+        if self.Config.extra == 'allow':
+            repr_extra = ", ".join([f"{k}={v}" for k, v in self.model_extra.items()])
+            return f"{self.__class__.__name__}({repr_fields}, {repr_extra})"
+        return f"{self.__class__.__name__}({repr_fields})"
 
     def _repr_html_(self) -> str:
         """Returns the HTML representation of the class"""
