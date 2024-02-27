@@ -9,7 +9,7 @@ from datetime import datetime
 
 import pivmetalib
 from pivmetalib import pivmeta, prov, m4i, owl
-from pivmetalib.model import URIRefManager
+from pivmetalib.decorator import URIRefManager
 
 __this_dir__ = pathlib.Path(__file__).parent
 CACHE_DIR = pivmetalib.utils.get_cache_dir()
@@ -42,7 +42,7 @@ class TestPIVProcess(unittest.TestCase):
         tc = Testclass(firstName='John')
         self.assertEqual(tc.firstName, 'John')
         self.assertDictEqual(
-            tc.model_iri_fields,
+            pivmetalib.get_iri_fields(tc),
             {'Testclass': 'https://www.example.com/Testclass',
              'Thing': 'http://www.w3.org/2002/07/owl#Thing',
              'firstName': 'foaf:firstName',
@@ -57,7 +57,7 @@ class TestPIVProcess(unittest.TestCase):
         tc2 = Testclass2(firstName='John')
         self.assertEqual(tc2.firstName, 'John')
         self.assertDictEqual(
-            tc2.model_iri_fields,
+            pivmetalib.get_iri_fields(tc2),
             {'Testclass2': 'https://www.example.com/Testclass2',
              'Thing': 'http://www.w3.org/2002/07/owl#Thing',
              'firstName': 'foaf:firstName',
@@ -74,7 +74,7 @@ class TestPIVProcess(unittest.TestCase):
         self.assertEqual(em.name, "test")
         self.assertEqual(em.age, 20)
         self.assertDictEqual(
-            em.model_iri_fields,
+            pivmetalib.get_iri_fields(em),
             {'Thing': 'http://www.w3.org/2002/07/owl#Thing',
              'label': 'http://www.w3.org/2000/01/rdf-schema#label',
              'name': 'http://example.com/name',
@@ -108,8 +108,6 @@ class TestPIVProcess(unittest.TestCase):
         self.assertIsInstance(ps1.starts_with, owl.Thing)
         self.assertIsInstance(ps1.starts_with, m4i.ProcessingStep)
         self.assertEqual(ps1.starts_with, ps2)
-
-        print(ps1.model_iri_fields)
 
         jsonld_string = ps1.dump_jsonld()
         self.check_jsonld_string(jsonld_string)

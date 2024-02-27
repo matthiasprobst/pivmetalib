@@ -91,5 +91,3 @@ class TestQuery(unittest.TestCase):
             )
         dss = pivmetalib.query(dcat.Dataset, source='piv_challenge.jsonld')
         ds = dss[0]
-
-        ds.creator.query('piv_challenge.jsonld')
