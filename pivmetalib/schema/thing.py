@@ -1,11 +1,11 @@
 from pydantic import HttpUrl
 
 from .. import owl
-from ..model import namespaces, context
+from .. import namespaces, urirefs
 
 
 @namespaces(schema="https://schema.org/")
-@context(Thing='schema:Thing',
+@urirefs(Thing='schema:Thing',
          description='schema:description',
          url='schema:url')
 class Thing(owl.Thing):

@@ -11,6 +11,36 @@ logger = logging.getLogger(__package__)
 logger.setLevel('DEBUG')
 
 
+class UNManager:
+    """Manager class for URIRef and Namespace."""
+
+    def __init__(self):
+        self.data = {}
+
+    def __getitem__(self, cls):
+        if cls not in self.data:
+            self.data[cls] = {}
+        # there might be subclass to this cls. get those data as well
+        for k, v in self.data.items():
+            if k != cls:
+                if issubclass(cls, k):
+                    self.data[cls].update(v)
+        return self.data[cls]
+
+
+def split_URIRef(uri: rdflib.URIRef) -> List[Union[str, None]]:
+    """Split a URIRef into namespace and key."""
+    _uri = str(uri)
+    if _uri.startswith('http'):
+        if '#' in _uri:
+            return _uri.rsplit('#', 1)
+        _split = _uri.rsplit('/', 1)
+        return [f'{_split[0]}/', _split[1]]
+    if ':' in _uri:
+        return _uri.rsplit(':', 1)
+    return [None, uri]
+
+
 def merge_jsonld(jsonld_strings: List[str]) -> str:
     """Merge multiple json-ld strings into one json-ld string."""
     jsonld_dicts = [json.loads(jlds) for jlds in jsonld_strings]

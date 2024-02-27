@@ -3,12 +3,12 @@ from ssnolib import StandardName
 from typing import Union
 
 from .. import m4i
-from ..model import namespaces, context
+from .. import namespaces, urirefs
 
 
 @namespaces(m4i="http://w3id.org/nfdi4ing/metadata4ing#",
             ssno="https://matthiasprobst.github.io/ssno#")
-@context(NumericalVariable='m4i:NumericalVariable',
+@urirefs(NumericalVariable='m4i:NumericalVariable',
          standard_name='ssno:standard_name')
 class NumericalVariable(m4i.NumericalVariable):
     """Pydantic Model for pivmeta:NumericalVariable

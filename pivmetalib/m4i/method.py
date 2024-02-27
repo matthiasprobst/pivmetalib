@@ -2,12 +2,12 @@ from typing import List, Union
 
 from .variable import Variable, NumericalVariable
 from .. import Thing
-from ..model import namespaces, context
+from .. import namespaces, urirefs
 
 
 @namespaces(m4i="http://w3id.org/nfdi4ing/metadata4ing#",
             schema="https://schema.org/")
-@context(Method='m4i:Method',
+@urirefs(Method='m4i:Method',
          description='schema:description',
          hasParameter='m4i:hasParameter')
 class Method(Thing):

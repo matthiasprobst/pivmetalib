@@ -9,7 +9,7 @@ from datetime import datetime
 
 import pivmetalib
 from pivmetalib import pivmeta, prov, m4i, owl
-from pivmetalib.model import Context
+from pivmetalib.model import URIRefManager
 
 __this_dir__ = pathlib.Path(__file__).parent
 CACHE_DIR = pivmetalib.utils.get_cache_dir()
@@ -23,6 +23,63 @@ class TestPIVProcess(unittest.TestCase):
         self.assertTrue(len(g) > 0)
         for s, p, o in g:
             self.assertIsInstance(p, rdflib.URIRef)
+
+    def test_decorators(self):
+        from pivmetalib import urirefs, namespaces, Thing
+        with self.assertRaises(RuntimeError):
+            @namespaces(example='www.example.com/')
+            @urirefs(Testclass='example:Testclass',
+                     firstName='foaf:firstName')
+            class Testclass(Thing):
+                firstName: str
+
+        @namespaces(example='https://www.example.com/')
+        @urirefs(Testclass='example:Testclass',
+                 firstName='foaf:firstName')
+        class Testclass(Thing):
+            firstName: str
+
+        tc = Testclass(firstName='John')
+        self.assertEqual(tc.firstName, 'John')
+        self.assertDictEqual(
+            tc.model_iri_fields,
+            {'Testclass': 'https://www.example.com/Testclass',
+             'Thing': 'http://www.w3.org/2002/07/owl#Thing',
+             'firstName': 'foaf:firstName',
+             'label': 'http://www.w3.org/2000/01/rdf-schema#label'}
+        )
+
+        @urirefs(Testclass2='https://www.example.com/Testclass2',
+                 firstName='foaf:firstName')
+        class Testclass2(Thing):
+            firstName: str
+
+        tc2 = Testclass2(firstName='John')
+        self.assertEqual(tc2.firstName, 'John')
+        self.assertDictEqual(
+            tc2.model_iri_fields,
+            {'Testclass2': 'https://www.example.com/Testclass2',
+             'Thing': 'http://www.w3.org/2002/07/owl#Thing',
+             'firstName': 'foaf:firstName',
+             'label': 'http://www.w3.org/2000/01/rdf-schema#label'}
+        )
+
+        @urirefs(name="http://example.com/name", age="http://example.com/age")
+        class ExampleModel(Thing):
+            name: str
+            age: int
+
+        em = ExampleModel(name="test", age=20)
+
+        self.assertEqual(em.name, "test")
+        self.assertEqual(em.age, 20)
+        self.assertDictEqual(
+            em.model_iri_fields,
+            {'Thing': 'http://www.w3.org/2002/07/owl#Thing',
+             'label': 'http://www.w3.org/2000/01/rdf-schema#label',
+             'name': 'http://example.com/name',
+             'age': 'http://example.com/age'}
+        )
 
     def test_serialization(self):
         pivtec = pivmeta.PIVSoftware(
@@ -235,7 +292,7 @@ SELECT ?id ?name
     def test_PivDistribution(self):
         piv_dist = pivmeta.PivDistribution(label='piv_distribution',
                                            filenamePattern=r'img\d{4}_[a,b].tif')
-        self.assertEqual(Context[pivmeta.PivDistribution]['filenamePattern'], 'pivmeta:filenamePattern')
+        self.assertEqual(URIRefManager[pivmeta.PivDistribution]['filenamePattern'], 'pivmeta:filenamePattern')
 
         self.assertIsInstance(piv_dist, owl.Thing)
         self.assertIsInstance(piv_dist, pivmeta.PivDistribution)

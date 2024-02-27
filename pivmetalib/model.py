@@ -4,51 +4,11 @@ import rdflib
 from pydantic import BaseModel, Extra
 from typing import Iterable, Union, Dict
 
-
-class _Manager:
-    def __init__(self):
-        self.data = {}
-
-    def __getitem__(self, cls):
-        if cls not in self.data:
-            self.data[cls] = {}
-        # there might be subclass to this cls. get those data as well
-        for k, v in self.data.items():
-            if k != cls:
-                if issubclass(cls, k):
-                    self.data[cls].update(v)
-        return self.data[cls]
+from .decorator import URIRefManager, NamespaceManager
+from .utils import split_URIRef
 
 
-Context = _Manager()
-NamespacePrefixManager = _Manager()
-
-
-def namespaces(**kwargs):
-    def _decorator(cls):
-        for k, v in kwargs.items():
-            NamespacePrefixManager[cls][k] = v
-        return cls
-
-    return _decorator
-
-
-def context(**kwargs):
-    def _decorator(cls):
-        fields = list(cls.model_fields.keys())
-        fields.append(cls.__name__)
-
-        # add fields to the class
-        for k, v in kwargs.items():
-            if k not in fields:
-                raise KeyError(f"Field '{k}' not found in {cls.__name__}")
-            Context[cls][k] = v
-        return cls
-
-    return _decorator
-
-
-class AbstractModel(abc.ABC, BaseModel):
+class PivMetaBaseModel(abc.ABC, BaseModel):
     """Abstract class to be used by model classes used within PIVMetalib"""
 
     class Config:
@@ -62,7 +22,30 @@ class AbstractModel(abc.ABC, BaseModel):
 
     @property
     def model_iri_fields(self) -> Dict:
-        return Context[self.__class__]
+        """Returns the IRI fields of the class
+
+        Example:
+        --------
+        @namespaces(name="http://example.com/name", age="http://example.com/age")
+        class ExampleModel(PivMetaBaseModel):
+            name: str
+            age: int
+
+        em = ExampleModel(name="test", age=10)
+        print(em.model_iri_fields)
+        # {'name': 'http://example.com/name', 'age': 'http://example.com/age'}
+        """
+        namespaces = NamespaceManager[self.__class__]
+        iri_fields = {}
+        for k, v in URIRefManager[self.__class__].items():
+            ns, key = split_URIRef(v)
+            full_ns = namespaces.get(ns, None)
+            if full_ns is None:
+                iri_fields[k] = v
+            else:
+                iri_fields[k] = f'{full_ns}{key}'
+        return iri_fields
+        # return URIRefManager[self.__class__]
 
     def query(self, source: Union[str, Dict, pathlib.Path]):
         """Return a generator of results from the query."""

@@ -12,16 +12,16 @@ from dateutil import parser
 from pydantic import HttpUrl, FileUrl, field_validator
 from typing import Union, List
 
+from ..decorator import namespaces, urirefs
 from ..owl import Thing
 from ..prov import Person, Organisation, Agent
-from ..model import namespaces, context
 from ..utils import download_file
 from ..utils import is_zip_file, get_cache_dir
 
 
 @namespaces(dcat="http://www.w3.org/ns/dcat#",
             dct="http://purl.org/dc/terms/", )
-@context(Resource='dcat:Resource',
+@urirefs(Resource='dcat:Resource',
          title='dct:title',
          description='dct:description',
          creator='dct:creator',
@@ -51,13 +51,13 @@ class Resource(Thing):
     creator: Union[Person, Organisation] = None  # dct:creator
     version: str = None  # dcat:version
 
-    def _repr_html_(self):
-        """Returns the HTML representation of the class"""
-        return f"{self.__class__.__name__}({self.title})"
+    # def _repr_html_(self):
+    #     """Returns the HTML representation of the class"""
+    #     return f"{self.__class__.__name__}({self.title})"
 
 
 @namespaces(dcat="http://www.w3.org/ns/dcat#")
-@context(Distribution='dcat:Distribution',
+@urirefs(Distribution='dcat:Distribution',
          downloadURL='dcat:downloadURL',
          mediaType='dcat:mediaType',
          byteSize='dcat:byteSize',
@@ -79,7 +79,7 @@ class Distribution(Resource):
     byteSize: int = None
         Size of the distribution in bytes (dcat:byteSize)
     """
-    downloadURL: Union[HttpUrl, FileUrl] = None  # dcat:downloadURL, e.g.
+    downloadURL: Union[HttpUrl, FileUrl, pathlib.Path] = None  # dcat:downloadURL, e.g.
     mediaType: HttpUrl = None  # dcat:mediaType
     byteSize: int = None  # dcat:byteSize
     keyword: List[str] = None  # dcat:keyword
@@ -148,11 +148,19 @@ class Distribution(Resource):
                 return HttpUrl("https://www.iana.org/assignments/media-types/" + mediaType)
         return mediaType
 
+    @field_validator('downloadURL', mode='before')
+    @classmethod
+    def _downloadURL(cls, downloadURL):
+        """a pathlib.Path is also allowed but needs to be converted to a URL"""
+        if isinstance(downloadURL, pathlib.Path):
+            return FileUrl(f'file://{downloadURL.resolve().absolute()}')
+        return downloadURL
+
 
 @namespaces(dcat="http://www.w3.org/ns/dcat#",
             prov="http://www.w3.org/ns/prov#",
             dct="http://purl.org/dc/terms/")
-@context(Dataset='dcat:Dataset',
+@urirefs(Dataset='dcat:Dataset',
          identifier='dct:identifier',
          creator='dct:creator',
          distribution='dcat:distribution',

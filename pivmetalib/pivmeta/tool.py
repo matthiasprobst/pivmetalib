@@ -1,9 +1,9 @@
 from .. import sd, m4i
-from ..model import namespaces, context
+from .. import namespaces, urirefs
 
 
 @namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
-@context(PIVSoftware='pivmeta:PIVSoftware')
+@urirefs(PIVSoftware='pivmeta:PIVSoftware')
 class PIVSoftware(m4i.Tool, sd.Software):
     """Pydantic implementation of pivmeta:PIVSoftware
 

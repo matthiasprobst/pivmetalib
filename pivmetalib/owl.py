@@ -3,26 +3,27 @@ import rdflib
 import uuid
 from datetime import datetime
 from pydantic import HttpUrl, FileUrl
-from pydantic.functional_validators import WrapValidator
 from typing import Dict, Union
-from typing_extensions import Annotated
 
-from .model import AbstractModel, context, namespaces, Context, NamespacePrefixManager
+from .decorator import urirefs, namespaces, URIRefManager, NamespaceManager
+from .model import PivMetaBaseModel
+from .typing import BlankNodeType
 
 
 def serialize_fields(obj, exclude_none: bool = True) -> Dict:
     """Serializes the fields of a Thing object into a json-ld dictionary (without context!)"""
 
     if exclude_none:
-        serialized_fields = {Context[obj.__class__][k]: getattr(obj, k) for k in obj.model_fields if
+        serialized_fields = {URIRefManager[obj.__class__][k]: getattr(obj, k) for k in obj.model_fields if
                              getattr(obj, k) is not None and k not in ('id', '@id')}
         # serialized_fields = {_parse_key(k): getattr(obj, k) for k in obj.model_fields if getattr(obj, k) is not None}
     else:
-        serialized_fields = {Context[obj.__class__][k]: getattr(obj, k) for k in obj.model_fields if k not in ('id', '@id')}
+        serialized_fields = {URIRefManager[obj.__class__][k]: getattr(obj, k) for k in obj.model_fields if
+                             k not in ('id', '@id')}
         # serialized_fields = {_parse_key(k): getattr(obj, k) for k in obj.model_fields}
     if obj.Config.extra == 'allow':
         for k, v in obj.model_extra.items():
-            serialized_fields[Context[obj.__class__].get(k, k)] = v
+            serialized_fields[URIRefManager[obj.__class__].get(k, k)] = v
 
     # datetime
     for k, v in serialized_fields.copy().items():
@@ -37,7 +38,7 @@ def serialize_fields(obj, exclude_none: bool = True) -> Dict:
         else:
             serialized_fields[key] = str(v)
 
-    _type = Context[obj.__class__].get(obj.__class__.__name__, obj.__class__.__name__)
+    _type = URIRefManager[obj.__class__].get(obj.__class__.__name__, obj.__class__.__name__)
 
     return {"@type": _type, **serialized_fields,
             "@id": obj.id if obj.id is not None else f'local:{str(uuid.uuid4())}'}
@@ -76,20 +77,11 @@ def dump_hdf(g, data: Dict, iris: Dict = None):
             g.attrs[k] = v
 
 
-def __validate_blank_node(value, handler, info):
-    if value.startswith('_:'):
-        return value
-    raise ValueError(f"Blank node must start with _: {value}")
-
-
-BlankNodeType = Annotated[str, WrapValidator(__validate_blank_node)]
-
-
 @namespaces(owl='http://www.w3.org/2002/07/owl#',
             rdfs='http://www.w3.org/2000/01/rdf-schema#',
             local='http://example.com/')
-@context(Thing='owl:Thing', label='rdfs:label')
-class Thing(AbstractModel):
+@urirefs(Thing='owl:Thing', label='rdfs:label')
+class Thing(PivMetaBaseModel):
     """owl:Thing
     """
     id: Union[str, HttpUrl, FileUrl, BlankNodeType, None] = None  # @id
@@ -132,13 +124,13 @@ class Thing(AbstractModel):
         def _get_explained_dict(obj):
             model_fields = {k: getattr(obj, k) for k in obj.model_fields if getattr(obj, k) is not None}
             model_fields.pop('id', None)
-            _context_manager = Context[obj.__class__]
-            _namespace_manager = NamespacePrefixManager[obj.__class__]
+            _context_manager = URIRefManager[obj.__class__]
+            _namespace_manager = NamespaceManager[obj.__class__]
             namespaced_fields = {}
 
-            assert isinstance(obj, AbstractModel)
+            assert isinstance(obj, PivMetaBaseModel)
 
-            rdf_type = Context[obj.__class__][obj.__class__.__name__]
+            rdf_type = URIRefManager[obj.__class__][obj.__class__.__name__]
             if ':' in rdf_type:
                 ns, field = rdf_type.split(':', 1)
                 at_type = f'{_namespace_manager[ns]}{field}'
@@ -159,11 +151,11 @@ class Thing(AbstractModel):
 
                 # namespaced_key = _resolve_namespaced_field(_context_manager.get(k, k))
                 # namespace_dict[k] = _context_manager.get(key, key)
-                if isinstance(v, AbstractModel):
+                if isinstance(v, PivMetaBaseModel):
                     namespaced_fields[explained_key] = _get_explained_dict(v)
                 else:
                     if isinstance(v, list):
-                        if all(isinstance(i, AbstractModel) for i in v):
+                        if all(isinstance(i, PivMetaBaseModel) for i in v):
                             namespaced_fields[explained_key] = [_get_explained_dict(i) for i in v]
                         else:
                             namespaced_fields[explained_key] = v

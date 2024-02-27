@@ -1,12 +1,14 @@
 from pydantic import EmailStr, HttpUrl
+from typing import Union
 
+from .. import namespaces, urirefs
 from ..owl import Thing
-from ..model import namespaces, context
+from ..typing import BlankNodeType
 
 
 @namespaces(prov="https://www.w3.org/ns/prov#",
             foaf="http://xmlns.com/foaf/0.1/")
-@context(Agent='prov:Agent',
+@urirefs(Agent='prov:Agent',
          mbox='foaf:mbox')
 class Agent(Thing):
     """Pydantic Model for https://www.w3.org/ns/prov#Agent
@@ -29,7 +31,7 @@ class Agent(Thing):
 
 
 @namespaces(schema='http://schema.org/')
-@context(Organisation='prov:Organisation',
+@urirefs(Organisation='prov:Organisation',
          name='foaf:name',
          url='schema:url'
          )
@@ -53,9 +55,11 @@ class Organisation(Agent):
     url: HttpUrl = None
 
 
-@context(Person='prov:Person',
+@urirefs(Person='prov:Person',
          firstName='foaf:firstName',
-         lastName='foaf:lastName')
+         lastName='foaf:lastName',
+         hadRole='prov:role',
+         wasRoleIn='prov:wasRoleIn')
 class Person(Agent):
     """Pydantic Model for https://www.w3.org/ns/prov#Person
 
@@ -77,3 +81,5 @@ class Person(Agent):
     """
     firstName: str = None  # foaf:firstName
     lastName: str = None  # foaf:lastName
+    hadRole: HttpUrl = None  # m4i:role
+    wasRoleIn: Union[HttpUrl, BlankNodeType] = None  # m4i:role

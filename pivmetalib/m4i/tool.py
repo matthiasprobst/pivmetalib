@@ -2,11 +2,11 @@ from typing import Union, List
 
 from .variable import Variable, NumericalVariable
 from ..owl import Thing
-from ..model import namespaces, context
+from .. import namespaces, urirefs
 
 
 @namespaces(m4i="http://w3id.org/nfdi4ing/metadata4ing#")
-@context(Tool='m4i:Tool',
+@urirefs(Tool='m4i:Tool',
          hasParameter='m4i:hasParameter')
 class Tool(Thing):
     """Pydantic Model for m4i:ProcessingStep

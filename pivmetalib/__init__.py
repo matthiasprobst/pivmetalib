@@ -2,11 +2,12 @@ import logging
 import requests
 from typing import Dict
 
+from . import utils
 from ._version import __version__
+from .decorator import namespaces, urirefs
 from .namespace import PIVMETA
 from .owl import Thing
 from .query_util import query
-from .utils import get_cache_dir
 
 DEFAULT_LOGGING_LEVEL = logging.WARNING
 _formatter = logging.Formatter(
@@ -21,7 +22,7 @@ logger = logging.getLogger(__package__)
 logger.addHandler(_stream_handler)
 
 CONTEXT = "https://raw.githubusercontent.com/matthiasprobst/pivmeta/main/pivmeta_context.jsonld"
-CACHE_DIR = get_cache_dir()
+CACHE_DIR = utils.get_cache_dir()
 
 
 def get_context_json() -> Dict:
@@ -31,10 +32,13 @@ def get_context_json() -> Dict:
     return r.json()
 
 
-__all__ = ('__version__',
-           'Thing',
-           'CONTEXT',
-           'CACHE_DIR',
-           'get_context_json',
-           'PIVMETA'
-           )
+__all__ = (
+    '__version__',
+    'Thing',
+    'CONTEXT',
+    'CACHE_DIR',
+    'get_context_json',
+    'PIVMETA',
+    'namespaces',
+    'urirefs'
+)

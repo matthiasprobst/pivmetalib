@@ -2,12 +2,13 @@ import pathlib
 import rdflib
 from typing import Union, Dict, List
 
-from .owl import Context, NamespacePrefixManager, Thing
+from .owl import URIRefManager, NamespaceManager, Thing
+from .utils import split_URIRef
 
 
 def get_query_string(cls) -> str:
     def _get_namespace(key):
-        ns = Context[cls].data.get(key, f'local:{key}')
+        ns = URIRefManager[cls].data.get(key, f'local:{key}')
         if ':' in ns:
             return ns
         return f'{ns}:{key}'
@@ -15,7 +16,7 @@ def get_query_string(cls) -> str:
     # generate query automatically based on fields
     fields = " ".join([f"?{k}" for k in cls.model_fields.keys() if k != 'id'])
     # better in a one-liner:
-    query_str = "".join([f"PREFIX {k}: <{v}>\n" for k, v in NamespacePrefixManager.namespaces.items()])
+    query_str = "".join([f"PREFIX {k}: <{v}>\n" for k, v in NamespaceManager.namespaces.items()])
 
     query_str += f"""
 SELECT ?id {fields}
@@ -34,7 +35,7 @@ WHERE {{{{
 
 def get_query_string(cls) -> str:
     def _get_namespace(key):
-        ns = Context[cls].get(key, f'local:{key}')
+        ns = URIRefManager[cls].get(key, f'local:{key}')
         if ':' in ns:
             return ns
         return f'{ns}:{key}'
@@ -42,7 +43,7 @@ def get_query_string(cls) -> str:
     # generate query automatically based on fields
     # fields = " ".join([f"?{k}" for k in cls.model_fields.keys() if k != 'id'])
     # better in a one-liner:
-    # query_str = "".join([f"PREFIX {k}: <{v}>\n" for k, v in NamespacePrefixManager.namespaces.items()])
+    # query_str = "".join([f"PREFIX {k}: <{v}>\n" for k, v in NamespaceManager.namespaces.items()])
 
     query_str = f"""
 SELECT *
@@ -93,18 +94,6 @@ class QueryResult:
         return self.cls.model_validate(self.dict())
 
 
-def split_URIRef(uri: rdflib.URIRef) -> List[Union[str, None]]:
-    """Split a URIRef into namespace and key."""
-    _uri = str(uri)
-    if _uri.startswith('http'):
-        if '#' in _uri:
-            return _uri.rsplit('#', 1)
-        return _uri.rsplit('/', 1)
-    if ':' in _uri:
-        return _uri.rsplit(':', 1)
-    return [None, uri]
-
-
 def _qurey_by_id(graph, id: Union[str, rdflib.URIRef]):
     _sub_query_string = """SELECT ?p ?o WHERE { <%s> ?p ?o }""" % id
     _sub_res = graph.query(_sub_query_string)
@@ -121,7 +110,7 @@ def query(cls: Thing, source: Union[str, Dict, pathlib.Path]) -> List:
     query_string = get_query_string(cls)
     g = rdflib.Graph()
 
-    for k, p in NamespacePrefixManager[cls].items():
+    for k, p in NamespaceManager[cls].items():
         g.bind(k, p)
     if isinstance(source, Dict):
         g.parse(data=source, format='json-ld',
@@ -138,13 +127,13 @@ def query(cls: Thing, source: Union[str, Dict, pathlib.Path]) -> List:
     # get model field dict as IRI
     # e.g. {'http://www.w3.org/2000/01/rdf-schema#description': 'description'}
     model_field_iri = {}
-    for model_field, iri in Context[cls].items():
+    for model_field, iri in URIRefManager[cls].items():
         ns, key = iri.split(':', 1)
-        ns_iri = NamespacePrefixManager[cls].get(ns, None)
+        ns_iri = NamespaceManager[cls].get(ns, None)
         if ns_iri is None:
             full_iri = key
         else:
-            full_iri = f'{NamespacePrefixManager[cls].get(ns)}{key}'
+            full_iri = f'{NamespaceManager[cls].get(ns)}{key}'
         model_field_iri[full_iri] = model_field
 
     n3dict = {}

@@ -2,11 +2,11 @@ import abc
 from typing import Union, Optional
 
 from ..owl import Thing
-from ..model import namespaces, context
+from .. import namespaces, urirefs
 
 
 @namespaces(m4i="http://w3id.org/nfdi4ing/metadata4ing#")
-@context(Variable='m4i:Variable',
+@urirefs(Variable='m4i:Variable',
          hasVariableDescription='m4i:hasVariableDescription',
          hasSymbol='m4i:hasSymbol', )
 class Variable(Thing, abc.ABC):
@@ -15,14 +15,14 @@ class Variable(Thing, abc.ABC):
     hasSymbol: Optional[str] = None  # "http://w3id.org/nfdi4ing/metadata4ing#hasSymbol"
 
 
-@context(TextVariable='m4i:TextVariable',
+@urirefs(TextVariable='m4i:TextVariable',
          hasStringValue='m4i:hasStringValue')
 class TextVariable(Variable):
     """Pydantic Model for m4i:TextVariable"""
     hasStringValue: str
 
 
-@context(NumericalVariable='m4i:NumericalVariable',
+@urirefs(NumericalVariable='m4i:NumericalVariable',
          has_numerical_value='m4i:hasNumericalValue',
          hasUnit='m4i:hasUnit',
          hasKindOfQuantity='m4i:hasKindOfQuantity',

@@ -3,11 +3,11 @@ from typing import Union, List
 
 from .thing import Thing
 from ..prov import Organisation, Person
-from ..model import namespaces, context
+from .. import namespaces, urirefs
 
 
 @namespaces(schema="https://schema.org/")
-@context(Project='schema:Research',
+@urirefs(Project='schema:Research',
          identifier='schema:identifier',
          startDate='schema:startDate',
          endDate='schema:endDate',
@@ -20,7 +20,7 @@ class Project(Thing):
     participant: Union[Person, Organisation, List[Union[Person, Organisation]]]
 
 
-@context(ResearchProject='schema:ResearchProject')
+@urirefs(ResearchProject='schema:ResearchProject')
 class ResearchProject(Project):
     """Pydantic Model for schema:ResearchProject
 

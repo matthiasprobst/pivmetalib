@@ -5,8 +5,8 @@ from enum import Enum
 from pydantic import HttpUrl, PositiveInt, field_validator
 from typing import Union, List
 
+from .. import namespaces, urirefs
 from ..dcat import Distribution
-from ..model import namespaces, context
 
 
 class PivDistribution(Distribution):
@@ -37,7 +37,7 @@ class PivImageType(Enum):
 
 
 @namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
-@context(PivDistribution='pivmeta:PivDistribution',
+@urirefs(PivDistribution='pivmeta:PivDistribution',
          filenamePattern='pivmeta:filenamePattern')
 class PivDistribution(Distribution):
     """Implementation of pivmeta:PivDistribution
@@ -84,7 +84,7 @@ class PivDistribution(Distribution):
 
 
 @namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
-@context(PivImageDistribution='pivmeta:PivImageDistribution',
+@urirefs(PivImageDistribution='pivmeta:PivImageDistribution',
          pivImageType='pivmeta:pivImageType',
          imageBitDepth='pivmeta:imageBitDepth',
          numberOfRecords='pivmeta:numberOfRecords')
@@ -122,12 +122,12 @@ class PivImageDistribution(PivDistribution):
 
 
 @namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
-@context(PivMaskDistribution='pivmeta:PivMaskDistribution')
+@urirefs(PivMaskDistribution='pivmeta:PivMaskDistribution')
 class PivMaskDistribution(PivDistribution):
     """Implementation of pivmeta:PivMaskDistribution"""
 
 
 @namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
-@context(PivResultDistribution='pivmeta:PivResultDistribution')
+@urirefs(PivResultDistribution='pivmeta:PivResultDistribution')
 class PivResultDistribution(PivDistribution):
     """Implementation of pivmeta:PivResultDistribution"""

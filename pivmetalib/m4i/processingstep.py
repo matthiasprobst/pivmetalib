@@ -7,7 +7,7 @@ from .method import Method
 from .tool import Tool
 from ..owl import Thing
 from ..schema import ResearchProject
-from ..model import namespaces, context
+from .. import namespaces, urirefs
 
 
 class Assignment(Thing):
@@ -21,7 +21,7 @@ class Activity(Thing, abc.ABC):
 @namespaces(m4i="http://w3id.org/nfdi4ing/metadata4ing#",
             schema="https://schema.org/",
             obo="http://purl.obolibrary.org/obo/")
-@context(ProcessingStep='m4i:ProcessingStep',
+@urirefs(ProcessingStep='m4i:ProcessingStep',
          startTime='schema:startTime',
          endTime='schema:endTime',
          starts_with='obo:starts_with',
