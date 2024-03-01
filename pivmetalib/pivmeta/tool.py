@@ -35,7 +35,7 @@ class PIVHardware(PivMetaTool):
 
 
 @namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
-@urirefs(PIVSoftware='pivmeta:Laser')
+@urirefs(Laser='pivmeta:Laser')
 class Laser(PIVHardware):
     """Pydantic implementation of pivmeta:Laser"""
 
