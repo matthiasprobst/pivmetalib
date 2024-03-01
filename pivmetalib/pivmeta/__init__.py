@@ -13,7 +13,7 @@ from .processingstep import (PivProcessingStep,
                              PivPostProcessing,
                              PivEvaluation,
                              BackgroundImageGeneration)
-from .tool import PIVSoftware
+from .tool import PIVSoftware, DigitalCamera, Laser
 from .variable import NumericalVariable
 
 __all__ = ('PivDistribution',
@@ -32,5 +32,7 @@ __all__ = ('PivDistribution',
            'PivEvaluation',
            'MaskGeneration',
            'BackgroundImageGeneration',
-           'PivImageType'
+           'PivImageType',
+           'DigitalCamera',
+           'Laser'
            )

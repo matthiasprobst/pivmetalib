@@ -78,6 +78,8 @@ class Distribution(Resource):
         Should be defined by the [IANA Media Types registry](https://www.iana.org/assignments/media-types/media-types.xhtml)
     byteSize: int = None
         Size of the distribution in bytes (dcat:byteSize)
+    keyword: List[str]
+        Keywords for the distribution.
     """
     downloadURL: Union[HttpUrl, FileUrl, pathlib.Path] = None  # dcat:downloadURL, e.g.
     mediaType: HttpUrl = None  # dcat:mediaType

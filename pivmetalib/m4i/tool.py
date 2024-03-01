@@ -1,8 +1,8 @@
 from typing import Union, List
 
-from .variable import Variable, NumericalVariable
-from ..owl import Thing
+from .variable import NumericalVariable, TextVariable, Variable
 from .. import namespaces, urirefs
+from ..owl import Thing
 
 
 @namespaces(m4i="http://w3id.org/nfdi4ing/metadata4ing#")
@@ -18,9 +18,12 @@ class Tool(Thing):
 
     Parameters
     ----------
-    tbd
+    hasParameter: TextVariable or NumericalVariable or list of them
+        Text or numerical variable
     """
-    hasParameter: Union[Variable, List[Variable]] = None
+    hasParameter: Union[TextVariable,
+                        NumericalVariable,
+                        List[Union[TextVariable, NumericalVariable]]] = None
 
     def add_numerical_variable(self, numerical_variable: NumericalVariable):
         """add numerical variable to tool"""
@@ -31,4 +34,4 @@ class Tool(Thing):
             self.hasParameter.append(numerical_variable)
         else:
             self.hasParameter = [self.hasParameter,
-                                  numerical_variable]
+                                 numerical_variable]

@@ -1,8 +1,8 @@
 import abc
 from typing import Union, Optional
 
-from ..owl import Thing
 from .. import namespaces, urirefs
+from ..owl import Thing
 
 
 @namespaces(m4i="http://w3id.org/nfdi4ing/metadata4ing#")
@@ -23,7 +23,7 @@ class TextVariable(Variable):
 
 
 @urirefs(NumericalVariable='m4i:NumericalVariable',
-         has_numerical_value='m4i:hasNumericalValue',
+         hasNumericalValue='m4i:hasNumericalValue',
          hasUnit='m4i:hasUnit',
          hasKindOfQuantity='m4i:hasKindOfQuantity',
          hasSymbol='m4i:hasSymbol')
@@ -39,7 +39,7 @@ class NumericalVariable(Variable):
     ----------
     tbd
     """
-    has_numerical_value: Union[int, float]  # M4I.Value
+    hasNumericalValue: Union[int, float]  # M4I.Value
     hasUnit: str = None  # http://w3id.org/nfdi4ing/metadata4ing#hasUnit
     hasKindOfQuantity: str = None  # http://w3id.org/nfdi4ing/metadata4ing#hasKindOfQuantity
     hasSymbol: str = None  # "http://w3id.org/nfdi4ing/metadata4ing#hasSymbol"
