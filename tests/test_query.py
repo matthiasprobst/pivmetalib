@@ -55,6 +55,8 @@ class TestQuery(unittest.TestCase):
         self.assertEqual(dist[0].title, 'raw piv image data')
         self.assertEqual(dist[0].filenamePattern, '^C\d{3}_\d.tif$')
 
+        pathlib.Path('piv_challenge.jsonld').unlink(missing_ok=True)
+
     def test_query_dataset(self):
         ds = dcat.Dataset(
             title='piv-challenge-1-C',

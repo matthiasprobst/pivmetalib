@@ -199,3 +199,9 @@ class Thing(PivMetaBaseModel):
         _fields = {k: getattr(self, k) for k in self.model_fields if getattr(self, k) is not None}
         repr_fields = ", ".join([f"{k}={v}" for k, v in _fields.items()])
         return f"{self.__class__.__name__}({repr_fields})"
+
+    @classmethod
+    def from_jsonld(cls, source):
+        """Initialize the class from a JSON-LD source"""
+        from . import query
+        return query(cls, source)

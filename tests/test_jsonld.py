@@ -1,10 +1,10 @@
 import json
-
+import rdflib
 import unittest
 
 from pivmetalib import CONTEXT
 from pivmetalib import m4i
-import rdflib
+
 
 class TestJSONLD(unittest.TestCase):
 
@@ -14,11 +14,11 @@ class TestJSONLD(unittest.TestCase):
             hasParameter=[
                 m4i.NumericalVariable(
                     name='mean',
-                    has_numerical_value=2.0
+                    hasNumericalValue=2.0
                 ),
                 m4i.NumericalVariable(
                     name='var',
-                    has_numerical_value=1.0
+                    hasNumericalValue=1.0
                 )
             ]
         )
