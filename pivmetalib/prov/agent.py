@@ -30,11 +30,12 @@ class Agent(Thing):
     #     return f"{self.__class__.__name__}({self.mbox})"
 
 
-@namespaces(schema='http://schema.org/')
+@namespaces(schema='http://schema.org/',
+            m4i='http://w3id.org/nfdi4ing/metadata4ing#')
 @urirefs(Organisation='prov:Organisation',
          name='foaf:name',
-         url='schema:url'
-         )
+         url='schema:url',
+         hasRorId='m4i:hasRorId')
 class Organisation(Agent):
     """Pydantic Model for https://www.w3.org/ns/prov#Organisation
 
@@ -47,12 +48,14 @@ class Organisation(Agent):
     ----------
     name: str
         Name of the Organisation (foaf:name)
-    mbox: EmailStr = None
-        Email address (foaf:mbox)
-    url: str = None
+    url: HttpUrl = None
+        URL of the item. From schema:url.
+    hasRorId: HttpUrl
+        A Research Organization Registry identifier, that points to a research organization
     """
     name: str  # foaf:name
     url: HttpUrl = None
+    hasRorId: HttpUrl = None
 
 
 @urirefs(Person='prov:Person',
@@ -74,8 +77,10 @@ class Person(Agent):
         First name (foaf:firstName)
     lastName: str = None
         Last name (foaf:lastName)
-    mbox: EmailStr = None
-        Email address (foaf:mbox)
+    hadRole: HttpUrl
+        prov:hadRole references the Role (i.e. the function of an entity with respect to an activity)
+    wasRoleIn: HttpUrl
+        prov:wasRoleIn references the association (e.g. between an agent and an activity) in which a role shall be defined. Inverse property of prov:hadRole.
 
     Extra fields are possible but not explicitly defined here.
     """
