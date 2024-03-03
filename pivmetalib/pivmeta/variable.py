@@ -1,7 +1,7 @@
 from pydantic import HttpUrl
-from ssnolib import StandardName
-from typing import Union
 
+from typing import Union
+from ..ssno import StandardName
 from .. import m4i
 from .. import namespaces, urirefs
 

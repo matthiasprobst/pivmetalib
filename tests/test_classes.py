@@ -1,15 +1,19 @@
 import json
 import pathlib
-import pydantic
-import rdflib
-import ssnolib
+# import ssnolib
 import time
 import unittest
 from datetime import datetime
 
+import pydantic
+import rdflib
+from namespacelib.qudt_unit import QUDT_UNIT
+
 import pivmetalib
 from pivmetalib import pivmeta, prov, m4i, owl
 from pivmetalib.decorator import URIRefManager
+from pivmetalib.m4i import NumericalVariable
+from pivmetalib.ssno import StandardName
 
 __this_dir__ = pathlib.Path(__file__).parent
 CACHE_DIR = pivmetalib.utils.get_cache_dir()
@@ -117,8 +121,6 @@ class TestPIVProcess(unittest.TestCase):
         print(ps1.dump_jsonld())
 
     def test_tool(self):
-        from pivmetalib.namespace import QUDT_UNIT
-        from pivmetalib.m4i import NumericalVariable
         tool = m4i.Tool(label='tool')
         tool.add_numerical_variable(
             NumericalVariable(
@@ -249,12 +251,12 @@ SELECT ?id ?name
                 self.assertEqual(len(entry['m4i:hasParameter']), 2)
 
     def test_parameter_with_standard_name(self):
-        sn1 = ssnolib.StandardName(standard_name='x_velocity',
-                                   description='x component of velocity',
-                                   canonical_units='m s-1')
-        sn2 = ssnolib.StandardName(standard_name='y_velocity',
-                                   description='y component of velocity',
-                                   canonical_units='m s-1')
+        sn1 = StandardName(standard_name='x_velocity',
+                           description='x component of velocity',
+                           canonical_units='m s-1')
+        sn2 = StandardName(standard_name='y_velocity',
+                           description='y component of velocity',
+                           canonical_units='m s-1')
         var1 = m4i.NumericalVariable(hasNumericalValue=4.2, hasStandardName=sn1)
         var2 = m4i.NumericalVariable(hasNumericalValue=5.2, hasStandardName=sn2)
         self.assertIsInstance(var1, owl.Thing)
@@ -265,12 +267,12 @@ SELECT ?id ?name
         self.assertEqual(var1.hasStandardName, sn1)
         self.assertNotEqual(var1.hasStandardName, sn2)
 
-        sn1 = ssnolib.StandardName(standard_name='x_velocity',
-                                   description='x component of velocity',
-                                   canonical_units='m s-1')
-        sn2 = ssnolib.StandardName(standard_name='y_velocity',
-                                   description='y component of velocity',
-                                   canonical_units='m s-1')
+        sn1 = StandardName(standard_name='x_velocity',
+                           description='x component of velocity',
+                           canonical_units='m s-1')
+        sn2 = StandardName(standard_name='y_velocity',
+                           description='y component of velocity',
+                           canonical_units='m s-1')
         var1 = pivmeta.NumericalVariable(hasNumericalValue=4.2, hasStandardName=sn1)
         var2 = pivmeta.NumericalVariable(hasNumericalValue=5.2, hasStandardName=sn2)
         self.assertIsInstance(var1, owl.Thing)

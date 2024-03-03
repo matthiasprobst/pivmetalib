@@ -26,7 +26,7 @@ def namespaces(**kwargs):
     --------
     @namespaces(ex="http://example.com/")
     @urirefs(name="ex:name")
-    class ExampleModel(PivMetaBaseModel):
+    class ExampleModel(ThingModel):
         name: str
 
     em = ExampleModel(name="test")
@@ -60,7 +60,7 @@ def urirefs(**kwargs):
     Example:
     --------
     @urirefs(name=URIRef("http://example.com/name"))
-    class ExampleModel(PivMetaBaseModel):
+    class ExampleModel(ThingModel):
         name: str
 
 

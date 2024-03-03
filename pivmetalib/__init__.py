@@ -1,12 +1,13 @@
 import logging
-import requests
 from typing import Dict
+
+import requests
+from namespacelib import PIVMETA
 
 from . import utils
 from ._version import __version__
 from .decorator import namespaces, urirefs
-from .model import PivMetaBaseModel
-from .namespace import PIVMETA
+from .model import ThingModel
 from .owl import Thing
 from .query_util import query
 
@@ -33,13 +34,13 @@ def get_context_json() -> Dict:
     return r.json()
 
 
-def get_iri_fields(obj: PivMetaBaseModel):
+def get_iri_fields(obj: ThingModel):
     """Get field names and their corresponding IRIs from the context file.
 
     Example:
     --------
     @namespaces(name="http://example.com/name", age="http://example.com/age")
-    class ExampleModel(PivMetaBaseModel):
+    class ExampleModel(ThingModel):
         name: str
         age: int
 

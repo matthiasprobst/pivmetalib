@@ -1,6 +1,6 @@
-from h5rdmtoolbox import namespace
-from pydantic import PositiveInt
 from typing import Union, List, Tuple
+
+from namespacelib.qudt_kind import QUDT_KIND
 
 from .variable import NumericalVariable
 from .. import namespaces, urirefs
@@ -74,7 +74,7 @@ class DigitalCamera(PIVHardware):
             NumericalVariable(
                 hasNumericalValue=focal_length_mm,
                 hasUnit='mm',
-                hasKindOfQuantity=namespace.QUDT_QUANTITYKIND.Length,
+                hasKindOfQuantity=QUDT_QKIND.Length,
                 hasStandardName="https://matthiasprobst.github.io/pivmeta#focal_length",
             )
         )
@@ -96,7 +96,7 @@ class DigitalCamera(PIVHardware):
                 NumericalVariable(
                     hasNumericalValue=w,
                     hasUnit='um',
-                    hasKindOfQuantity=namespace.QUDT_QUANTITYKIND.Length,
+                    hasKindOfQuantity=QUDT_KIND.Length,
                     hasStandardName="https://matthiasprobst.github.io/pivmeta#ccd_width")
             )
             cam_param['hasParameter'].append(

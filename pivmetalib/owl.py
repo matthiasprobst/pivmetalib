@@ -6,7 +6,7 @@ from pydantic import HttpUrl, FileUrl
 from typing import Dict, Union
 
 from .decorator import urirefs, namespaces, URIRefManager, NamespaceManager
-from .model import PivMetaBaseModel
+from .model import ThingModel
 from .typing import BlankNodeType
 
 
@@ -81,7 +81,7 @@ def dump_hdf(g, data: Dict, iris: Dict = None):
             rdfs='http://www.w3.org/2000/01/rdf-schema#',
             local='http://example.com/')
 @urirefs(Thing='owl:Thing', label='rdfs:label')
-class Thing(PivMetaBaseModel):
+class Thing(ThingModel):
     """owl:Thing
     """
     id: Union[str, HttpUrl, FileUrl, BlankNodeType, None] = None  # @id
@@ -128,7 +128,7 @@ class Thing(PivMetaBaseModel):
             _namespace_manager = NamespaceManager[obj.__class__]
             namespaced_fields = {}
 
-            assert isinstance(obj, PivMetaBaseModel)
+            assert isinstance(obj, ThingModel)
 
             rdf_type = URIRefManager[obj.__class__][obj.__class__.__name__]
             if ':' in rdf_type:
@@ -151,11 +151,11 @@ class Thing(PivMetaBaseModel):
 
                 # namespaced_key = _resolve_namespaced_field(_context_manager.get(k, k))
                 # namespace_dict[k] = _context_manager.get(key, key)
-                if isinstance(v, PivMetaBaseModel):
+                if isinstance(v, ThingModel):
                     namespaced_fields[explained_key] = _get_explained_dict(v)
                 else:
                     if isinstance(v, list):
-                        if all(isinstance(i, PivMetaBaseModel) for i in v):
+                        if all(isinstance(i, ThingModel) for i in v):
                             namespaced_fields[explained_key] = [_get_explained_dict(i) for i in v]
                         else:
                             namespaced_fields[explained_key] = v
