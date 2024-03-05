@@ -1,194 +1,361 @@
-{
-    "@context": {
-        "@import": "https://raw.githubusercontent.com/matthiasprobst/pivmeta/main/pivmeta_context.jsonld"
-    },
-    "@graph": [
-        {
-            "@id": "_:",
-            "@type": "ssno:PivProcessingStep",
-            "has_employed_tool": {
-                "@id": "_:Nb72d289a879345d69db587cbf7fb520b"
+[
+    {
+        "@id": "https://local-domain.org/890e1ce6-1762-4d5b-bfbd-82a9ed22f40b",
+        "@type": [
+            "pivmeta:OutlierDetectionMethod"
+        ],
+        "m4i:hasParameter": [
+            {
+                "@id": "https://local-domain.org/fa437c25-bf78-4152-94bf-adc7ce64e9c1"
             },
-            "name": "piv evaluation",
-            "obo:BFO_0000063": {
-                "@id": "_:Nd9252c25ac9942a08c40647c96dbfa8c"
-            },
-            "realizes_method": {
-                "@id": "_:N35feafbbce794c1e87d0f7e2bfee49da"
+            {
+                "@id": "https://local-domain.org/e441f571-bbe8-4cd5-a839-43cb1e92efad"
             }
-        },
-        {
-            "@id": "_:Nb72d289a879345d69db587cbf7fb520b",
-            "@type": "ssno:PIVSoftware",
-            "author": {
-                "@id": "_:N1eaaa0b9e6c84706a9ba5b97b8143bdd"
+        ]
+    },
+    {
+        "@id": "https://local-domain.org/fa437c25-bf78-4152-94bf-adc7ce64e9c1",
+        "@type": [
+            "m4i:NumericalVariable"
+        ],
+        "m4i:hasNumericalValue": [
+            {
+                "@value": "2.0"
+            }
+        ],
+        "rdfs:label": [
+            {
+                "@value": "mean"
+            }
+        ]
+    },
+    {
+        "@id": "https://local-domain.org/dbf6d09a-a1ee-4e5b-9cd0-a20ef359fb77",
+        "@type": [
+            "m4i:NumericalVariable"
+        ],
+        "m4i:hasNumericalValue": [
+            {
+                "@value": "64"
+            }
+        ],
+        "pivmeta:hasStandardName": [
+            {
+                "@value": "https://matthiasprobst.github.io/pivmeta#x_initial_interrogation_window_size"
+            }
+        ]
+    },
+    {
+        "@id": "https://local-domain.org/aa9ed54d-00af-4617-949d-24d8c796251b",
+        "@type": [
+            "file:///C:/Users/da4323/Documents/programming/git/pivmetalib/docs/PivPostProcessing"
+        ],
+        "m4i:hasOutput": [
+            {
+                "@id": "https://local-domain.org/2b229c36-3e92-4d62-956a-f2c654645759"
+            }
+        ],
+        "m4i:realizesMethod": [
+            {
+                "@id": "https://local-domain.org/3da9f8f1-daf2-4159-a533-e99bf79c612d"
+            }
+        ],
+        "rdfs:label": [
+            {
+                "@value": "Post processing"
+            }
+        ]
+    },
+    {
+        "@id": "https://local-domain.org/67dbf8fd-4140-4a15-9b90-2b6c334fe06f",
+        "@type": [
+            "pivmeta:PivImageDistribution"
+        ],
+        "dct:title": [
+            {
+                "@value": "ILA Vortex Pair Images"
+            }
+        ]
+    },
+    {
+        "@id": "https://local-domain.org/80f54b19-5360-46dc-9ff2-2aa287bac85d",
+        "@type": [
+            "m4i:NumericalVariable"
+        ],
+        "m4i:hasNumericalValue": [
+            {
+                "@value": "64"
+            }
+        ],
+        "pivmeta:hasStandardName": [
+            {
+                "@value": "https://matthiasprobst.github.io/pivmeta#y_initial_interrogation_window_size"
+            }
+        ]
+    },
+    {
+        "@id": "https://local-domain.org/a47d11b1-b2ab-43f6-8995-ee01429dc588",
+        "@type": [
+            "m4i:NumericalVariable"
+        ],
+        "m4i:hasNumericalValue": [
+            {
+                "@value": "8"
+            }
+        ],
+        "pivmeta:hasStandardName": [
+            {
+                "@value": "https://matthiasprobst.github.io/pivmeta#y_final_interrogation_window_overlap_size"
+            }
+        ]
+    },
+    {
+        "@id": "https://local-domain.org/629381be-9618-4a74-a810-8a8e9e5165bb",
+        "@type": [
+            "pivmeta:CorrelationAlgorithm"
+        ],
+        "schema:description": [
+            {
+                "@value": "The default mode of cross-correlation using FFTs to speed the computation. In principle the sum of pixel-wise multiplication of intensities is computed for each correlation offset (For implementation details please refer to Raffel et al. 2007)."
+            }
+        ]
+    },
+    {
+        "@id": "https://local-domain.org/ad34428e-b4ab-4c07-91f1-42a9924b0527",
+        "@type": [
+            "m4i:NumericalVariable"
+        ],
+        "m4i:hasNumericalValue": [
+            {
+                "@value": "16"
+            }
+        ],
+        "pivmeta:hasStandardName": [
+            {
+                "@value": "https://matthiasprobst.github.io/pivmeta#y_final_interrogation_window_size"
+            }
+        ]
+    },
+    {
+        "@id": "https://local-domain.org/35ef93c9-0384-409e-a845-1bc34c07312e",
+        "@type": [
+            "m4i:NumericalVariable"
+        ],
+        "m4i:hasNumericalValue": [
+            {
+                "@value": "3"
+            }
+        ],
+        "m4i:hasVariableDescription": [
+            {
+                "@value": "Number of multigrid passes"
+            }
+        ]
+    },
+    {
+        "@id": "https://local-domain.org/1b424570-3488-4f28-8089-0016c989d6da",
+        "@type": [
+            "m4i:NumericalVariable"
+        ],
+        "m4i:hasNumericalValue": [
+            {
+                "@value": "8"
+            }
+        ],
+        "pivmeta:hasStandardName": [
+            {
+                "@value": "https://matthiasprobst.github.io/pivmeta#x_final_interrogation_window_overlap_size"
+            }
+        ]
+    },
+    {
+        "@id": "https://local-domain.org/3da9f8f1-daf2-4159-a533-e99bf79c612d",
+        "@type": [
+            "m4i:Method"
+        ],
+        "m4i:hasParameter": [
+            {
+                "@id": "https://local-domain.org/bab89473-c414-4124-8192-f9aab55f8a81"
+            }
+        ],
+        "schema:description": [
+            {
+                "@value": "applies a low-pass filtering on the data using a Gaussian weighted kernel of specified width to reduce spurious noise."
+            }
+        ]
+    },
+    {
+        "@id": "https://local-domain.org/bab89473-c414-4124-8192-f9aab55f8a81",
+        "@type": [
+            "m4i:NumericalVariable"
+        ],
+        "m4i:hasNumericalValue": [
+            {
+                "@value": "2.0"
+            }
+        ],
+        "rdfs:label": [
+            {
+                "@value": "kernel"
+            }
+        ]
+    },
+    {
+        "@id": "https://local-domain.org/8462df07-b2e7-43ed-90eb-8192a0d21fce",
+        "@type": [
+            "pivmeta:OutlierDetectionMethod"
+        ],
+        "m4i:hasParameter": [
+            {
+                "@id": "https://local-domain.org/5d2f282e-c1db-4459-b449-0605373040b4"
+            }
+        ]
+    },
+    {
+        "@id": "https://local-domain.org/fcee4d11-8f8f-478d-b404-97881d3e5468",
+        "@type": [
+            "file:///C:/Users/da4323/Documents/programming/git/pivmetalib/docs/PivEvaluation"
+        ],
+        "m4i:precedes": [
+            {
+                "@id": "https://local-domain.org/aa9ed54d-00af-4617-949d-24d8c796251b"
+            }
+        ],
+        "m4i:realizesMethod": [
+            {
+                "@id": "https://local-domain.org/629381be-9618-4a74-a810-8a8e9e5165bb"
             },
-            "has_documentation": "https://www.pivtec.com/download/docs/PIVview_v36_Manual.pdf"
-        },
-        {
-            "@id": "_:N1eaaa0b9e6c84706a9ba5b97b8143bdd",
-            "@type": "ssno:Organization",
-            "mbox": "info@pivtec.com",
-            "name": "PIVTEC GmbH"
-        },
-        {
-            "@id": "_:N35feafbbce794c1e87d0f7e2bfee49da",
-            "@type": "ssno:InterrogationMethod",
-            "correlation_algorithm": {
-                "@id": "_:N8404f680a22f41bdb2393c3c8629c706"
+            {
+                "@id": "https://local-domain.org/753e8660-755c-4e7a-8c02-6766eacfd5b8"
             },
-            "description": "Run a multigrid PIV algorithm on all images",
-            "has_parameter": [
-                {
-                    "@id": "_:Nf2f95bf96c5f47a2ad17f53363cc0aff"
-                },
-                {
-                    "@id": "_:Nf53626085c9943ecb81d5c756b30b828"
-                },
-                {
-                    "@id": "_:Nd9246b1a603b4a79bce84e05a1260981"
-                },
-                {
-                    "@id": "_:N70866a2f3c7541aeb3b139a21212d937"
-                },
-                {
-                    "@id": "_:Nf03614d34de243e3bc0b44adca48d577"
-                },
-                {
-                    "@id": "_:Na20aa653fc1a47aebdd9d1f89d0396a2"
-                },
-                {
-                    "@id": "_:Nd923853da78f47a892bf7aaf447249d3"
-                }
-            ],
-            "name": "MultiGridInterrogationMethod"
-        },
-        {
-            "@id": "_:Nf2f95bf96c5f47a2ad17f53363cc0aff",
-            "@type": "ssno:Variable",
-            "Wert": "16"
-        },
-        {
-            "@id": "_:Nf53626085c9943ecb81d5c756b30b828",
-            "@type": "ssno:Variable",
-            "Wert": "16"
-        },
-        {
-            "@id": "_:Nd9246b1a603b4a79bce84e05a1260981",
-            "@type": "ssno:Variable",
-            "Wert": "64"
-        },
-        {
-            "@id": "_:N70866a2f3c7541aeb3b139a21212d937",
-            "@type": "ssno:Variable",
-            "Wert": "64"
-        },
-        {
-            "@id": "_:Nf03614d34de243e3bc0b44adca48d577",
-            "@type": "ssno:Variable",
-            "Wert": "8"
-        },
-        {
-            "@id": "_:Na20aa653fc1a47aebdd9d1f89d0396a2",
-            "@type": "ssno:Variable",
-            "Wert": "8"
-        },
-        {
-            "@id": "_:Nd923853da78f47a892bf7aaf447249d3",
-            "@type": "ssno:Variable",
-            "Wert": "3"
-        },
-        {
-            "@id": "_:N8404f680a22f41bdb2393c3c8629c706",
-            "@type": "ssno:CorrelationAlgorithm",
-            "description": "The default mode of cross-correlation using FFTs to speed the computation. In principle the sum of pixel-wise multiplication of intensities is computed for each correlation offset (For implementation details please refer to Raffel et al. 2007).",
-            "name": "Standard (FFT) Correlation"
-        },
-        {
-            "@id": "_:Nd9252c25ac9942a08c40647c96dbfa8c",
-            "@type": "ssno:ProcessingStep",
-            "has_employed_tool": {
-                "@id": "_:N82e584d939654084a48ed2c597519817"
+            {
+                "@id": "https://local-domain.org/8462df07-b2e7-43ed-90eb-8192a0d21fce"
             },
-            "has_output": {
-                "@id": "_:N37c0dd9fad2d4f018dca2dcc6a1651e9"
+            {
+                "@id": "https://local-domain.org/890e1ce6-1762-4d5b-bfbd-82a9ed22f40b"
+            }
+        ],
+        "rdfs:label": [
+            {
+                "@value": "piv evaluation"
+            }
+        ]
+    },
+    {
+        "@id": "https://local-domain.org/efcd688e-6af5-4918-bcd9-aa58ea6bbad7",
+        "@type": [
+            "pivmeta:PivResultDistribution"
+        ],
+        "dcat:downloadURL": [
+            {
+                "@value": "file:///vp1a.dat"
+            }
+        ],
+        "dct:title": [
+            {
+                "@value": "Result File"
+            }
+        ]
+    },
+    {
+        "@id": "https://local-domain.org/5d2f282e-c1db-4459-b449-0605373040b4",
+        "@type": [
+            "m4i:NumericalVariable"
+        ],
+        "m4i:hasNumericalValue": [
+            {
+                "@value": "3.0"
+            }
+        ],
+        "rdfs:label": [
+            {
+                "@value": "threshold"
+            }
+        ]
+    },
+    {
+        "@id": "https://local-domain.org/753e8660-755c-4e7a-8c02-6766eacfd5b8",
+        "@type": [
+            "m4i:Method"
+        ],
+        "m4i:hasParameter": [
+            {
+                "@id": "https://local-domain.org/dbf6d09a-a1ee-4e5b-9cd0-a20ef359fb77"
             },
-            "name": "OutlierDetection",
-            "realizes_method": [
-                {
-                    "@id": "_:N7cfb9b71c9044501837945793ae3e086"
-                },
-                {
-                    "@id": "_:N372e2687cf204d429a9bda4bd331221e"
-                }
-            ]
-        },
-        {
-            "@id": "_:N82e584d939654084a48ed2c597519817",
-            "@type": "ssno:PIVSoftware",
-            "author": {
-                "@id": "_:N28d5374f1d7e44afa8b05a9b0fba528b"
+            {
+                "@id": "https://local-domain.org/80f54b19-5360-46dc-9ff2-2aa287bac85d"
             },
-            "has_documentation": "https://www.pivtec.com/download/docs/PIVview_v36_Manual.pdf"
-        },
-        {
-            "@id": "_:N28d5374f1d7e44afa8b05a9b0fba528b",
-            "@type": "ssno:Organization",
-            "mbox": "info@pivtec.com",
-            "name": "PIVTEC GmbH"
-        },
-        {
-            "@id": "_:N7cfb9b71c9044501837945793ae3e086",
-            "@type": "ssno:Method",
-            "has_parameter": {
-                "@id": "_:N5b9fcd13017e42bf8c9896700bca8881"
+            {
+                "@id": "https://local-domain.org/7fc0cfcd-d0a4-4bf2-bfb4-ea002fc05cb6"
             },
-            "name": "normalized median test"
-        },
-        {
-            "@id": "_:N5b9fcd13017e42bf8c9896700bca8881",
-            "@type": "ssno:Variable",
-            "Wert": "3.0",
-            "name": "threshold"
-        },
-        {
-            "@id": "_:N372e2687cf204d429a9bda4bd331221e",
-            "@type": "ssno:Method",
-            "has_parameter": [
-                {
-                    "@id": "_:Need6909d3d84445abdecff0bb6c753a2"
-                },
-                {
-                    "@id": "_:N64dc483970724070a415fe8f3508bd13"
-                }
-            ],
-            "name": "dynmaic mean test"
-        },
-        {
-            "@id": "_:Need6909d3d84445abdecff0bb6c753a2",
-            "@type": "ssno:Variable",
-            "Wert": "2.0",
-            "name": "mean"
-        },
-        {
-            "@id": "_:N64dc483970724070a415fe8f3508bd13",
-            "@type": "ssno:Variable",
-            "Wert": "1.0",
-            "name": "var"
-        },
-        {
-            "@id": "_:N37c0dd9fad2d4f018dca2dcc6a1651e9",
-            "@type": "ssno:Dataset",
-            "distribution": {
-                "@id": "_:N2c0f6107beb34e769eb1dd8daccc708e"
+            {
+                "@id": "https://local-domain.org/ad34428e-b4ab-4c07-91f1-42a9924b0527"
             },
-            "title": "ILA Vortex Pair"
-        },
-        {
-            "@id": "_:N2c0f6107beb34e769eb1dd8daccc708e",
-            "@type": "ssno:PivResultDistribution",
-            "download_URL": "file:///vp1a.dat",
-            "title": "Result File"
-        }
-    ]
-}
+            {
+                "@id": "https://local-domain.org/1b424570-3488-4f28-8089-0016c989d6da"
+            },
+            {
+                "@id": "https://local-domain.org/a47d11b1-b2ab-43f6-8995-ee01429dc588"
+            },
+            {
+                "@id": "https://local-domain.org/35ef93c9-0384-409e-a845-1bc34c07312e"
+            }
+        ],
+        "schema:description": [
+            {
+                "@value": "Run a multigrid PIV algorithm on all images"
+            }
+        ]
+    },
+    {
+        "@id": "https://local-domain.org/e441f571-bbe8-4cd5-a839-43cb1e92efad",
+        "@type": [
+            "m4i:NumericalVariable"
+        ],
+        "m4i:hasNumericalValue": [
+            {
+                "@value": "1.0"
+            }
+        ],
+        "rdfs:label": [
+            {
+                "@value": "var"
+            }
+        ]
+    },
+    {
+        "@id": "https://local-domain.org/7fc0cfcd-d0a4-4bf2-bfb4-ea002fc05cb6",
+        "@type": [
+            "m4i:NumericalVariable"
+        ],
+        "m4i:hasNumericalValue": [
+            {
+                "@value": "16"
+            }
+        ],
+        "pivmeta:hasStandardName": [
+            {
+                "@value": "https://matthiasprobst.github.io/pivmeta#x_final_interrogation_window_size"
+            }
+        ]
+    },
+    {
+        "@id": "https://local-domain.org/2b229c36-3e92-4d62-956a-f2c654645759",
+        "@type": [
+            "dcat:Dataset"
+        ],
+        "dcat:distribution": [
+            {
+                "@id": "https://local-domain.org/efcd688e-6af5-4918-bcd9-aa58ea6bbad7"
+            },
+            {
+                "@id": "https://local-domain.org/67dbf8fd-4140-4a15-9b90-2b6c334fe06f"
+            }
+        ],
+        "dct:title": [
+            {
+                "@value": "ILA Vortex Pair"
+            }
+        ]
+    }
+]

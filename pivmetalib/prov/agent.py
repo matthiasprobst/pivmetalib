@@ -2,7 +2,7 @@ from pydantic import EmailStr, HttpUrl
 from typing import Union
 
 from .. import namespaces, urirefs
-from ..owl import Thing
+from ontolutils import Thing
 from ..typing import BlankNodeType
 
 

@@ -1,6 +1,8 @@
 import pathlib
 import unittest
 
+import ontolutils
+
 import pivmetalib
 from pivmetalib import PIVMETA  # the namespace module containing the URI addresses
 from pivmetalib import dcat  # .dcat import Dataset, Distribution
@@ -45,12 +47,13 @@ class TestQuery(unittest.TestCase):
         )
 
         with open('piv_challenge.jsonld', 'w') as f:
-            json_ld_str = ds.dump_jsonld()
+            json_ld_str = ds.dump_jsonld(
+                context='https://raw.githubusercontent.com/matthiasprobst/pivmeta/main/pivmeta_context.jsonld')
             f.write(
-                ds.dump_jsonld()
+                json_ld_str
             )
 
-        dist = pivmetalib.query(pivmeta.PivImageDistribution, source='piv_challenge.jsonld')
+        dist = ontolutils.query(pivmeta.PivImageDistribution, source='piv_challenge.jsonld')
         self.assertEqual(len(dist), 1)
         self.assertEqual(dist[0].title, 'raw piv image data')
         self.assertEqual(dist[0].filenamePattern, '^C\d{3}_\d.tif$')
@@ -87,9 +90,10 @@ class TestQuery(unittest.TestCase):
             ]
         )
         with open('piv_challenge.jsonld', 'w') as f:
-            json_ld_str = ds.dump_jsonld()
+            json_ld_str = ds.dump_jsonld(
+                context='https://raw.githubusercontent.com/matthiasprobst/pivmeta/main/pivmeta_context.jsonld')
             f.write(
-                ds.dump_jsonld()
+                json_ld_str
             )
-        dss = pivmetalib.query(dcat.Dataset, source='piv_challenge.jsonld')
+        dss = ontolutils.query(dcat.Dataset, source='piv_challenge.jsonld')
         ds = dss[0]

@@ -2,14 +2,11 @@ import logging
 from typing import Dict
 
 import requests
-from namespacelib import PIVMETA
+from ontolutils import PIVMETA, namespaces, urirefs, Thing
+from ontolutils.classes import decorator
 
 from . import utils
 from ._version import __version__
-from .decorator import namespaces, urirefs
-from .model import ThingModel
-from .owl import Thing
-from .query_util import query
 
 DEFAULT_LOGGING_LEVEL = logging.WARNING
 _formatter = logging.Formatter(
@@ -34,13 +31,13 @@ def get_context_json() -> Dict:
     return r.json()
 
 
-def get_iri_fields(obj: ThingModel):
+def get_iri_fields(obj: Thing):
     """Get field names and their corresponding IRIs from the context file.
 
     Example:
     --------
     @namespaces(name="http://example.com/name", age="http://example.com/age")
-    class ExampleModel(ThingModel):
+    class ExampleModel(Thing):
         name: str
         age: int
 
@@ -48,10 +45,9 @@ def get_iri_fields(obj: ThingModel):
     print(pivmetalib.get_iri_fields(em))
     # {'name': 'http://example.com/name', 'age': 'http://example.com/age'}
     """
-    from .decorator import URIRefManager, NamespaceManager
-    namespaces = NamespaceManager[obj.__class__]
+    namespaces = decorator.NamespaceManager[obj.__class__]
     iri_fields = {}
-    for k, v in URIRefManager[obj.__class__].items():
+    for k, v in decorator.URIRefManager[obj.__class__].items():
         ns, key = utils.split_URIRef(v)
         full_ns = namespaces.get(ns, None)
         if full_ns is None:
@@ -63,11 +59,7 @@ def get_iri_fields(obj: ThingModel):
 
 __all__ = (
     '__version__',
-    'Thing',
     'CONTEXT',
     'CACHE_DIR',
-    'get_context_json',
-    'PIVMETA',
-    'namespaces',
-    'urirefs'
+    'get_context_json'
 )

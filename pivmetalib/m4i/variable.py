@@ -2,7 +2,7 @@ import abc
 from typing import Union, Optional
 
 from .. import namespaces, urirefs
-from ..owl import Thing
+from ontolutils import Thing
 
 
 @namespaces(m4i="http://w3id.org/nfdi4ing/metadata4ing#")

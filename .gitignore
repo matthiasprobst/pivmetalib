@@ -20,3 +20,6 @@ docs/class_structure_pub.svg
 *.json
 *.h5
 *.doc
+*.txt
+*.json
+*.jsonld

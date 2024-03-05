@@ -5,7 +5,9 @@ from .distribution import (PivDistribution,
                            PivMaskDistribution)
 from .method import (ImageManipulationMethod,
                      InterrogationMethod,
-                     CorrelationAlgorithm)
+                     CorrelationAlgorithm,
+                     OutlierDetectionMethod,
+                     )
 from .processingstep import (PivProcessingStep,
                              ImageRotation,
                              MaskGeneration,
@@ -23,6 +25,7 @@ __all__ = ('PivDistribution',
            'PIVSoftware',
            'ImageManipulationMethod',
            'InterrogationMethod',
+           'OutlierDetectionMethod',
            'ImageRotation',
            'NumericalVariable',
            'PivProcessingStep',

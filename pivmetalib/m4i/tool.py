@@ -2,7 +2,7 @@ from typing import Union, List
 
 from .variable import NumericalVariable, TextVariable, Variable
 from .. import namespaces, urirefs
-from ..owl import Thing
+from ontolutils import Thing
 
 
 @namespaces(m4i="http://w3id.org/nfdi4ing/metadata4ing#")

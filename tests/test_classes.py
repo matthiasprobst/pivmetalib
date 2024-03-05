@@ -5,13 +5,14 @@ import time
 import unittest
 from datetime import datetime
 
+import ontolutils
 import pydantic
 import rdflib
-from namespacelib.qudt_unit import QUDT_UNIT
+from ontolutils import QUDT_UNIT
+from ontolutils.classes.decorator import URIRefManager
 
 import pivmetalib
-from pivmetalib import pivmeta, prov, m4i, owl
-from pivmetalib.decorator import URIRefManager
+from pivmetalib import pivmeta, prov, m4i
 from pivmetalib.m4i import NumericalVariable
 from pivmetalib.ssno import StandardName
 
@@ -23,7 +24,10 @@ class TestPIVProcess(unittest.TestCase):
 
     def check_jsonld_string(self, jsonld_string):
         g = rdflib.Graph()
-        g.parse(data=json.loads(jsonld_string), format='json-ld')
+        g.parse(data=jsonld_string, format='json-ld',
+                context={'m4i': 'http://w3id.org/nfdi4ing/metadata4ing#',
+                         'rdf': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
+                         'rdfs': 'http://www.w3.org/2000/01/rdf-schema#'})
         self.assertTrue(len(g) > 0)
         for s, p, o in g:
             self.assertIsInstance(p, rdflib.URIRef)
@@ -96,7 +100,7 @@ class TestPIVProcess(unittest.TestCase):
         )
         with open('software.jsonld', 'w') as f:
             f.write(pivtec.dump_jsonld())
-        print(pivmetalib.query(pivmeta.PIVSoftware, 'software.jsonld'))
+        print(ontolutils.query(pivmeta.PIVSoftware, source='software.jsonld'))
 
     def test_preprocessing_step(self):
         ps1 = m4i.ProcessingStep(label='p1', startTime=datetime.now())
@@ -107,9 +111,9 @@ class TestPIVProcess(unittest.TestCase):
         with self.assertRaises(TypeError):
             ps1.starts_with = 123
         self.assertTrue(ps2.startTime > ps1.startTime)
-        self.assertIsInstance(ps1, owl.Thing)
+        self.assertIsInstance(ps1, ontolutils.Thing)
         self.assertIsInstance(ps1, m4i.ProcessingStep)
-        self.assertIsInstance(ps1.starts_with, owl.Thing)
+        self.assertIsInstance(ps1.starts_with, ontolutils.Thing)
         self.assertIsInstance(ps1.starts_with, m4i.ProcessingStep)
         self.assertEqual(ps1.starts_with, ps2)
 
@@ -148,9 +152,9 @@ class TestPIVProcess(unittest.TestCase):
         )
         self.assertEqual(mycompany.author.name, 'My GmbH')
         self.assertEqual(mycompany.author.mbox, 'info@mycompany.com')
-        self.assertIsInstance(mycompany, owl.Thing)
+        self.assertIsInstance(mycompany, ontolutils.Thing)
         self.assertIsInstance(mycompany, pivmeta.PIVSoftware)
-        self.assertIsInstance(mycompany.author, owl.Thing)
+        self.assertIsInstance(mycompany.author, ontolutils.Thing)
         self.assertIsInstance(mycompany.author, prov.Organisation)
 
         mycompany2 = pivmeta.PIVSoftware(
@@ -166,13 +170,13 @@ class TestPIVProcess(unittest.TestCase):
             ],
         )
         self.assertIsInstance(mycompany2.author, list)
-        self.assertIsInstance(mycompany2.author[0], owl.Thing)
+        self.assertIsInstance(mycompany2.author[0], ontolutils.Thing)
         self.assertIsInstance(mycompany2.author[0], prov.Organisation)
         self.assertEqual(mycompany2.author[0].name, 'My GmbH')
         self.assertEqual(mycompany2.author[0].mbox, 'info@mycompany.com')
-        self.assertIsInstance(mycompany2.author[1], owl.Thing)
+        self.assertIsInstance(mycompany2.author[1], ontolutils.Thing)
         self.assertIsInstance(mycompany2.author[1], prov.Person)
-        self.assertIsInstance(mycompany2, owl.Thing)
+        self.assertIsInstance(mycompany2, ontolutils.Thing)
         self.assertIsInstance(mycompany2, pivmeta.PIVSoftware)
 
     def test_variable(self):
@@ -180,7 +184,7 @@ class TestPIVProcess(unittest.TestCase):
                                      name='var1',
                                      # not part of ontology and defined in model. will not add a namespace
                                      hasNumericalValue=4.2)
-        self.assertIsInstance(var1, owl.Thing)
+        self.assertIsInstance(var1, ontolutils.Thing)
         self.assertIsInstance(var1, m4i.NumericalVariable)
         self.assertEqual(var1.label, 'Name of the variable')
         self.assertEqual(var1.hasNumericalValue, 4.2)
@@ -190,7 +194,10 @@ class TestPIVProcess(unittest.TestCase):
         print(jsonld_string)
 
         g = rdflib.Graph()
-        g.parse(data=json.loads(jsonld_string), format='json-ld')
+        g.parse(data=jsonld_string, format='json-ld',
+                context={'m4i': 'http://w3id.org/nfdi4ing/metadata4ing#',
+                         'rdf': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
+                         'rdfs': 'http://www.w3.org/2000/01/rdf-schema#'})
 
         for t in g:
             print(t)
@@ -208,7 +215,7 @@ SELECT ?id ?name
     def test_method_no_parameters(self):
         # method without parameters:
         method1 = m4i.Method(label='method1')
-        self.assertIsInstance(method1, owl.Thing)
+        self.assertIsInstance(method1, ontolutils.Thing)
         self.assertIsInstance(method1, m4i.Method)
         self.assertEqual(method1.label, 'method1')
 
@@ -219,7 +226,7 @@ SELECT ?id ?name
         # method with 1 parameter:
         var1 = m4i.NumericalVariable(hasNumericalValue=4.2)
         method2 = m4i.Method(label='method2', hasParameter=var1)
-        self.assertIsInstance(method2, owl.Thing)
+        self.assertIsInstance(method2, ontolutils.Thing)
         self.assertIsInstance(method2, m4i.Method)
         self.assertEqual(method2.label, 'method2')
         self.assertEqual(method2.hasParameter, var1)
@@ -233,13 +240,15 @@ SELECT ?id ?name
         var1 = m4i.NumericalVariable(hasNumericalValue=4.2)
         var2 = m4i.NumericalVariable(hasNumericalValue=5.2)
         method3 = m4i.Method(label='method3', hasParameter=[var1, var2])
-        self.assertIsInstance(method3, owl.Thing)
+        self.assertIsInstance(method3, ontolutils.Thing)
         self.assertIsInstance(method3, m4i.Method)
         self.assertEqual(method3.label, 'method3')
         self.assertIsInstance(method3.hasParameter, list)
         self.assertEqual(method3.hasParameter, [var1, var2])
 
-        jsonld_string = method3.dump_jsonld()
+        jsonld_string = method3.dump_jsonld(
+            context='https://raw.githubusercontent.com/matthiasprobst/pivmeta/main/pivmeta_context.jsonld'
+        )
         self.check_jsonld_string(jsonld_string)
 
         jsonld_dict = json.loads(jsonld_string)
@@ -259,7 +268,7 @@ SELECT ?id ?name
                            canonical_units='m s-1')
         var1 = m4i.NumericalVariable(hasNumericalValue=4.2, hasStandardName=sn1)
         var2 = m4i.NumericalVariable(hasNumericalValue=5.2, hasStandardName=sn2)
-        self.assertIsInstance(var1, owl.Thing)
+        self.assertIsInstance(var1, ontolutils.Thing)
         self.assertIsInstance(var1, m4i.NumericalVariable)
         self.assertIsInstance(var2, m4i.NumericalVariable)
         self.assertEqual(var1.hasNumericalValue, 4.2)
@@ -275,7 +284,7 @@ SELECT ?id ?name
                            canonical_units='m s-1')
         var1 = pivmeta.NumericalVariable(hasNumericalValue=4.2, hasStandardName=sn1)
         var2 = pivmeta.NumericalVariable(hasNumericalValue=5.2, hasStandardName=sn2)
-        self.assertIsInstance(var1, owl.Thing)
+        self.assertIsInstance(var1, ontolutils.Thing)
         self.assertIsInstance(var1, pivmeta.NumericalVariable)
         self.assertEqual(var1.hasNumericalValue, 4.2)
 
@@ -294,13 +303,15 @@ SELECT ?id ?name
                                            filenamePattern=r'img\d{4}_[a,b].tif')
         self.assertEqual(URIRefManager[pivmeta.PivDistribution]['filenamePattern'], 'pivmeta:filenamePattern')
 
-        self.assertIsInstance(piv_dist, owl.Thing)
+        self.assertIsInstance(piv_dist, ontolutils.Thing)
         self.assertIsInstance(piv_dist, pivmeta.PivDistribution)
         self.assertEqual(piv_dist.label, 'piv_distribution')
         self.assertEqual(piv_dist.filenamePattern, r'img\d{4}_[a,b].tif')
-        jsonld_string = piv_dist.dump_jsonld()
-        found_dist = pivmetalib.query(pivmeta.PivDistribution,
-                                      json.loads(jsonld_string))
+        jsonld_string = piv_dist.dump_jsonld(
+            context='https://raw.githubusercontent.com/matthiasprobst/pivmeta/main/pivmeta_context.jsonld')
+        found_dist = ontolutils.query(pivmeta.PivDistribution,
+                                      data=jsonld_string,
+                                      context='https://raw.githubusercontent.com/matthiasprobst/pivmeta/main/pivmeta_context.jsonld')
         self.assertEqual(len(found_dist), 1)
         self.assertEqual(found_dist[0].label, 'piv_distribution')
         self.assertEqual(found_dist[0].filenamePattern, r'img\d{4}_[a,b].tif')

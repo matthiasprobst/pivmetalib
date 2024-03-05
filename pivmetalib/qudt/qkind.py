@@ -1,5 +1,5 @@
 from .. import namespaces, urirefs
-from ..owl import Thing
+from ontolutils import Thing
 
 
 @namespaces(qudt="http://qudt.org/schema/qudt/")

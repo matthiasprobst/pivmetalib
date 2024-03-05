@@ -1,13 +1,12 @@
 from typing import Union, List, Tuple
 
-from namespacelib.qudt_kind import QUDT_KIND
+from ontolutils import QUDT_KIND
 
 from .variable import NumericalVariable
 from .. import namespaces, urirefs
 from .. import sd, m4i
 from ..m4i.variable import NumericalVariable as M4iNumericalVariable
 from ..m4i.variable import TextVariable
-
 
 class PivMetaTool(m4i.Tool):
     hasParameter: Union[
@@ -74,7 +73,7 @@ class DigitalCamera(PIVHardware):
             NumericalVariable(
                 hasNumericalValue=focal_length_mm,
                 hasUnit='mm',
-                hasKindOfQuantity=QUDT_QKIND.Length,
+                hasKindOfQuantity=QUDT_KIND.Length,
                 hasStandardName="https://matthiasprobst.github.io/pivmeta#focal_length",
             )
         )
@@ -103,7 +102,7 @@ class DigitalCamera(PIVHardware):
                 NumericalVariable(
                     hasNumericalValue=h,
                     hasUnit='um',
-                    hasKindOfQuantity=namespace.QUDT_QUANTITYKIND.Length,
+                    hasKindOfQuantity=QUDT_KIND.Length,
                     hasStandardName="https://matthiasprobst.github.io/pivmeta#ccd_height")
             )
         for k, v in kwargs.items():

@@ -8,12 +8,13 @@ import re
 import shutil
 import uuid
 from datetime import datetime
-from dateutil import parser
-from pydantic import HttpUrl, FileUrl, field_validator
 from typing import Union, List
 
-from ..decorator import namespaces, urirefs
-from ..owl import Thing
+from dateutil import parser
+from ontolutils import Thing
+from ontolutils import urirefs, namespaces
+from pydantic import HttpUrl, FileUrl, field_validator
+
 from ..prov import Person, Organisation, Agent
 from ..utils import download_file
 from ..utils import is_zip_file, get_cache_dir
@@ -96,6 +97,9 @@ class Distribution(Resource):
                  dest_filename: Union[str, pathlib.Path] = None,
                  overwrite_existing: bool = False) -> pathlib.Path:
         """Downloads the distribution"""
+
+        if self.downloadURL is None:
+            raise ValueError('The downloadURL is not defined')
 
         def _parse_file_url(furl):
             """in windows, we might need to strip the leading slash"""

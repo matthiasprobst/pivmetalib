@@ -1,22 +1,39 @@
-{
-    "@context": {
-        "@import": "https://raw.githubusercontent.com/matthiasprobst/pivmeta/main/pivmeta_context.jsonld"
+[
+    {
+        "@id": "https://local-domain.org/62fdec42-eaea-4a1c-bf0b-7aee071b3bb9",
+        "@type": [
+            "pivmeta:PIVSoftware"
+        ],
+        "schema:author": [
+            {
+                "@id": "https://local-domain.org/fb33ec97-7972-460a-a598-701bb4fbbf0c"
+            }
+        ],
+        "sd:hasDocumentation": [
+            {
+                "@value": "https://www.pivtec.com/download/docs/PIVview_v36_Manual.pdf"
+            }
+        ]
     },
-    "@graph": [
-        {
-            "@id": "https://local-domain.org/9547cfb7-8a79-4c36-921b-a013377eea3f",
-            "@type": "prov:Organisation",
-            "foaf:mbox": "info@pivtec.com",
-            "foaf:name": "PIVTEC GmbH",
-            "schema:url": "https://www.pivtec.com/"
-        },
-        {
-            "@id": "https://local-domain.org/9885f49c-408e-4256-a16a-3e2026acffe8",
-            "@type": "Piv Software",
-            "schema:author": {
-                "@id": "https://local-domain.org/9547cfb7-8a79-4c36-921b-a013377eea3f"
-            },
-            "sd:hasDocumentation": "https://www.pivtec.com/download/docs/PIVview_v36_Manual.pdf"
-        }
-    ]
-}
+    {
+        "@id": "https://local-domain.org/fb33ec97-7972-460a-a598-701bb4fbbf0c",
+        "@type": [
+            "prov:Organisation"
+        ],
+        "foaf:mbox": [
+            {
+                "@value": "info@pivtec.com"
+            }
+        ],
+        "foaf:name": [
+            {
+                "@value": "PIVTEC GmbH"
+            }
+        ],
+        "schema:url": [
+            {
+                "@value": "https://www.pivtec.com/"
+            }
+        ]
+    }
+]

@@ -5,7 +5,7 @@ from typing import Any, List, Union
 
 from .method import Method
 from .tool import Tool
-from ..owl import Thing
+from ontolutils import Thing
 from ..schema import ResearchProject
 from .. import namespaces, urirefs
 
