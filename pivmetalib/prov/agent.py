@@ -6,12 +6,12 @@ from ontolutils import Thing
 from ..typing import BlankNodeType
 
 
-@namespaces(prov="https://www.w3.org/ns/prov#",
+@namespaces(prov="http://www.w3.org/ns/prov#",
             foaf="http://xmlns.com/foaf/0.1/")
 @urirefs(Agent='prov:Agent',
          mbox='foaf:mbox')
 class Agent(Thing):
-    """Pydantic Model for https://www.w3.org/ns/prov#Agent
+    """Pydantic Model for http://www.w3.org/ns/prov#Agent
 
     .. note::
 
@@ -37,7 +37,7 @@ class Agent(Thing):
          url='schema:url',
          hasRorId='m4i:hasRorId')
 class Organisation(Agent):
-    """Pydantic Model for https://www.w3.org/ns/prov#Organisation
+    """Pydantic Model for http://www.w3.org/ns/prov#Organisation
 
     .. note::
 
@@ -57,14 +57,14 @@ class Organisation(Agent):
     url: HttpUrl = None
     hasRorId: HttpUrl = None
 
-
+@namespaces(prov="http://www.w3.org/ns/prov#")
 @urirefs(Person='prov:Person',
          firstName='foaf:firstName',
          lastName='foaf:lastName',
          hadRole='prov:role',
          wasRoleIn='prov:wasRoleIn')
 class Person(Agent):
-    """Pydantic Model for https://www.w3.org/ns/prov#Person
+    """Pydantic Model for http://www.w3.org/ns/prov#Person
 
     .. note::
 
