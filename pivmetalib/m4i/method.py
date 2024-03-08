@@ -1,8 +1,7 @@
+from ontolutils import Thing, namespaces, urirefs
 from typing import List, Union
 
 from .variable import Variable, NumericalVariable
-from .. import Thing
-from .. import namespaces, urirefs
 
 
 @namespaces(m4i="http://w3id.org/nfdi4ing/metadata4ing#",

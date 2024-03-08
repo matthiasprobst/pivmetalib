@@ -1,8 +1,7 @@
 from pydantic import EmailStr, HttpUrl
 from typing import Union
 
-from .. import namespaces, urirefs
-from ontolutils import Thing
+from ontolutils import Thing, namespaces, urirefs
 from ..typing import BlankNodeType
 
 
@@ -57,12 +56,14 @@ class Organisation(Agent):
     url: HttpUrl = None
     hasRorId: HttpUrl = None
 
+
 @namespaces(prov="http://www.w3.org/ns/prov#")
 @urirefs(Person='prov:Person',
          firstName='foaf:firstName',
          lastName='foaf:lastName',
          hadRole='prov:role',
-         wasRoleIn='prov:wasRoleIn')
+         wasRoleIn='prov:wasRoleIn',
+         affiliation='schema:affiliation')
 class Person(Agent):
     """Pydantic Model for http://www.w3.org/ns/prov#Person
 
@@ -88,3 +89,4 @@ class Person(Agent):
     lastName: str = None  # foaf:lastName
     hadRole: HttpUrl = None  # m4i:role
     wasRoleIn: Union[HttpUrl, BlankNodeType] = None  # m4i:role
+    affiliation: Organisation = None

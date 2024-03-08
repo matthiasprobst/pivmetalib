@@ -26,7 +26,8 @@ from ..utils import is_zip_file, get_cache_dir
          title='dct:title',
          description='dct:description',
          creator='dct:creator',
-         version='dcat:version')
+         version='dcat:version',
+         identifier='dct:identifier')
 class Resource(Thing):
     """Pdyantic implementation of dcat:Resource
 
@@ -51,6 +52,7 @@ class Resource(Thing):
     description: str = None  # dct:description
     creator: Union[Person, Organisation] = None  # dct:creator
     version: str = None  # dcat:version
+    identifier: HttpUrl = None  # dct:identifier
 
     # def _repr_html_(self):
     #     """Returns the HTML representation of the class"""
@@ -163,6 +165,12 @@ class Distribution(Resource):
         return downloadURL
 
 
+@namespaces(dcat="http://www.w3.org/ns/dcat#")
+@urirefs(DatasetSeries='dcat:DatasetSeries')
+class DatasetSeries(Resource):
+    """Pydantic implementation of dcat:DatasetSeries"""
+
+
 @namespaces(dcat="http://www.w3.org/ns/dcat#",
             prov="http://www.w3.org/ns/prov#",
             dct="http://purl.org/dc/terms/")
@@ -171,7 +179,8 @@ class Distribution(Resource):
          creator='dct:creator',
          distribution='dcat:distribution',
          modified='dct:modified',
-         landingPage='dcat:landingPage')
+         landingPage='dcat:landingPage',
+         inSeries='dcat:inSeries')
 class Dataset(Resource):
     """Pydantic implementation of dcat:Dataset
 
@@ -206,6 +215,7 @@ class Dataset(Resource):
     distribution: Union[Distribution, List[Distribution]] = None  # dcat:Distribution
     modified: datetime = None  # dct:modified
     landingPage: HttpUrl = None  # dcat:landingPage
+    inSeries: DatasetSeries = None  # dcat:inSeries
 
     @field_validator('distribution', mode='before')
     @classmethod

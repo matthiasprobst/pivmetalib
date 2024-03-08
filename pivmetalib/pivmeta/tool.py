@@ -1,13 +1,16 @@
-from typing import Union, List, Tuple
+from typing import Union, List, Tuple, Optional
 
 from ontolutils import QUDT_KIND
-
+from ontolutils import namespaces, urirefs
 from .variable import NumericalVariable
-from .. import namespaces, urirefs
 from .. import sd, m4i
 from ..m4i.variable import NumericalVariable as M4iNumericalVariable
 from ..m4i.variable import TextVariable
+from ..schema import SoftwareSourceCode
 
+
+@namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
+@urirefs(PivMetaTool='pivmeta:PivMetaTool')
 class PivMetaTool(m4i.Tool):
     hasParameter: Union[
         TextVariable,
@@ -121,3 +124,37 @@ class DigitalCamera(PIVHardware):
             else:
                 raise TypeError(f'Unsupported type for parameter "{k}": {type(v)}')
         return cls.model_validate(cam_param)
+
+
+@namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#",
+            codemeta="https://codemeta.github.io/terms/")
+@urirefs(DigitalCameraModel="pivmeta:DigitalCameraModel",
+         hasSourceCode="codemeta:hasSourceCode")
+class DigitalCameraModel(DigitalCamera):
+    """Pydantic implementation of pivmeta:DigitalCameraModel"""
+    hasSourceCode: Optional[SoftwareSourceCode] = None
+
+
+@namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#",
+            codemeta="https://codemeta.github.io/terms/")
+@urirefs(LaserModel="pivmeta:LaserModel",
+         hasSourceCode="codemeta:hasSourceCode")
+class LaserModel(Laser):
+    """Pydantic implementation of pivmeta:LaserModel"""
+    hasSourceCode: Optional[SoftwareSourceCode] = None
+
+
+@namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
+@urirefs(Particle="pivmeta:Particle")
+class Particle(PIVHardware):
+    """Pydantic implementation of pivmeta:Particle"""
+    pass
+
+
+@namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#",
+            codemeta="https://codemeta.github.io/terms/")
+@urirefs(SyntheticParticle="pivmeta:SyntheticParticle",
+         hasSourceCode="codemeta:hasSourceCode")
+class SyntheticParticle(Particle):
+    """Pydantic implementation of pivmeta:SyntheticParticle"""
+    hasSourceCode: Optional[SoftwareSourceCode] = None

@@ -8,7 +8,7 @@ from pivmetalib.owl import serialize_fields
 from .owl import Thing
 
 
-def dump_jsonld(things: List[Thing], exclude_none=True, context=CONTEXT):
+def model_dump_jsonld(things: List[Thing], exclude_none=True, context=CONTEXT):
     model_dicts = []
     g = rdflib.Graph()
     for thing in things:

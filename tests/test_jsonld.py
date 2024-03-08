@@ -1,6 +1,7 @@
 import json
-import rdflib
 import unittest
+
+import rdflib
 
 from pivmetalib import CONTEXT
 from pivmetalib import m4i
@@ -22,11 +23,16 @@ class TestJSONLD(unittest.TestCase):
                 )
             ]
         )
-        jsonld_dict = json.loads(dyn_mean.dump_jsonld(context=CONTEXT))
-        method_name = jsonld_dict['@graph'][0]['name']
+        jsonld_dict = json.loads(
+            dyn_mean.model_dump_jsonld(
+                context={"@import": CONTEXT}
+            )
+        )
 
         g = rdflib.Graph()
-        g.parse(data=jsonld_dict, format='json-ld')
+        g.parse(
+            data=jsonld_dict,
+            format='json-ld')
 
         for t in g:
             print(t)
@@ -38,18 +44,3 @@ class TestJSONLD(unittest.TestCase):
         query_result = g.query(query)
 
         self.assertEqual(len(query_result), 1)
-
-        for r in query_result:
-            print(r)
-
-        query = (f"""SELECT ?id
-        WHERE {{
-            ?id rdf:type m4i:Method .
-            ?id schema:name "{method_name}" .
-        }}""")
-        query_result = g.query(query)
-
-        # self.assertEqual(len(query_result), 1)
-
-        for r in query_result:
-            print(r)

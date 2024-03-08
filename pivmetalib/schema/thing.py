@@ -1,7 +1,7 @@
 import ontolutils
 from pydantic import HttpUrl
 
-from .. import namespaces, urirefs
+from ontolutils import Thing, namespaces, urirefs
 
 
 @namespaces(schema="https://schema.org/")

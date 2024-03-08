@@ -3,7 +3,7 @@ from typing import Union, List
 
 from .thing import Thing
 from ..prov import Person, Organisation
-from .. import namespaces, urirefs
+from ontolutils import Thing, namespaces, urirefs
 
 
 @namespaces(schema="https://schema.org/")

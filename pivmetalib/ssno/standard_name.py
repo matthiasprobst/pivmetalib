@@ -1,4 +1,4 @@
-from .. import namespaces, urirefs
+from ontolutils import Thing, namespaces, urirefs
 from ..dcat import Dataset
 from ..qudt import Unit, QuantityKind
 from ..skos import Concept

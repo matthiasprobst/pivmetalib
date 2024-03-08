@@ -30,7 +30,7 @@
 #         name: str
 #
 #     em = ExampleModel(name="test")
-#     print(em.dump_jsonld())
+#     print(em.model_dump_jsonld())
 #     # {
 #     #     "@context": {
 #     #         "ex": "http://example.com/"

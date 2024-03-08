@@ -1,8 +1,7 @@
 import abc
-from typing import Union, Optional
+from typing import Union, Optional, List
 
-from .. import namespaces, urirefs
-from ontolutils import Thing
+from ontolutils import Thing, namespaces, urirefs
 
 
 @namespaces(m4i="http://w3id.org/nfdi4ing/metadata4ing#")
@@ -39,7 +38,7 @@ class NumericalVariable(Variable):
     ----------
     tbd
     """
-    hasNumericalValue: Union[int, float]  # M4I.Value
+    hasNumericalValue: Union[int, float, List[int], List[float]]  # M4I.Value
     hasUnit: str = None  # http://w3id.org/nfdi4ing/metadata4ing#hasUnit
     hasKindOfQuantity: str = None  # http://w3id.org/nfdi4ing/metadata4ing#hasKindOfQuantity
     hasSymbol: str = None  # "http://w3id.org/nfdi4ing/metadata4ing#hasSymbol"

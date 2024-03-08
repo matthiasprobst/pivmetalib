@@ -87,10 +87,10 @@
 #     id: Union[str, HttpUrl, FileUrl, BlankNodeType, None] = None  # @id
 #     label: str = None  # rdfs:label
 #
-#     def dump_jsonld(self,
+#     def model_dump_jsonld(self,
 #                     context=None,
 #                     exclude_none: bool = True,
-#                     local_namespace: HttpUrl = 'https://local-domain.org/') -> str:
+#                     local_namespace: HttpUrl = 'http://example.org/') -> str:
 #         """alias for model_dump_json()"""
 #
 #         if context is None:

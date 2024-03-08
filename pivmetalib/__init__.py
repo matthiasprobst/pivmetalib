@@ -1,9 +1,8 @@
 import logging
-from typing import Dict
-
 import requests
-from ontolutils import PIVMETA, namespaces, urirefs, Thing
+from ontolutils import Thing
 from ontolutils.classes import decorator
+from typing import Dict
 
 from . import utils
 from ._version import __version__

@@ -1,7 +1,7 @@
 import rdflib
 from ontolutils import QUDT_UNIT, Thing
 
-from .. import namespaces, urirefs
+from ontolutils import Thing, namespaces, urirefs
 
 
 @namespaces(qudt="http://qudt.org/schema/qudt/")

@@ -1,9 +1,8 @@
 from datetime import datetime
 from typing import Union, List
 
-from .thing import Thing
+from ontolutils import Thing, namespaces, urirefs
 from ..prov import Organisation, Person
-from .. import namespaces, urirefs
 
 
 @namespaces(schema="https://schema.org/")

@@ -7,7 +7,7 @@ from .method import Method
 from .tool import Tool
 from ontolutils import Thing
 from ..schema import ResearchProject
-from .. import namespaces, urirefs
+from ontolutils import Thing, namespaces, urirefs
 
 
 class Assignment(Thing):

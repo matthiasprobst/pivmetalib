@@ -6,7 +6,6 @@
   "name": "pivmetalib",
   "version": "0.1.0",
   "description": "A Python library for working with the pivmeta ontology.",
-  "applicationCategory": "Engineering",
   "programmingLanguage": [
     "Python 3",
     "Python 3.8",

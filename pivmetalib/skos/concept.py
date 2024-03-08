@@ -1,5 +1,4 @@
-from .. import namespaces, urirefs
-from ontolutils import Thing
+from ontolutils import Thing, namespaces, urirefs
 
 
 @namespaces(skos="http://www.w3.org/2004/02/skos/core#")

@@ -2,10 +2,10 @@ import pathlib
 import rdflib
 import re
 from enum import Enum
+from ontolutils import namespaces, urirefs
 from pydantic import HttpUrl, PositiveInt, field_validator
 from typing import Union, List
 
-from .. import namespaces, urirefs
 from ..dcat import Distribution
 
 
