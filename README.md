@@ -4,7 +4,7 @@
 ![DOCS](https://codecov.io/gh/matthiasprobst/pivmetalib/branch/main/graph/badge.svg)
 ![pyvers](https://img.shields.io/badge/python-3.8%20%7C%203.9%20%7C%203.10%20%7C%203.11%20%7C%203.12-blue)
 
-A Python library and high-level interface to work with the [pivmeta ontology](https://matthiasprobst.github.io/pivmeta/)
+A Python library and high-level interface to work with the [pivmeta ontology](https://ontology-utils.readthedocs.io/en/latest/)
 . It allows to describe PIV recordings, software, hardware and other related entities in a state of the art and good
 scientific practice compliant way.
 
