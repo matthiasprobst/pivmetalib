@@ -14,6 +14,10 @@ CACHE_DIR = pivmetalib.utils.get_cache_dir()
 
 class TestQuery(unittest.TestCase):
 
+    def test_query_piv_dataset(self):
+        ds = ontolutils.query(dcat.Dataset, __this_dir__ / 'piv_dataset.json')
+        print(ds)
+
     def test_query(self):
         ds = dcat.Dataset(
             title='piv-challenge-1-C',
