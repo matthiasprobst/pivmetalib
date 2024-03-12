@@ -69,7 +69,7 @@ class XMLReader(TableReader):
                 name = sn['standard_name']
                 warnings.warn(f'Description of "{name}" is None. Setting to empty string.', UserWarning)
                 sn['description'] = ""
-        data['standard_names'] = sndata
+        data['has_standard_names'] = sndata
         return data
 
 
@@ -99,22 +99,36 @@ class YAMLReader(TableReader):
             return _data
 
         return {'title': data.get('name', data.get('title', None)),
-                'standard_names': [_parse_standard_names(k, v) for k, v in data['standard_names'].items()]}
+                'has_standard_names': [_parse_standard_names(k, v) for k, v in standard_names.items()]}
+
+
+class JSONLDReader(TableReader):
+    def parse(self) -> Dict:
+        from .standard_name_table import StandardNameTable
+        with open(self.filename, 'r') as f:
+            import json
+            snt = StandardNameTable.from_jsonld(data=json.load(f), limit=1)
+            return snt.model_dump(exclude_none=True)
 
 
 _plugins = {
     'xml': XMLReader,
     'text/xml': XMLReader,
     'https://www.iana.org/assignments/media-types/text/xml': XMLReader,
+    'yaml': YAMLReader,
+    'yml': YAMLReader,
     'text/yml': YAMLReader,
     'application/yaml': YAMLReader,
-    'https://www.iana.org/assignments/media-types/application/yaml': YAMLReader
+    'https://www.iana.org/assignments/media-types/application/yaml': YAMLReader,
+    'jsonld': JSONLDReader,
+    'application/json-ld': JSONLDReader,
+    'https://www.iana.org/assignments/media-types/application/ld+json': JSONLDReader
 }
 
 
-def get(plugin_name: str) -> TableReader:
+def get(plugin_name: str, default=None) -> Union[TableReader, None]:
     """Returns the plugin"""
     plugin = _plugins.get(str(plugin_name), None)
     if plugin is None:
-        raise KeyError(f'No plugin found for {plugin_name}')
+        return default
     return plugin

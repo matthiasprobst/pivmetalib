@@ -1,14 +1,6 @@
 import rdflib
-from ontolutils import QUDT_UNIT, Thing
 
-from ontolutils import Thing, namespaces, urirefs
-
-
-@namespaces(qudt="http://qudt.org/schema/qudt/")
-@urirefs(Unit='qudt:Unit')
-class Unit(Thing):
-    """Implementation of qudt:Unit"""
-
+from ontolutils import QUDT_UNIT
 
 qudt_lookup = {
     's': QUDT_UNIT.SEC,  # time
@@ -88,6 +80,6 @@ qudt_lookup = {
 }
 
 
-def get_qudt_from_string(unit_str: str) -> rdflib.URIRef:
+def parse_unit(unit_str: str) -> rdflib.URIRef:
     """Return IRI for a unit str. E.g. 'm/s' returns QUDT_UNIT.M_PER_SEC"""
     return qudt_lookup[unit_str]

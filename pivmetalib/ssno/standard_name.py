@@ -1,6 +1,10 @@
-from ontolutils import Thing, namespaces, urirefs
+from typing import Union
+
+from pydantic import HttpUrl, field_validator
+
+from ontolutils import namespaces, urirefs
 from ..dcat import Dataset
-from ..qudt import Unit, QuantityKind
+from ..qudt import QuantityKind, parse_unit
 from ..skos import Concept
 
 
@@ -16,9 +20,19 @@ from ..skos import Concept
          latexSymbol='ssno:latexSymbol')
 class StandardName(Concept):
     """Implementation of ssno:StandardName"""
-    unit: Unit = None
+    unit: Union[HttpUrl, str] = None  # ssno:unit
     quantityKind: QuantityKind = None
     standard_name: str = None
     description: str  # dcterms:description
     standard_name_table: Dataset = None  # ssno:standard_name_table (subclass of dcat:Dataset)
     latexSymbol: str = None  # ssno:latexSymbol
+
+    @field_validator("unit")
+    @classmethod
+    def _parse_unit(cls, unit: Union[HttpUrl, str]) -> str:
+        """Parse the unit and return the unit as string."""
+        if isinstance(unit, str):
+            if unit.startswith('http'):
+                return str(HttpUrl(unit))
+            return str(parse_unit(unit))
+        return str(HttpUrl(unit))
