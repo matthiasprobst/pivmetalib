@@ -14,6 +14,9 @@ CACHE_DIR = pivmetalib.utils.get_cache_dir()
 
 class TestQuery(unittest.TestCase):
 
+    def tearDown(self):
+        pathlib.Path('piv_challenge.jsonld').unlink(missing_ok=True)
+
     def test_query_piv_dataset(self):
         ds = ontolutils.query(dcat.Dataset, __this_dir__ / 'piv_dataset.json')
         print(ds)
@@ -67,7 +70,7 @@ class TestQuery(unittest.TestCase):
         self.assertEqual(dist[0].title, 'raw piv image data')
         self.assertEqual(dist[0].filenamePattern, '^C\d{3}_\d.tif$')
 
-        pathlib.Path('piv_challenge.jsonld').unlink(missing_ok=True)
+
 
     def test_query_dataset(self):
         ds = dcat.Dataset(
