@@ -1,3 +1,4 @@
+import json
 import pathlib
 import time
 import unittest
@@ -10,9 +11,11 @@ import pivmetalib
 from ontolutils import QUDT_UNIT
 from ontolutils import urirefs, namespaces, Thing
 from ontolutils.classes.decorator import URIRefManager
+from ontolutils.classes.utils import download_file
 from pivmetalib import pivmeta, prov, m4i
 from pivmetalib.m4i import NumericalVariable
 from pivmetalib.qudt.unit import parse_unit
+from pivmetalib.schema import SoftwareSourceCode
 from pivmetalib.ssno import StandardName
 from pivmetalib.ssno import StandardNameTable
 
@@ -366,3 +369,31 @@ class TestSSNO(unittest.TestCase):
         self.assertEqual(snt_loaded.has_standard_names[1].description, 'y component of velocity')
         self.assertEqual(snt_loaded.has_standard_names[1].unit, str(parse_unit('m s-1')))
         pathlib.Path('snt.json').unlink(missing_ok=True)
+
+
+class TestCodemeta(unittest.TestCase):
+    def test_codemeta(self):
+        codemeta_url = 'https://raw.githubusercontent.com/matthiasprobst/h5RDMtoolbox/main/codemeta.json'
+
+        codemeta_context_file = download_file('https://raw.githubusercontent.com/codemeta/codemeta/2.0/codemeta.jsonld',
+                                              None)
+        with open(codemeta_context_file) as f:
+            codemeta_context = json.load(f)['@context']
+        #
+        downloaded_filename = download_file(codemeta_url, None)
+        with open(downloaded_filename) as f:
+            data = json.load(f)
+            # ssc = SoftwareSourceCode.from_jsonld(data=data)
+
+        # replace context in data
+        _ = data.pop('@context')
+        data['@context'] = codemeta_context
+
+        ssc = SoftwareSourceCode.from_jsonld(data=json.dumps(data))
+
+
+
+        # ssc = SoftwareSourceCode.from_jsonld(source=downloaded_filename)
+        # context='https://doi.org/10.5063/schema/codemeta-2.0')
+        # context={'@import': 'https://doi.org/10.5063/schema/codemeta-2.0'})
+        print(ssc)
