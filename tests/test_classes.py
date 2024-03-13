@@ -381,7 +381,7 @@ class TestCodemeta(unittest.TestCase):
             codemeta_context = json.load(f)['@context']
         #
         downloaded_filename = download_file(codemeta_url, None)
-        with open(downloaded_filename) as f:
+        with open(downloaded_filename, encoding='utf-8') as f:
             data = json.load(f)
             # ssc = SoftwareSourceCode.from_jsonld(data=data)
 
@@ -389,11 +389,5 @@ class TestCodemeta(unittest.TestCase):
         _ = data.pop('@context')
         data['@context'] = codemeta_context
 
-        ssc = SoftwareSourceCode.from_jsonld(data=json.dumps(data))
-
-
-
-        # ssc = SoftwareSourceCode.from_jsonld(source=downloaded_filename)
-        # context='https://doi.org/10.5063/schema/codemeta-2.0')
-        # context={'@import': 'https://doi.org/10.5063/schema/codemeta-2.0'})
-        print(ssc)
+        ssc = SoftwareSourceCode.from_jsonld(data=json.dumps(data), limit=1)
+        self.assertEqual(len(ssc.author), 2)
