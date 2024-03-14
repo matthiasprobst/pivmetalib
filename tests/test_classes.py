@@ -396,8 +396,10 @@ class TestCodemeta(unittest.TestCase):
         self.assertEqual(len(ssc.author), 2)
         if ssc.author[0].familyName == 'Probst':
             self.assertEqual(ssc.author[0].givenName, "Matthias")
-        else:
             self.assertEqual(ssc.author[1].givenName, "Lucas")
+        else:
+            self.assertEqual(ssc.author[0].givenName, "Lucas")
+            self.assertEqual(ssc.author[1].givenName, "Matthias")
         self.assertEqual(
             ssc.author[0].affiliation.name,
             "Karlsruhe Institute of Technology, Institute of Thermal Turbomachinery"
