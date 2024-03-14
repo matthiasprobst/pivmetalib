@@ -14,7 +14,7 @@
       "dcterms:creator": {
         "@id": "https://orcid.org/0000-0001-9336-2091",
         "@type": "prov:Person",
-        "role": "contact person",
+        "prov:hadRole": "contact person",
         "personal mailbox": "christian.kaehler@dlr.de",
         "has ORCID ID": "https://orcid.org/0000-0001-9336-2091"
       },

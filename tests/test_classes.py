@@ -390,4 +390,21 @@ class TestCodemeta(unittest.TestCase):
         data['@context'] = codemeta_context
 
         ssc = SoftwareSourceCode.from_jsonld(data=json.dumps(data), limit=1)
+        self.assertEqual(ssc.name, 'h5RDMtoolbox')
+        self.assertEqual(ssc.codeRepository, "git+https://github.com/matthiasprobst/h5RDMtoolbox.git")
+        self.assertEqual(ssc.version, "1.2.2")
         self.assertEqual(len(ssc.author), 2)
+        if ssc.author[0].familyName == 'Probst':
+            self.assertEqual(ssc.author[0].givenName, "Matthias")
+        else:
+            self.assertEqual(ssc.author[1].givenName, "Lucas")
+        self.assertEqual(
+            ssc.author[0].affiliation.name,
+            "Karlsruhe Institute of Technology, Institute of Thermal Turbomachinery"
+        )
+        self.assertEqual(
+            ssc.author[1].affiliation.name,
+            "Karlsruhe Institute of Technology, Institute of Thermal Turbomachinery"
+        )
+
+        print(ssc)

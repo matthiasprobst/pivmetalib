@@ -3,11 +3,13 @@ import unittest
 
 import ontolutils
 import pivmetalib
+from ontolutils import set_logging_level
 from ontolutils.namespacelib import PIVMETA  # the namespace module containing the URI addresses
 from pivmetalib import dcat  # .dcat import Dataset, Distribution
 from pivmetalib import pivmeta  # import PivImageDistribution
 from pivmetalib import prov  # Person
 
+set_logging_level('DEBUG')
 __this_dir__ = pathlib.Path(__file__).parent
 CACHE_DIR = pivmetalib.utils.get_cache_dir()
 
@@ -18,7 +20,13 @@ class TestQuery(unittest.TestCase):
         pathlib.Path('piv_challenge.jsonld').unlink(missing_ok=True)
 
     def test_query_piv_dataset(self):
-        ds = ontolutils.query(dcat.Dataset, __this_dir__ / 'piv_dataset.json')
+        ds = ontolutils.query(dcat.Dataset, __this_dir__ / 'piv_dataset.json',
+                              limit=1)
+        self.assertEqual(str(ds.landingPage), 'https://www.pivchallenge.org/pub/index.html#a')
+        self.assertEqual(ds.id, "https://www.pivchallenge.org/pub/index.html#a")
+        self.assertEqual(ds.label, "Challenge1A")
+        self.assertEqual(ds.description, "Strong vortex (provided by Kaehler) < real > [1280 x 1024]")
+        self.assertEqual(ds.creator.hadRole, "contact person")
         print(ds)
 
     def test_query(self):
@@ -69,8 +77,6 @@ class TestQuery(unittest.TestCase):
         self.assertEqual(len(dist), 1)
         self.assertEqual(dist[0].title, 'raw piv image data')
         self.assertEqual(dist[0].filenamePattern, '^C\d{3}_\d.tif$')
-
-
 
     def test_query_dataset(self):
         ds = dcat.Dataset(

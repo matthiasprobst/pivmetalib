@@ -10,24 +10,25 @@ import uuid
 from datetime import datetime
 from typing import Union, List
 
+import pydantic
 from dateutil import parser
-from ontolutils import Thing
-from ontolutils import urirefs, namespaces
 from pydantic import HttpUrl, FileUrl, field_validator
 
+from ontolutils import Thing
+from ontolutils import urirefs, namespaces
 from ..prov import Person, Organisation, Agent
 from ..utils import download_file
 from ..utils import is_zip_file, get_cache_dir
 
 
 @namespaces(dcat="http://www.w3.org/ns/dcat#",
-            dct="http://purl.org/dc/terms/", )
+            dcterms="http://purl.org/dc/terms/", )
 @urirefs(Resource='dcat:Resource',
-         title='dct:title',
-         description='dct:description',
-         creator='dct:creator',
+         title='dcterms:title',
+         description='dcterms:description',
+         creator='dcterms:creator',
          version='dcat:version',
-         identifier='dct:identifier')
+         identifier='dcterms:identifier')
 class Resource(Thing):
     """Pdyantic implementation of dcat:Resource
 
@@ -40,23 +41,45 @@ class Resource(Thing):
     Parameters
     ----------
     title: str
-        Title of the resource (dct:title)
+        Title of the resource (dcterms:title)
     description: str = None
-        Description of the resource (dct:description)
+        Description of the resource (dcterms:description)
     creator: Union[Person, Organisation] = None
-        Creator of the resource (dct:creator)
+        Creator of the resource (dcterms:creator)
     version: str = None
         Version of the resource (dcat:version)
     """
-    title: str = None  # dct:title
-    description: str = None  # dct:description
-    creator: Union[Person, Organisation] = None  # dct:creator
+    title: str = None  # dcterms:title
+    description: str = None  # dcterms:description
+    creator: Union[Person, Organisation] = None  # dcterms:creator
     version: str = None  # dcat:version
-    identifier: HttpUrl = None  # dct:identifier
+    identifier: HttpUrl = None  # dcterms:identifier
 
-    # def _repr_html_(self):
-    #     """Returns the HTML representation of the class"""
-    #     return f"{self.__class__.__name__}({self.title})"
+    @field_validator('creator', mode='before')
+    @classmethod
+    def _parse_creator(cls, creator):
+        # check if creator is a valid person or oragnisation. if both fail, just pass creator data, it will fail later
+        is_person = False
+        is_organisation = False
+        try:
+            person = Person.model_validate(creator, strict=True)
+            is_person = True
+        except pydantic.ValidationError:
+            pass
+            # not a person
+        try:
+            organisation = Organisation.model_validate(creator, strict=True)
+            is_organisation = True
+        except pydantic.ValidationError:
+            # not an organisation
+            pass
+        if is_person and is_organisation:
+            return creator  # cannot distinguish between person and organisation
+        if is_person:
+            return person
+        if is_organisation:
+            return organisation
+        return creator
 
 
 @namespaces(dcat="http://www.w3.org/ns/dcat#")
@@ -173,12 +196,12 @@ class DatasetSeries(Resource):
 
 @namespaces(dcat="http://www.w3.org/ns/dcat#",
             prov="http://www.w3.org/ns/prov#",
-            dct="http://purl.org/dc/terms/")
+            dcterms="http://purl.org/dc/terms/")
 @urirefs(Dataset='dcat:Dataset',
-         identifier='dct:identifier',
-         creator='dct:creator',
+         identifier='dcterms:identifier',
+         creator='dcterms:creator',
          distribution='dcat:distribution',
-         modified='dct:modified',
+         modified='dcterms:modified',
          landingPage='dcat:landingPage',
          inSeries='dcat:inSeries')
 class Dataset(Resource):
@@ -193,27 +216,27 @@ class Dataset(Resource):
     Parameters
     ----------
     title: str
-        Title of the resource (dct:title)
+        Title of the resource (dcterms:title)
     description: str = None
-        Description of the resource (dct:description)
+        Description of the resource (dcterms:description)
     creator: Agent = None
-        Creator of the resource (dct:creator)
+        Creator of the resource (dcterms:creator)
     version: str = None
         Version of the resource (dcat:version)
     identifier: HttpUrl = None
-        Identifier of the resource (dct:identifier)
-    creator: Union[Person, Organisation] = None  # dct:creator
+        Identifier of the resource (dcterms:identifier)
+    creator: Union[Person, Organisation] = None  # dcterms:creator
         Contact person or Organisation of the resource (http://www.w3.org/ns/prov#Person)
     distribution: List[Distribution] = None
         Distribution of the resource (dcat:Distribution)
     modified: datetime = None
-        Last modified date of the resource (dct:modified)
+        Last modified date of the resource (dcterms:modified)
     """
-    identifier: HttpUrl = None  # dct:identifier, see https://www.w3.org/TR/vocab-dcat-3/#ex-identifier
+    identifier: HttpUrl = None  # dcterms:identifier, see https://www.w3.org/TR/vocab-dcat-3/#ex-identifier
     # http://www.w3.org/ns/prov#Person, see https://www.w3.org/TR/vocab-dcat-3/#ex-adms-identifier
     creator: Agent = None
     distribution: Union[Distribution, List[Distribution]] = None  # dcat:Distribution
-    modified: datetime = None  # dct:modified
+    modified: datetime = None  # dcterms:modified
     landingPage: HttpUrl = None  # dcat:landingPage
     inSeries: DatasetSeries = None  # dcat:inSeries
 

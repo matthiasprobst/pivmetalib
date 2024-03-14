@@ -61,7 +61,7 @@ class Organisation(Agent):
 @urirefs(Person='prov:Person',
          firstName='foaf:firstName',
          lastName='foaf:lastName',
-         hadRole='prov:role',
+         hadRole='prov:hadRole',
          wasRoleIn='prov:wasRoleIn',
          affiliation='schema:affiliation')
 class Person(Agent):

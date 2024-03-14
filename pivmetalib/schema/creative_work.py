@@ -77,7 +77,7 @@ class SoftwareSourceCode(CreativeWork):
     def _validate_codeRepository(cls, codeRepository: Union[str, HttpUrl]):
         if codeRepository.startswith('git+'):
             _url = HttpUrl(codeRepository.split("git+", 1)[1])
-            return f'{_url}'
+            # return f'{_url}'
         return codeRepository
 
     @field_validator('applicationCategory')
