@@ -19,6 +19,7 @@ class Organisation(Thing):
          givenName='schema:givenName',
          familyName='schema:familyName',
          email='schema:email',
+         affiliation='schema:affiliation'
          )
 class Person(Thing):
     """schema:Person (https://schema.org/Person)"""
@@ -61,7 +62,8 @@ class SoftwareApplication(CreativeWork):
 
 @namespaces(schema="http://schema.org/")
 @urirefs(SoftwareSourceCode='schema:SoftwareSourceCode',
-         codeRepository='schema:codeRepository')
+         codeRepository='schema:codeRepository',
+         applicationCategory='schema:applicationCategory')
 class SoftwareSourceCode(CreativeWork):
     """Pydantic implementation of schema:SoftwareSourceCode (see https://schema.org/SoftwareSourceCode)
 
@@ -75,6 +77,8 @@ class SoftwareSourceCode(CreativeWork):
     @field_validator('codeRepository')
     @classmethod
     def _validate_codeRepository(cls, codeRepository: Union[str, HttpUrl]):
+        if not isinstance(codeRepository, str):
+            return codeRepository
         if codeRepository.startswith('git+'):
             _url = HttpUrl(codeRepository.split("git+", 1)[1])
             # return f'{_url}'
