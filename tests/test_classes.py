@@ -12,6 +12,7 @@ from ontolutils import QUDT_UNIT
 from ontolutils import urirefs, namespaces, Thing
 from ontolutils.classes.decorator import URIRefManager
 from ontolutils.classes.utils import download_file
+from pivmetalib import __version__
 from pivmetalib import pivmeta, prov, m4i
 from pivmetalib.m4i import NumericalVariable
 from pivmetalib.qudt.unit import parse_unit
@@ -373,15 +374,14 @@ class TestSSNO(unittest.TestCase):
 
 class TestCodemeta(unittest.TestCase):
     def test_codemeta(self):
-        codemeta_url = 'https://raw.githubusercontent.com/matthiasprobst/h5RDMtoolbox/main/codemeta.json'
-
+        # get codemeta context file:
         codemeta_context_file = download_file('https://raw.githubusercontent.com/codemeta/codemeta/2.0/codemeta.jsonld',
                                               None)
         with open(codemeta_context_file) as f:
             codemeta_context = json.load(f)['@context']
-        #
-        downloaded_filename = download_file(codemeta_url, None)
-        with open(downloaded_filename, encoding='utf-8') as f:
+
+        codemeta_filename = __this_dir__ / '../codemeta.json'
+        with open(codemeta_filename, encoding='utf-8') as f:
             data = json.load(f)
             # ssc = SoftwareSourceCode.from_jsonld(data=data)
 
@@ -390,23 +390,16 @@ class TestCodemeta(unittest.TestCase):
         data['@context'] = codemeta_context
 
         ssc = SoftwareSourceCode.from_jsonld(data=json.dumps(data), limit=1)
-        self.assertEqual(ssc.name, 'h5RDMtoolbox')
-        self.assertEqual(ssc.codeRepository, "git+https://github.com/matthiasprobst/h5RDMtoolbox.git")
-        self.assertEqual(ssc.version, "1.2.2")
-        self.assertEqual(len(ssc.author), 2)
-        if ssc.author[0].familyName == 'Probst':
-            self.assertEqual(ssc.author[0].givenName, "Matthias")
-            self.assertEqual(ssc.author[1].givenName, "Lucas")
-        else:
-            self.assertEqual(ssc.author[0].givenName, "Lucas")
-            self.assertEqual(ssc.author[1].givenName, "Matthias")
+        self.assertEqual(ssc.name, 'pivmetalib')
+        self.assertEqual(ssc.codeRepository, "git+https://github.com/matthiasprobst/pivmetalib")
+        self.assertEqual(ssc.version, __version__)
+        self.assertEqual(len(ssc.author), 1)
+
+        self.assertEqual(ssc.author[0].givenName, "Matthias")
+        self.assertEqual(ssc.author[0].familyName, "Probst")
+
         self.assertEqual(
             ssc.author[0].affiliation.name,
             "Karlsruhe Institute of Technology, Institute of Thermal Turbomachinery"
         )
-        self.assertEqual(
-            ssc.author[1].affiliation.name,
-            "Karlsruhe Institute of Technology, Institute of Thermal Turbomachinery"
-        )
-
-        print(ssc)
+       
