@@ -65,7 +65,15 @@ class TestDcat(utils.ClassTest):
         local_dist = dcat.Distribution(
             downloadURL=filename
         )
-        local_filename = local_dist.download(timeout=60)
+        i = 0
+        i_max = 3
+        while i < i_max:
+            try:
+                local_filename = local_dist.download(timeout=60)
+                break
+            except requests.exceptions.HTTPSConnection as e:
+                print(e)
+                i += 1
         self.assertTrue(local_filename.exists())
         self.assertEqual(local_filename.name, 'readmeB.txt')
         self.assertIsInstance(local_filename, pathlib.Path)
