@@ -4,6 +4,7 @@ import time
 import unittest
 from datetime import datetime
 
+import pydantic
 import rdflib
 
 import ontolutils
@@ -37,7 +38,7 @@ class TestPIVProcess(unittest.TestCase):
             self.assertIsInstance(p, rdflib.URIRef)
 
     def test_decorators(self):
-        with self.assertRaises(RuntimeError):
+        with self.assertRaises(pydantic.ValidationError):
             @namespaces(example='www.example.com/')
             @urirefs(Testclass='example:Testclass',
                      firstName='foaf:firstName')
@@ -402,4 +403,3 @@ class TestCodemeta(unittest.TestCase):
             ssc.author[0].affiliation.name,
             "Karlsruhe Institute of Technology, Institute of Thermal Turbomachinery"
         )
-       
