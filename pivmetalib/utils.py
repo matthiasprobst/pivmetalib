@@ -86,7 +86,8 @@ def download_file(url,
                   dest_filename=None,
                   known_hash=None,
                   overwrite_existing: bool = False,
-                  show_pbar: bool = False) -> pathlib.Path:
+                  show_pbar: bool = False,
+                  **kwargs) -> pathlib.Path:
     """Download a file from a URL and check its hash
     
     Parameter
@@ -113,7 +114,7 @@ def download_file(url,
     ValueError if the hash of the downloaded file does not match the expected hash
     """
     logger.debug(f'Performing request to {url}')
-    response = requests.get(url, stream=True)
+    response = requests.get(url, **kwargs)
     if not response.ok:
         response.raise_for_status()
 

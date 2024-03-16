@@ -118,8 +118,10 @@ class Distribution(Resource):
 
     def download(self,
                  dest_filename: Union[str, pathlib.Path] = None,
-                 overwrite_existing: bool = False) -> pathlib.Path:
-        """Downloads the distribution"""
+                 overwrite_existing: bool = False,
+                 **kwargs) -> pathlib.Path:
+        """Downloads the distribution
+        kwargs are passed to the download_file function, which goes to requests.get()"""
 
         if self.downloadURL is None:
             raise ValueError('The downloadURL is not defined')
@@ -144,7 +146,8 @@ class Distribution(Resource):
             return dest_filename
         return download_file(self.downloadURL,
                              dest_filename,
-                             overwrite_existing=overwrite_existing)
+                             overwrite_existing=overwrite_existing,
+                             **kwargs)
 
     @field_validator('mediaType', mode='before')
     @classmethod

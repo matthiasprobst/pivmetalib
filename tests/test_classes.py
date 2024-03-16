@@ -1,7 +1,5 @@
 import pathlib
-import time
 import unittest
-from datetime import datetime
 
 import pydantic
 import rdflib
@@ -100,7 +98,6 @@ class TestPIVProcess(unittest.TestCase):
             f.write(pivtec.model_dump_jsonld())
         print(ontolutils.query(pivmeta.PIVSoftware, source='software.jsonld'))
         pathlib.Path('software.jsonld').unlink(missing_ok=True)
-
 
     def test_tool(self):
         tool = m4i.Tool(label='tool')

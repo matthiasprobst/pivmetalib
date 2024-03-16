@@ -52,12 +52,12 @@ class TestDcat(utils.ClassTest):
         self.assertEqual(str(distribution1.downloadURL), 'http://example.com/distribution/download')
 
         with self.assertRaises(requests.exceptions.HTTPError):
-            distribution1.download()
+            distribution1.download(timeout=60)
 
         piv_dist = dcat.Distribution(
             downloadURL='https://www.pivchallenge.org/pub/B/readmeB.txt'
         )
-        filename = piv_dist.download()
+        filename = piv_dist.download(timeout=60)
         self.assertTrue(filename.exists())
         self.assertEqual(filename.name, 'readmeB.txt')
         self.assertIsInstance(filename, pathlib.Path)
@@ -65,7 +65,7 @@ class TestDcat(utils.ClassTest):
         local_dist = dcat.Distribution(
             downloadURL=filename
         )
-        local_filename = local_dist.download()
+        local_filename = local_dist.download(timeout=60)
         self.assertTrue(local_filename.exists())
         self.assertEqual(local_filename.name, 'readmeB.txt')
         self.assertIsInstance(local_filename, pathlib.Path)
