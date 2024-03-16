@@ -1,12 +1,11 @@
+import appdirs
 import json
 import logging
 import pathlib
-from typing import List
-from typing import Union
-
-import appdirs
 import rdflib
 import requests
+from typing import List
+from typing import Union
 
 logger = logging.getLogger(__package__)
 logger.setLevel('DEBUG')
@@ -42,36 +41,27 @@ def split_URIRef(uri: rdflib.URIRef) -> List[Union[str, None]]:
     return [None, uri]
 
 
-def merge_jsonld(jsonld_strings: List[str]) -> str:
-    """Merge multiple json-ld strings into one json-ld string."""
-    jsonld_dicts = [json.loads(jlds) for jlds in jsonld_strings]
-
-    contexts = []
-    for jlds in jsonld_dicts:
-        if jlds['@context'] not in contexts:
-            contexts.append(jlds['@context'])
-
-    out = {'@context': contexts,
-           '@graph': []}
-
-    for jlds in jsonld_dicts:
-        if '@graph' in jlds:
-            out['@graph'].append(jlds['@graph'])
-        else:
-            data = dict(jlds.items())
-            data.pop('@context')
-            out['@graph'].append(data)
-
-    return json.dumps(out, indent=2)
-
-
-def is_zip_media_type(mediaType: Union[str, rdflib.URIRef]) -> bool:
-    """checks the media type"""
-    return str(mediaType) in (
-        'https://www.iana.org/assignments/media-types/application/zip',
-        'application/zip',
-        'zip'
-    )
+# def merge_jsonld(jsonld_strings: List[str]) -> str:
+#     """Merge multiple json-ld strings into one json-ld string."""
+#     jsonld_dicts = [json.loads(jlds) for jlds in jsonld_strings]
+#
+#     contexts = []
+#     for jlds in jsonld_dicts:
+#         if jlds['@context'] not in contexts:
+#             contexts.append(jlds['@context'])
+#
+#     out = {'@context': contexts,
+#            '@graph': []}
+#
+#     for jlds in jsonld_dicts:
+#         if '@graph' in jlds:
+#             out['@graph'].append(jlds['@graph'])
+#         else:
+#             data = dict(jlds.items())
+#             data.pop('@context')
+#             out['@graph'].append(data)
+#
+#     return json.dumps(out, indent=2)
 
 
 def get_cache_dir() -> pathlib.Path:
@@ -86,7 +76,6 @@ def download_file(url,
                   dest_filename=None,
                   known_hash=None,
                   overwrite_existing: bool = False,
-                  show_pbar: bool = False,
                   **kwargs) -> pathlib.Path:
     """Download a file from a URL and check its hash
     
@@ -100,8 +89,6 @@ def download_file(url,
         The expected hash of the file
     overwrite_existing: bool
         Whether to overwrite an existing file
-    show_pbar: bool
-        Whether to show a progress bar
     
     Returns
     -------
@@ -152,18 +139,7 @@ def download_file(url,
             logger.debug(f'Destination filename found: {dest_filename}. Returning it')
             return dest_filename
 
-    if show_pbar:
-        try:
-            from tqdm import tqdm
-        except ImportError:
-            raise ImportError('tqdm is required to show progress bar. Please install it or set show_pbar to False.')
-        with tqdm(total=total_size, unit="B", unit_scale=True) as progress_bar:
-            with open(dest_filename, "wb") as f:
-                for data in response.iter_content(block_size):
-                    progress_bar.update(len(data))
-                    f.write(data)
-    else:
-        with open(dest_filename, "wb") as f:
-            f.write(content)
+    with open(dest_filename, "wb") as f:
+        f.write(content)
 
     return dest_filename

@@ -1,5 +1,7 @@
 -e .
 -r requirements.txt
+pyyaml
+xmltodict
 xmltodict
 pyyaml>6.0.0
 pytest>=7.1.2
