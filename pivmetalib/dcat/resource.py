@@ -6,7 +6,6 @@
 import pathlib
 import re
 import shutil
-import uuid
 from datetime import datetime
 from typing import Union, List
 
@@ -18,7 +17,6 @@ from ontolutils import Thing
 from ontolutils import urirefs, namespaces
 from ..prov import Person, Organisation, Agent
 from ..utils import download_file
-from ..utils import is_zip_media_type, get_cache_dir
 
 
 @namespaces(dcat="http://www.w3.org/ns/dcat#",
@@ -147,24 +145,6 @@ class Distribution(Resource):
         return download_file(self.downloadURL,
                              dest_filename,
                              overwrite_existing=overwrite_existing)
-
-    def download_and_unpack(
-            self,
-            target_dir: Union[str, pathlib.Path]) -> pathlib.Path:
-        """Download the data and unpack it. This makes sense if the file
-        source is a zip file"""
-        if not is_zip_media_type(self.mediaType):
-            raise ValueError('The distribution does not seem to be a ZIP file. '
-                             f'The media type is {self.mediaType} but '
-                             '"https://www.iana.org/assignments/media-types/application/zip" '
-                             'is expected')
-        import zipfile
-        zip_filename = self.download(
-            dest_filename=get_cache_dir() / f'{uuid.uuid4()}.zip'
-        )
-        with zipfile.ZipFile(zip_filename, 'r') as zip_ref:
-            zip_ref.extractall(target_dir)
-        return target_dir
 
     @field_validator('mediaType', mode='before')
     @classmethod

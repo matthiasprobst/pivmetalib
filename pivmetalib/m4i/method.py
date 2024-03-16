@@ -1,6 +1,6 @@
-from ontolutils import Thing, namespaces, urirefs
 from typing import List, Union
 
+from ontolutils import Thing, namespaces, urirefs
 from .variable import Variable, NumericalVariable
 
 
@@ -23,14 +23,17 @@ class Method(Thing):
     """
     description: str = None
     hasParameter: Union[Variable,
-                         List[Variable]] = None
+    List[Variable]] = None
 
-    def add_numerical_variable(self, name, has_numerical_value,
-                               hasUnit, hasKindOfQuantity,
+    def add_numerical_variable(self,
+                               label,
+                               hasNumericalValue,
+                               hasUnit,
+                               hasKindOfQuantity,
                                **kwargs):
         """add numerical variable to tool"""
-        var = NumericalVariable(name=name,
-                                has_numerical_value=has_numerical_value,
+        var = NumericalVariable(label=label,
+                                hasNumericalValue=hasNumericalValue,
                                 hasUnit=hasUnit,
                                 hasKindOfQuantity=hasKindOfQuantity,
                                 **kwargs)
@@ -41,4 +44,4 @@ class Method(Thing):
             self.hasParameter.append(var)
         else:
             self.hasParameter = [self.hasParameter,
-                                  var]
+                                 var]

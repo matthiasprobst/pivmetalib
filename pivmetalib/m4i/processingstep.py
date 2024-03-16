@@ -1,13 +1,13 @@
 import abc
 from datetime import datetime
-from pydantic import field_validator
 from typing import Any, List, Union
 
+from pydantic import field_validator
+
+from ontolutils import Thing, namespaces, urirefs
 from .method import Method
 from .tool import Tool
-from ontolutils import Thing
 from ..schema import ResearchProject
-from ontolutils import Thing, namespaces, urirefs
 
 
 class Assignment(Thing):
@@ -64,17 +64,17 @@ class ProcessingStep(Activity):
     @field_validator('starts_with', mode='before')
     @classmethod
     def _starts_with(cls, starts_with):
-        if isinstance(starts_with, cls):
-            return starts_with
-        if isinstance(starts_with, dict):
-            return ProcessingStep(**starts_with)
-        raise TypeError("starts_with must be of type ProcessingStep or a dictionary")
+        return _validate_processing_step(starts_with)
 
     @field_validator('ends_with', mode='before')
     @classmethod
     def _ends_with(cls, ends_with):
-        if isinstance(ends_with, cls):
-            return ends_with
-        if isinstance(ends_with, dict):
-            return ProcessingStep(**ends_with)
-        raise TypeError("ends_with must be of type ProcessingStep or a dictionary")
+        return _validate_processing_step(ends_with)
+
+
+def _validate_processing_step(ps) -> ProcessingStep:
+    if isinstance(ps, ProcessingStep):
+        return ps
+    if isinstance(ps, dict):
+        return ProcessingStep(**ps)
+    raise TypeError("starts_with must be of type ProcessingStep or a dictionary")

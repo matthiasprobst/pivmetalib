@@ -1,11 +1,11 @@
-import pathlib
-import rdflib
-import re
 from enum import Enum
-from ontolutils import namespaces, urirefs
-from pydantic import HttpUrl, PositiveInt, field_validator
-from typing import Union, List
+from typing import Union
 
+import rdflib
+from pydantic import HttpUrl, PositiveInt, field_validator
+
+from ontolutils import namespaces, urirefs
+from ontolutils.namespacelib import PIVMETA
 from ..dcat import Distribution
 
 
@@ -32,8 +32,8 @@ def make_href(url, text=None):
 
 class PivImageType(Enum):
     """Enumeration of possible PIV image types"""
-    ExperimentalImage = "https://matthiasprobst.github.io/pivmeta#ExperimentalImage"
-    SyntheticImage = "https://matthiasprobst.github.io/pivmeta#SyntheticImage"
+    ExperimentalImage = PIVMETA.ExperimentalImage  # https://matthiasprobst.github.io/pivmeta#ExperimentalImage
+    SyntheticImage = PIVMETA.SyntheticImage  # https://matthiasprobst.github.io/pivmeta#SyntheticImage
 
 
 @namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
@@ -50,37 +50,6 @@ class PivDistribution(Distribution):
     @classmethod
     def _filenamePattern(cls, filenamePattern):
         return filenamePattern.replace('\\\\', '\\')
-
-    def get_filenames(self, file_directory: Union[str, pathlib.Path]) -> List[pathlib.Path]:
-        """Returns a list of filenames in the given directory that match the filename pattern.
-
-        Parameters
-        ----------
-        file_directory: Union[str, pathlib.Path]
-            The path to the file directory. If not exists, first call .download()
-            (or .download_and_unpack() if its a zipped file)
-
-        Returns
-        -------
-        List[pathlib.Path]
-            List of found filenames
-
-        Raises
-        ------
-        ValueError:
-            If parameter filenamePattern is unknown.
-        """
-        if self.filenamePattern is None:
-            raise ValueError("The parameter filenamePattern is unknown")
-        img_dir = pathlib.Path(file_directory)
-        if isinstance(self.filenamePattern, str):
-            pattern = re.compile(self.filenamePattern)
-        filenames = []
-        for f in img_dir.iterdir():
-            if f.is_file():
-                if pattern.match(f.name):
-                    filenames.append(f)
-        return filenames
 
 
 @namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")

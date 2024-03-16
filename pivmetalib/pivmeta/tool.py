@@ -1,7 +1,8 @@
 from typing import Union, List, Tuple, Optional
 
-from ontolutils import QUDT_KIND
-from ontolutils import namespaces, urirefs
+from pydantic import field_validator
+
+from ontolutils import namespaces, urirefs, QUDT_KIND
 from .variable import NumericalVariable
 from .. import sd, m4i
 from ..m4i.variable import NumericalVariable as M4iNumericalVariable
@@ -58,6 +59,11 @@ class DigitalCamera(PIVHardware):
     # ccdHeight: m4i.NumericalVariable = None
     # ccdSize: m4i.NumericalVariable = None
 
+    @field_validator('fnumber', mode='before')
+    @classmethod
+    def _fnumber(cls, fnumber):
+        return str(fnumber)
+
     @classmethod
     def build_minimal(cls,
                       label: str,
@@ -84,18 +90,23 @@ class DigitalCamera(PIVHardware):
             w, h = sensor_pixel_size
             cam_param['hasParameter'].append(
                 NumericalVariable(
+                    label="sensor_pixel_width",
                     hasNumericalValue=w,
                     hasStandardName="https://matthiasprobst.github.io/pivmeta#sensor_pixel_width")
             )
             cam_param['hasParameter'].append(
                 NumericalVariable(
+                    label="sensor_pixel_height",
                     hasNumericalValue=h,
                     hasStandardName="https://matthiasprobst.github.io/pivmeta#sensor_pixel_height")
             )
         if ccd_pixel_size_um is not None:
+            if isinstance(ccd_pixel_size_um, (float, int)):
+                ccd_pixel_size_um = (ccd_pixel_size_um, ccd_pixel_size_um)
             w, h = ccd_pixel_size_um
             cam_param['hasParameter'].append(
                 NumericalVariable(
+                    label="ccd_pixel_width",
                     hasNumericalValue=w,
                     hasUnit='um',
                     hasKindOfQuantity=QUDT_KIND.Length,
@@ -103,6 +114,7 @@ class DigitalCamera(PIVHardware):
             )
             cam_param['hasParameter'].append(
                 NumericalVariable(
+                    label="ccd_pixel_height",
                     hasNumericalValue=h,
                     hasUnit='um',
                     hasKindOfQuantity=QUDT_KIND.Length,
@@ -112,12 +124,14 @@ class DigitalCamera(PIVHardware):
             if isinstance(v, (int, float)):
                 cam_param['hasParameter'].append(
                     NumericalVariable(
+                        label=k,
                         hasNumericalValue=v,
                     )
                 )
             elif isinstance(v, str):
                 cam_param['hasParameter'].append(
                     TextVariable(
+                        label=k,
                         hasStringValue=v,
                     )
                 )

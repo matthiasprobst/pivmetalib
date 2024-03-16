@@ -1,4 +1,3 @@
-import json
 import pathlib
 import time
 import unittest
@@ -12,14 +11,9 @@ import pivmetalib
 from ontolutils import QUDT_UNIT
 from ontolutils import urirefs, namespaces, Thing
 from ontolutils.classes.decorator import URIRefManager
-from ontolutils.classes.utils import download_file
-from pivmetalib import __version__
 from pivmetalib import pivmeta, prov, m4i
 from pivmetalib.m4i import NumericalVariable
-from pivmetalib.qudt.unit import parse_unit
-from pivmetalib.schema import SoftwareSourceCode
 from pivmetalib.ssno import StandardName
-from pivmetalib.ssno import StandardNameTable
 
 __this_dir__ = pathlib.Path(__file__).parent
 CACHE_DIR = pivmetalib.utils.get_cache_dir()
@@ -107,26 +101,6 @@ class TestPIVProcess(unittest.TestCase):
         print(ontolutils.query(pivmeta.PIVSoftware, source='software.jsonld'))
         pathlib.Path('software.jsonld').unlink(missing_ok=True)
 
-    def test_preprocessing_step(self):
-        ps1 = m4i.ProcessingStep(label='p1', startTime=datetime.now())
-        time.sleep(1)
-        ps2 = m4i.ProcessingStep(label='p2', startTime=datetime.now())
-
-        ps1.starts_with = ps2
-
-        self.assertTrue(ps2.startTime > ps1.startTime)
-        self.assertIsInstance(ps1, ontolutils.Thing)
-        self.assertIsInstance(ps1, m4i.ProcessingStep)
-        self.assertIsInstance(ps1.starts_with, ontolutils.Thing)
-        self.assertIsInstance(ps1.starts_with, m4i.ProcessingStep)
-        self.assertEqual(ps1.starts_with, ps2)
-
-        jsonld_string = ps1.model_dump_jsonld()
-        self.check_jsonld_string(jsonld_string)
-
-        tool = m4i.Tool(label='tool1')
-        ps1.hasEmployedTool = tool
-        print(ps1.model_dump_jsonld())
 
     def test_tool(self):
         tool = m4i.Tool(label='tool')
@@ -304,102 +278,3 @@ class TestPIVProcess(unittest.TestCase):
         self.assertEqual(len(found_dist), 1)
         self.assertEqual(found_dist[0].label, 'piv_distribution')
         self.assertEqual(found_dist[0].filenamePattern, r'img\d{4}_[a,b].tif')
-
-
-class TestSSNO(unittest.TestCase):
-
-    def test_standard_name(self):
-        sn = StandardName(standard_name='x_velocity',
-                          description='x component of velocity',
-                          unit=QUDT_UNIT.M_PER_SEC)  # 'm s-1'
-        self.assertIsInstance(sn, ontolutils.Thing)
-        self.assertIsInstance(sn, StandardName)
-        self.assertEqual(sn.standard_name, 'x_velocity')
-        self.assertEqual(sn.description, 'x component of velocity')
-        self.assertEqual(sn.unit, str(parse_unit('m s-1')))
-
-        sn = StandardName(standard_name='x_velocity',
-                          description='x component of velocity',
-                          unit='m s-1')
-        self.assertEqual(sn.unit, str(parse_unit('m s-1')))
-
-        with open('sn.jsonld', 'w') as f:
-            f.write(sn.model_dump_jsonld())
-
-        sn_loaded = ontolutils.query(StandardName, source='sn.jsonld')
-        self.assertEqual(len(sn_loaded), 1)
-        self.assertEqual(sn_loaded[0].standard_name, 'x_velocity')
-        self.assertEqual(sn_loaded[0].description, 'x component of velocity')
-        self.assertEqual(sn_loaded[0].unit, str(parse_unit('m s-1')))
-
-        sn_loaded = StandardName.from_jsonld(data=sn.model_dump_jsonld())
-        self.assertEqual(len(sn_loaded), 1)
-        self.assertEqual(sn_loaded[0].standard_name, 'x_velocity')
-        self.assertEqual(sn_loaded[0].description, 'x component of velocity')
-        self.assertEqual(sn_loaded[0].unit, str(parse_unit('m s-1')))
-
-        pathlib.Path('sn.jsonld').unlink(missing_ok=True)
-
-    def test_standard_name_table(self):
-        sn1 = StandardName(standard_name='x_velocity',
-                           description='x component of velocity',
-                           unit='m s-1')
-        sn2 = StandardName(standard_name='y_velocity',
-                           description='y component of velocity',
-                           unit='m s-1')
-
-        snt = StandardNameTable(has_standard_names=[sn1, sn2])
-        with open('snt.json', 'w') as f:
-            f.write(snt.model_dump_jsonld())
-
-        snt_loaded = list(StandardNameTable.from_jsonld(data=snt.model_dump_jsonld(), limit=None))
-        self.assertEqual(len(snt_loaded), 1)
-        self.assertEqual(len(snt_loaded[0].has_standard_names), 2)
-        self.assertEqual(snt_loaded[0].has_standard_names[0].standard_name, 'x_velocity')
-        self.assertEqual(snt_loaded[0].has_standard_names[0].description, 'x component of velocity')
-        self.assertEqual(snt_loaded[0].has_standard_names[0].unit, str(parse_unit('m s-1')))
-        self.assertEqual(snt_loaded[0].has_standard_names[1].standard_name, 'y_velocity')
-        self.assertEqual(snt_loaded[0].has_standard_names[1].description, 'y component of velocity')
-        self.assertEqual(snt_loaded[0].has_standard_names[1].unit, str(parse_unit('m s-1')))
-
-        snt_loaded = StandardNameTable.from_jsonld(data=snt.model_dump_jsonld(), limit=1)
-        self.assertEqual(len(snt_loaded.has_standard_names), 2)
-        self.assertEqual(snt_loaded.has_standard_names[0].standard_name, 'x_velocity')
-        self.assertEqual(snt_loaded.has_standard_names[0].description, 'x component of velocity')
-        self.assertEqual(snt_loaded.has_standard_names[0].unit, str(parse_unit('m s-1')))
-        self.assertEqual(snt_loaded.has_standard_names[1].standard_name, 'y_velocity')
-        self.assertEqual(snt_loaded.has_standard_names[1].description, 'y component of velocity')
-        self.assertEqual(snt_loaded.has_standard_names[1].unit, str(parse_unit('m s-1')))
-        pathlib.Path('snt.json').unlink(missing_ok=True)
-
-
-class TestCodemeta(unittest.TestCase):
-    def test_codemeta(self):
-        # get codemeta context file:
-        codemeta_context_file = download_file('https://raw.githubusercontent.com/codemeta/codemeta/2.0/codemeta.jsonld',
-                                              None)
-        with open(codemeta_context_file) as f:
-            codemeta_context = json.load(f)['@context']
-
-        codemeta_filename = __this_dir__ / '../codemeta.json'
-        with open(codemeta_filename, encoding='utf-8') as f:
-            data = json.load(f)
-            # ssc = SoftwareSourceCode.from_jsonld(data=data)
-
-        # replace context in data
-        _ = data.pop('@context')
-        data['@context'] = codemeta_context
-
-        ssc = SoftwareSourceCode.from_jsonld(data=json.dumps(data), limit=1)
-        self.assertEqual(ssc.name, 'pivmetalib')
-        self.assertEqual(ssc.codeRepository, "git+https://github.com/matthiasprobst/pivmetalib")
-        self.assertEqual(ssc.version, __version__)
-        self.assertEqual(len(ssc.author), 1)
-
-        self.assertEqual(ssc.author[0].givenName, "Matthias")
-        self.assertEqual(ssc.author[0].familyName, "Probst")
-
-        self.assertEqual(
-            ssc.author[0].affiliation.name,
-            "Karlsruhe Institute of Technology, Institute of Thermal Turbomachinery"
-        )
