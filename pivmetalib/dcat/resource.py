@@ -18,7 +18,7 @@ from ontolutils import Thing
 from ontolutils import urirefs, namespaces
 from ..prov import Person, Organisation, Agent
 from ..utils import download_file
-from ..utils import is_zip_file, get_cache_dir
+from ..utils import is_zip_media_type, get_cache_dir
 
 
 @namespaces(dcat="http://www.w3.org/ns/dcat#",
@@ -153,7 +153,7 @@ class Distribution(Resource):
             target_dir: Union[str, pathlib.Path]) -> pathlib.Path:
         """Download the data and unpack it. This makes sense if the file
         source is a zip file"""
-        if not is_zip_file(self.mediaType):
+        if not is_zip_media_type(self.mediaType):
             raise ValueError('The distribution does not seem to be a ZIP file. '
                              f'The media type is {self.mediaType} but '
                              '"https://www.iana.org/assignments/media-types/application/zip" '

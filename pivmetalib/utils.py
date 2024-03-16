@@ -1,11 +1,12 @@
-import appdirs
 import json
 import logging
 import pathlib
-import rdflib
-import requests
 from typing import List
 from typing import Union
+
+import appdirs
+import rdflib
+import requests
 
 logger = logging.getLogger(__package__)
 logger.setLevel('DEBUG')
@@ -64,11 +65,12 @@ def merge_jsonld(jsonld_strings: List[str]) -> str:
     return json.dumps(out, indent=2)
 
 
-def is_zip_file(mediaType: Union[str, rdflib.URIRef]):
+def is_zip_media_type(mediaType: Union[str, rdflib.URIRef]) -> bool:
     """checks the media type"""
     return str(mediaType) in (
         'https://www.iana.org/assignments/media-types/application/zip',
-        'zip',
+        'application/zip',
+        'zip'
     )
 
 
@@ -164,4 +166,3 @@ def download_file(url,
             f.write(content)
 
     return dest_filename
-
