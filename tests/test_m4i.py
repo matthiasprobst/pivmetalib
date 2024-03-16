@@ -1,8 +1,7 @@
 import pathlib
+import rdflib
 import time
 from datetime import datetime
-
-import rdflib
 
 import ontolutils
 import pivmetalib
@@ -33,19 +32,26 @@ class TestM4i(utils.ClassTest):
         self.assertIsInstance(method3, ontolutils.Thing)
         self.assertIsInstance(method3, m4i.Method)
 
-        method3.add_numerical_variable(label='a float',
-                                       hasNumericalValue=4.2,
-                                       hasUnit=QUDT_UNIT.M_PER_SEC,
-                                       hasKindOfQuantity=QUDT_KIND.Velocity)
+        method3.add_numerical_variable(m4i.NumericalVariable(label='a float',
+                                                             hasNumericalValue=4.2,
+                                                             hasUnit=QUDT_UNIT.M_PER_SEC,
+                                                             hasKindOfQuantity=QUDT_KIND.Velocity)
+                                       )
         self.assertEqual(method3.hasParameter[0].hasNumericalValue, 4.2)
         self.assertEqual(method3.hasParameter[0].hasUnit, str(QUDT_UNIT.M_PER_SEC))
         self.assertEqual(method3.hasParameter[0].hasKindOfQuantity, str(QUDT_KIND.Velocity))
 
-        method3.add_numerical_variable(label='a float',
-                                       hasNumericalValue=12.2,
-                                       hasUnit=QUDT_UNIT.M_PER_SEC,
-                                       hasKindOfQuantity=QUDT_KIND.Velocity)
+        method3.add_numerical_variable(dict(label='a float',
+                                            hasNumericalValue=12.2,
+                                            hasUnit=QUDT_UNIT.M_PER_SEC,
+                                            hasKindOfQuantity=QUDT_KIND.Velocity))
         self.assertEqual(method3.hasParameter[1].hasNumericalValue, 12.2)
+
+        method3.add_numerical_variable(m4i.NumericalVariable(label='another float',
+                                                             hasNumericalValue=-5.2,
+                                                             hasUnit=QUDT_UNIT.M_PER_SEC,
+                                                             hasKindOfQuantity=QUDT_KIND.Velocity))
+        self.assertEqual(method3.hasParameter[2].hasNumericalValue, -5.2)
 
     def test_variable(self):
         var1 = m4i.NumericalVariable(label='Name of the variable',
@@ -185,3 +191,14 @@ class TestM4i(utils.ClassTest):
         with self.assertRaises(TypeError):
             m4i.ProcessingStep(label='p5',
                                ends_with=2.4)
+
+        tool.add_numerical_variable(m4i.NumericalVariable(label='a float',
+                                                          hasNumericalValue=4.2,
+                                                          hasUnit=QUDT_UNIT.M_PER_SEC,
+                                                          hasKindOfQuantity=QUDT_KIND.Velocity))
+        self.assertEqual(tool.hasParameter[0].hasNumericalValue, 4.2)
+        tool.add_numerical_variable(dict(label='a float',
+                                         hasNumericalValue=12.2,
+                                         hasUnit=QUDT_UNIT.M_PER_SEC,
+                                         hasKindOfQuantity=QUDT_KIND.Velocity))
+        self.assertEqual(tool.hasParameter[1].hasNumericalValue, 12.2)

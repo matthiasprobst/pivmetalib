@@ -1,6 +1,7 @@
 [run]
 omit =
     tests/*
+    _version.py
 relative_files = true
 
 [report]

@@ -25,23 +25,14 @@ class Method(Thing):
     hasParameter: Union[Variable,
     List[Variable]] = None
 
-    def add_numerical_variable(self,
-                               label,
-                               hasNumericalValue,
-                               hasUnit,
-                               hasKindOfQuantity,
-                               **kwargs):
+    def add_numerical_variable(self, numerical_variable: Union[dict, NumericalVariable]):
         """add numerical variable to tool"""
-        var = NumericalVariable(label=label,
-                                hasNumericalValue=hasNumericalValue,
-                                hasUnit=hasUnit,
-                                hasKindOfQuantity=hasKindOfQuantity,
-                                **kwargs)
-
+        if isinstance(numerical_variable, dict):
+            numerical_variable = NumericalVariable(**numerical_variable)
         if self.hasParameter is None:
-            self.hasParameter = [var, ]
+            self.hasParameter = [numerical_variable, ]
         elif isinstance(self.hasParameter, list):
-            self.hasParameter.append(var)
+            self.hasParameter.append(numerical_variable)
         else:
             self.hasParameter = [self.hasParameter,
-                                 var]
+                                 numerical_variable]

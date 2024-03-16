@@ -23,9 +23,10 @@ class Tool(Thing):
     hasParameter: Union[TextVariable, NumericalVariable,
     List[Union[TextVariable, NumericalVariable]]] = None
 
-    def add_numerical_variable(self, numerical_variable: NumericalVariable):
+    def add_numerical_variable(self, numerical_variable: Union[dict, NumericalVariable]):
         """add numerical variable to tool"""
-
+        if isinstance(numerical_variable, dict):
+            numerical_variable = NumericalVariable(**numerical_variable)
         if self.hasParameter is None:
             self.hasParameter = [numerical_variable, ]
         elif isinstance(self.hasParameter, list):

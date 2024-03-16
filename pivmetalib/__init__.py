@@ -1,9 +1,7 @@
 import logging
-import requests
+
 from ontolutils import Thing
 from ontolutils.classes import decorator
-from typing import Dict
-
 from . import utils
 from ._version import __version__
 
@@ -21,13 +19,6 @@ logger.addHandler(_stream_handler)
 
 CONTEXT = "https://raw.githubusercontent.com/matthiasprobst/pivmeta/main/pivmeta_context.jsonld"
 CACHE_DIR = utils.get_cache_dir()
-
-
-def get_context_json() -> Dict:
-    """Get the context file as a json object."""
-    r = requests.get(CONTEXT)
-    r.raise_for_status()
-    return r.json()
 
 
 def get_iri_fields(obj: Thing):
@@ -60,5 +51,4 @@ __all__ = (
     '__version__',
     'CONTEXT',
     'CACHE_DIR',
-    'get_context_json'
 )
