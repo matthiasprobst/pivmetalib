@@ -55,11 +55,11 @@ class TestDcat(utils.ClassTest):
             distribution1.download(timeout=60)
 
         piv_dist = dcat.Distribution(
-            downloadURL='https://www.pivchallenge.org/pub/B/readmeB.txt'
+            downloadURL=self.test_jsonld_filename
         )
         filename = piv_dist.download(timeout=60)
         self.assertTrue(filename.exists())
-        self.assertEqual(filename.name, 'readmeB.txt')
+        self.assertEqual(filename.name, 'piv_dataset.json')
         self.assertIsInstance(filename, pathlib.Path)
 
         local_dist = dcat.Distribution(
@@ -75,7 +75,7 @@ class TestDcat(utils.ClassTest):
                 print(e)
                 i += 1
         self.assertTrue(local_filename.exists())
-        self.assertEqual(local_filename.name, 'readmeB.txt')
+        self.assertEqual(local_filename.name, 'piv_dataset.json')
         self.assertIsInstance(local_filename, pathlib.Path)
 
         filename.unlink(missing_ok=True)

@@ -1,9 +1,10 @@
-import unittest
-
 import rdflib
+import unittest
 
 
 class ClassTest(unittest.TestCase):
+    test_jsonld_filename = 'https://raw.githubusercontent.com/matthiasprobst/pivmetalib/main/tests/testdata/piv_dataset.json'
+    test_jsonld_zipped_filename = 'https://raw.githubusercontent.com/matthiasprobst/pivmetalib/main/tests/testdata/piv_dataset.zip'
 
     def check_jsonld_string(self, jsonld_string):
         g = rdflib.Graph()
