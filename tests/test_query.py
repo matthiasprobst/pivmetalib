@@ -1,5 +1,4 @@
 import pathlib
-import unittest
 
 import ontolutils
 import pivmetalib
@@ -13,15 +12,13 @@ set_logging_level('DEBUG')
 __this_dir__ = pathlib.Path(__file__).parent
 CACHE_DIR = pivmetalib.utils.get_cache_dir()
 
+from utils import ClassTest
 
-class TestQuery(unittest.TestCase):
 
-    def tearDown(self):
-        pathlib.Path('piv_challenge.jsonld').unlink(missing_ok=True)
+class TestQuery(ClassTest):
 
     def test_query_piv_dataset(self):
-        ds = ontolutils.query(dcat.Dataset, __this_dir__ / 'piv_dataset.json',
-                              limit=1)
+        ds = ontolutils.query(dcat.Dataset, self.test_jsonld_filename, limit=1)
         self.assertEqual(str(ds.landingPage), 'https://www.pivchallenge.org/pub/index.html#a')
         self.assertEqual(ds.id, "https://www.pivchallenge.org/pub/index.html#a")
         self.assertEqual(ds.label, "Challenge1A")
