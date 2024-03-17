@@ -31,6 +31,25 @@ class TestDcat(utils.ClassTest):
         self.assertEqual(str(resource1.identifier), 'http://example.com/resource')
 
     def test_Distribution(self):
+
+        distribution_none_downloadURL = dcat.Distribution(
+            id='_:b2',
+            title='Distribution title',
+            description='Distribution description'
+        )
+        self.assertEqual(distribution_none_downloadURL.id, '_:b2')
+        with self.assertRaises(ValueError):
+            distribution_none_downloadURL.download()
+
+        distribution_wrongfile = dcat.Distribution(
+            id='_:b2',
+            title='Distribution title',
+            description='Distribution description',
+            downloadURL='file://path/invalid.txt'
+        )
+        with self.assertRaises(FileNotFoundError):
+            distribution_wrongfile.download()
+
         distribution1 = dcat.Distribution(
             id='_:b2',
             title='Distribution title',

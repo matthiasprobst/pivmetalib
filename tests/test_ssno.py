@@ -1,11 +1,13 @@
 import json
 import pathlib
+import requests.exceptions
 import yaml
 
 import ontolutils
 import pivmetalib
 import utils
 from ontolutils import QUDT_UNIT
+from pivmetalib.dcat import Distribution
 from pivmetalib.qudt import parse_unit
 from pivmetalib.ssno import StandardName, StandardNameTable
 
@@ -142,16 +144,34 @@ class TestSSNO(utils.ClassTest):
             yaml.dump(snt_yaml_data, f)
         snt = StandardNameTable.parse('snt.yaml', fmt='yaml')
         self.assertEqual(snt.title, 'SNT')
+
+        snt = StandardNameTable.parse('snt.yaml', fmt=None)
+        self.assertEqual(snt.title, 'SNT')
         pathlib.Path('snt.yaml').unlink(missing_ok=True)
+
+        dist = Distribution(downloadURL='http://example.org/snt.yaml',
+                            mediaType='application/yaml')
+        snt = StandardNameTable()
+        with self.assertRaises(requests.exceptions.HTTPError):
+            snt.parse(dist)
 
     def test_standard_name_table_from_xml(self):
         cf_contention = 'http://cfconventions.org/Data/cf-standard-names/current/src/cf-standard-name-table.xml'
         from pivmetalib.utils import download_file
         snt_xml_filename = download_file(cf_contention,
                                          dest_filename='snt.xml')
+        self.assertTrue(snt_xml_filename.exists())
+
+        xml_snt = StandardNameTable.parse(snt_xml_filename, fmt=None)
+        self.assertEqual(
+            xml_snt.contact['mbox'],
+            'support@ceda.ac.uk')
+
         snt_xml_filename = download_file(cf_contention,
                                          dest_filename='snt.xml',
                                          overwrite_existing=True)
+        self.assertTrue(snt_xml_filename.exists())
+
         snt_xml_filename = download_file(cf_contention,
                                          dest_filename='snt.xml',
                                          overwrite_existing=False)
@@ -163,3 +183,15 @@ class TestSSNO(utils.ClassTest):
             snt.contact['mbox'],
             'support@ceda.ac.uk')
         snt_xml_filename.unlink(missing_ok=True)
+
+        dist = Distribution(
+            downloadURL='http://cfconventions.org/Data/cf-standard-names/current/src/cf-standard-name-table.xml',
+            mediaType='application/xml')
+
+        snt = StandardNameTable.parse(dist)
+        self.assertEqual(
+            snt.contact['mbox'],
+            'support@ceda.ac.uk'
+        )
+        self.assertEqual(snt.title, 'cf-standard-name-table')
+        pathlib.Path(f'{snt.title}.xml').unlink(missing_ok=True)
