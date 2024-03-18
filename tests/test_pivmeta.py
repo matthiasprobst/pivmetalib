@@ -1,3 +1,4 @@
+import json
 import pathlib
 import time
 from datetime import datetime
@@ -66,9 +67,11 @@ class TestPivmeta(utils.ClassTest):
         self.assertIsInstance(mycompany2, pivmeta.PIVSoftware)
 
     def test_ProcessingStep(self):
-        ps1 = m4i.ProcessingStep(label='p1', startTime=datetime.now())
+        st1 = datetime.now()
+        ps1 = m4i.ProcessingStep(id='_:p1', label='p1', startTime=st1)
         time.sleep(1)
-        ps2 = m4i.ProcessingStep(label='p2', startTime=datetime.now())
+        st2 = datetime.now()
+        ps2 = m4i.ProcessingStep(id='_:p2', label='p2', startTime=st2)
 
         ps1.starts_with = ps2
 
@@ -82,9 +85,74 @@ class TestPivmeta(utils.ClassTest):
         jsonld_string = ps1.model_dump_jsonld()
         self.check_jsonld_string(jsonld_string)
 
-        tool = m4i.Tool(label='tool1')
+        tool = m4i.Tool(id='_:t1', label='tool1')
         ps1.hasEmployedTool = tool
-        print(ps1.model_dump_jsonld())
+        self.assertDictEqual({"@context": {
+            "owl": "http://www.w3.org/2002/07/owl#",
+            "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+            "local": "http://example.org/",
+            "m4i": "http://w3id.org/nfdi4ing/metadata4ing#",
+            "schema": "https://schema.org/",
+            "obo": "http://purl.obolibrary.org/obo/"
+        },
+            "@type": "m4i:ProcessingStep",
+            "rdfs:label": "p1",
+            "schema:startTime": st1.isoformat(),
+            "obo:starts_with": {
+                "@type": "m4i:ProcessingStep",
+                "rdfs:label": "p2",
+                "schema:startTime": st2.isoformat(),
+                "@id": "_:p2"
+            },
+            "m4i:hasEmployedTool": {
+                "@type": "m4i:Tool",
+                "rdfs:label": "tool1",
+                "@id": "_:t1"
+            },
+            "@id": "_:p1"
+        },
+            json.loads(ps1.model_dump_jsonld()))
+
+    def test_PivPostProcessing(self):
+        data_smoothing = m4i.Method(
+            id='_:ms1',
+            name='Low-pass filtering',
+            description='applies a low-pass filtering on the data using a Gaussian weighted kernel of specified width to reduce spurious noise.',
+            hasParameter=m4i.NumericalVariable(id="_:param1", label='kernel', hasNumericalValue=2.0)
+        )
+        post = pivmeta.PivPostProcessing(
+            id='_:pp1',
+            label='Post processing',
+            realizesMethod=data_smoothing
+        )
+        self.assertDictEqual({
+            "@context": {
+                "owl": "http://www.w3.org/2002/07/owl#",
+                "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+                "local": "http://example.org/",
+                "m4i": "http://w3id.org/nfdi4ing/metadata4ing#",
+                "schema": "https://schema.org/",
+                "obo": "http://purl.obolibrary.org/obo/",
+                "PivProcessingStep": "https://matthiasprobst.github.io/pivmeta",
+                "PivPostProcessing": "https://matthiasprobst.github.io/pivmeta"
+            },
+            "@type": "https://matthiasprobst.github.io/pivmeta#PivProcessingStep",
+            "rdfs:label": "Post processing",
+            "m4i:realizesMethod": {
+                "@type": "m4i:Method",
+                "schema:description": "applies a low-pass filtering on the data using a Gaussian weighted kernel of specified width to reduce spurious noise.",
+                "m4i:hasParameter": {
+                    "@type": "m4i:NumericalVariable",
+                    "rdfs:label": "kernel",
+                    "m4i:hasNumericalValue": "2.0",
+                    "@id": "_:param1"
+                },
+                "name": "Low-pass filtering",
+                "@id": "_:ms1"
+            },
+            "@id": "_:pp1"
+        },
+            json.loads(post.model_dump_jsonld()))
 
     def test_parameter_with_standard_name(self):
         sn1 = StandardName(standard_name='x_velocity',
@@ -226,7 +294,7 @@ class TestPivmeta(utils.ClassTest):
         self.assertEqual(min_cam.label, 'camera2')
         found_sensor_pixel_width = False
         found_sensor_pixel_height = False
-        
+
         for param in min_cam.hasParameter:
             if param.label == 'sensor_pixel_width':
                 found_sensor_pixel_width = True

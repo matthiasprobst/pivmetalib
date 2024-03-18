@@ -4,14 +4,28 @@
 ![DOCS](https://codecov.io/gh/matthiasprobst/pivmetalib/branch/main/graph/badge.svg)
 ![pyvers](https://img.shields.io/badge/python-3.8%20%7C%203.9%20%7C%203.10%20%7C%203.11%20%7C%203.12-blue)
 
-A Python library and high-level interface to work with the [pivmeta ontology](https://ontology-utils.readthedocs.io/en/latest/)
-. It allows to describe PIV recordings, software, hardware and other related entities in a state of the art and good
+A Python library and high-level interface to work with the [pivmeta ontology](https://ontology-utils.readthedocs.io/en/latest/). 
+It allows to describe PIV recordings, software, hardware and other related entities in a state-of-the-art and good
 scientific practice compliant way.
 
-Put the resulting JSON-LD to your website, data repository or other places to make your data FAIR. Other users or
-software can then easily find, understand and use your data.
+The library is depends on [ontolutils](https://ontology-utils.readthedocs.io/en/latest/), which provides the 
+object-oriented interface to the ontology and the JSON-LD serialization.
 
-Example:
+
+## Usage
+
+### Installation
+
+The package is available on PyPI and can be installed via pip:
+```bash
+pip install pivmetalib
+```
+
+### Example of describing a PIV software:
+It is very helpful to provide a description of the used PIV software together with the PIV recording. This can be done
+using the `PIVSoftware` class from the `pivmeta` module. The following example shows how to describe the OpenPIV 
+software. Put the resulting JSON-LD to your website, data repository or other places to make your data FAIR. 
+Other users or software can then easily understand and use your data.
 
 ```python
 from pivmetalib import pivmeta, prov
@@ -59,24 +73,16 @@ This will result in the following JSON-LD representation:
 }
 ```
 
-## Installation
-
-Currently, the library is not available on PyPI. Thus, you can install it directly from GitHub:
-
-```bash
-pip install git+https://github.com/matthiasprobst/pivmetalib.git
-```
 
 ## Documentation and Usage
 
 This library mainly implements the ontology in form of `pydantic` model classes. The *pivmeta* ontology uses other
 ontologies and builds on top of them. Thus, some central classes from ontologies like *schema.org*, *prov*, *dcat* and
-*m4i* are implemented, too. Have a look at the class diagram below (it may not be complete yet but gives a first idea).
+*m4i* are implemented, too.
 
 Practical examples on how to use the library can be found in docs-folder (
 e.g. [Describe a PIV recording](docs/Describe_a_PIV_recording.ipynb)).
 
-![Class diagram](docs/class_structure.png)
 
 ## Contribution
 

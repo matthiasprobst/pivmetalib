@@ -1,361 +1,164 @@
-[
-    {
-        "@id": "https://local-domain.org/890e1ce6-1762-4d5b-bfbd-82a9ed22f40b",
-        "@type": [
-            "pivmeta:OutlierDetectionMethod"
-        ],
-        "m4i:hasParameter": [
-            {
-                "@id": "https://local-domain.org/fa437c25-bf78-4152-94bf-adc7ce64e9c1"
+{
+    "@context": {
+        "owl": "http://www.w3.org/2002/07/owl#",
+        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+        "local": "http://example.org/",
+        "m4i": "http://w3id.org/nfdi4ing/metadata4ing#",
+        "schema": "https://schema.org/",
+        "obo": "http://purl.obolibrary.org/obo/",
+        "PivProcessingStep": "https://matthiasprobst.github.io/pivmeta",
+        "PivEvaluation": "https://matthiasprobst.github.io/pivmeta"
+    },
+    "@type": "https://matthiasprobst.github.io/pivmeta#PIVEvaluation",
+    "rdfs:label": "piv evaluation",
+    "m4i:realizesMethod": [
+        {
+            "@type": "pivmeta:CorrelationAlgorithm",
+            "schema:description": "The default mode of cross-correlation using FFTs to speed the computation. In principle the sum of pixel-wise multiplication of intensities is computed for each correlation offset (For implementation details please refer to Raffel et al. 2007).",
+            "name": "Standard (FFT) Correlation",
+            "@id": "local:826a3559-293c-4926-af56-bad718552546"
+        },
+        {
+            "@type": "m4i:Method",
+            "schema:description": "Run a multigrid PIV algorithm on all images",
+            "m4i:hasParameter": [
+                {
+                    "@type": "m4i:NumericalVariable",
+                    "m4i:hasNumericalValue": "64",
+                    "pivmeta:hasStandardName": "https://matthiasprobst.github.io/pivmeta#x_initial_interrogation_window_size",
+                    "@id": "local:d60153ec-460c-4e80-9888-1d007826880a"
+                },
+                {
+                    "@type": "m4i:NumericalVariable",
+                    "m4i:hasNumericalValue": "64",
+                    "pivmeta:hasStandardName": "https://matthiasprobst.github.io/pivmeta#y_initial_interrogation_window_size",
+                    "@id": "local:f5027aae-571f-449c-9061-ef49a70f6abc"
+                },
+                {
+                    "@type": "m4i:NumericalVariable",
+                    "m4i:hasNumericalValue": "16",
+                    "pivmeta:hasStandardName": "https://matthiasprobst.github.io/pivmeta#x_final_interrogation_window_size",
+                    "@id": "local:b9e86d60-8f01-40ab-b1e8-3dc781872605"
+                },
+                {
+                    "@type": "m4i:NumericalVariable",
+                    "m4i:hasNumericalValue": "16",
+                    "pivmeta:hasStandardName": "https://matthiasprobst.github.io/pivmeta#y_final_interrogation_window_size",
+                    "@id": "local:2afd9a23-3c9a-40f9-8d5e-4178212712d6"
+                },
+                {
+                    "@type": "m4i:NumericalVariable",
+                    "m4i:hasNumericalValue": "8",
+                    "pivmeta:hasStandardName": "https://matthiasprobst.github.io/pivmeta#x_final_interrogation_window_overlap_size",
+                    "@id": "local:d98b7052-023a-4964-992f-ecd10f11e199"
+                },
+                {
+                    "@type": "m4i:NumericalVariable",
+                    "m4i:hasNumericalValue": "8",
+                    "pivmeta:hasStandardName": "https://matthiasprobst.github.io/pivmeta#y_final_interrogation_window_overlap_size",
+                    "@id": "local:a4a7bb2c-6f53-47b5-9fa4-f5040ab247cd"
+                },
+                {
+                    "@type": "m4i:NumericalVariable",
+                    "m4i:hasVariableDescription": "Number of multigrid passes",
+                    "m4i:hasNumericalValue": "3",
+                    "@id": "local:178ef773-5b18-4258-9f5e-7b7c40698e95"
+                }
+            ],
+            "name": "Multigrid interrogation method",
+            "@id": "local:c2a12578-88f7-4148-8726-9ea9df390fe2"
+        },
+        {
+            "@type": "pivmeta:OutlierDetectionMethod",
+            "m4i:hasParameter": {
+                "@type": "m4i:NumericalVariable",
+                "rdfs:label": "threshold",
+                "m4i:hasNumericalValue": "3.0",
+                "@id": "local:2c23cc0a-3ab1-4f73-a60d-30062fe475f5"
             },
-            {
-                "@id": "https://local-domain.org/e441f571-bbe8-4cd5-a839-43cb1e92efad"
-            }
-        ]
-    },
-    {
-        "@id": "https://local-domain.org/fa437c25-bf78-4152-94bf-adc7ce64e9c1",
-        "@type": [
-            "m4i:NumericalVariable"
-        ],
-        "m4i:hasNumericalValue": [
-            {
-                "@value": "2.0"
-            }
-        ],
-        "rdfs:label": [
-            {
-                "@value": "mean"
-            }
-        ]
-    },
-    {
-        "@id": "https://local-domain.org/dbf6d09a-a1ee-4e5b-9cd0-a20ef359fb77",
-        "@type": [
-            "m4i:NumericalVariable"
-        ],
-        "m4i:hasNumericalValue": [
-            {
-                "@value": "64"
-            }
-        ],
-        "pivmeta:hasStandardName": [
-            {
-                "@value": "https://matthiasprobst.github.io/pivmeta#x_initial_interrogation_window_size"
-            }
-        ]
-    },
-    {
-        "@id": "https://local-domain.org/aa9ed54d-00af-4617-949d-24d8c796251b",
-        "@type": [
-            "file:///C:/Users/da4323/Documents/programming/git/pivmetalib/docs/PivPostProcessing"
-        ],
-        "m4i:hasOutput": [
-            {
-                "@id": "https://local-domain.org/2b229c36-3e92-4d62-956a-f2c654645759"
-            }
-        ],
-        "m4i:realizesMethod": [
-            {
-                "@id": "https://local-domain.org/3da9f8f1-daf2-4159-a533-e99bf79c612d"
-            }
-        ],
-        "rdfs:label": [
-            {
-                "@value": "Post processing"
-            }
-        ]
-    },
-    {
-        "@id": "https://local-domain.org/67dbf8fd-4140-4a15-9b90-2b6c334fe06f",
-        "@type": [
-            "pivmeta:PivImageDistribution"
-        ],
-        "dct:title": [
-            {
-                "@value": "ILA Vortex Pair Images"
-            }
-        ]
-    },
-    {
-        "@id": "https://local-domain.org/80f54b19-5360-46dc-9ff2-2aa287bac85d",
-        "@type": [
-            "m4i:NumericalVariable"
-        ],
-        "m4i:hasNumericalValue": [
-            {
-                "@value": "64"
-            }
-        ],
-        "pivmeta:hasStandardName": [
-            {
-                "@value": "https://matthiasprobst.github.io/pivmeta#y_initial_interrogation_window_size"
-            }
-        ]
-    },
-    {
-        "@id": "https://local-domain.org/a47d11b1-b2ab-43f6-8995-ee01429dc588",
-        "@type": [
-            "m4i:NumericalVariable"
-        ],
-        "m4i:hasNumericalValue": [
-            {
-                "@value": "8"
-            }
-        ],
-        "pivmeta:hasStandardName": [
-            {
-                "@value": "https://matthiasprobst.github.io/pivmeta#y_final_interrogation_window_overlap_size"
-            }
-        ]
-    },
-    {
-        "@id": "https://local-domain.org/629381be-9618-4a74-a810-8a8e9e5165bb",
-        "@type": [
-            "pivmeta:CorrelationAlgorithm"
-        ],
-        "schema:description": [
-            {
-                "@value": "The default mode of cross-correlation using FFTs to speed the computation. In principle the sum of pixel-wise multiplication of intensities is computed for each correlation offset (For implementation details please refer to Raffel et al. 2007)."
-            }
-        ]
-    },
-    {
-        "@id": "https://local-domain.org/ad34428e-b4ab-4c07-91f1-42a9924b0527",
-        "@type": [
-            "m4i:NumericalVariable"
-        ],
-        "m4i:hasNumericalValue": [
-            {
-                "@value": "16"
-            }
-        ],
-        "pivmeta:hasStandardName": [
-            {
-                "@value": "https://matthiasprobst.github.io/pivmeta#y_final_interrogation_window_size"
-            }
-        ]
-    },
-    {
-        "@id": "https://local-domain.org/35ef93c9-0384-409e-a845-1bc34c07312e",
-        "@type": [
-            "m4i:NumericalVariable"
-        ],
-        "m4i:hasNumericalValue": [
-            {
-                "@value": "3"
-            }
-        ],
-        "m4i:hasVariableDescription": [
-            {
-                "@value": "Number of multigrid passes"
-            }
-        ]
-    },
-    {
-        "@id": "https://local-domain.org/1b424570-3488-4f28-8089-0016c989d6da",
-        "@type": [
-            "m4i:NumericalVariable"
-        ],
-        "m4i:hasNumericalValue": [
-            {
-                "@value": "8"
-            }
-        ],
-        "pivmeta:hasStandardName": [
-            {
-                "@value": "https://matthiasprobst.github.io/pivmeta#x_final_interrogation_window_overlap_size"
-            }
-        ]
-    },
-    {
-        "@id": "https://local-domain.org/3da9f8f1-daf2-4159-a533-e99bf79c612d",
-        "@type": [
-            "m4i:Method"
-        ],
-        "m4i:hasParameter": [
-            {
-                "@id": "https://local-domain.org/bab89473-c414-4124-8192-f9aab55f8a81"
-            }
-        ],
-        "schema:description": [
-            {
-                "@value": "applies a low-pass filtering on the data using a Gaussian weighted kernel of specified width to reduce spurious noise."
-            }
-        ]
-    },
-    {
-        "@id": "https://local-domain.org/bab89473-c414-4124-8192-f9aab55f8a81",
-        "@type": [
-            "m4i:NumericalVariable"
-        ],
-        "m4i:hasNumericalValue": [
-            {
-                "@value": "2.0"
-            }
-        ],
-        "rdfs:label": [
-            {
-                "@value": "kernel"
-            }
-        ]
-    },
-    {
-        "@id": "https://local-domain.org/8462df07-b2e7-43ed-90eb-8192a0d21fce",
-        "@type": [
-            "pivmeta:OutlierDetectionMethod"
-        ],
-        "m4i:hasParameter": [
-            {
-                "@id": "https://local-domain.org/5d2f282e-c1db-4459-b449-0605373040b4"
-            }
-        ]
-    },
-    {
-        "@id": "https://local-domain.org/fcee4d11-8f8f-478d-b404-97881d3e5468",
-        "@type": [
-            "file:///C:/Users/da4323/Documents/programming/git/pivmetalib/docs/PivEvaluation"
-        ],
-        "m4i:precedes": [
-            {
-                "@id": "https://local-domain.org/aa9ed54d-00af-4617-949d-24d8c796251b"
-            }
-        ],
-        "m4i:realizesMethod": [
-            {
-                "@id": "https://local-domain.org/629381be-9618-4a74-a810-8a8e9e5165bb"
+            "name": "normalized median test",
+            "@id": "local:36f52c4d-50fc-4fd4-84e0-5538e27f3ec6"
+        },
+        {
+            "@type": "pivmeta:OutlierDetectionMethod",
+            "m4i:hasParameter": [
+                {
+                    "@type": "m4i:NumericalVariable",
+                    "rdfs:label": "mean",
+                    "m4i:hasNumericalValue": "2.0",
+                    "@id": "local:ba525c75-3524-4d63-89af-ba32e6001944"
+                },
+                {
+                    "@type": "m4i:NumericalVariable",
+                    "rdfs:label": "var",
+                    "m4i:hasNumericalValue": "1.0",
+                    "@id": "local:cca95b59-862b-4bbd-baf2-40a045ac240a"
+                }
+            ],
+            "name": "dynamic mean test",
+            "@id": "local:503a446e-ec80-4001-94eb-f7623148ecd0"
+        }
+    ],
+    "m4i:precedes": {
+        "@type": "https://matthiasprobst.github.io/pivmeta#PivProcessingStep",
+        "rdfs:label": "Post processing",
+        "m4i:realizesMethod": {
+            "@type": "m4i:Method",
+            "schema:description": "applies a low-pass filtering on the data using a Gaussian weighted kernel of specified width to reduce spurious noise.",
+            "m4i:hasParameter": {
+                "@type": "m4i:NumericalVariable",
+                "rdfs:label": "kernel",
+                "m4i:hasNumericalValue": "2.0",
+                "@id": "local:eb8a819a-991f-4f65-99cd-f39817453469"
             },
-            {
-                "@id": "https://local-domain.org/753e8660-755c-4e7a-8c02-6766eacfd5b8"
+            "name": "Low-pass filtering",
+            "@id": "local:1d9c5f7d-a1e3-4884-80f0-3f89d6da917f"
+        },
+        "m4i:hasOutput": {
+            "@type": "dcat:Dataset",
+            "dcterms:title": "ILA Vortex Pair",
+            "dcat:distribution": [
+                {
+                    "@type": "pivmeta:PivResultDistribution",
+                    "dcterms:title": "Result File",
+                    "dcat:downloadURL": "file:///vp1a.dat",
+                    "@id": "local:2a86a340-63f1-4b09-890f-a3972289656e"
+                },
+                {
+                    "@type": "pivmeta:PivImageDistribution",
+                    "dcterms:title": "ILA Vortex Pair Images",
+                    "download_URL": "https://www.pivtec.com/download/samples/pivimg1.zip",
+                    "piv_image_type": "PivImageType.ExperimentalImage",
+                    "@id": "local:7339397c-6f77-4832-9710-92b8e3589ab4"
+                }
+            ],
+            "@id": "local:4621142f-920d-4f9d-9629-11d5eaa406c9"
+        },
+        "has_employed_tool": {
+            "@type": "pivmeta:PIVSoftware",
+            "schema:author": {
+                "@type": "prov:Organisation",
+                "foaf:mbox": "info@pivtec.com",
+                "foaf:name": "PIVTEC GmbH",
+                "schema:url": "https://www.pivtec.com/",
+                "@id": "local:6daff24f-91e1-4637-940a-3156d6dd8c29"
             },
-            {
-                "@id": "https://local-domain.org/8462df07-b2e7-43ed-90eb-8192a0d21fce"
-            },
-            {
-                "@id": "https://local-domain.org/890e1ce6-1762-4d5b-bfbd-82a9ed22f40b"
-            }
-        ],
-        "rdfs:label": [
-            {
-                "@value": "piv evaluation"
-            }
-        ]
+            "sd:hasDocumentation": "https://www.pivtec.com/download/docs/PIVview_v36_Manual.pdf",
+            "@id": "local:a924b511-dac2-4ed5-a4bc-9f25a3055853"
+        },
+        "@id": "local:718d2c28-ee6d-42e9-87da-84233eefa097"
     },
-    {
-        "@id": "https://local-domain.org/efcd688e-6af5-4918-bcd9-aa58ea6bbad7",
-        "@type": [
-            "pivmeta:PivResultDistribution"
-        ],
-        "dcat:downloadURL": [
-            {
-                "@value": "file:///vp1a.dat"
-            }
-        ],
-        "dct:title": [
-            {
-                "@value": "Result File"
-            }
-        ]
+    "has_employed_tool": {
+        "@type": "pivmeta:PIVSoftware",
+        "schema:author": {
+            "@type": "prov:Organisation",
+            "foaf:mbox": "info@pivtec.com",
+            "foaf:name": "PIVTEC GmbH",
+            "schema:url": "https://www.pivtec.com/",
+            "@id": "local:e2f0bc05-7626-463f-b378-2804f4d779bc"
+        },
+        "sd:hasDocumentation": "https://www.pivtec.com/download/docs/PIVview_v36_Manual.pdf",
+        "@id": "local:066ef1f8-a2f3-473d-95f1-ed3873c88fb6"
     },
-    {
-        "@id": "https://local-domain.org/5d2f282e-c1db-4459-b449-0605373040b4",
-        "@type": [
-            "m4i:NumericalVariable"
-        ],
-        "m4i:hasNumericalValue": [
-            {
-                "@value": "3.0"
-            }
-        ],
-        "rdfs:label": [
-            {
-                "@value": "threshold"
-            }
-        ]
-    },
-    {
-        "@id": "https://local-domain.org/753e8660-755c-4e7a-8c02-6766eacfd5b8",
-        "@type": [
-            "m4i:Method"
-        ],
-        "m4i:hasParameter": [
-            {
-                "@id": "https://local-domain.org/dbf6d09a-a1ee-4e5b-9cd0-a20ef359fb77"
-            },
-            {
-                "@id": "https://local-domain.org/80f54b19-5360-46dc-9ff2-2aa287bac85d"
-            },
-            {
-                "@id": "https://local-domain.org/7fc0cfcd-d0a4-4bf2-bfb4-ea002fc05cb6"
-            },
-            {
-                "@id": "https://local-domain.org/ad34428e-b4ab-4c07-91f1-42a9924b0527"
-            },
-            {
-                "@id": "https://local-domain.org/1b424570-3488-4f28-8089-0016c989d6da"
-            },
-            {
-                "@id": "https://local-domain.org/a47d11b1-b2ab-43f6-8995-ee01429dc588"
-            },
-            {
-                "@id": "https://local-domain.org/35ef93c9-0384-409e-a845-1bc34c07312e"
-            }
-        ],
-        "schema:description": [
-            {
-                "@value": "Run a multigrid PIV algorithm on all images"
-            }
-        ]
-    },
-    {
-        "@id": "https://local-domain.org/e441f571-bbe8-4cd5-a839-43cb1e92efad",
-        "@type": [
-            "m4i:NumericalVariable"
-        ],
-        "m4i:hasNumericalValue": [
-            {
-                "@value": "1.0"
-            }
-        ],
-        "rdfs:label": [
-            {
-                "@value": "var"
-            }
-        ]
-    },
-    {
-        "@id": "https://local-domain.org/7fc0cfcd-d0a4-4bf2-bfb4-ea002fc05cb6",
-        "@type": [
-            "m4i:NumericalVariable"
-        ],
-        "m4i:hasNumericalValue": [
-            {
-                "@value": "16"
-            }
-        ],
-        "pivmeta:hasStandardName": [
-            {
-                "@value": "https://matthiasprobst.github.io/pivmeta#x_final_interrogation_window_size"
-            }
-        ]
-    },
-    {
-        "@id": "https://local-domain.org/2b229c36-3e92-4d62-956a-f2c654645759",
-        "@type": [
-            "dcat:Dataset"
-        ],
-        "dcat:distribution": [
-            {
-                "@id": "https://local-domain.org/efcd688e-6af5-4918-bcd9-aa58ea6bbad7"
-            },
-            {
-                "@id": "https://local-domain.org/67dbf8fd-4140-4a15-9b90-2b6c334fe06f"
-            }
-        ],
-        "dct:title": [
-            {
-                "@value": "ILA Vortex Pair"
-            }
-        ]
-    }
-]
+    "@id": "local:191423a5-af2d-4b8b-9192-752f42c24243"
+}

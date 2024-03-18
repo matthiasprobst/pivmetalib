@@ -1,13 +1,44 @@
 import json
+import rdflib
 import unittest
 
-import rdflib
-
 from pivmetalib import CONTEXT
-from pivmetalib import m4i
+from pivmetalib import jsonld
+from pivmetalib import m4i, prov
 
 
 class TestJSONLD(unittest.TestCase):
+
+    def test_merge(self):
+        p1 = prov.Person(id='_:b1', firstName='John', lastName='Doe')
+        p2 = prov.Person(id='_:b2', firstName='Jane', lastName='Doe')
+        p12 = jsonld.merge([p1.model_dump_jsonld(), p2.model_dump_jsonld()])
+        self.assertDictEqual({
+            "@context": [
+                {
+                    "owl": "http://www.w3.org/2002/07/owl#",
+                    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+                    "local": "http://example.org/",
+                    "prov": "http://www.w3.org/ns/prov#",
+                    "foaf": "http://xmlns.com/foaf/0.1/"
+                }
+            ],
+            "@graph": [
+                {
+                    "@type": "prov:Person",
+                    "foaf:firstName": "John",
+                    "foaf:lastName": "Doe",
+                    "@id": "_:b1"
+                },
+                {
+                    "@type": "prov:Person",
+                    "foaf:firstName": "Jane",
+                    "foaf:lastName": "Doe",
+                    "@id": "_:b2"
+                }
+            ]
+        },
+            json.loads(p12))
 
     def test_correct_namespaces(self):
         dyn_mean = m4i.Method(
