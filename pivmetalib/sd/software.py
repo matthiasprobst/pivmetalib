@@ -2,7 +2,7 @@ from pydantic import HttpUrl, AnyUrl
 from typing import Union, List
 
 from .. import schema
-from ..prov import Person, Organisation
+from ..prov import Person, Organization
 from ontolutils import Thing, namespaces, urirefs
 
 
@@ -17,7 +17,7 @@ class SourceCode(schema.SoftwareSourceCode):
     """
 
 
-@namespaces(schema="https://schema.org/",
+@namespaces(schema="http://schema.org/",
             sd="https://w3id.org/okn/o/sd#")
 @urirefs(Software='sd:Software',
          short_description='sd:shortDescription',
@@ -35,5 +35,5 @@ class Software(schema.SoftwareApplication):
     short_description: str = None
     has_documentation: AnyUrl = None
     has_download_URL: HttpUrl = None
-    author: Union[Person, Organisation, List[Union[Person, Organisation]]] = None
+    author: Union[Person, Organization, List[Union[Person, Organization]]] = None
     has_source_code: SourceCode = None

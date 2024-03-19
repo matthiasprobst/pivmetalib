@@ -82,7 +82,7 @@ class TestPIVProcess(unittest.TestCase):
 
     def test_serialization(self):
         pivtec = pivmeta.PIVSoftware(
-            author=prov.Organisation(
+            author=prov.Organization(
                 name='PIVTEC GmbH',
                 mbox='info@pivtec.com',
                 url='https://www.pivtec.com/'

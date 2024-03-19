@@ -18,7 +18,7 @@ class TestPivmeta(utils.ClassTest):
 
     def test_PIVSoftware(self):
         pivtec = pivmeta.PIVSoftware(
-            author=prov.Organisation(
+            author=prov.Organization(
                 name='PIVTEC GmbH',
                 mbox='info@pivtec.com',
                 url='https://www.pivtec.com/'
@@ -31,7 +31,7 @@ class TestPivmeta(utils.ClassTest):
         pathlib.Path('software.jsonld').unlink(missing_ok=True)
 
         mycompany = pivmeta.PIVSoftware(
-            author=prov.Organisation(
+            author=prov.Organization(
                 name='My GmbH',
                 mbox='info@mycompany.com',
                 url='https://www.mycompany.com/'
@@ -42,11 +42,11 @@ class TestPivmeta(utils.ClassTest):
         self.assertIsInstance(mycompany, ontolutils.Thing)
         self.assertIsInstance(mycompany, pivmeta.PIVSoftware)
         self.assertIsInstance(mycompany.author, ontolutils.Thing)
-        self.assertIsInstance(mycompany.author, prov.Organisation)
+        self.assertIsInstance(mycompany.author, prov.Organization)
 
         mycompany2 = pivmeta.PIVSoftware(
             author=[
-                prov.Organisation(
+                prov.Organization(
                     name='My GmbH',
                     mbox='info@mycompany.com',
                     url='https://www.mycompany.com/'
@@ -58,7 +58,7 @@ class TestPivmeta(utils.ClassTest):
         )
         self.assertIsInstance(mycompany2.author, list)
         self.assertIsInstance(mycompany2.author[0], ontolutils.Thing)
-        self.assertIsInstance(mycompany2.author[0], prov.Organisation)
+        self.assertIsInstance(mycompany2.author[0], prov.Organization)
         self.assertEqual(mycompany2.author[0].name, 'My GmbH')
         self.assertEqual(mycompany2.author[0].mbox, 'info@mycompany.com')
         self.assertIsInstance(mycompany2.author[1], ontolutils.Thing)
@@ -90,9 +90,8 @@ class TestPivmeta(utils.ClassTest):
         self.assertDictEqual({"@context": {
             "owl": "http://www.w3.org/2002/07/owl#",
             "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
-            "local": "http://example.org/",
             "m4i": "http://w3id.org/nfdi4ing/metadata4ing#",
-            "schema": "https://schema.org/",
+            "schema": "http://schema.org/",
             "obo": "http://purl.obolibrary.org/obo/"
         },
             "@type": "m4i:ProcessingStep",
@@ -129,9 +128,8 @@ class TestPivmeta(utils.ClassTest):
             "@context": {
                 "owl": "http://www.w3.org/2002/07/owl#",
                 "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
-                "local": "http://example.org/",
                 "m4i": "http://w3id.org/nfdi4ing/metadata4ing#",
-                "schema": "https://schema.org/",
+                "schema": "http://schema.org/",
                 "obo": "http://purl.obolibrary.org/obo/",
                 "PivProcessingStep": "https://matthiasprobst.github.io/pivmeta",
                 "PivPostProcessing": "https://matthiasprobst.github.io/pivmeta"

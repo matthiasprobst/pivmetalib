@@ -30,13 +30,14 @@ class Agent(Thing):
 
 
 @namespaces(schema='http://schema.org/',
+            foaf='http://xmlns.com/foaf/0.1/',
             m4i='http://w3id.org/nfdi4ing/metadata4ing#')
-@urirefs(Organisation='prov:Organisation',
+@urirefs(Organization='prov:Organization',
          name='foaf:name',
          url='schema:url',
          hasRorId='m4i:hasRorId')
-class Organisation(Agent):
-    """Pydantic Model for http://www.w3.org/ns/prov#Organisation
+class Organization(Agent):
+    """Pydantic Model for http://www.w3.org/ns/prov#Organization
 
     .. note::
 
@@ -46,7 +47,7 @@ class Organisation(Agent):
     Parameters
     ----------
     name: str
-        Name of the Organisation (foaf:name)
+        Name of the Organization (foaf:name)
     url: HttpUrl = None
         URL of the item. From schema:url.
     hasRorId: HttpUrl
@@ -57,7 +58,9 @@ class Organisation(Agent):
     hasRorId: HttpUrl = None
 
 
-@namespaces(prov="http://www.w3.org/ns/prov#")
+@namespaces(prov="http://www.w3.org/ns/prov#",
+            foaf="http://xmlns.com/foaf/0.1/",
+            schema="http://schema.org/")
 @urirefs(Person='prov:Person',
          firstName='foaf:firstName',
          lastName='foaf:lastName',
@@ -89,4 +92,4 @@ class Person(Agent):
     lastName: str = None  # foaf:lastName
     hadRole: HttpUrl = None  # m4i:role
     wasRoleIn: Union[HttpUrl, BlankNodeType] = None  # m4i:role
-    affiliation: Organisation = None
+    affiliation: Organization = None

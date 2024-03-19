@@ -1,6 +1,6 @@
-from .agent import Agent, Organisation, Person
+from .agent import Agent, Organization, Person
 
 __all__ = ('Agent',
-           'Organisation',
+           'Organization',
            'Person',
            )

@@ -6,6 +6,9 @@ class ClassTest(unittest.TestCase):
     test_jsonld_filename = 'https://raw.githubusercontent.com/matthiasprobst/pivmetalib/main/tests/testdata/piv_dataset.json'
     test_jsonld_zipped_filename = 'https://raw.githubusercontent.com/matthiasprobst/pivmetalib/main/tests/testdata/piv_dataset.zip'
 
+    def setUp(self):
+        self.maxDiff = None
+
     def check_jsonld_string(self, jsonld_string):
         g = rdflib.Graph()
         g.parse(data=jsonld_string, format='json-ld',

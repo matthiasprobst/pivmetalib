@@ -2,10 +2,10 @@ from datetime import datetime
 from typing import Union, List
 
 from ontolutils import Thing, namespaces, urirefs
-from ..prov import Organisation, Person
+from ..prov import Organization, Person
 
 
-@namespaces(schema="https://schema.org/")
+@namespaces(schema="http://schema.org/")
 @urirefs(Project='schema:Research',
          identifier='schema:identifier',
          startDate='schema:startDate',
@@ -16,7 +16,7 @@ class Project(Thing):
     identifier: str
     startDate: datetime
     endDate: datetime
-    participant: Union[Person, Organisation, List[Union[Person, Organisation]]]
+    participant: Union[Person, Organization, List[Union[Person, Organization]]]
 
 
 @urirefs(ResearchProject='schema:ResearchProject')

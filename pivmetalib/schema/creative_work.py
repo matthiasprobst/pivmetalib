@@ -7,10 +7,10 @@ from ontolutils import Thing, namespaces, urirefs
 
 
 @namespaces(schema="http://schema.org/")
-@urirefs(Organisation='schema:Organization',
+@urirefs(Organization='schema:Organization',
          name='schema:name')
-class Organisation(Thing):
-    """schema:Organization (https://schema.org/Organization)"""
+class Organization(Thing):
+    """schema:Organization (http://schema.org/Organization)"""
     name: str = None
 
 
@@ -22,11 +22,11 @@ class Organisation(Thing):
          affiliation='schema:affiliation'
          )
 class Person(Thing):
-    """schema:Person (https://schema.org/Person)"""
+    """schema:Person (http://schema.org/Person)"""
     givenName: str = None
     familyName: str = None
     email: str = None
-    affiliation: Union[Organisation, List[Organisation]] = None
+    affiliation: Union[Organization, List[Organization]] = None
 
 
 @namespaces(schema="http://schema.org/")
@@ -35,7 +35,7 @@ class Person(Thing):
          abstract='schema:abstract')
 class CreativeWork(Thing):
     """schema:CreativeWork (not intended to use for modeling)"""
-    author: Union[Person, Organisation, List[Union[Person, Organisation]]] = None
+    author: Union[Person, Organization, List[Union[Person, Organization]]] = None
     abstract: str = None
 
 
@@ -45,7 +45,7 @@ class CreativeWork(Thing):
          downloadURL='schema:downloadURL',
          softwareVersion='schema:softwareVersion')
 class SoftwareApplication(CreativeWork):
-    """schema:SoftwareApplication (https://schema.org/SoftwareApplication)"""
+    """schema:SoftwareApplication (http://schema.org/SoftwareApplication)"""
     applicationCategory: Union[str, HttpUrl] = None
     downloadURL: HttpUrl = None
     softwareVersion: str = None
@@ -65,7 +65,7 @@ class SoftwareApplication(CreativeWork):
          codeRepository='schema:codeRepository',
          applicationCategory='schema:applicationCategory')
 class SoftwareSourceCode(CreativeWork):
-    """Pydantic implementation of schema:SoftwareSourceCode (see https://schema.org/SoftwareSourceCode)
+    """Pydantic implementation of schema:SoftwareSourceCode (see http://schema.org/SoftwareSourceCode)
 
     .. note::
 

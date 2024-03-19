@@ -31,7 +31,7 @@ Other users or software can then easily understand and use your data.
 from pivmetalib import pivmeta, prov
 
 software = pivmeta.PIVSoftware(
-    author=prov.Organisation(
+    author=prov.Organization(
         name='OpenPIV',
         url='https://github.com/OpenPIV/openpiv-python',
     ),
@@ -55,7 +55,7 @@ This will result in the following JSON-LD representation:
     "@graph": [
         {
             "@id": "https://local-domain.org/9c0696ff-7b0f-43a5-9d36-afca62f0f374",
-            "@type": "prov:Organisation",
+            "@type": "prov:Organization",
             "foaf:name": "OpenPIV",
             "schema:url": "https://github.com/OpenPIV/openpiv-python"
         },

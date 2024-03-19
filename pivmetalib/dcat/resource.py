@@ -15,7 +15,7 @@ from pydantic import HttpUrl, FileUrl, field_validator
 
 from ontolutils import Thing
 from ontolutils import urirefs, namespaces
-from ..prov import Person, Organisation, Agent
+from ..prov import Person, Organization, Agent
 from ..utils import download_file
 
 
@@ -42,14 +42,14 @@ class Resource(Thing):
         Title of the resource (dcterms:title)
     description: str = None
         Description of the resource (dcterms:description)
-    creator: Union[Person, Organisation] = None
+    creator: Union[Person, Organization] = None
         Creator of the resource (dcterms:creator)
     version: str = None
         Version of the resource (dcat:version)
     """
     title: str = None  # dcterms:title
     description: str = None  # dcterms:description
-    creator: Union[Person, Organisation] = None  # dcterms:creator
+    creator: Union[Person, Organization] = None  # dcterms:creator
     version: str = None  # dcat:version
     identifier: HttpUrl = None  # dcterms:identifier
 
@@ -66,7 +66,7 @@ class Resource(Thing):
             pass
             # not a person
         try:
-            organisation = Organisation.model_validate(creator, strict=True)
+            organisation = Organization.model_validate(creator, strict=True)
             is_organisation = True
         except pydantic.ValidationError:
             # not an organisation
@@ -208,8 +208,8 @@ class Dataset(Resource):
         Version of the resource (dcat:version)
     identifier: HttpUrl = None
         Identifier of the resource (dcterms:identifier)
-    creator: Union[Person, Organisation] = None  # dcterms:creator
-        Contact person or Organisation of the resource (http://www.w3.org/ns/prov#Person)
+    creator: Union[Person, Organization] = None  # dcterms:creator
+        Contact person or Organization of the resource (http://www.w3.org/ns/prov#Person)
     distribution: List[Distribution] = None
         Distribution of the resource (dcat:Distribution)
     modified: datetime = None

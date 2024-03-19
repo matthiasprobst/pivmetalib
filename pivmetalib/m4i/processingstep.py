@@ -19,7 +19,7 @@ class Activity(Thing, abc.ABC):
 
 
 @namespaces(m4i="http://w3id.org/nfdi4ing/metadata4ing#",
-            schema="https://schema.org/",
+            schema="http://schema.org/",
             obo="http://purl.obolibrary.org/obo/")
 @urirefs(ProcessingStep='m4i:ProcessingStep',
          startTime='schema:startTime',
