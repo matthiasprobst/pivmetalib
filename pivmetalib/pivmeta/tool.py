@@ -1,17 +1,18 @@
-from typing import Union, List, Tuple, Optional
-
 from pydantic import field_validator
+from typing import Union, List, Tuple, Optional
 
 from ontolutils import namespaces, urirefs, QUDT_KIND
 from .variable import NumericalVariable
 from .. import sd, m4i
 from ..m4i.variable import NumericalVariable as M4iNumericalVariable
 from ..m4i.variable import TextVariable
+from ..prov import Organization
 from ..schema import SoftwareSourceCode
 
 
 @namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
-@urirefs(PivMetaTool='pivmeta:PivMetaTool')
+@urirefs(PivMetaTool='pivmeta:PivMetaTool',
+         manufacturer='pivmeta:manufacturer')
 class PivMetaTool(m4i.Tool):
     hasParameter: Union[
         TextVariable,
@@ -19,6 +20,7 @@ class PivMetaTool(m4i.Tool):
         M4iNumericalVariable,
         List[Union[TextVariable, NumericalVariable, M4iNumericalVariable]]
     ] = None
+    manufacturer: Organization = None
 
 
 @namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
