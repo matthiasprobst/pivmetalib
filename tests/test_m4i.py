@@ -1,3 +1,4 @@
+import json
 import pathlib
 import rdflib
 import time
@@ -106,12 +107,32 @@ class TestM4i(utils.ClassTest):
         self.assertIsInstance(method3.hasParameter, list)
         self.assertEqual(method3.hasParameter, [var1, var2])
 
+        self.assertEqual(
+            method3.namespaces,
+            {'owl': 'http://www.w3.org/2002/07/owl#',
+             'rdfs': 'http://www.w3.org/2000/01/rdf-schema#',
+             'm4i': 'http://w3id.org/nfdi4ing/metadata4ing#',
+             'schema': 'https://schema.org/'}
+        )
         jsonld_string = method3.model_dump_jsonld(
             context={
                 "@import": 'https://raw.githubusercontent.com/matthiasprobst/pivmeta/main/pivmeta_context.jsonld'
             }
         )
+        # the namespace must not be change for the same class after the above call
+        self.assertEqual(
+            method3.namespaces,
+            {'owl': 'http://www.w3.org/2002/07/owl#',
+             'rdfs': 'http://www.w3.org/2000/01/rdf-schema#',
+             'm4i': 'http://w3id.org/nfdi4ing/metadata4ing#',
+             'schema': 'https://schema.org/'}
+        )
+
         self.check_jsonld_string(jsonld_string)
+        self.assertTrue('@import' in json.loads(jsonld_string)['@context'])
+
+        print(method3.namespaces)
+        print(method3.urirefs)
 
     def test_parameter_with_standard_name(self):
         sn1 = StandardName(standard_name='x_velocity',

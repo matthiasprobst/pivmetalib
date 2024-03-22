@@ -21,7 +21,7 @@ class TestJSONLD(unittest.TestCase):
                 {
                     "owl": "http://www.w3.org/2002/07/owl#",
                     "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
-                    "schema": "http://schema.org/",
+                    "schema": "https://schema.org/",
                     "prov": "http://www.w3.org/ns/prov#",
                     "foaf": "http://xmlns.com/foaf/0.1/"
                 }

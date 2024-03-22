@@ -17,7 +17,7 @@ class SourceCode(schema.SoftwareSourceCode):
     """
 
 
-@namespaces(schema="http://schema.org/",
+@namespaces(schema="https://schema.org/",
             sd="https://w3id.org/okn/o/sd#")
 @urirefs(Software='sd:Software',
          short_description='sd:shortDescription',

@@ -5,7 +5,7 @@ from .variable import Variable, NumericalVariable
 
 
 @namespaces(m4i="http://w3id.org/nfdi4ing/metadata4ing#",
-            schema="http://schema.org/")
+            schema="https://schema.org/")
 @urirefs(Method='m4i:Method',
          description='schema:description',
          hasParameter='m4i:hasParameter')

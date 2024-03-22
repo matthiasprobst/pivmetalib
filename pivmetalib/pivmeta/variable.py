@@ -1,15 +1,16 @@
 from pydantic import HttpUrl
-
 from typing import Union
-from ..ssno import StandardName
+
+from ontolutils import namespaces, urirefs
 from .. import m4i
-from ontolutils import Thing, namespaces, urirefs
+from ..ssno import StandardName
 
 
 @namespaces(m4i="http://w3id.org/nfdi4ing/metadata4ing#",
-            ssno="https://matthiasprobst.github.io/ssno#")
+            ssno="https://matthiasprobst.github.io/ssno#",
+            pivmeta="https://matthiasprobst.github.io/pivmeta#")
 @urirefs(NumericalVariable='m4i:NumericalVariable',
-         hasStandardName='pivmeta:hasStandardName')
+         standard_name='pivmeta:hasStandardName')
 class NumericalVariable(m4i.NumericalVariable):
     """Pydantic Model for pivmeta:NumericalVariable
 
@@ -20,7 +21,7 @@ class NumericalVariable(m4i.NumericalVariable):
 
     Parameters
     ----------
-    hasStandardName: Union[StandardName, HttpUrl]
+    standard_name: Union[StandardName, HttpUrl]
         The standard name of the variable
     """
-    hasStandardName: Union[StandardName, HttpUrl] = None
+    standard_name: Union[StandardName, HttpUrl] = None

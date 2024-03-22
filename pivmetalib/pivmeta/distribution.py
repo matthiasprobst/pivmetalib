@@ -66,15 +66,15 @@ class PivImageDistribution(PivDistribution):
     imageBitDepth: PositiveInt = None
     numberOfRecords: PositiveInt = None
 
-    def _repr_html_(self):
-        """Returns the HTML representation of the class"""
-        if str(self.pivImageType) == "https://matthiasprobst.github.io/pivmeta#ExperimentalImage":
-            pit = make_href("https://matthiasprobst.github.io/pivmeta#ExperimentalImage", "experimental")
-            return f"{self.__class__.__name__}('{pit}', {make_href(self.downloadURL)})"
-        elif str(self.pivImageType) == "https://matthiasprobst.github.io/pivmeta#SyntheticImage":
-            pit = make_href("https://matthiasprobst.github.io/pivmeta#SyntheticImage", "synthetic")
-            return f"{self.__class__.__name__}('{pit}', {make_href(self.downloadURL)})"
-        return f"{self.__class__.__name__}({make_href(self.downloadURL)})"
+    # def _repr_html_(self):
+    #     """Returns the HTML representation of the class"""
+    #     if str(self.pivImageType) == "https://matthiasprobst.github.io/pivmeta#ExperimentalImage":
+    #         pit = make_href("https://matthiasprobst.github.io/pivmeta#ExperimentalImage", "experimental")
+    #         return f"{self.__class__.__name__}('{pit}', {make_href(self.downloadURL)})"
+    #     elif str(self.pivImageType) == "https://matthiasprobst.github.io/pivmeta#SyntheticImage":
+    #         pit = make_href("https://matthiasprobst.github.io/pivmeta#SyntheticImage", "synthetic")
+    #         return f"{self.__class__.__name__}('{pit}', {make_href(self.downloadURL)})"
+    #     return f"{self.__class__.__name__}({make_href(self.downloadURL)})"
 
     @field_validator('pivImageType', mode='before')
     @classmethod

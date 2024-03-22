@@ -91,7 +91,7 @@ class TestPivmeta(utils.ClassTest):
             "owl": "http://www.w3.org/2002/07/owl#",
             "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
             "m4i": "http://w3id.org/nfdi4ing/metadata4ing#",
-            "schema": "http://schema.org/",
+            "schema": "https://schema.org/",
             "obo": "http://purl.obolibrary.org/obo/"
         },
             "@type": "m4i:ProcessingStep",
@@ -129,12 +129,11 @@ class TestPivmeta(utils.ClassTest):
                 "owl": "http://www.w3.org/2002/07/owl#",
                 "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
                 "m4i": "http://w3id.org/nfdi4ing/metadata4ing#",
-                "schema": "http://schema.org/",
+                "schema": "https://schema.org/",
                 "obo": "http://purl.obolibrary.org/obo/",
-                "PivProcessingStep": "https://matthiasprobst.github.io/pivmeta",
-                "PivPostProcessing": "https://matthiasprobst.github.io/pivmeta"
+                "pivmeta": "https://matthiasprobst.github.io/pivmeta#",
             },
-            "@type": "https://matthiasprobst.github.io/pivmeta#PivProcessingStep",
+            "@type": "pivmeta:PivProcessingStep",
             "rdfs:label": "Post processing",
             "m4i:realizesMethod": {
                 "@type": "m4i:Method",
@@ -272,7 +271,7 @@ class TestPivmeta(utils.ClassTest):
     def test_DigitalCamera(self):
         camera = pivmeta.DigitalCamera(
             label='camera1',
-            manufacturer='Manufacturer1',
+            manufacturer=dict(name='Manufacturer1'),
             model='Model1',
             serialNumber='123456'
         )

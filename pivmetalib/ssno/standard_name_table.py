@@ -10,7 +10,7 @@ from .standard_name import StandardName
 from ..dcat import Dataset, Distribution
 
 
-@namespaces(ssno="https://matthiasprobst.github.io/ssno/")
+@namespaces(ssno="https://matthiasprobst.github.io/ssno#")
 @urirefs(StandardNameTable='ssno:StandardNameTable',
          has_standard_names='ssno:has_standard_names')
 class StandardNameTable(Dataset):

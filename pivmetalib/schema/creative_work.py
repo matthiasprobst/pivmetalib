@@ -6,15 +6,15 @@ from pydantic import field_validator
 from ontolutils import Thing, namespaces, urirefs
 
 
-@namespaces(schema="http://schema.org/")
+@namespaces(schema="https://schema.org/")
 @urirefs(Organization='schema:Organization',
          name='schema:name')
 class Organization(Thing):
-    """schema:Organization (http://schema.org/Organization)"""
+    """schema:Organization (https://schema.org/Organization)"""
     name: str = None
 
 
-@namespaces(schema="http://schema.org/")
+@namespaces(schema="https://schema.org/")
 @urirefs(Person='schema:Person',
          givenName='schema:givenName',
          familyName='schema:familyName',
@@ -22,14 +22,14 @@ class Organization(Thing):
          affiliation='schema:affiliation'
          )
 class Person(Thing):
-    """schema:Person (http://schema.org/Person)"""
+    """schema:Person (https://schema.org/Person)"""
     givenName: str = None
     familyName: str = None
     email: str = None
     affiliation: Union[Organization, List[Organization]] = None
 
 
-@namespaces(schema="http://schema.org/")
+@namespaces(schema="https://schema.org/")
 @urirefs(CreativeWork='schema:CreativeWork',
          author='schema:author',
          abstract='schema:abstract')
@@ -39,13 +39,13 @@ class CreativeWork(Thing):
     abstract: str = None
 
 
-@namespaces(schema="http://schema.org/")
+@namespaces(schema="https://schema.org/")
 @urirefs(SoftwareApplication='schema:SoftwareApplication',
          applicationCategory='schema:applicationCategory',
          downloadURL='schema:downloadURL',
          softwareVersion='schema:softwareVersion')
 class SoftwareApplication(CreativeWork):
-    """schema:SoftwareApplication (http://schema.org/SoftwareApplication)"""
+    """schema:SoftwareApplication (https://schema.org/SoftwareApplication)"""
     applicationCategory: Union[str, HttpUrl] = None
     downloadURL: HttpUrl = None
     softwareVersion: str = None
@@ -60,12 +60,12 @@ class SoftwareApplication(CreativeWork):
     # to be continued
 
 
-@namespaces(schema="http://schema.org/")
+@namespaces(schema="https://schema.org/")
 @urirefs(SoftwareSourceCode='schema:SoftwareSourceCode',
          codeRepository='schema:codeRepository',
          applicationCategory='schema:applicationCategory')
 class SoftwareSourceCode(CreativeWork):
-    """Pydantic implementation of schema:SoftwareSourceCode (see http://schema.org/SoftwareSourceCode)
+    """Pydantic implementation of schema:SoftwareSourceCode (see https://schema.org/SoftwareSourceCode)
 
     .. note::
 

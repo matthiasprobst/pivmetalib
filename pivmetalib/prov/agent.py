@@ -29,9 +29,10 @@ class Agent(Thing):
     #     return f"{self.__class__.__name__}({self.mbox})"
 
 
-@namespaces(schema='http://schema.org/',
+@namespaces(schema='https://schema.org/',
             foaf='http://xmlns.com/foaf/0.1/',
-            m4i='http://w3id.org/nfdi4ing/metadata4ing#')
+            m4i='http://w3id.org/nfdi4ing/metadata4ing#',
+            prov='http://www.w3.org/ns/prov#')
 @urirefs(Organization='prov:Organization',
          name='foaf:name',
          url='schema:url',
@@ -60,7 +61,7 @@ class Organization(Agent):
 
 @namespaces(prov="http://www.w3.org/ns/prov#",
             foaf="http://xmlns.com/foaf/0.1/",
-            schema="http://schema.org/")
+            schema="https://schema.org/")
 @urirefs(Person='prov:Person',
          firstName='foaf:firstName',
          lastName='foaf:lastName',

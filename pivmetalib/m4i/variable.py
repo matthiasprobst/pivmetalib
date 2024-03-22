@@ -14,13 +14,14 @@ class Variable(Thing, abc.ABC):
     hasSymbol: Optional[str] = None  # "http://w3id.org/nfdi4ing/metadata4ing#hasSymbol"
 
 
+@namespaces(m4i="http://w3id.org/nfdi4ing/metadata4ing#")
 @urirefs(TextVariable='m4i:TextVariable',
          hasStringValue='m4i:hasStringValue')
 class TextVariable(Variable):
     """Pydantic Model for m4i:TextVariable"""
     hasStringValue: str
 
-
+@namespaces(m4i="http://w3id.org/nfdi4ing/metadata4ing#")
 @urirefs(NumericalVariable='m4i:NumericalVariable',
          hasNumericalValue='m4i:hasNumericalValue',
          hasUnit='m4i:hasUnit',

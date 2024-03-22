@@ -14,14 +14,14 @@ from pivmetalib.ssno import StandardName, StandardNameTable
 __this_dir__ = pathlib.Path(__file__).parent
 CACHE_DIR = pivmetalib.utils.get_cache_dir()
 
-snt_jsonld = """{
+SNT_JSONLD = """{
   "@context": {
     "owl": "http://www.w3.org/2002/07/owl#",
     "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
     "dcat": "http://www.w3.org/ns/dcat#",
     "dct": "http://purl.org/dc/terms/",
     "prov": "http://www.w3.org/ns/prov#",
-    "ssno": "https://matthiasprobst.github.io/ssno/"
+    "ssno": "https://matthiasprobst.github.io/ssno#"
   },
   "@type": "ssno:StandardNameTable",
   "dct:title": "OpenCeFaDB Fan Standard Name Table",
@@ -59,6 +59,9 @@ snt_jsonld = """{
 
 
 class TestSSNO(utils.ClassTest):
+
+    def tearDown(self):
+        pathlib.Path('snt.json').unlink(missing_ok=True)
 
     def test_standard_name(self):
         sn = StandardName(standard_name='x_velocity',
@@ -127,7 +130,7 @@ class TestSSNO(utils.ClassTest):
     def test_standard_name_table_from_jsonld(self):
         snt_jsonld_filename = pathlib.Path(__this_dir__, 'snt.json')
         with open(snt_jsonld_filename, 'w') as f:
-            json.dump(json.loads(snt_jsonld), f)
+            json.dump(json.loads(SNT_JSONLD), f)
         snt = StandardNameTable.parse(snt_jsonld_filename, fmt='jsonld')
 
         snt_jsonld_filename.unlink(missing_ok=True)

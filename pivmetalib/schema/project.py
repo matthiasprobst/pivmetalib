@@ -5,7 +5,7 @@ from ontolutils import Thing, namespaces, urirefs
 from ..prov import Organization, Person
 
 
-@namespaces(schema="http://schema.org/")
+@namespaces(schema="https://schema.org/")
 @urirefs(Project='schema:Research',
          identifier='schema:identifier',
          startDate='schema:startDate',
