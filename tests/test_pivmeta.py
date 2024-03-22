@@ -117,7 +117,7 @@ class TestPivmeta(utils.ClassTest):
             id='_:ms1',
             name='Low-pass filtering',
             description='applies a low-pass filtering on the data using a Gaussian weighted kernel of specified width to reduce spurious noise.',
-            hasParameter=m4i.NumericalVariable(id="_:param1", label='kernel', hasNumericalValue=2.0)
+            parameter=m4i.NumericalVariable(id="_:param1", label='kernel', value=2.0)
         )
         post = pivmeta.PivPostProcessing(
             id='_:pp1',
@@ -158,15 +158,15 @@ class TestPivmeta(utils.ClassTest):
         sn2 = StandardName(standard_name='y_velocity',
                            description='y component of velocity',
                            canonical_units='m s-1')
-        var1 = m4i.NumericalVariable(hasNumericalValue=4.2, hasStandardName=sn1)
-        var2 = m4i.NumericalVariable(hasNumericalValue=5.2, hasStandardName=sn2)
+        var1 = m4i.NumericalVariable(value=4.2, standard_name=sn1)
+        var2 = m4i.NumericalVariable(value=5.2, standard_name=sn2)
         self.assertIsInstance(var1, ontolutils.Thing)
         self.assertIsInstance(var1, m4i.NumericalVariable)
         self.assertIsInstance(var2, m4i.NumericalVariable)
-        self.assertEqual(var1.hasNumericalValue, 4.2)
+        self.assertEqual(var1.value, 4.2)
 
-        self.assertEqual(var1.hasStandardName, sn1)
-        self.assertNotEqual(var1.hasStandardName, sn2)
+        self.assertEqual(var1.standard_name, sn1)
+        self.assertNotEqual(var1.standard_name, sn2)
 
         sn1 = StandardName(standard_name='x_velocity',
                            description='x component of velocity',
@@ -174,16 +174,16 @@ class TestPivmeta(utils.ClassTest):
         sn2 = StandardName(standard_name='y_velocity',
                            description='y component of velocity',
                            canonical_units='m s-1')
-        var1 = pivmeta.NumericalVariable(hasNumericalValue=4.2, hasStandardName=sn1)
-        var2 = pivmeta.NumericalVariable(hasNumericalValue=5.2, hasStandardName=sn2)
+        var1 = pivmeta.NumericalVariable(value=4.2, standard_name=sn1)
+        var2 = pivmeta.NumericalVariable(value=5.2, standard_name=sn2)
         self.assertIsInstance(var1, ontolutils.Thing)
         self.assertIsInstance(var1, pivmeta.NumericalVariable)
-        self.assertEqual(var1.hasNumericalValue, 4.2)
+        self.assertEqual(var1.value, 4.2)
 
-        var1.hasStandardName = sn1
+        var1.standard_name = sn1
 
         method = m4i.Method(label='method1')
-        method.hasParameter = [var1, var2]
+        method.parameter = [var1, var2]
 
         jsonld_string = method.model_dump_jsonld()
         self.check_jsonld_string(jsonld_string)
@@ -292,15 +292,15 @@ class TestPivmeta(utils.ClassTest):
         found_sensor_pixel_width = False
         found_sensor_pixel_height = False
 
-        for param in min_cam.hasParameter:
+        for param in min_cam.parameter:
             if param.label == 'sensor_pixel_width':
                 found_sensor_pixel_width = True
                 self.assertIsInstance(param, m4i.NumericalVariable)
-                self.assertEqual(param.hasNumericalValue, 1000)
+                self.assertEqual(param.value, 1000)
             if param.label == 'sensor_pixel_height':
                 found_sensor_pixel_height = True
                 self.assertIsInstance(param, m4i.NumericalVariable)
-                self.assertEqual(param.hasNumericalValue, 400)
+                self.assertEqual(param.value, 400)
         self.assertEqual(min_cam.fnumber, '1.4')
         self.assertTrue(found_sensor_pixel_height)
         self.assertTrue(found_sensor_pixel_width)

@@ -8,7 +8,7 @@ from .variable import Variable, NumericalVariable
             schema="https://schema.org/")
 @urirefs(Method='m4i:Method',
          description='schema:description',
-         hasParameter='m4i:hasParameter')
+         parameter='m4i:hasParameter')
 class Method(Thing):
     """Pydantic Model for m4i:M4IProcessingStep
 
@@ -22,17 +22,15 @@ class Method(Thing):
     tbd
     """
     description: str = None
-    hasParameter: Union[Variable,
-    List[Variable]] = None
+    parameter: Union[Variable, List[Variable]] = None
 
     def add_numerical_variable(self, numerical_variable: Union[dict, NumericalVariable]):
         """add numerical variable to tool"""
         if isinstance(numerical_variable, dict):
             numerical_variable = NumericalVariable(**numerical_variable)
-        if self.hasParameter is None:
-            self.hasParameter = [numerical_variable, ]
-        elif isinstance(self.hasParameter, list):
-            self.hasParameter.append(numerical_variable)
+        if self.parameter is None:
+            self.parameter = [numerical_variable, ]
+        elif isinstance(self.parameter, list):
+            self.parameter.append(numerical_variable)
         else:
-            self.hasParameter = [self.hasParameter,
-                                 numerical_variable]
+            self.parameter = [self.parameter, numerical_variable]

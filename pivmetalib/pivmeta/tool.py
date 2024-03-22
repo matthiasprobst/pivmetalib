@@ -1,3 +1,4 @@
+from pydantic import HttpUrl
 from pydantic import field_validator
 from typing import Union, List, Tuple, Optional
 
@@ -10,11 +11,13 @@ from ..prov import Organization
 from ..schema import SoftwareSourceCode
 
 
-@namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
+@namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#",
+            m4i="http://w3id.org/nfdi4ing/metadata4ing#")
 @urirefs(PivMetaTool='pivmeta:PivMetaTool',
+         parameter='m4i:parameter',
          manufacturer='pivmeta:manufacturer')
 class PivMetaTool(m4i.Tool):
-    hasParameter: Union[
+    parameter: Union[
         TextVariable,
         NumericalVariable,
         M4iNumericalVariable,
@@ -78,60 +81,60 @@ class DigitalCamera(PIVHardware):
         cam_param = {
             'label': label,
             'fnumber': fnumber,
-            'hasParameter': []
+            'parameter': []
         }
-        cam_param['hasParameter'].append(
+        cam_param['parameter'].append(
             NumericalVariable(
-                hasNumericalValue=focal_length_mm,
-                hasUnit='mm',
-                hasKindOfQuantity=QUDT_KIND.Length,
-                hasStandardName="https://matthiasprobst.github.io/pivmeta#focal_length",
+                value=focal_length_mm,
+                unit='mm',
+                quantity_kind=QUDT_KIND.Length,
+                standard_name="https://matthiasprobst.github.io/pivmeta#focal_length",
             )
         )
         if sensor_pixel_size is not None:
             w, h = sensor_pixel_size
-            cam_param['hasParameter'].append(
+            cam_param['parameter'].append(
                 NumericalVariable(
                     label="sensor_pixel_width",
-                    hasNumericalValue=w,
-                    hasStandardName="https://matthiasprobst.github.io/pivmeta#sensor_pixel_width")
+                    value=w,
+                    standard_name="https://matthiasprobst.github.io/pivmeta#sensor_pixel_width")
             )
-            cam_param['hasParameter'].append(
+            cam_param['parameter'].append(
                 NumericalVariable(
                     label="sensor_pixel_height",
-                    hasNumericalValue=h,
-                    hasStandardName="https://matthiasprobst.github.io/pivmeta#sensor_pixel_height")
+                    value=h,
+                    standard_name="https://matthiasprobst.github.io/pivmeta#sensor_pixel_height")
             )
         if ccd_pixel_size_um is not None:
             if isinstance(ccd_pixel_size_um, (float, int)):
                 ccd_pixel_size_um = (ccd_pixel_size_um, ccd_pixel_size_um)
             w, h = ccd_pixel_size_um
-            cam_param['hasParameter'].append(
+            cam_param['parameter'].append(
                 NumericalVariable(
                     label="ccd_pixel_width",
-                    hasNumericalValue=w,
-                    hasUnit='um',
-                    hasKindOfQuantity=QUDT_KIND.Length,
-                    hasStandardName="https://matthiasprobst.github.io/pivmeta#ccd_width")
+                    value=w,
+                    unit='um',
+                    quantity_kind=QUDT_KIND.Length,
+                    standard_name="https://matthiasprobst.github.io/pivmeta#ccd_width")
             )
-            cam_param['hasParameter'].append(
+            cam_param['parameter'].append(
                 NumericalVariable(
                     label="ccd_pixel_height",
-                    hasNumericalValue=h,
-                    hasUnit='um',
-                    hasKindOfQuantity=QUDT_KIND.Length,
-                    hasStandardName="https://matthiasprobst.github.io/pivmeta#ccd_height")
+                    value=h,
+                    unit='um',
+                    quantity_kind=QUDT_KIND.Length,
+                    standard_name="https://matthiasprobst.github.io/pivmeta#ccd_height")
             )
         for k, v in kwargs.items():
             if isinstance(v, (int, float)):
-                cam_param['hasParameter'].append(
+                cam_param['parameter'].append(
                     NumericalVariable(
                         label=k,
-                        hasNumericalValue=v,
+                        value=v,
                     )
                 )
             elif isinstance(v, str):
-                cam_param['hasParameter'].append(
+                cam_param['parameter'].append(
                     TextVariable(
                         label=k,
                         hasStringValue=v,
@@ -161,10 +164,14 @@ class LaserModel(Laser):
 
 
 @namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
-@urirefs(Particle="pivmeta:Particle")
+@urirefs(Particle="pivmeta:Particle",
+         material="pivmeta:material")
 class Particle(PIVHardware):
     """Pydantic implementation of pivmeta:Particle"""
-    pass
+    material: HttpUrl = None
+
+
+setattr(Particle, 'DEHS', 'https://www.wikidata.org/wiki/Q4387284')
 
 
 @namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#",

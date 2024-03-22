@@ -34,37 +34,38 @@ class TestM4i(utils.ClassTest):
         self.assertIsInstance(method3, m4i.Method)
 
         method3.add_numerical_variable(m4i.NumericalVariable(label='a float',
-                                                             hasNumericalValue=4.2,
-                                                             hasUnit=QUDT_UNIT.M_PER_SEC,
-                                                             hasKindOfQuantity=QUDT_KIND.Velocity)
+                                                             value=4.2,
+                                                             unit=QUDT_UNIT.M_PER_SEC,
+                                                             quantity_kind=QUDT_KIND.Velocity)
                                        )
-        self.assertEqual(method3.hasParameter[0].hasNumericalValue, 4.2)
-        self.assertEqual(method3.hasParameter[0].hasUnit, str(QUDT_UNIT.M_PER_SEC))
-        self.assertEqual(method3.hasParameter[0].hasKindOfQuantity, str(QUDT_KIND.Velocity))
+        self.assertEqual(method3.parameter[0].value, 4.2)
+        self.assertEqual(method3.parameter[0].unit, str(QUDT_UNIT.M_PER_SEC))
+        self.assertEqual(method3.parameter[0].quantity_kind, str(QUDT_KIND.Velocity))
 
         method3.add_numerical_variable(dict(label='a float',
-                                            hasNumericalValue=12.2,
-                                            hasUnit=QUDT_UNIT.M_PER_SEC,
-                                            hasKindOfQuantity=QUDT_KIND.Velocity))
-        self.assertEqual(method3.hasParameter[1].hasNumericalValue, 12.2)
+                                            value=12.2,
+                                            unit=QUDT_UNIT.M_PER_SEC,
+                                            quantity_kind=QUDT_KIND.Velocity))
+        self.assertEqual(method3.parameter[1].value, 12.2)
 
         method3.add_numerical_variable(m4i.NumericalVariable(label='another float',
-                                                             hasNumericalValue=-5.2,
-                                                             hasUnit=QUDT_UNIT.M_PER_SEC,
-                                                             hasKindOfQuantity=QUDT_KIND.Velocity))
-        self.assertEqual(method3.hasParameter[2].hasNumericalValue, -5.2)
+                                                             value=-5.2,
+                                                             unit=QUDT_UNIT.M_PER_SEC,
+                                                             quantity_kind=QUDT_KIND.Velocity))
+        self.assertEqual(method3.parameter[2].value, -5.2)
 
     def test_variable(self):
         var1 = m4i.NumericalVariable(label='Name of the variable',
                                      name='var1',
                                      # not part of ontology and defined in model. will not add a namespace
-                                     hasNumericalValue=4.2)
+                                     value=4.2)
         self.assertIsInstance(var1, ontolutils.Thing)
         self.assertIsInstance(var1, m4i.NumericalVariable)
         self.assertEqual(var1.label, 'Name of the variable')
-        self.assertEqual(var1.hasNumericalValue, 4.2)
+        self.assertEqual(var1.value, 4.2)
 
         jsonld_string = var1.model_dump_jsonld()
+        print(jsonld_string)
         self.check_jsonld_string(jsonld_string)
 
         g = rdflib.Graph()
@@ -85,12 +86,12 @@ class TestM4i(utils.ClassTest):
 
     def test_method_one_parameters(self):
         # method with 1 parameter:
-        var1 = m4i.NumericalVariable(hasNumericalValue=4.2)
-        method2 = m4i.Method(label='method2', hasParameter=var1)
+        var1 = m4i.NumericalVariable(value=4.2)
+        method2 = m4i.Method(label='method2', parameters=var1)
         self.assertIsInstance(method2, ontolutils.Thing)
         self.assertIsInstance(method2, m4i.Method)
         self.assertEqual(method2.label, 'method2')
-        self.assertEqual(method2.hasParameter, var1)
+        self.assertEqual(method2.parameters, var1)
 
         jsonld_string = method2.model_dump_jsonld()
         self.check_jsonld_string(jsonld_string)
@@ -98,14 +99,14 @@ class TestM4i(utils.ClassTest):
 
     def test_method_n_parameters(self):
         # method with 2 parameters:
-        var1 = m4i.NumericalVariable(hasNumericalValue=4.2)
-        var2 = m4i.NumericalVariable(hasNumericalValue=5.2)
-        method3 = m4i.Method(label='method3', hasParameter=[var1, var2])
+        var1 = m4i.NumericalVariable(value=4.2)
+        var2 = m4i.NumericalVariable(value=5.2)
+        method3 = m4i.Method(label='method3', parameter=[var1, var2])
         self.assertIsInstance(method3, ontolutils.Thing)
         self.assertIsInstance(method3, m4i.Method)
         self.assertEqual(method3.label, 'method3')
-        self.assertIsInstance(method3.hasParameter, list)
-        self.assertEqual(method3.hasParameter, [var1, var2])
+        self.assertIsInstance(method3.parameter, list)
+        self.assertEqual(method3.parameter, [var1, var2])
 
         self.assertEqual(
             method3.namespaces,
@@ -141,15 +142,15 @@ class TestM4i(utils.ClassTest):
         sn2 = StandardName(standard_name='y_velocity',
                            description='y component of velocity',
                            canonical_units='m s-1')
-        var1 = m4i.NumericalVariable(hasNumericalValue=4.2, hasStandardName=sn1)
-        var2 = m4i.NumericalVariable(hasNumericalValue=5.2, hasStandardName=sn2)
+        var1 = m4i.NumericalVariable(value=4.2, standard_name=sn1)
+        var2 = m4i.NumericalVariable(value=5.2, standard_name=sn2)
         self.assertIsInstance(var1, ontolutils.Thing)
         self.assertIsInstance(var1, m4i.NumericalVariable)
         self.assertIsInstance(var2, m4i.NumericalVariable)
-        self.assertEqual(var1.hasNumericalValue, 4.2)
+        self.assertEqual(var1.value, 4.2)
 
-        self.assertEqual(var1.hasStandardName, sn1)
-        self.assertNotEqual(var1.hasStandardName, sn2)
+        self.assertEqual(var1.standard_name, sn1)
+        self.assertNotEqual(var1.standard_name, sn2)
 
         sn1 = StandardName(standard_name='x_velocity',
                            description='x component of velocity',
@@ -157,16 +158,16 @@ class TestM4i(utils.ClassTest):
         sn2 = StandardName(standard_name='y_velocity',
                            description='y component of velocity',
                            canonical_units='m s-1')
-        var1 = pivmeta.NumericalVariable(hasNumericalValue=4.2, hasStandardName=sn1)
-        var2 = pivmeta.NumericalVariable(hasNumericalValue=5.2, hasStandardName=sn2)
+        var1 = pivmeta.NumericalVariable(value=4.2, standard_name=sn1)
+        var2 = pivmeta.NumericalVariable(value=5.2, standard_name=sn2)
         self.assertIsInstance(var1, ontolutils.Thing)
         self.assertIsInstance(var1, pivmeta.NumericalVariable)
-        self.assertEqual(var1.hasNumericalValue, 4.2)
+        self.assertEqual(var1.value, 4.2)
 
-        var1.hasStandardName = sn1
+        var1.standard_name = sn1
 
         method = m4i.Method(label='method1')
-        method.hasParameter = [var1, var2]
+        method.parameter = [var1, var2]
 
         jsonld_string = method.model_dump_jsonld()
         self.check_jsonld_string(jsonld_string)
@@ -214,12 +215,12 @@ class TestM4i(utils.ClassTest):
                                ends_with=2.4)
 
         tool.add_numerical_variable(m4i.NumericalVariable(label='a float',
-                                                          hasNumericalValue=4.2,
-                                                          hasUnit=QUDT_UNIT.M_PER_SEC,
-                                                          hasKindOfQuantity=QUDT_KIND.Velocity))
-        self.assertEqual(tool.hasParameter[0].hasNumericalValue, 4.2)
+                                                          value=4.2,
+                                                          unit=QUDT_UNIT.M_PER_SEC,
+                                                          quantity_kind=QUDT_KIND.Velocity))
+        self.assertEqual(tool.parameter[0].value, 4.2)
         tool.add_numerical_variable(dict(label='a float',
-                                         hasNumericalValue=12.2,
-                                         hasUnit=QUDT_UNIT.M_PER_SEC,
-                                         hasKindOfQuantity=QUDT_KIND.Velocity))
-        self.assertEqual(tool.hasParameter[1].hasNumericalValue, 12.2)
+                                         value=12.2,
+                                         unit=QUDT_UNIT.M_PER_SEC,
+                                         quantity_kind=QUDT_KIND.Velocity))
+        self.assertEqual(tool.parameter[1].value, 12.2)

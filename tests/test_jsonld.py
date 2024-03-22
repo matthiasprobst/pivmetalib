@@ -46,14 +46,14 @@ class TestJSONLD(unittest.TestCase):
     def test_correct_namespaces(self):
         dyn_mean = m4i.Method(
             name='dynamic mean test',
-            hasParameter=[
+            parameter=[
                 m4i.NumericalVariable(
                     name='mean',
-                    hasNumericalValue=2.0
+                    value=2.0
                 ),
                 m4i.NumericalVariable(
                     name='var',
-                    hasNumericalValue=1.0
+                    value=1.0
                 )
             ]
         )

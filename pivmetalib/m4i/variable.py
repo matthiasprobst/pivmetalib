@@ -21,12 +21,13 @@ class TextVariable(Variable):
     """Pydantic Model for m4i:TextVariable"""
     hasStringValue: str
 
+
 @namespaces(m4i="http://w3id.org/nfdi4ing/metadata4ing#")
 @urirefs(NumericalVariable='m4i:NumericalVariable',
-         hasNumericalValue='m4i:hasNumericalValue',
-         hasUnit='m4i:hasUnit',
-         hasKindOfQuantity='m4i:hasKindOfQuantity',
-         hasSymbol='m4i:hasSymbol')
+         value='m4i:hasNumericalValue',
+         unit='m4i:hasUnit',
+         quantity_kind='m4i:hasKindOfQuantity',
+         symbol='m4i:hasSymbol')
 class NumericalVariable(Variable):
     """Pydantic Model for m4i:NumericalVariable
 
@@ -39,7 +40,7 @@ class NumericalVariable(Variable):
     ----------
     tbd
     """
-    hasNumericalValue: Union[int, float, List[int], List[float]]  # M4I.Value
-    hasUnit: str = None  # http://w3id.org/nfdi4ing/metadata4ing#hasUnit
-    hasKindOfQuantity: str = None  # http://w3id.org/nfdi4ing/metadata4ing#hasKindOfQuantity
-    hasSymbol: str = None  # "http://w3id.org/nfdi4ing/metadata4ing#hasSymbol"
+    value: Union[int, float, List[int], List[float]]  # M4I.Value
+    unit: str = None  # http://w3id.org/nfdi4ing/metadata4ing#hasUnit
+    quantity_kind: str = None  # http://w3id.org/nfdi4ing/metadata4ing#hasKindOfQuantity
+    symbol: str = None  # "http://w3id.org/nfdi4ing/metadata4ing#hasSymbol"
