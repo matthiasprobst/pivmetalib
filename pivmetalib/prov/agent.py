@@ -1,8 +1,8 @@
-from pydantic import EmailStr, HttpUrl
 from typing import Union
 
+from pydantic import EmailStr, HttpUrl
+
 from ontolutils import Thing, namespaces, urirefs
-from ..typing import BlankNodeType
 
 
 @namespaces(prov="http://www.w3.org/ns/prov#",
@@ -92,5 +92,5 @@ class Person(Agent):
     firstName: str = None  # foaf:firstName
     lastName: str = None  # foaf:lastName
     hadRole: HttpUrl = None  # m4i:role
-    wasRoleIn: Union[HttpUrl, BlankNodeType] = None  # m4i:role
+    wasRoleIn: Union[HttpUrl, str, Thing] = None  # m4i:role
     affiliation: Organization = None

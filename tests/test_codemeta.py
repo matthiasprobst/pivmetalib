@@ -15,8 +15,9 @@ class TestCodemeta(utils.ClassTest):
 
     def test_codemeta(self):
         # get codemeta context file:
-        codemeta_context_file = download_file('https://raw.githubusercontent.com/codemeta/codemeta/2.0/codemeta.jsonld',
-                                              None)
+        codemeta_context_file = download_file(
+            'https://raw.githubusercontent.com/codemeta/codemeta/2.0/codemeta.jsonld',
+            None)
         with open(codemeta_context_file) as f:
             codemeta_context = json.load(f)['@context']
 

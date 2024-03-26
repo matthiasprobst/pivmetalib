@@ -41,14 +41,14 @@ class TestQuery(ClassTest):
                     pivImageType=PIVMETA.SyntheticImage,
                     numberOfRecords=1,  # It contains one double image
                     filenamePattern="^C\d{3}_\d.tif$",  # the regex for the filename
-                    bit_depth=8
+                    imageBitDepth=8
                 ),
                 pivmeta.PivMaskDistribution(
                     title='mask data',
                     downloadURL='https://www.pivchallenge.org/pub/C/C.zip',
                     mediaType='application/zip',
                     filenamePattern="^Cmask_1.tif$",  # the regex for the filename
-                    bit_depth=8
+                    imageBitDepth=8
                 ),
                 dcat.Distribution(
                     title='ReadMe file',

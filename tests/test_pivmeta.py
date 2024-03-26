@@ -66,6 +66,16 @@ class TestPivmeta(utils.ClassTest):
         self.assertIsInstance(mycompany2, ontolutils.Thing)
         self.assertIsInstance(mycompany2, pivmeta.PIVSoftware)
 
+    def test_NumericalVariable(self):
+        var = m4i.NumericalVariable(value=4.2)
+        self.assertIsInstance(var, ontolutils.Thing)
+        self.assertIsInstance(var, m4i.NumericalVariable)
+        self.assertEqual(var.value, 4.2)
+
+        jsonld_string = var.model_dump_jsonld()
+        print(jsonld_string)
+        self.check_jsonld_string(jsonld_string)
+
     def test_ProcessingStep(self):
         st1 = datetime.now()
         ps1 = m4i.ProcessingStep(id='_:p1', label='p1', startTime=st1)
@@ -112,6 +122,11 @@ class TestPivmeta(utils.ClassTest):
         },
             json.loads(ps1.model_dump_jsonld()))
 
+        p = prov.Person(firstName='John',
+                        lastName='Doe',
+                        wasRoleIn=ps1)
+        self.assertIsInstance(p.wasRoleIn, ontolutils.Thing)
+
     def test_PivPostProcessing(self):
         data_smoothing = m4i.Method(
             id='_:ms1',
@@ -141,7 +156,7 @@ class TestPivmeta(utils.ClassTest):
                 "m4i:hasParameter": {
                     "@type": "m4i:NumericalVariable",
                     "rdfs:label": "kernel",
-                    "m4i:hasNumericalValue": "2.0",
+                    "m4i:hasNumericalValue": 2.0,
                     "@id": "_:param1"
                 },
                 "name": "Low-pass filtering",
@@ -224,6 +239,20 @@ class TestPivmeta(utils.ClassTest):
         self.assertEqual(len(found_dist), 1)
         self.assertEqual(found_dist[0].label, 'piv_distribution')
         self.assertEqual(found_dist[0].filenamePattern, r'img\d{4}_[a,b].tif')
+
+    def test_PivImageDistribution_from_file(self):
+        image_filename = __this_dir__ / 'testdata/piv_challenge.jsonld'
+        assert image_filename.exists()
+        image_dists = ontolutils.query(pivmeta.PivImageDistribution, source=image_filename)
+        self.assertIsInstance(image_dists[0], ontolutils.Thing)
+        self.assertIsInstance(image_dists[0], pivmeta.PivImageDistribution)
+        has_correct_title = False
+        for image_dist in image_dists:
+            if image_dist.id == "http://example.org/d5b2d0c9-ba74-43eb-b68f-624e1183cb2d":
+                self.assertEqual(image_dist.title,
+                                 "Raw piv image data")
+                has_correct_title = True
+        self.assertTrue(has_correct_title)
 
     def test_PivImageDistribution(self):
         piv_img_dist = pivmeta.PivImageDistribution(
