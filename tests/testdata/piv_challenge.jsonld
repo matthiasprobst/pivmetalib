@@ -1,0 +1,52 @@
+{
+    "@context": {
+        "owl": "http://www.w3.org/2002/07/owl#",
+        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+        "local": "http://example.org/",
+        "dcat": "http://www.w3.org/ns/dcat#",
+        "dcterms": "http://purl.org/dc/terms/",
+        "prov": "http://www.w3.org/ns/prov#",
+        "@import": "https://raw.githubusercontent.com/matthiasprobst/pivmeta/main/pivmeta_context.jsonld"
+    },
+    "@type": "dcat:Dataset",
+    "dcterms:title": "piv-challenge-1-C",
+    "dcterms:description": "Different velocity gradients with spatially varying image quality (provided by Okamoto) < synthetic > [256 x 128]",
+    "dcterms:creator": {
+        "@type": "prov:Person",
+        "foaf:mbox": "pivnet-sig32@univ-lille1.fr",
+        "foaf:lastName": "Stanislas",
+        "@id": "local:14450c2a-de8c-4d76-a9b7-41daa7fd4ab8"
+    },
+    "dcat:distribution": [
+        {
+            "@type": "pivmeta:PivImageDistribution",
+            "dcterms:title": "Raw piv image data",
+            "dcat:downloadURL": "https://www.pivchallenge.org/pub/C/C.zip",
+            "dcat:mediaType": "https://www.iana.org/assignments/media-types/image/tiff",
+            "pivmeta:filenamePattern": "C[0-9][0-9][0-9]_[1,2].tif",
+            "pivmeta:pivImageType": "https://matthiasprobst.github.io/pivmeta#SyntheticImage",
+            "pivmeta:imageBitDepth": "8",
+            "pivmeta:numberOfRecords": "1",
+            "compressedFormat": "application/zip",
+            "@id": "local:d5b2d0c9-ba74-43eb-b68f-624e1183cb2d"
+        },
+        {
+            "@type": "pivmeta:PivMaskDistribution",
+            "dcterms:title": "Mask file",
+            "dcat:downloadURL": "https://www.pivchallenge.org/pub/C/C.zip",
+            "dcat:mediaType": "https://www.iana.org/assignments/media-types/image/tiff",
+            "pivmeta:filenamePattern": "Cmask_1.tif",
+            "compressedFormat": "application/zip",
+            "@id": "local:f905f93b-5a45-44e2-bbf0-8f7bd6be91a1"
+        },
+        {
+            "@type": "dcat:Distribution",
+            "dcterms:title": "ReadMe file",
+            "dcat:downloadURL": "https://www.pivchallenge.org/pub/E/readmeE.txt",
+            "@id": "local:08534f8e-4b43-4368-bcaf-2b641cb56815"
+        }
+    ],
+    "dcterms:modified": "2000-10-28T00:00:00",
+    "dcat:landingPage": "https://www.pivchallenge.org/pub/index.html#c",
+    "@id": "local:a7aab076-49ee-49d8-891e-3f8fa4846f70"
+}
