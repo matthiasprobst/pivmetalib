@@ -13,20 +13,20 @@ class WindowWeightingFunction(m4i.Method):
 
 @namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
 @urirefs(CorrelationMethod='pivmeta:CorrelationMethod',
-         windowWeightingFunction='pivmeta:windowWeightingFunction')
+         window_weighting_function='pivmeta:windowWeightingFunction')
 class CorrelationMethod(m4i.Method):
     """Implementation of pivmeta:CorrelationMethod"""
-    windowWeightingFunction: Union[HttpUrl, WindowWeightingFunction]
+    window_weighting_function: Union[HttpUrl, WindowWeightingFunction]
 
-    @field_validator('windowWeightingFunction', mode='before')
+    @field_validator('window_weighting_function', mode='before')
     @classmethod
-    def _windowWeightingFunction(cls, windowWeightingFunction):
-        if isinstance(windowWeightingFunction, str):
-            if windowWeightingFunction.lower() in ('square', 'rectangle', 'none'):
+    def _windowWeightingFunction(cls, window_weighting_function):
+        if isinstance(window_weighting_function, str):
+            if window_weighting_function.lower() in ('square', 'rectangle', 'none'):
                 return str(PIVMETA.SquareWindowWeightingFunction)
-            if windowWeightingFunction.lower() in ('gauss', 'gaussian'):
+            if window_weighting_function.lower() in ('gauss', 'gaussian'):
                 return str(PIVMETA.GaussWindowWeightingFunction)
-        return windowWeightingFunction
+        return window_weighting_function
 
 
 @namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")

@@ -22,18 +22,18 @@ class Activity(Thing, abc.ABC):
             schema="https://schema.org/",
             obo="http://purl.obolibrary.org/obo/")
 @urirefs(ProcessingStep='m4i:ProcessingStep',
-         startTime='schema:startTime',
-         endTime='schema:endTime',
+         start_time='schema:startTime',
+         end_time='schema:endTime',
          starts_with='obo:starts_with',
          ends_with='obo:ends_with',
-         has_runtime_assignment='m4i:hasRuntimeAssignment',
+         runtime_assignment='m4i:hasRuntimeAssignment',
          investigates='m4i:investigates',
-         usageInstruction='m4i:usageInstruction',
-         hasEmployedTool='m4i:hasEmployedTool',
-         realizesMethod='m4i:realizesMethod',
-         hasInput='m4i:hasInput',
-         hasOutput='m4i:hasOutput',
-         partOf='m4i:partOf',
+         usage_instruction='m4i:usageInstruction',
+         employed_tool='m4i:hasEmployedTool',
+         realizes_method='m4i:realizesMethod',
+         has_input='m4i:hasInput',
+         has_output='m4i:hasOutput',
+         part_of='m4i:partOf',
          precedes='m4i:precedes')
 class ProcessingStep(Activity):
     """Pydantic Model for m4i:ProcessingStep
@@ -47,18 +47,18 @@ class ProcessingStep(Activity):
     ----------
     tbd
     """
-    startTime: datetime = None
-    endTime: datetime = None
+    start_time: datetime = None
+    end_time: datetime = None
     starts_with: Any = None
     ends_with: Any = None
-    has_runtime_assignment: Assignment = None
+    runtime_assignment: Assignment = None
     investigates: Thing = None
-    usageInstruction: str = None
-    hasEmployedTool: Tool = None
-    realizesMethod: Union[Method, List[Method]] = None
-    hasInput: Thing = None
-    hasOutput: Thing = None
-    partOf: Union[ResearchProject, "ProcessingStep"] = None
+    usage_instruction: str = None
+    employed_tool: Tool = None
+    realize_method: Union[Method, List[Method]] = None
+    has_input: Thing = None
+    has_output: Thing = None
+    part_of: Union[ResearchProject, "ProcessingStep"] = None
     precedes: "ProcessingStep" = None
 
     @field_validator('starts_with', mode='before')

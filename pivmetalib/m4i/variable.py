@@ -6,20 +6,20 @@ from ontolutils import Thing, namespaces, urirefs
 
 @namespaces(m4i="http://w3id.org/nfdi4ing/metadata4ing#")
 @urirefs(Variable='m4i:Variable',
-         hasVariableDescription='m4i:hasVariableDescription',
-         hasSymbol='m4i:hasSymbol', )
+         description='m4i:hasVariableDescription',
+         symbol='m4i:hasSymbol', )
 class Variable(Thing, abc.ABC):
     """Pydantic Model for m4i:Variable. Not intended to use for modeling. Use NumericalVariable or Text instead."""
-    hasVariableDescription: str = None  # M4I.hasVariableDescription
-    hasSymbol: Optional[str] = None  # "http://w3id.org/nfdi4ing/metadata4ing#hasSymbol"
+    description: str = None  # M4I.hasVariableDescription
+    symbol: Optional[str] = None  # "http://w3id.org/nfdi4ing/metadata4ing#hasSymbol"
 
 
 @namespaces(m4i="http://w3id.org/nfdi4ing/metadata4ing#")
 @urirefs(TextVariable='m4i:TextVariable',
-         hasStringValue='m4i:hasStringValue')
+         value='m4i:hasStringValue')
 class TextVariable(Variable):
     """Pydantic Model for m4i:TextVariable"""
-    hasStringValue: str
+    value: str
 
 
 @namespaces(m4i="http://w3id.org/nfdi4ing/metadata4ing#")

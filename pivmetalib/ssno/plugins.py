@@ -5,6 +5,7 @@ from typing import Dict, Union
 
 
 class TableReader(abc.ABC):
+    """Abstract Standard Name Table Reader"""
 
     def __init__(self, filename: Union[str, pathlib.Path]):
         self.filename = pathlib.Path(filename)

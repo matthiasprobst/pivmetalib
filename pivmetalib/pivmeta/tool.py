@@ -137,7 +137,7 @@ class DigitalCamera(PIVHardware):
                 cam_param['parameter'].append(
                     TextVariable(
                         label=k,
-                        hasStringValue=v,
+                        value=v,
                     )
                 )
             else:

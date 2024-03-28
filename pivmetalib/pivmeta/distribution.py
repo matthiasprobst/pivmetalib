@@ -54,17 +54,17 @@ class PivDistribution(Distribution):
 
 @namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
 @urirefs(PivImageDistribution='pivmeta:PivImageDistribution',
-         pivImageType='pivmeta:pivImageType',
-         imageBitDepth='pivmeta:imageBitDepth',
-         numberOfRecords='pivmeta:numberOfRecords')
+         piv_image_type='pivmeta:pivImageType',
+         image_bit_depth='pivmeta:imageBitDepth',
+         number_of_records='pivmeta:numberOfRecords')
 class PivImageDistribution(PivDistribution):
     """Implementation of pivmeta:PivImageDistribution
 
     Describes PIV images (e.g. tiff files) which are experimental or synthetic data.
     """
-    pivImageType: Union[HttpUrl, PivImageType] = None
-    imageBitDepth: PositiveInt = None
-    numberOfRecords: PositiveInt = None
+    piv_image_type: Union[HttpUrl, PivImageType] = None
+    image_bit_depth: PositiveInt = None
+    number_of_records: PositiveInt = None
 
     # def _repr_html_(self):
     #     """Returns the HTML representation of the class"""
@@ -76,18 +76,18 @@ class PivImageDistribution(PivDistribution):
     #         return f"{self.__class__.__name__}('{pit}', {make_href(self.downloadURL)})"
     #     return f"{self.__class__.__name__}({make_href(self.downloadURL)})"
 
-    @field_validator('pivImageType', mode='before')
+    @field_validator('piv_image_type', mode='before')
     @classmethod
-    def _pivImageType(cls, pivImageType):
-        if isinstance(pivImageType, rdflib.URIRef):
-            return str(pivImageType)
-        if isinstance(pivImageType, PivImageType):
-            return pivImageType.value
-        return pivImageType
+    def _pivImageType(cls, piv_image_type):
+        if isinstance(piv_image_type, rdflib.URIRef):
+            return str(piv_image_type)
+        if isinstance(piv_image_type, PivImageType):
+            return piv_image_type.value
+        return piv_image_type
 
     def is_synthetic(self) -> bool:
         """Returns True if the PIV image is synthetic, False otherwise."""
-        return self.pivImageType == PivImageType.SyntheticImage.value
+        return self.piv_image_type == PivImageType.SyntheticImage.value
 
 
 @namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
