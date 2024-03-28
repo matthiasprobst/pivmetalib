@@ -36,7 +36,7 @@ software = pivmeta.PIVSoftware(
         url='https://github.com/OpenPIV/openpiv-python',
     ),
     description='OpenPIV is an open source Particle Image Velocimetry analysis software written in Python and Cython',
-    softwareVersion="0.26.0a0",
+    software_version="0.26.0a0",
     has_documentation='https://openpiv.readthedocs.io/en/latest/',
 )
 

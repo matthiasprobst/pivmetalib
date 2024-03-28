@@ -11,7 +11,7 @@ from typing import Union, List
 
 import pydantic
 from dateutil import parser
-from pydantic import HttpUrl, FileUrl, field_validator
+from pydantic import HttpUrl, FileUrl, field_validator, Field
 
 from ontolutils import Thing
 from ontolutils import urirefs, namespaces
@@ -82,9 +82,9 @@ class Resource(Thing):
 
 @namespaces(dcat="http://www.w3.org/ns/dcat#")
 @urirefs(Distribution='dcat:Distribution',
-         downloadURL='dcat:downloadURL',
-         mediaType='dcat:mediaType',
-         byteSize='dcat:byteSize',
+         download_URL='dcat:downloadURL',
+         media_type='dcat:mediaType',
+         byte_size='dcat:byteSize',
          keyword='dcat:keyword')
 class Distribution(Resource):
     """Implementation of dcat:Distribution
@@ -95,19 +95,20 @@ class Distribution(Resource):
 
     Parameters
     ----------
-    downloadURL: Union[HttpUrl, FileUrl]
+    download_URL: Union[HttpUrl, FileUrl]
         Download URL of the distribution (dcat:downloadURL)
-    mediaType: HttpUrl = None
+    media_type: HttpUrl = None
         Media type of the distribution (dcat:mediaType).
         Should be defined by the [IANA Media Types registry](https://www.iana.org/assignments/media-types/media-types.xhtml)
-    byteSize: int = None
+    byte_size: int = None
         Size of the distribution in bytes (dcat:byteSize)
     keyword: List[str]
         Keywords for the distribution.
     """
-    downloadURL: Union[HttpUrl, FileUrl, pathlib.Path] = None  # dcat:downloadURL, e.g.
-    mediaType: HttpUrl = None  # dcat:mediaType
-    byteSize: int = None  # dcat:byteSize
+    download_URL: Union[HttpUrl, FileUrl, pathlib.Path] = Field(default=None,
+                                                                alias='downloadURL')  # dcat:downloadURL, e.g.
+    media_type: HttpUrl = Field(default=None, alias='mediaType')  # dcat:mediaType
+    byte_size: int = Field(default=None, alias='byteSize')  # dcat:byteSize
     keyword: List[str] = None  # dcat:keyword
 
     def _repr_html_(self):
@@ -185,8 +186,8 @@ class DatasetSeries(Resource):
          creator='dcterms:creator',
          distribution='dcat:distribution',
          modified='dcterms:modified',
-         landingPage='dcat:landingPage',
-         inSeries='dcat:inSeries')
+         landing_page='dcat:landingPage',
+         in_series='dcat:inSeries')
 class Dataset(Resource):
     """Pydantic implementation of dcat:Dataset
 
@@ -212,16 +213,20 @@ class Dataset(Resource):
         Contact person or Organization of the resource (http://www.w3.org/ns/prov#Person)
     distribution: List[Distribution] = None
         Distribution of the resource (dcat:Distribution)
+    landing_page: HttpUrl = None
+        Landing page of the resource (dcat:landingPage)
     modified: datetime = None
         Last modified date of the resource (dcterms:modified)
+    in_series: DatasetSeries = None
+        The series the dataset belongs to (dcat:inSeries)
     """
     identifier: HttpUrl = None  # dcterms:identifier, see https://www.w3.org/TR/vocab-dcat-3/#ex-identifier
     # http://www.w3.org/ns/prov#Person, see https://www.w3.org/TR/vocab-dcat-3/#ex-adms-identifier
     creator: Agent = None
     distribution: Union[Distribution, List[Distribution]] = None  # dcat:Distribution
     modified: datetime = None  # dcterms:modified
-    landingPage: HttpUrl = None  # dcat:landingPage
-    inSeries: DatasetSeries = None  # dcat:inSeries
+    landing_page: HttpUrl = Field(default=None, alias='landingPage')  # dcat:landingPage
+    in_series: DatasetSeries = Field(default=None, alias='inSeries')  # dcat:inSeries
 
     @field_validator('distribution', mode='before')
     @classmethod

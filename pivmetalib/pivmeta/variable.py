@@ -1,5 +1,6 @@
-from pydantic import HttpUrl
 from typing import Union
+
+from pydantic import HttpUrl, field_validator, Field
 
 from ontolutils import namespaces, urirefs
 from .. import m4i
@@ -24,4 +25,13 @@ class NumericalVariable(m4i.NumericalVariable):
     standard_name: Union[StandardName, HttpUrl]
         The standard name of the variable
     """
-    standard_name: Union[StandardName, HttpUrl] = None
+    standard_name: Union[StandardName, HttpUrl, str] = Field(alias="hasStandardName", default=None)
+
+    @field_validator("standard_name", mode='before')
+    @classmethod
+    def _parse_standard_name(cls, standard_name) -> Union[StandardName, str]:
+        """Return the standard name as a StandardName object else validate
+        it with HttpUrl and return it as a string"""
+        if isinstance(standard_name, StandardName):
+            return standard_name
+        return str(HttpUrl(standard_name))

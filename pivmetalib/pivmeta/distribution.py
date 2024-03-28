@@ -38,13 +38,13 @@ class PivImageType(Enum):
 
 @namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
 @urirefs(PivDistribution='pivmeta:PivDistribution',
-         filenamePattern='pivmeta:filenamePattern')
+         filename_pattern='pivmeta:filenamePattern')
 class PivDistribution(Distribution):
     """Implementation of pivmeta:PivDistribution
 
     Describes PIV data (images or result data). See also subclasses PivImageDistribution and PivResultDistribution.
     """
-    filenamePattern: str = None  # e.g. "image_{:04d}.tif"
+    filename_pattern: str = Field(default=None, alias='filenamePattern')  # e.g. "image_{:04d}.tif"
 
     @field_validator('filenamePattern', mode='before')
     @classmethod

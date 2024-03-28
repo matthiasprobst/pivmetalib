@@ -5,6 +5,11 @@ from ontolutils import QUDT_UNIT
 qudt_lookup = {
     's': QUDT_UNIT.SEC,  # time
     'm': QUDT_UNIT.M,  # length
+    'mm': QUDT_UNIT.MilliM,
+    'cm': QUDT_UNIT.CentiM,
+    'um': QUDT_UNIT.MicroM,
+    'nm': QUDT_UNIT.NanoM,
+    'km': QUDT_UNIT.KiloM,
     # derived units
     # velocity
     'm/s': QUDT_UNIT.M_PER_SEC,
