@@ -2,7 +2,7 @@ from enum import Enum
 from typing import Union
 
 import rdflib
-from pydantic import HttpUrl, PositiveInt, field_validator
+from pydantic import HttpUrl, PositiveInt, field_validator, Field
 
 from ontolutils import namespaces, urirefs
 from ontolutils.namespacelib import PIVMETA
@@ -62,9 +62,9 @@ class PivImageDistribution(PivDistribution):
 
     Describes PIV images (e.g. tiff files) which are experimental or synthetic data.
     """
-    piv_image_type: Union[HttpUrl, PivImageType] = None
-    image_bit_depth: PositiveInt = None
-    number_of_records: PositiveInt = None
+    piv_image_type: Union[HttpUrl, PivImageType] = Field(default=None, alias="pivImageType")
+    image_bit_depth: PositiveInt = Field(default=None, alias="imageBitDepth")
+    number_of_records: PositiveInt = Field(default=None, alias="numberOfRecords")
 
     # def _repr_html_(self):
     #     """Returns the HTML representation of the class"""

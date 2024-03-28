@@ -2,6 +2,7 @@ import abc
 from datetime import datetime
 from typing import Any, List, Union
 
+from pydantic import Field
 from pydantic import field_validator
 
 from ontolutils import Thing, namespaces, urirefs
@@ -47,18 +48,18 @@ class ProcessingStep(Activity):
     ----------
     tbd
     """
-    start_time: datetime = None
-    end_time: datetime = None
+    start_time: datetime = Field(default=None, alias="startTime")
+    end_time: datetime = Field(default=None, alias="endTime")
     starts_with: Any = None
     ends_with: Any = None
-    runtime_assignment: Assignment = None
+    runtime_assignment: Assignment = Field(default=None, alias="hasRuntimeAssignment")
     investigates: Thing = None
-    usage_instruction: str = None
-    employed_tool: Tool = None
-    realizes_method: Union[Method, List[Method]] = None
-    has_input: Thing = None
-    has_output: Thing = None
-    part_of: Union[ResearchProject, "ProcessingStep"] = None
+    usage_instruction: str = Field(default=None, alias="usageInstruction")
+    employed_tool: Tool = Field(default=None, alias="hasEmployedTool")
+    realizes_method: Union[Method, List[Method]] = Field(default=None, alias="realizesMethod")
+    has_input: Thing = Field(default=None, alias="hasInput")
+    has_output: Thing = Field(default=None, alias="hasOutput")
+    part_of: Union[ResearchProject, "ProcessingStep"] = Field(default=None, alias="partOf")
     precedes: "ProcessingStep" = None
 
     @field_validator('starts_with', mode='before')

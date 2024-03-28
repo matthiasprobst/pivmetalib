@@ -1,6 +1,6 @@
 from typing import Union
 
-from pydantic import EmailStr, HttpUrl
+from pydantic import EmailStr, HttpUrl, Field
 
 from ontolutils import Thing, namespaces, urirefs
 
@@ -56,7 +56,7 @@ class Organization(Agent):
     """
     name: str  # foaf:name
     url: HttpUrl = None
-    ror_id: HttpUrl = None
+    ror_id: HttpUrl = Field(alias="hasRorId", default=None)
 
 
 @namespaces(prov="http://www.w3.org/ns/prov#",
@@ -89,8 +89,8 @@ class Person(Agent):
 
     Extra fields are possible but not explicitly defined here.
     """
-    first_name: str = None  # foaf:firstName
-    last_name: str = None  # foaf:lastName
-    had_role: HttpUrl = None  # m4i:role
-    was_role_in: Union[HttpUrl, str, Thing] = None  # m4i:role
+    first_name: str = Field(default=None, alias="firstName")  # m4i:hadRole
+    last_name: str = Field(default=None, alias="lastName")  # m4i:hadRole
+    had_role: HttpUrl = Field(default=None, alias="hadRole")  # m4i:hadRole
+    was_role_in: Union[HttpUrl, str, Thing] = Field(default=None, alias="wasRoleIn")  # m4i:wasRoleIn
     affiliation: Organization = None

@@ -148,19 +148,19 @@ class DigitalCamera(PIVHardware):
 @namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#",
             codemeta="https://codemeta.github.io/terms/")
 @urirefs(DigitalCameraModel="pivmeta:DigitalCameraModel",
-         hasSourceCode="codemeta:hasSourceCode")
+         source_code="codemeta:hasSourceCode")
 class DigitalCameraModel(DigitalCamera):
     """Pydantic implementation of pivmeta:DigitalCameraModel"""
-    hasSourceCode: Optional[SoftwareSourceCode] = None
+    source_code: Optional[SoftwareSourceCode] = None
 
 
 @namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#",
             codemeta="https://codemeta.github.io/terms/")
 @urirefs(LaserModel="pivmeta:LaserModel",
-         hasSourceCode="codemeta:hasSourceCode")
+         source_code="codemeta:hasSourceCode")
 class LaserModel(Laser):
     """Pydantic implementation of pivmeta:LaserModel"""
-    hasSourceCode: Optional[SoftwareSourceCode] = None
+    source_code: Optional[SoftwareSourceCode] = None
 
 
 @namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
@@ -177,7 +177,7 @@ setattr(Particle, 'DEHS', 'https://www.wikidata.org/wiki/Q4387284')
 @namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#",
             codemeta="https://codemeta.github.io/terms/")
 @urirefs(SyntheticParticle="pivmeta:SyntheticParticle",
-         hasSourceCode="codemeta:hasSourceCode")
+         source_code="codemeta:hasSourceCode")
 class SyntheticParticle(Particle):
     """Pydantic implementation of pivmeta:SyntheticParticle"""
-    hasSourceCode: Optional[SoftwareSourceCode] = None
+    source_code: Optional[SoftwareSourceCode] = None

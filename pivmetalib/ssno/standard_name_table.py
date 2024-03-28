@@ -2,7 +2,7 @@ import pathlib
 from datetime import datetime
 from typing import List, Union, Dict
 
-from pydantic import field_validator
+from pydantic import field_validator, Field
 
 from ontolutils import namespaces, urirefs
 from . import plugins
@@ -12,7 +12,7 @@ from ..dcat import Dataset, Distribution
 
 @namespaces(ssno="https://matthiasprobst.github.io/ssno#")
 @urirefs(StandardNameTable='ssno:StandardNameTable',
-         has_standard_names='ssno:has_standard_names')
+         standard_names='ssno:hasStandardNames')
 class StandardNameTable(Dataset):
     """Implementation of ssno:StandardNameTable
 
@@ -30,11 +30,11 @@ class StandardNameTable(Dataset):
         Version of the Standard Name Table (dcat:version)
     identifier: str
         Identifier of the Standard Name Table, e.g. the DOI (dcterms:identifier)
-    has_standard_names: List[StandardName]
+    standard_names: List[StandardName]
         List of Standard Names (ssno:standard_name)
 
     """
-    has_standard_names: List[StandardName] = None  # ssno:standard_names
+    standard_names: List[StandardName] = Field(default=None, alias="hasStandardNames")  # ssno:has_standard_names
 
     def __str__(self) -> str:
         return f'{self.__class__.__name__}("{self.title}")'
@@ -70,12 +70,12 @@ class StandardNameTable(Dataset):
 
         return cls(**data)
 
-    @field_validator('has_standard_names')
+    @field_validator('standard_names')
     @classmethod
-    def _has_standard_names(cls, value: Union[StandardName, List[StandardName]]) -> List[StandardName]:
-        if not isinstance(value, list):
-            return [value]
-        return value
+    def _standard_names(cls, standard_names: Union[StandardName, List[StandardName]]) -> List[StandardName]:
+        if not isinstance(standard_names, list):
+            return [standard_names]
+        return standard_names
 
     def get_standard_name(self, standard_name: str) -> Union[StandardName, None]:
         """Check if the Standard Name Table has a given standard name. The

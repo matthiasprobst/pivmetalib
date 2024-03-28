@@ -85,7 +85,7 @@ class TestPivmeta(utils.ClassTest):
 
         ps1.starts_with = ps2
 
-        self.assertTrue(ps2.startTime > ps1.startTime)
+        self.assertTrue(ps2.start_time > ps1.start_time)
         self.assertIsInstance(ps1, ontolutils.Thing)
         self.assertIsInstance(ps1, m4i.ProcessingStep)
         self.assertIsInstance(ps1.starts_with, ontolutils.Thing)
@@ -96,7 +96,7 @@ class TestPivmeta(utils.ClassTest):
         self.check_jsonld_string(jsonld_string)
 
         tool = m4i.Tool(id='_:t1', label='tool1')
-        ps1.hasEmployedTool = tool
+        ps1.employed_tool = tool
         self.assertDictEqual({"@context": {
             "owl": "http://www.w3.org/2002/07/owl#",
             "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
@@ -125,7 +125,7 @@ class TestPivmeta(utils.ClassTest):
         p = prov.Person(firstName='John',
                         lastName='Doe',
                         wasRoleIn=ps1)
-        self.assertIsInstance(p.wasRoleIn, ontolutils.Thing)
+        self.assertIsInstance(p.was_role_in, ontolutils.Thing)
 
     def test_PivPostProcessing(self):
         data_smoothing = m4i.Method(
@@ -265,10 +265,10 @@ class TestPivmeta(utils.ClassTest):
         self.assertIsInstance(piv_img_dist, ontolutils.Thing)
         self.assertIsInstance(piv_img_dist, pivmeta.PivImageDistribution)
         self.assertEqual(piv_img_dist.label, 'piv_image_distribution')
-        self.assertEqual(str(piv_img_dist.pivImageType),
+        self.assertEqual(str(piv_img_dist.piv_image_type),
                          str(pivmeta.PivImageType.ExperimentalImage.value))
-        self.assertEqual(piv_img_dist.imageBitDepth, 8)
-        self.assertEqual(piv_img_dist.numberOfRecords, 100)
+        self.assertEqual(piv_img_dist.image_bit_depth, 8)
+        self.assertEqual(piv_img_dist.number_of_records, 100)
         jsonld_string = piv_img_dist.model_dump_jsonld(
             context={
                 "@import": 'https://raw.githubusercontent.com/matthiasprobst/pivmeta/main/pivmeta_context.jsonld'
@@ -283,10 +283,10 @@ class TestPivmeta(utils.ClassTest):
         )
         self.assertEqual(len(found_dist), 1)
         self.assertEqual(found_dist[0].label, 'piv_image_distribution')
-        self.assertEqual(str(found_dist[0].pivImageType),
+        self.assertEqual(str(found_dist[0].piv_image_type),
                          str(pivmeta.PivImageType.ExperimentalImage.value))
-        self.assertEqual(found_dist[0].imageBitDepth, 8)
-        self.assertEqual(found_dist[0].numberOfRecords, 100)
+        self.assertEqual(found_dist[0].image_bit_depth, 8)
+        self.assertEqual(found_dist[0].number_of_records, 100)
 
     def test_Tool(self):
         tool = m4i.Tool(label='tool1')

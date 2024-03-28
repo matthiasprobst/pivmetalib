@@ -20,12 +20,12 @@ class TestSchema(utils.ClassTest):
         sa = SoftwareApplication(label='software1',
                                  applicationCategory='Engineering')
         self.assertEqual(sa.label, 'software1')
-        self.assertEqual(sa.applicationCategory, 'Engineering')
+        self.assertEqual(sa.application_category, 'Engineering')
 
         sa = SoftwareApplication(label='software1',
                                  applicationCategory='file://Engineering')
         self.assertEqual(sa.label, 'software1')
-        self.assertEqual(sa.applicationCategory, 'Engineering')
+        self.assertEqual(sa.application_category, 'Engineering')
 
     def test_SoftwareSourceCode(self):
         ssc = SoftwareSourceCode(
@@ -33,14 +33,14 @@ class TestSchema(utils.ClassTest):
             codeRepository='git+https://https://github.com/matthiasprobst/pivmetalib',
             applicationCategory='file://Engineering')
         self.assertEqual(ssc.label, 'source1')
-        self.assertEqual(ssc.codeRepository, 'git+https://https://github.com/matthiasprobst/pivmetalib')
-        self.assertEqual(ssc.applicationCategory, 'Engineering')
+        self.assertEqual(ssc.code_repository, 'git+https://https://github.com/matthiasprobst/pivmetalib')
+        self.assertEqual(ssc.application_category, 'Engineering')
 
         ssc = SoftwareSourceCode(
             label='source1',
             codeRepository='https://github.com/matthiasprobst/pivmetalib',
             applicationCategory='Engineering')
         self.assertEqual(ssc.label, 'source1')
-        self.assertEqual(str(ssc.codeRepository),
+        self.assertEqual(str(ssc.code_repository),
                          'https://github.com/matthiasprobst/pivmetalib')
-        self.assertEqual(str(ssc.applicationCategory), 'Engineering')
+        self.assertEqual(str(ssc.application_category), 'Engineering')

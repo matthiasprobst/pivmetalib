@@ -56,12 +56,13 @@ class TestM4i(utils.ClassTest):
 
     def test_variable(self):
         var1 = m4i.NumericalVariable(label='Name of the variable',
-                                     name='var1',
-                                     # not part of ontology and defined in model. will not add a namespace
                                      value=4.2)
+        print(var1.model_validate(dict(label='Name of the variable',
+                                     value=4.2)))
         self.assertIsInstance(var1, ontolutils.Thing)
         self.assertIsInstance(var1, m4i.NumericalVariable)
         self.assertEqual(var1.label, 'Name of the variable')
+        print(var1.model_dump_jsonld())
         self.assertEqual(var1.value, 4.2)
 
         jsonld_string = var1.model_dump_jsonld()
@@ -180,7 +181,7 @@ class TestM4i(utils.ClassTest):
                                  startTime=datetime.now(),
                                  starts_with=ps1)
 
-        self.assertTrue(ps2.startTime > ps1.startTime)
+        self.assertTrue(ps2.start_time > ps1.start_time)
         self.assertIsInstance(ps1, ontolutils.Thing)
         self.assertIsInstance(ps1, m4i.ProcessingStep)
 
@@ -192,14 +193,14 @@ class TestM4i(utils.ClassTest):
         self.check_jsonld_string(jsonld_string)
 
         tool = m4i.Tool(label='tool1')
-        ps1.hasEmployedTool = tool
+        ps1.employed_tool = tool
 
         ps3 = m4i.ProcessingStep(label='p3',
                                  startTime=datetime.now(),
                                  hasEmployedTool=tool,
                                  partOf=ps2)
-        self.assertEqual(ps3.hasEmployedTool, tool)
-        self.assertEqual(ps3.partOf, ps2)
+        self.assertEqual(ps3.employed_tool, tool)
+        self.assertEqual(ps3.part_of, ps2)
 
         ps4 = m4i.ProcessingStep(label='p4',
                                  starts_with=ps3.model_dump(exclude_none=True),

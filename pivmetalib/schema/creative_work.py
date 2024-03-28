@@ -1,7 +1,7 @@
 from typing import Union, List
 
 from pydantic import HttpUrl
-from pydantic import field_validator
+from pydantic import field_validator, Field
 
 from ontolutils import Thing, namespaces, urirefs
 
@@ -23,8 +23,8 @@ class Organization(Thing):
          )
 class Person(Thing):
     """schema:Person (https://schema.org/Person)"""
-    given_name: str = None
-    family_name: str = None
+    given_name: str = Field(alias="givenName")
+    family_name: str = Field(alias="familyName", default=None)
     email: str = None
     affiliation: Union[Organization, List[Organization]] = None
 
@@ -46,9 +46,9 @@ class CreativeWork(Thing):
          software_version='schema:softwareVersion')
 class SoftwareApplication(CreativeWork):
     """schema:SoftwareApplication (https://schema.org/SoftwareApplication)"""
-    application_category: Union[str, HttpUrl] = None
-    download_URL: HttpUrl = None
-    software_version: str = None
+    application_category: Union[str, HttpUrl] = Field(default=None, alias="applicationCategory")
+    download_URL: HttpUrl = Field(default=None, alias="downloadURL")
+    software_version: str = Field(default=None, alias="softwareVersion")
 
     @field_validator('application_category')
     @classmethod
@@ -69,8 +69,8 @@ class SoftwareSourceCode(CreativeWork):
 
         More than the below parameters are possible but not explicitly defined here.
     """
-    code_repository: Union[HttpUrl, str] = None
-    application_category: Union[str, HttpUrl] = None
+    code_repository: Union[HttpUrl, str] = Field(default=None, alias="codeRepository")
+    application_category: Union[str, HttpUrl] = Field(default=None, alias="applicationCategory")
 
     @field_validator('code_repository')
     @classmethod

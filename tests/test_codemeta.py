@@ -32,12 +32,12 @@ class TestCodemeta(utils.ClassTest):
 
         ssc = SoftwareSourceCode.from_jsonld(data=json.dumps(data), limit=1)
         self.assertEqual(ssc.name, 'pivmetalib')
-        self.assertEqual(ssc.codeRepository, "git+https://github.com/matthiasprobst/pivmetalib")
+        self.assertEqual(ssc.code_repository, "git+https://github.com/matthiasprobst/pivmetalib")
         self.assertEqual(ssc.version, __version__)
         self.assertEqual(len(ssc.author), 1)
 
-        self.assertEqual(ssc.author[0].givenName, "Matthias")
-        self.assertEqual(ssc.author[0].familyName, "Probst")
+        self.assertEqual(ssc.author[0].given_name, "Matthias")
+        self.assertEqual(ssc.author[0].family_name, "Probst")
 
         self.assertEqual(
             ssc.author[0].affiliation.name,

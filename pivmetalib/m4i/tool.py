@@ -1,5 +1,5 @@
 from typing import Union, List
-
+from pydantic import Field
 from ontolutils import Thing, namespaces, urirefs
 from .variable import NumericalVariable, TextVariable
 
@@ -21,7 +21,7 @@ class Tool(Thing):
         Text or numerical variable
     """
     parameter: Union[TextVariable, NumericalVariable,
-    List[Union[TextVariable, NumericalVariable]]] = None
+    List[Union[TextVariable, NumericalVariable]]] = Field(default=None, alias="hasParameter")
 
     def add_numerical_variable(self, numerical_variable: Union[dict, NumericalVariable]):
         """add numerical variable to tool"""

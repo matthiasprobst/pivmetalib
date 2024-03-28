@@ -34,9 +34,18 @@ class XMLReader(TableReader):
         xmldata = xmldict[_name]
 
         def _parse_standard_name(sndict):
-            canonical_units = sndict.get('canonical units')
-            description = sndict.get('description', )
+            canonical_units = sndict.get('canonical_units', '')
+            if canonical_units == '1':
+                canonical_units = ''
+            elif canonical_units is None:
+                canonical_units = ''
+            description = sndict.get('description', '')
+            if description is None:
+                description = ''
             standard_name = sndict.get('@id')
+            assert standard_name is not None, 'Expected key "@id" in the XML file.'
+            assert canonical_units is not None, 'Expected key "canonical_units" in the XML file.'
+            assert description is not None, 'Expected key "description" in the XML file.'
             return dict(standard_name=standard_name,
                         canonical_units=canonical_units,
                         description=description)
@@ -70,7 +79,7 @@ class XMLReader(TableReader):
                 name = sn['standard_name']
                 warnings.warn(f'Description of "{name}" is None. Setting to empty string.', UserWarning)
                 sn['description'] = ""
-        data['has_standard_names'] = sndata
+        data['standard_names'] = sndata
         return data
 
 
@@ -100,7 +109,7 @@ class YAMLReader(TableReader):
             return _data
 
         return {'title': data.get('name', data.get('title', None)),
-                'has_standard_names': [_parse_standard_names(k, v) for k, v in standard_names.items()]}
+                'standard_names': [_parse_standard_names(k, v) for k, v in standard_names.items()]}
 
 
 class JSONLDReader(TableReader):
