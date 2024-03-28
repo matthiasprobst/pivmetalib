@@ -19,7 +19,7 @@ class TestQuery(ClassTest):
 
     def test_query_piv_dataset(self):
         ds = ontolutils.query(dcat.Dataset, self.test_jsonld_filename, limit=1)
-        self.assertEqual(str(ds.landingPage), 'https://www.pivchallenge.org/pub/index.html#a')
+        self.assertEqual(str(ds.landing_page), 'https://www.pivchallenge.org/pub/index.html#a')
         self.assertEqual(ds.id, "https://www.pivchallenge.org/pub/index.html#a")
         self.assertEqual(ds.label, "Challenge1A")
         self.assertEqual(ds.description, "Strong vortex (provided by Kaehler) < real > [1280 x 1024]")
@@ -73,7 +73,7 @@ class TestQuery(ClassTest):
         )
         self.assertEqual(len(dist), 1)
         self.assertEqual(dist[0].title, 'raw piv image data')
-        self.assertEqual(dist[0].filenamePattern, '^C\d{3}_\d.tif$')
+        self.assertEqual(dist[0].filename_pattern, '^C\d{3}_\d.tif$')
 
     def test_query_dataset(self):
         ds = dcat.Dataset(

@@ -1,7 +1,8 @@
 import pathlib
+import unittest
+
 import pydantic
 import rdflib
-import unittest
 
 import ontolutils
 import pivmetalib
@@ -48,7 +49,8 @@ class TestPIVProcess(unittest.TestCase):
              'label': 'http://www.w3.org/2000/01/rdf-schema#label'}
         )
 
-        @urirefs(Testclass2='https://www.example.com/Testclass2',
+        @namespaces(ex='https://www.example.com/')
+        @urirefs(Testclass2='ex:Testclass2',
                  firstName='foaf:firstName')
         class Testclass2(Thing):
             firstName: str

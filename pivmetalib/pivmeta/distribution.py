@@ -46,7 +46,7 @@ class PivDistribution(Distribution):
     """
     filename_pattern: str = Field(default=None, alias='filenamePattern')  # e.g. "image_{:04d}.tif"
 
-    @field_validator('filenamePattern', mode='before')
+    @field_validator('filename_pattern', mode='before')
     @classmethod
     def _filenamePattern(cls, filenamePattern):
         return filenamePattern.replace('\\\\', '\\')
@@ -70,11 +70,11 @@ class PivImageDistribution(PivDistribution):
     #     """Returns the HTML representation of the class"""
     #     if str(self.pivImageType) == "https://matthiasprobst.github.io/pivmeta#ExperimentalImage":
     #         pit = make_href("https://matthiasprobst.github.io/pivmeta#ExperimentalImage", "experimental")
-    #         return f"{self.__class__.__name__}('{pit}', {make_href(self.downloadURL)})"
+    #         return f"{self.__class__.__name__}('{pit}', {make_href(selfdownload_URL)})"
     #     elif str(self.pivImageType) == "https://matthiasprobst.github.io/pivmeta#SyntheticImage":
     #         pit = make_href("https://matthiasprobst.github.io/pivmeta#SyntheticImage", "synthetic")
-    #         return f"{self.__class__.__name__}('{pit}', {make_href(self.downloadURL)})"
-    #     return f"{self.__class__.__name__}({make_href(self.downloadURL)})"
+    #         return f"{self.__class__.__name__}('{pit}', {make_href(selfdownload_URL)})"
+    #     return f"{self.__class__.__name__}({make_href(selfdownload_URL)})"
 
     @field_validator('piv_image_type', mode='before')
     @classmethod

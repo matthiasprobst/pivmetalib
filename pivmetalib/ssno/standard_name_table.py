@@ -41,7 +41,7 @@ class StandardNameTable(Dataset):
 
     def _repr_html_(self) -> str:
         """Returns the HTML representation of the class"""
-        urls = ', '.join(f'<a href="{d.downloadURL}">{d.title}</a>' for d in self.distribution)
+        urls = ', '.join(f'<a href="{ddownload_URL}">{d.title}</a>' for d in self.distribution)
         return f"{self.__class__.__name__}({urls})"
 
     @classmethod
@@ -57,7 +57,7 @@ class StandardNameTable(Dataset):
                 fmt = pathlib.Path(source).suffix[1:].lower()
         else:
             if fmt is None:
-                fmt = source.mediaType
+                fmt = source.media_type
             filename = source.download()
         reader = plugins.get(fmt, None)
         if reader is None:

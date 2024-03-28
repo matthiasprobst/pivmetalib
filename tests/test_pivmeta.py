@@ -218,12 +218,12 @@ class TestPivmeta(utils.ClassTest):
     def test_PivDistribution(self):
         piv_dist = pivmeta.PivDistribution(label='piv_distribution',
                                            filenamePattern=r'img\d{4}_[a,b].tif')
-        self.assertEqual(URIRefManager[pivmeta.PivDistribution]['filenamePattern'], 'pivmeta:filenamePattern')
+        self.assertEqual(URIRefManager[pivmeta.PivDistribution]['filename_pattern'], 'pivmeta:filenamePattern')
 
         self.assertIsInstance(piv_dist, ontolutils.Thing)
         self.assertIsInstance(piv_dist, pivmeta.PivDistribution)
         self.assertEqual(piv_dist.label, 'piv_distribution')
-        self.assertEqual(piv_dist.filenamePattern, r'img\d{4}_[a,b].tif')
+        self.assertEqual(piv_dist.filename_pattern, r'img\d{4}_[a,b].tif')
         jsonld_string = piv_dist.model_dump_jsonld(
             context={
                 "@import": 'https://raw.githubusercontent.com/matthiasprobst/pivmeta/main/pivmeta_context.jsonld'
@@ -238,7 +238,7 @@ class TestPivmeta(utils.ClassTest):
         )
         self.assertEqual(len(found_dist), 1)
         self.assertEqual(found_dist[0].label, 'piv_distribution')
-        self.assertEqual(found_dist[0].filenamePattern, r'img\d{4}_[a,b].tif')
+        self.assertEqual(found_dist[0].filename_pattern, r'img\d{4}_[a,b].tif')
 
     def test_PivImageDistribution_from_file(self):
         image_filename = __this_dir__ / 'testdata/piv_challenge.jsonld'
