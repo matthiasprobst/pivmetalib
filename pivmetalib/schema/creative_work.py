@@ -16,15 +16,15 @@ class Organization(Thing):
 
 @namespaces(schema="https://schema.org/")
 @urirefs(Person='schema:Person',
-         givenName='schema:givenName',
-         familyName='schema:familyName',
+         given_name='schema:givenName',
+         family_name='schema:familyName',
          email='schema:email',
          affiliation='schema:affiliation'
          )
 class Person(Thing):
     """schema:Person (https://schema.org/Person)"""
-    givenName: str = None
-    familyName: str = None
+    given_name: str = None
+    family_name: str = None
     email: str = None
     affiliation: Union[Organization, List[Organization]] = None
 
@@ -41,29 +41,27 @@ class CreativeWork(Thing):
 
 @namespaces(schema="https://schema.org/")
 @urirefs(SoftwareApplication='schema:SoftwareApplication',
-         applicationCategory='schema:applicationCategory',
-         downloadURL='schema:downloadURL',
-         softwareVersion='schema:softwareVersion')
+         application_category='schema:applicationCategory',
+         download_URL='schema:downloadURL',
+         software_version='schema:softwareVersion')
 class SoftwareApplication(CreativeWork):
     """schema:SoftwareApplication (https://schema.org/SoftwareApplication)"""
-    applicationCategory: Union[str, HttpUrl] = None
-    downloadURL: HttpUrl = None
-    softwareVersion: str = None
+    application_category: Union[str, HttpUrl] = None
+    download_URL: HttpUrl = None
+    software_version: str = None
 
-    @field_validator('applicationCategory')
+    @field_validator('application_category')
     @classmethod
-    def _validate_applicationCategory(cls, applicationCategory: Union[str, HttpUrl]):
-        if applicationCategory.startswith('file:'):
-            return applicationCategory.rsplit('/', 1)[-1]
-        return applicationCategory
-
-    # to be continued
+    def _validate_applicationCategory(cls, application_category: Union[str, HttpUrl]):
+        if application_category.startswith('file:'):
+            return application_category.rsplit('/', 1)[-1]
+        return application_category
 
 
 @namespaces(schema="https://schema.org/")
 @urirefs(SoftwareSourceCode='schema:SoftwareSourceCode',
-         codeRepository='schema:codeRepository',
-         applicationCategory='schema:applicationCategory')
+         code_repository='schema:codeRepository',
+         application_category='schema:applicationCategory')
 class SoftwareSourceCode(CreativeWork):
     """Pydantic implementation of schema:SoftwareSourceCode (see https://schema.org/SoftwareSourceCode)
 
@@ -71,22 +69,22 @@ class SoftwareSourceCode(CreativeWork):
 
         More than the below parameters are possible but not explicitly defined here.
     """
-    codeRepository: Union[HttpUrl, str] = None
-    applicationCategory: Union[str, HttpUrl] = None
+    code_repository: Union[HttpUrl, str] = None
+    application_category: Union[str, HttpUrl] = None
 
-    @field_validator('codeRepository')
+    @field_validator('code_repository')
     @classmethod
-    def _validate_codeRepository(cls, codeRepository: Union[str, HttpUrl]):
-        if not isinstance(codeRepository, str):
-            return codeRepository
-        if codeRepository.startswith('git+'):
-            _url = HttpUrl(codeRepository.split("git+", 1)[1])
+    def _validate_code_repository(cls, code_repository: Union[str, HttpUrl]):
+        if not isinstance(code_repository, str):
+            return code_repository
+        if code_repository.startswith('git+'):
+            _url = HttpUrl(code_repository.split("git+", 1)[1])
             # return f'{_url}'
-        return codeRepository
+        return code_repository
 
-    @field_validator('applicationCategory')
+    @field_validator('application_category')
     @classmethod
-    def _validate_applicationCategory(cls, applicationCategory: Union[str, HttpUrl]):
-        if applicationCategory.startswith('file:'):
-            return applicationCategory.rsplit('/', 1)[-1]
-        return applicationCategory
+    def _validate_applicationCategory(cls, application_category: Union[str, HttpUrl]):
+        if application_category.startswith('file:'):
+            return application_category.rsplit('/', 1)[-1]
+        return application_category

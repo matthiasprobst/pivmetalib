@@ -55,7 +55,7 @@ class ProcessingStep(Activity):
     investigates: Thing = None
     usage_instruction: str = None
     employed_tool: Tool = None
-    realize_method: Union[Method, List[Method]] = None
+    realizes_method: Union[Method, List[Method]] = None
     has_input: Thing = None
     has_output: Thing = None
     part_of: Union[ResearchProject, "ProcessingStep"] = None
