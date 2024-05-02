@@ -98,6 +98,14 @@ class TestSSNO(utils.ClassTest):
 
         pathlib.Path('sn.jsonld').unlink(missing_ok=True)
 
+    def test_standard_name_with_table(self):
+        snt = StandardNameTable(identifier='https://doi.org/10.5281/zenodo.10428817')
+
+        xvel = StandardName(
+            standard_name_table=snt
+        )
+        print(xvel)
+
     def test_standard_name_table(self):
         sn1 = StandardName(standard_name='x_velocity',
                            description='x component of velocity',
@@ -169,7 +177,7 @@ class TestSSNO(utils.ClassTest):
 
         xml_snt = StandardNameTable.parse(snt_xml_filename, fmt=None)
         self.assertEqual(
-            xml_snt.contact['mbox'],
+            xml_snt.contact.mbox,
             'support@ceda.ac.uk')
 
         snt_xml_filename = download_file(cf_contention,
@@ -185,7 +193,7 @@ class TestSSNO(utils.ClassTest):
         print(snt_xml_filename)
         snt = StandardNameTable.parse(snt_xml_filename, fmt='xml')
         self.assertEqual(
-            snt.contact['mbox'],
+            xml_snt.contact.mbox,
             'support@ceda.ac.uk')
         snt_xml_filename.unlink(missing_ok=True)
 
@@ -195,7 +203,7 @@ class TestSSNO(utils.ClassTest):
 
         snt = StandardNameTable.parse(dist)
         self.assertEqual(
-            snt.contact['mbox'],
+            xml_snt.contact.mbox,
             'support@ceda.ac.uk'
         )
         self.assertEqual(snt.title, 'cf-standard-name-table')

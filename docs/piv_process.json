@@ -2,105 +2,110 @@
     "@context": {
         "owl": "http://www.w3.org/2002/07/owl#",
         "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
-        "local": "http://example.org/",
         "m4i": "http://w3id.org/nfdi4ing/metadata4ing#",
         "schema": "https://schema.org/",
         "obo": "http://purl.obolibrary.org/obo/",
-        "PivProcessingStep": "https://matthiasprobst.github.io/pivmeta",
-        "PivEvaluation": "https://matthiasprobst.github.io/pivmeta"
+        "pivmeta": "https://matthiasprobst.github.io/pivmeta#",
+        "ssno": "https://matthiasprobst.github.io/ssno#",
+        "dcat": "http://www.w3.org/ns/dcat#",
+        "dcterms": "http://purl.org/dc/terms/",
+        "prov": "http://www.w3.org/ns/prov#",
+        "sd": "https://w3id.org/okn/o/sd#",
+        "foaf": "http://xmlns.com/foaf/0.1/"
     },
-    "@type": "https://matthiasprobst.github.io/pivmeta#PIVEvaluation",
+    "@type": "pivmeta:PIVEvaluation",
     "rdfs:label": "piv evaluation",
     "m4i:realizesMethod": [
         {
-            "@type": "pivmeta:CorrelationAlgorithm",
+            "@type": "pivmeta:CorrelationMethod",
             "schema:description": "The default mode of cross-correlation using FFTs to speed the computation. In principle the sum of pixel-wise multiplication of intensities is computed for each correlation offset (For implementation details please refer to Raffel et al. 2007).",
+            "pivmeta:windowWeightingFunction": "https://matthiasprobst.github.io/pivmeta#SquareWindowWeightingFunction",
             "name": "Standard (FFT) Correlation",
-            "@id": "local:8ee25340-d17d-4012-a26a-c4661cac3263"
+            "@id": "N06b34596c99a41459dab18ee26f2effd"
         },
         {
             "@type": "m4i:Method",
             "schema:description": "Run a multigrid PIV algorithm on all images",
-            "m4i:hasParameter": [
+            "name": "Multigrid interrogation method",
+            "hasParameter": [
                 {
                     "@type": "m4i:NumericalVariable",
-                    "m4i:hasNumericalValue": "64",
+                    "m4i:hasNumericalValue": 64,
                     "pivmeta:hasStandardName": "https://matthiasprobst.github.io/pivmeta#x_initial_interrogation_window_size",
-                    "@id": "local:10fa2370-e234-4b07-bff4-ad07ccbc1235"
+                    "@id": "N61b2eebbaa9e44c6a542e48fc90aea7a"
                 },
                 {
                     "@type": "m4i:NumericalVariable",
-                    "m4i:hasNumericalValue": "64",
+                    "m4i:hasNumericalValue": 64,
                     "pivmeta:hasStandardName": "https://matthiasprobst.github.io/pivmeta#y_initial_interrogation_window_size",
-                    "@id": "local:0ed8ad3c-9b19-4352-adc1-96f6ff440593"
+                    "@id": "N67f9a0b0117649f88f1cdf2f6e32b892"
                 },
                 {
                     "@type": "m4i:NumericalVariable",
-                    "m4i:hasNumericalValue": "16",
+                    "m4i:hasNumericalValue": 16,
                     "pivmeta:hasStandardName": "https://matthiasprobst.github.io/pivmeta#x_final_interrogation_window_size",
-                    "@id": "local:783a151e-d9b2-4422-9609-00aad1ce2429"
+                    "@id": "N83990d45cdec47418703cd5b285a9329"
                 },
                 {
                     "@type": "m4i:NumericalVariable",
-                    "m4i:hasNumericalValue": "16",
+                    "m4i:hasNumericalValue": 16,
                     "pivmeta:hasStandardName": "https://matthiasprobst.github.io/pivmeta#y_final_interrogation_window_size",
-                    "@id": "local:38a488b9-c7f3-4d98-95ff-9cde453f9784"
+                    "@id": "Nf4d4d48645ea4486a340a378f7770ea5"
                 },
                 {
                     "@type": "m4i:NumericalVariable",
-                    "m4i:hasNumericalValue": "8",
+                    "m4i:hasNumericalValue": 8,
                     "pivmeta:hasStandardName": "https://matthiasprobst.github.io/pivmeta#x_final_interrogation_window_overlap_size",
-                    "@id": "local:aeb5c284-95f1-4ed9-985c-7559f708fb5e"
+                    "@id": "Nb978281289f046dcad5fbda8b81f90ae"
                 },
                 {
                     "@type": "m4i:NumericalVariable",
-                    "m4i:hasNumericalValue": "8",
+                    "m4i:hasNumericalValue": 8,
                     "pivmeta:hasStandardName": "https://matthiasprobst.github.io/pivmeta#y_final_interrogation_window_overlap_size",
-                    "@id": "local:c489769d-cbb7-4609-9cff-a615f880a125"
+                    "@id": "Nf24a0d75c9fc4e3c9b3c238619d596d3"
                 },
                 {
                     "@type": "m4i:NumericalVariable",
-                    "m4i:hasVariableDescription": "Number of multigrid passes",
-                    "m4i:hasNumericalValue": "3",
-                    "@id": "local:9d7dbba4-e33a-4c75-8316-55411355c81b"
+                    "m4i:hasNumericalValue": 3,
+                    "description": "Number of multigrid passes",
+                    "@id": "N23a8af42dc8545c9a967fe57037c93dd"
                 }
             ],
-            "name": "Multigrid interrogation method",
-            "@id": "local:ed975dab-a4d7-49f7-adfb-68e09f21275d"
+            "@id": "N14d61c045ee948b88f11a7e0c389ce3e"
         },
         {
             "@type": "pivmeta:OutlierDetectionMethod",
-            "m4i:hasParameter": {
+            "name": "normalized median test",
+            "hasParameter": {
                 "@type": "m4i:NumericalVariable",
                 "rdfs:label": "threshold",
-                "m4i:hasNumericalValue": "3.0",
-                "@id": "local:a20849e9-5f01-4b10-a1fb-44c98d9585df"
+                "m4i:hasNumericalValue": 3.0,
+                "@id": "N7fc6bab6333943e3a6198037904a214a"
             },
-            "name": "normalized median test",
-            "@id": "local:fad5f22a-26f5-4545-9e9b-749fe487a716"
+            "@id": "N4466a7575e4f4779b128813bfd62acc2"
         },
         {
             "@type": "pivmeta:OutlierDetectionMethod",
-            "m4i:hasParameter": [
+            "name": "dynamic mean test",
+            "hasParameter": [
                 {
                     "@type": "m4i:NumericalVariable",
                     "rdfs:label": "mean",
-                    "m4i:hasNumericalValue": "2.0",
-                    "@id": "local:695c1151-e1d8-4de1-8b21-b8ea270a43be"
+                    "m4i:hasNumericalValue": 2.0,
+                    "@id": "Na2f83412badc414a9f2c712c9cbbe38f"
                 },
                 {
                     "@type": "m4i:NumericalVariable",
                     "rdfs:label": "var",
-                    "m4i:hasNumericalValue": "1.0",
-                    "@id": "local:02dd7d32-c482-48ca-b82e-957fe563545d"
+                    "m4i:hasNumericalValue": 1.0,
+                    "@id": "Ncaf636105827478488446c2c83681b37"
                 }
             ],
-            "name": "dynamic mean test",
-            "@id": "local:d004c8e5-d631-4e64-a723-bf30d47a2c2f"
+            "@id": "Nfaf183a92168461f8d360f79fb4578fa"
         }
     ],
     "m4i:precedes": {
-        "@type": "https://matthiasprobst.github.io/pivmeta#PivProcessingStep",
+        "@type": "pivmeta:PivProcessingStep",
         "rdfs:label": "Post processing",
         "m4i:realizesMethod": {
             "@type": "m4i:Method",
@@ -108,11 +113,11 @@
             "m4i:hasParameter": {
                 "@type": "m4i:NumericalVariable",
                 "rdfs:label": "kernel",
-                "m4i:hasNumericalValue": "2.0",
-                "@id": "local:d0dd399d-739d-4eda-9766-e0c6f0bb454c"
+                "m4i:hasNumericalValue": 2.0,
+                "@id": "Ne43150453019472ea51e7588b7ce6c56"
             },
             "name": "Low-pass filtering",
-            "@id": "local:82841904-6c9c-40f0-a9ac-7b708c9c4ff6"
+            "@id": "N0c6ec5be3df44a69b018db81549f404b"
         },
         "m4i:hasOutput": {
             "@type": "dcat:Dataset",
@@ -122,43 +127,43 @@
                     "@type": "pivmeta:PivResultDistribution",
                     "dcterms:title": "Result File",
                     "dcat:downloadURL": "file:///vp1a.dat",
-                    "@id": "local:57b61878-4529-49fa-b241-e3316fc5eb5b"
+                    "@id": "N5bb552efa37b4cffa5c37ccc69915481"
                 },
                 {
                     "@type": "pivmeta:PivImageDistribution",
                     "dcterms:title": "ILA Vortex Pair Images",
                     "download_URL": "https://www.pivtec.com/download/samples/pivimg1.zip",
                     "piv_image_type": "PivImageType.ExperimentalImage",
-                    "@id": "local:3501c4d6-dd21-40c4-b4c0-6f2e4d65c8b6"
+                    "@id": "Na6dc8f326aff4f489c5674167f850059"
                 }
             ],
-            "@id": "local:31caac6a-7e24-4b95-89f1-0fc1989ee639"
+            "@id": "Na2426b5885cc42e1a086882928fe189c"
         },
         "has_employed_tool": {
             "@type": "pivmeta:PIVSoftware",
             "schema:author": {
-                "@type": "prov:Organisation",
+                "@type": "prov:Organization",
                 "foaf:mbox": "info@pivtec.com",
                 "foaf:name": "PIVTEC GmbH",
                 "schema:url": "https://www.pivtec.com/",
-                "@id": "local:602b2c2d-024d-47b3-98e7-b2e4e04c411d"
+                "@id": "N200ca2053ace4b54be34428a0b388abe"
             },
             "sd:hasDocumentation": "https://www.pivtec.com/download/docs/PIVview_v36_Manual.pdf",
-            "@id": "local:25bfe159-b484-4a4b-9d8e-465f6d7ed972"
+            "@id": "Nf0ee48f6363e41a3abb83c6aaa53626f"
         },
-        "@id": "local:55f4c5af-07f6-4d8b-968a-7161470007d1"
+        "@id": "N9f0bf913528b4442822693877e1a4c8c"
     },
     "has_employed_tool": {
         "@type": "pivmeta:PIVSoftware",
         "schema:author": {
-            "@type": "prov:Organisation",
+            "@type": "prov:Organization",
             "foaf:mbox": "info@pivtec.com",
             "foaf:name": "PIVTEC GmbH",
             "schema:url": "https://www.pivtec.com/",
-            "@id": "local:c8625e96-d1ce-401a-a12e-a5163a72fcd0"
+            "@id": "N4d529e345268425a9f78c7764a778f5f"
         },
         "sd:hasDocumentation": "https://www.pivtec.com/download/docs/PIVview_v36_Manual.pdf",
-        "@id": "local:d260e185-3523-4213-a424-94ad6e7922b9"
+        "@id": "N107aa9f7c5654297bad4234cfa2d1a3c"
     },
-    "@id": "local:11fde099-e537-4a64-a973-106c1a90cb55"
+    "@id": "Ndda6a379e5db40969d5cb9322ecef87a"
 }

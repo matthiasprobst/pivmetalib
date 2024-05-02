@@ -43,12 +43,12 @@ class CreativeWork(Thing):
 @urirefs(SoftwareApplication='schema:SoftwareApplication',
          application_category='schema:applicationCategory',
          download_URL='schema:downloadURL',
-         software_version='schema:softwareVersion')
+         version='schema:softwareVersion')
 class SoftwareApplication(CreativeWork):
     """schema:SoftwareApplication (https://schema.org/SoftwareApplication)"""
     application_category: Union[str, HttpUrl] = Field(default=None, alias="applicationCategory")
     download_URL: HttpUrl = Field(default=None, alias="downloadURL")
-    software_version: str = Field(default=None, alias="softwareVersion")
+    version: str = Field(default=None, alias="softwareVersion")
 
     @field_validator('application_category')
     @classmethod

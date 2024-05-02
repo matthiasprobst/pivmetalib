@@ -1,5 +1,4 @@
 import pathlib
-from datetime import datetime
 from typing import List, Union, Dict
 
 from pydantic import field_validator, Field
@@ -8,11 +7,12 @@ from ontolutils import namespaces, urirefs
 from . import plugins
 from .standard_name import StandardName
 from ..dcat import Dataset, Distribution
+from ..prov import Agent
 
 
 @namespaces(ssno="https://matthiasprobst.github.io/ssno#")
 @urirefs(StandardNameTable='ssno:StandardNameTable',
-         standard_names='ssno:hasStandardNames')
+         standard_names='ssno:standardNames')
 class StandardNameTable(Dataset):
     """Implementation of ssno:StandardNameTable
 
@@ -22,10 +22,8 @@ class StandardNameTable(Dataset):
         Title of the Standard Name Table (dcterms:title)
     description: str
         Description of the Standard Name Table (dcterms:description)
-    contact: str
+    contact: Agent
         Contact Person (http://www.w3.org/ns/prov#Person)
-    modified: datetime
-        Date of the last modification of the Standard Name Table (dcterms:modified)
     version: str
         Version of the Standard Name Table (dcat:version)
     identifier: str
@@ -34,15 +32,15 @@ class StandardNameTable(Dataset):
         List of Standard Names (ssno:standard_name)
 
     """
-    standard_names: List[StandardName] = Field(default=None, alias="hasStandardNames")  # ssno:has_standard_names
+    title: str = None
+    version: str = None
+    description: str = None
+    identifier: str = None
+    contact: Union[Agent, List[Agent]] = None
+    standard_names: List[StandardName] = Field(default=None, alias="standardNames")  # ssno:has_standard_names
 
     def __str__(self) -> str:
         return f'{self.__class__.__name__}("{self.title}")'
-
-    def _repr_html_(self) -> str:
-        """Returns the HTML representation of the class"""
-        urls = ', '.join(f'<a href="{ddownload_URL}">{d.title}</a>' for d in self.distribution)
-        return f"{self.__class__.__name__}({urls})"
 
     @classmethod
     def parse(cls,

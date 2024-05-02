@@ -1,32 +1,34 @@
 import warnings
+from ontolutils import namespaces, urirefs
+from pydantic import HttpUrl, field_validator, Field
 from typing import Union
 
-from pydantic import HttpUrl, field_validator, Field
-
-from ontolutils import namespaces, urirefs
 from ..dcat import Dataset
-from ..qudt import QuantityKind, parse_unit
+from ..qudt import parse_unit
 from ..skos import Concept
 
 
 @namespaces(ssno="https://matthiasprobst.github.io/ssno#",
-            dcterms="http://purl.org/dc/terms/",
             dcat="http://www.w3.org/ns/dcat#")
 @urirefs(StandardName='ssno:StandardName',
          canonical_units='ssno:canonicalUnits',
-         quantity_kind='ssno:quantityKind',
-         standard_name='ssno:standard_name',
-         description='dcterms:description',
-         standard_name_table='ssno:standard_name_table',
-         latex_symbol='ssno:latexSymbol')
+         standard_name='ssno:standardName',
+         description='ssno:description',
+         standard_name_table='ssno:standardNameTable')
 class StandardName(Concept):
     """Implementation of ssno:StandardName"""
     canonical_units: str = Field(default=None, alias="canonicalUnits")
-    quantity_kind: QuantityKind = Field(default=None, alias="quantityKind")
-    standard_name: str = None
-    description: str  # dcterms:description
-    standard_name_table: Dataset = None  # ssno:standard_name_table (subclass of dcat:Dataset)
-    latex_symbol: str = Field(default=None, alias="latexSymbol")
+    standard_name: str = Field(default=None, alias="standardName")
+    description: str = None  # ssno:description
+    standard_name_table: Dataset = Field(default=None, alias="standardNameTable")
+
+    @field_validator("standard_name_table", mode='before')
+    @classmethod
+    def _parse_standard_name_table(cls, standard_name_table: Union[Dataset, str]) -> Dataset:
+        """Parse the standard_name_table and return the standard_name_table as Dataset."""
+        if isinstance(standard_name_table, Dataset):
+            return standard_name_table
+        raise TypeError(f"Expected a Dataset, got {type(standard_name_table)}")
 
     @field_validator("canonical_units", mode='before')
     @classmethod

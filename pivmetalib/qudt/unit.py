@@ -198,6 +198,11 @@ qudt_lookup = {
     'Pa2 s-2': QUDT_UNIT.PA2_PER_SEC2,
     'kg2 s-2': QUDT_UNIT.KiloGM2_PER_SEC2,
     'W m-2 sr-1 m-1': QUDT_UNIT.W_PER_M2_M_SR,
+    # image pixel ("both, the smallest unit of a digital raster graphic as well as the display on a screen with raster control")
+    'px': QUDT_UNIT.PIXEL,
+    'pixel': QUDT_UNIT.PIXEL,
+    '1/pixel': "https://matthiasprobst.github.io/pivmeta#PER-PIXEL",  # TODO: define this!!!
+    'mm/pixel': "https://matthiasprobst.github.io/pivmeta#MilliM-PER-PIXEL",  # TODO: define this!!!
 }
 
 

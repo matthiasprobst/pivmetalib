@@ -1,7 +1,6 @@
 rdflib
-pydantic[email]
+simplejson
 appdirs
 python-dateutil
 requests
-ontolutils
-# ontolutils @ git+https://github.com/matthiasprobst/ontology-utils
+ontolutils>=0.2.21
