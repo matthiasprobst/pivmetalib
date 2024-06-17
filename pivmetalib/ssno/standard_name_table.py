@@ -29,7 +29,7 @@ class StandardNameTable(Dataset):
     identifier: str
         Identifier of the Standard Name Table, e.g. the DOI (dcterms:identifier)
     standard_names: List[StandardName]
-        List of Standard Names (ssno:standard_name)
+        List of Standard Names (ssno:standardNames)
 
     """
     title: str = None
@@ -37,7 +37,7 @@ class StandardNameTable(Dataset):
     description: str = None
     identifier: str = None
     contact: Union[Agent, List[Agent]] = None
-    standard_names: List[StandardName] = Field(default=None, alias="standardNames")  # ssno:has_standard_names
+    standard_names: List[StandardName] = Field(default=None, alias="standardNames")  # ssno:standardNames
 
     def __str__(self) -> str:
         return f'{self.__class__.__name__}("{self.title}")'
@@ -89,7 +89,7 @@ class StandardNameTable(Dataset):
         Union[StandardName, None]
             The standard name object if found, otherwise None
         """
-        for sn in self.has_standard_names:
+        for sn in self.standard_names:
             if sn.standard_name == standard_name:
                 return sn
         return

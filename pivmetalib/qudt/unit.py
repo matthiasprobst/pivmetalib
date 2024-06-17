@@ -141,6 +141,8 @@ qudt_lookup = {
     'N m': QUDT_UNIT.N_M,
     'N*m': QUDT_UNIT.N_M,
     'rad': QUDT_UNIT.RAD,
+    # force
+    'N': QUDT_UNIT.N,
     # dimensionless
     'dimensionless': QUDT_UNIT.UNITLESS,
     '': QUDT_UNIT.UNITLESS,
@@ -203,6 +205,8 @@ qudt_lookup = {
     'pixel': QUDT_UNIT.PIXEL,
     '1/pixel': "https://matthiasprobst.github.io/pivmeta#PER-PIXEL",  # TODO: define this!!!
     'mm/pixel': "https://matthiasprobst.github.io/pivmeta#MilliM-PER-PIXEL",  # TODO: define this!!!
+    'deg': QUDT_UNIT.DEG,
+    'degC': QUDT_UNIT.DEG_C,
 }
 
 
