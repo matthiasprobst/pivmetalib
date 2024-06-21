@@ -45,7 +45,8 @@ class Resource(Thing):
     creator: Union[Person, Organization] = None
         Creator of the resource (dcterms:creator)
     version: str = None
-        Version of the resource (dcat:version)
+        Version of the resource (dcat:version),
+        best following semantic versioning (https://semver.org/lang/de/)
     """
     title: str = None  # dcterms:title
     description: str = None  # dcterms:description

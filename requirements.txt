@@ -3,4 +3,4 @@ simplejson
 appdirs
 python-dateutil
 requests
-ontolutils>=0.2.21
+ontolutils>=0.2.23

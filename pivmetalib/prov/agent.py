@@ -61,10 +61,12 @@ class Organization(Agent):
 
 @namespaces(prov="http://www.w3.org/ns/prov#",
             foaf="http://xmlns.com/foaf/0.1/",
+            m4i='http://w3id.org/nfdi4ing/metadata4ing#',
             schema="https://schema.org/")
 @urirefs(Person='prov:Person',
          first_name='foaf:firstName',
          last_name='foaf:lastName',
+         orcid_id='m4i:orcidId',
          had_role='prov:hadRole',
          was_role_in='prov:wasRoleIn',
          affiliation='schema:affiliation')
@@ -82,6 +84,8 @@ class Person(Agent):
         First name (foaf:firstName)
     last_name: str = None
         Last name (foaf:lastName)
+    orcid_id: str = None
+        ORCID ID of person (m4i:orcidID)
     had_role: HttpUrl
         prov:hadRole references the Role (i.e. the function of an entity with respect to an activity)
     was_role_in: HttpUrl
@@ -89,8 +93,9 @@ class Person(Agent):
 
     Extra fields are possible but not explicitly defined here.
     """
-    first_name: str = Field(default=None, alias="firstName")  # m4i:hadRole
-    last_name: str = Field(default=None, alias="lastName")  # m4i:hadRole
+    first_name: str = Field(default=None, alias="firstName")  # foaf:first_name
+    last_name: str = Field(default=None, alias="lastName")  # foaf:last_name
+    orcid_id: str = Field(default=None, alias="orcidID")  # m4i:orcidID
     had_role: HttpUrl = Field(default=None, alias="hadRole")  # m4i:hadRole
     was_role_in: Union[HttpUrl, str, Thing] = Field(default=None, alias="wasRoleIn")  # m4i:wasRoleIn
-    affiliation: Organization = None
+    affiliation: Organization = Field(default=None, alias="affiliation")  # schema:affiliation

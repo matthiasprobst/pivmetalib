@@ -149,6 +149,9 @@ class TestSSNO(utils.ClassTest):
 
     def test_standard_name_table_from_yaml(self):
         snt_yaml_data = {'name': 'SNT',
+                         'description': 'A testing SNT',
+                         'version': 'abc123invalid', # v1.0.0
+                         'identifier': 'https://example.org/sntIdentifier',
                          'standard_names': {'x_velocity': {'description': 'x component of velocity',
                                                            'canonical_unit': 'm s-1'},
                                             'y_velocity': {'description': 'y component of velocity',
@@ -177,7 +180,7 @@ class TestSSNO(utils.ClassTest):
 
         xml_snt = StandardNameTable.parse(snt_xml_filename, fmt=None)
         self.assertEqual(
-            xml_snt.contact.mbox,
+            xml_snt.creator.mbox,
             'support@ceda.ac.uk')
 
         snt_xml_filename = download_file(cf_contention,
@@ -190,10 +193,10 @@ class TestSSNO(utils.ClassTest):
                                          overwrite_existing=False)
         snt_xml_filename.unlink(missing_ok=True)
         snt_xml_filename = download_file(cf_contention)
-        print(snt_xml_filename)
+
         snt = StandardNameTable.parse(snt_xml_filename, fmt='xml')
         self.assertEqual(
-            xml_snt.contact.mbox,
+            snt.creator.mbox,
             'support@ceda.ac.uk')
         snt_xml_filename.unlink(missing_ok=True)
 
@@ -203,7 +206,7 @@ class TestSSNO(utils.ClassTest):
 
         snt = StandardNameTable.parse(dist)
         self.assertEqual(
-            xml_snt.contact.mbox,
+            snt.creator.mbox,
             'support@ceda.ac.uk'
         )
         self.assertEqual(snt.title, 'cf-standard-name-table')
