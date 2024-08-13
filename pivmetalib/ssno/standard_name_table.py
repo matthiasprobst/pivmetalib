@@ -1,5 +1,5 @@
 import pathlib
-from typing import List, Union, Dict
+from typing import List, Union, Dict, Optional
 
 from ontolutils import namespaces, urirefs, Thing
 from pydantic import field_validator, Field
@@ -122,11 +122,11 @@ class StandardNameTable(Dataset):
         List of Reference Frames (ssno:referenceFrames)
 
     """
-    title: str = None
-    version: str = None
-    description: str = None
-    identifier: str = None
-    creator: Union[Person, List[Person], Organization, List[Organization]] = None
+    title: Optional[str] = None
+    version: Optional[str] = None
+    description: Optional[str] = None
+    identifier: Optional[str] = None
+    creator: Optional[Union[Person, List[Person], Organization, List[Organization]]] = None
     standard_names: List[StandardName] = Field(default=None, alias="standardNames")  # ssno:standardNames
     locations: List[Location] = None
     devices: List[Device] = None
