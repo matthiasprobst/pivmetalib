@@ -188,3 +188,92 @@ class StandardNameTable(Dataset):
             if sn.standard_name == standard_name:
                 return sn
         return
+
+    def to_yaml(self, filename: Union[str, pathlib.Path], overwrite: bool = False, exists_ok=False) -> pathlib.Path:
+        """Dump the Standard Name Table to a file.
+
+        Parameters
+        ----------
+        filename: Union[str, pathlib.Path]
+            The filename to write the Standard Name Table to.
+        overwrite: bool=False
+            Overwrite the file if it exists.
+        exists_ok: bool=False
+            If the file exists, return without writing the file. Note, that the
+            file content is not checked!
+
+        Returns
+        -------
+        filename: pathlib.Path
+            The filename of the written file.
+
+        Raises
+        ------
+        ValueError
+            If the file exists and overwrite is False.
+        """
+        import yaml
+        if pathlib.Path(filename).exists() and not overwrite:
+            if exists_ok:
+                return pathlib.Path(filename)
+            raise ValueError(f'File {filename} exists and overwrite is False.')
+
+        assert pathlib.Path(filename).suffix == '.yaml', 'Filename must have suffix .yaml'
+
+        suffix = pathlib.Path(filename).suffix[1:].lower()
+
+        yaml_data = {}
+        with open(filename, 'w') as f:
+            if self.title:
+                yaml_data['name'] = self.title
+            if self.version:
+                yaml_data['version'] = self.version
+            if self.description:
+                yaml_data['description'] = self.description
+            if self.identifier:
+                yaml_data['identifier'] = self.identifier
+
+            if self.creator:
+                if isinstance(self.creator, list):
+                    _creators = self.creator
+                else:
+                    _creators = [self.creator]
+
+                if _creators:
+                    yaml_data['creator'] = []
+                    for creator in _creators:
+                        creator_dict = creator.model_dump(exclude_none=True)
+                        if creator_dict:
+                            yaml_data['creator'].append(creator_dict)
+                if len(yaml_data['creator']) == 0:
+                    yaml_data.pop('creator')
+
+            if self.standard_names:
+                yaml_data['standard_names'] = {}
+                for sn in self.standard_names:
+                    yaml_data['standard_names'][sn.standard_name] = {'canonical_units': sn.canonical_units,
+                                                                     'description': sn.description}
+
+            if self.locations:
+                for loc in self.locations:
+                    yaml_data['locations'] = {loc.name: loc.description}
+
+            if self.media:
+                for med in self.media:
+                    yaml_data['media'] = {med.name: med.description}
+
+            if self.conditions:
+                for cond in self.conditions:
+                    yaml_data['conditions'] = {cond.name: cond.description}
+
+            if self.reference_frames:
+                for ref in self.reference_frames:
+                    yaml_data['reference_frames'] = {ref.name: ref.description}
+
+            yaml.dump(yaml_data, f, sort_keys=False)
+
+        # yaml_data = {'description': self.description if self.description,
+        #              'identifier': }
+        print(self.model_dump())
+
+        return pathlib.Path(filename)

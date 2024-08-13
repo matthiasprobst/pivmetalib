@@ -1,13 +1,13 @@
 import json
 import pathlib
 
+import ontolutils
 import requests.exceptions
 import yaml
+from ontolutils import QUDT_UNIT
 
-import ontolutils
 import pivmetalib
 import utils
-from ontolutils import QUDT_UNIT
 from pivmetalib.dcat import Distribution
 from pivmetalib.qudt import parse_unit
 from pivmetalib.ssno import StandardName, StandardNameTable
@@ -65,6 +65,8 @@ class TestSSNO(utils.ClassTest):
 
     def tearDown(self):
         pathlib.Path('snt.json').unlink(missing_ok=True)
+        pathlib.Path('snt.yaml').unlink(missing_ok=True)
+        pathlib.Path('snt2.yaml').unlink(missing_ok=True)
 
     def test_standard_name(self):
         sn = StandardName(standard_name='x_velocity',
@@ -148,21 +150,6 @@ class TestSSNO(utils.ClassTest):
         self.assertEqual(snt.title, 'OpenCeFaDB Fan Standard Name Table')
 
     def test_standard_name_table_from_yaml(self):
-        snt_yaml_data = {'name': 'SNT',
-                         'description': 'A testing SNT',
-                         'version': 'abc123invalid', # v1.0.0
-                         'identifier': 'https://example.org/sntIdentifier',
-                         'standard_names': {'x_velocity': {'description': 'x component of velocity',
-                                                           'canonical_unit': 'm s-1'},
-                                            'y_velocity': {'description': 'y component of velocity',
-                                                           'canonical_unit': 'm s-1'}}}
-        with open('snt.yaml', 'w') as f:
-            yaml.dump(snt_yaml_data, f)
-        snt = StandardNameTable.parse('snt.yaml', fmt='yaml')
-        self.assertEqual(snt.title, 'SNT')
-
-        snt = StandardNameTable.parse('snt.yaml', fmt=None)
-        self.assertEqual(snt.title, 'SNT')
         pathlib.Path('snt.yaml').unlink(missing_ok=True)
 
         dist = Distribution(downloadURL='http://example.org/snt.yaml',
@@ -170,6 +157,22 @@ class TestSSNO(utils.ClassTest):
         snt = StandardNameTable()
         with self.assertRaises(requests.exceptions.HTTPError):
             snt.parse(dist)
+
+        snt_yaml_data = {'name': 'SNT',
+                         'description': 'A testing SNT',
+                         'version': 'abc123invalid',  # v1.0.0
+                         'identifier': 'https://example.org/sntIdentifier',
+                         'standard_names': {'x_velocity': {'description': 'x component of velocity',
+                                                           'canonical_units': 'm s-1'},
+                                            'y_velocity': {'description': 'y component of velocity',
+                                                           'canonical_units': 'm s-1'}}}
+        with open('snt.yaml', 'w') as f:
+            yaml.dump(snt_yaml_data, f)
+        snt = StandardNameTable.parse('snt.yaml', fmt='yaml')
+        self.assertEqual(snt.title, 'SNT')
+
+        snt = StandardNameTable.parse('snt.yaml', fmt=None)
+        self.assertEqual(snt.title, 'SNT')
 
     def test_standard_name_table_from_xml(self):
         cf_contention = 'http://cfconventions.org/Data/cf-standard-names/current/src/cf-standard-name-table.xml'
@@ -211,3 +214,22 @@ class TestSSNO(utils.ClassTest):
         )
         self.assertEqual(snt.title, 'cf-standard-name-table')
         pathlib.Path(f'{snt.title}.xml').unlink(missing_ok=True)
+
+    def test_standard_name_table_to_yamL(self):
+        snt_yaml_filename = pathlib.Path('snt.yaml')
+        if not snt_yaml_filename.exists():
+            self.test_standard_name_table_from_yaml()
+        assert snt_yaml_filename.exists()
+        snt = StandardNameTable.parse(snt_yaml_filename, fmt='yaml')
+        snt.to_yaml('snt2.yaml', overwrite=True)
+
+        with open('snt.yaml') as f:
+            yaml1 = yaml.safe_load(f)
+            for k, v in yaml1.copy()['standard_names'].items():
+                print(yaml1["standard_names"][k])
+                yaml1['standard_names'][k]['canonical_units'] = str(parse_unit(v['canonical_units']))
+
+        with open('snt2.yaml') as f:
+            yaml2 = yaml.safe_load(f)
+
+        self.assertDictEqual(yaml1, yaml2)
