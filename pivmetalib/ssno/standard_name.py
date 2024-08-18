@@ -28,6 +28,10 @@ class StandardName(Concept):
         """Parse the standard_name_table and return the standard_name_table as Dataset."""
         if isinstance(standard_name_table, Dataset):
             return standard_name_table
+        elif isinstance(standard_name_table, str):
+            assert standard_name_table.startswith('http'), f"Expected a URL, got {standard_name_table}"
+            from .standard_name_table import StandardNameTable
+            return StandardNameTable(identifier=standard_name_table)
         raise TypeError(f"Expected a Dataset, got {type(standard_name_table)}")
 
     @field_validator("canonical_units", mode='before')
