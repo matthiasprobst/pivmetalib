@@ -1,6 +1,7 @@
 import json
 import pathlib
 
+import h5rdmtoolbox as h5tbx
 import ontolutils
 import requests.exceptions
 import yaml
@@ -233,3 +234,18 @@ class TestSSNO(utils.ClassTest):
             yaml2 = yaml.safe_load(f)
 
         self.assertDictEqual(yaml1, yaml2)
+
+    def test_hdf5_accessor(self):
+        # noinspection PyUnresolvedReferences
+        from pivmetalib.ssno import h5accessor
+        with h5tbx.File() as h5:
+            h5.create_dataset('u', data=4.3, attrs={'standard_name': 'x_velocity'})
+            with self.assertRaises(ValueError):
+                h5.ssno.enrich_hdf()
+
+            h5.attrs['snt'] = 'https://doi.org/10.5281/zenodo.10428817'
+            h5.ssno.enrich_hdf(standard_name_table_attribute='snt')
+            self.assertEqual(h5.u.rdf.predicate['standard_name'],
+                             'https://matthiasprobst.github.io/ssno#hasStandardName')
+            self.assertEqual(h5.rdf.predicate['snt'],
+                             'https://matthiasprobst.github.io/ssno#hasStandardNameTable')

@@ -5,3 +5,4 @@ xmltodict
 pyyaml>6.0.0
 pytest>=7.1.2
 pytest-cov
+h5rdmtoolbox>=1.4.0
