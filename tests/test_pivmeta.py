@@ -4,9 +4,10 @@ import time
 from datetime import datetime
 
 import ontolutils
+from ontolutils.classes.decorator import URIRefManager
+
 import pivmetalib
 import utils
-from ontolutils.classes.decorator import URIRefManager
 from pivmetalib import pivmeta, prov, m4i
 from pivmetalib.ssno import StandardName
 

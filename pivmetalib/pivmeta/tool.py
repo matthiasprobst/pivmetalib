@@ -1,8 +1,8 @@
-from pydantic import HttpUrl
-from pydantic import field_validator
 from typing import Union, List, Tuple, Optional
 
 from ontolutils import namespaces, urirefs, QUDT_KIND
+from pydantic import field_validator, Field, HttpUrl
+
 from .variable import NumericalVariable
 from .. import sd, m4i
 from ..m4i.variable import NumericalVariable as M4iNumericalVariable
@@ -14,15 +14,15 @@ from ..schema import SoftwareSourceCode
 @namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#",
             m4i="http://w3id.org/nfdi4ing/metadata4ing#")
 @urirefs(PivMetaTool='pivmeta:PivMetaTool',
-         parameter='m4i:parameter',
+         hasParameter='m4i:hasParameter',
          manufacturer='pivmeta:manufacturer')
 class PivMetaTool(m4i.Tool):
-    parameter: Union[
+    hasParameter: Union[
         TextVariable,
         NumericalVariable,
         M4iNumericalVariable,
         List[Union[TextVariable, NumericalVariable, M4iNumericalVariable]]
-    ] = None
+    ] = Field(default=None, alias="parameter")
     manufacturer: Organization = None
 
 

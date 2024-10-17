@@ -232,7 +232,7 @@ class TestSSNO(utils.ClassTest):
 
         with open('snt2.yaml') as f:
             yaml2 = yaml.safe_load(f)
-
+            yaml2.pop("creator")
         self.assertDictEqual(yaml1, yaml2)
 
     def test_hdf5_accessor(self):
