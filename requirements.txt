@@ -1,6 +1,6 @@
 rdflib
-simplejson
 appdirs
+simplejson
 python-dateutil
 requests
-ontolutils>=0.2.23
+ontolutils==0.4.8
