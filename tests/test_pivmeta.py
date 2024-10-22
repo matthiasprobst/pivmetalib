@@ -9,10 +9,19 @@ from ontolutils.classes.decorator import URIRefManager
 import pivmetalib
 import utils
 from pivmetalib import pivmeta, prov, m4i
-from pivmetalib.ssno import StandardName
-
+from ssnolib import StandardName
+import requests
+import warnings
 __this_dir__ = pathlib.Path(__file__).parent
 CACHE_DIR = pivmetalib.utils.get_cache_dir()
+
+try:
+    requests.get('https://github.com/', timeout=5)
+    connected = True
+except (requests.ConnectionError,
+        requests.Timeout) as e:
+    connected = False
+    warnings.warn('No internet connection', UserWarning)
 
 
 class TestPivmeta(utils.ClassTest):
@@ -168,12 +177,12 @@ class TestPivmeta(utils.ClassTest):
             json.loads(post.model_dump_jsonld()))
 
     def test_parameter_with_standard_name(self):
-        sn1 = StandardName(standard_name='x_velocity',
+        sn1 = StandardName(standardName='x_velocity',
                            description='x component of velocity',
-                           canonical_units='m s-1')
-        sn2 = StandardName(standard_name='y_velocity',
+                           unit='m s-1')
+        sn2 = StandardName(standardName='y_velocity',
                            description='y component of velocity',
-                           canonical_units='m s-1')
+                           unit='m s-1')
         var1 = m4i.NumericalVariable(value=4.2, standard_name=sn1)
         var2 = m4i.NumericalVariable(value=5.2, standard_name=sn2)
         self.assertIsInstance(var1, ontolutils.Thing)
@@ -186,10 +195,10 @@ class TestPivmeta(utils.ClassTest):
 
         sn1 = StandardName(standard_name='x_velocity',
                            description='x component of velocity',
-                           canonical_units='m s-1')
+                           unit='m s-1')
         sn2 = StandardName(standard_name='y_velocity',
                            description='y component of velocity',
-                           canonical_units='m s-1')
+                           unit='m s-1')
         var1 = pivmeta.NumericalVariable(value=4.2, standard_name=sn1)
         var2 = pivmeta.NumericalVariable(value=5.2, standard_name=sn2)
         self.assertIsInstance(var1, ontolutils.Thing)
@@ -216,78 +225,79 @@ class TestPivmeta(utils.ClassTest):
             'https://matthiasprobst.github.io/pivmeta#PivImageDistribution</a>'
         )
 
-    def test_PivDistribution(self):
-        piv_dist = pivmeta.PivDistribution(label='piv_distribution',
-                                           filenamePattern=r'img\d{4}_[a,b].tif')
-        self.assertEqual(URIRefManager[pivmeta.PivDistribution]['filename_pattern'], 'pivmeta:filenamePattern')
+    if connected:
+        def test_PivDistribution(self):
+            piv_dist = pivmeta.PivDistribution(label='piv_distribution',
+                                               filenamePattern=r'img\d{4}_[a,b].tif')
+            self.assertEqual(URIRefManager[pivmeta.PivDistribution]['filename_pattern'], 'pivmeta:filenamePattern')
 
-        self.assertIsInstance(piv_dist, ontolutils.Thing)
-        self.assertIsInstance(piv_dist, pivmeta.PivDistribution)
-        self.assertEqual(piv_dist.label, 'piv_distribution')
-        self.assertEqual(piv_dist.filename_pattern, r'img\d{4}_[a,b].tif')
-        jsonld_string = piv_dist.model_dump_jsonld(
-            context={
-                "@import": 'https://raw.githubusercontent.com/matthiasprobst/pivmeta/main/pivmeta_context.jsonld'
-            }
-        )
-        found_dist = ontolutils.query(
-            pivmeta.PivDistribution,
-            data=jsonld_string,
-            context={
-                "@import": 'https://raw.githubusercontent.com/matthiasprobst/pivmeta/main/pivmeta_context.jsonld'
-            }
-        )
-        self.assertEqual(len(found_dist), 1)
-        self.assertEqual(found_dist[0].label, 'piv_distribution')
-        self.assertEqual(found_dist[0].filename_pattern, r'img\d{4}_[a,b].tif')
+            self.assertIsInstance(piv_dist, ontolutils.Thing)
+            self.assertIsInstance(piv_dist, pivmeta.PivDistribution)
+            self.assertEqual(piv_dist.label, 'piv_distribution')
+            self.assertEqual(piv_dist.filename_pattern, r'img\d{4}_[a,b].tif')
+            jsonld_string = piv_dist.model_dump_jsonld(
+                context={
+                    "@import": 'https://raw.githubusercontent.com/matthiasprobst/pivmeta/main/pivmeta_context.jsonld'
+                }
+            )
+            found_dist = ontolutils.query(
+                pivmeta.PivDistribution,
+                data=jsonld_string,
+                context={
+                    "@import": 'https://raw.githubusercontent.com/matthiasprobst/pivmeta/main/pivmeta_context.jsonld'
+                }
+            )
+            self.assertEqual(len(found_dist), 1)
+            self.assertEqual(found_dist[0].label, 'piv_distribution')
+            self.assertEqual(found_dist[0].filename_pattern, r'img\d{4}_[a,b].tif')
 
-    def test_PivImageDistribution_from_file(self):
-        image_filename = __this_dir__ / 'testdata/piv_challenge.jsonld'
-        assert image_filename.exists()
-        image_dists = ontolutils.query(pivmeta.PivImageDistribution, source=image_filename)
-        self.assertIsInstance(image_dists[0], ontolutils.Thing)
-        self.assertIsInstance(image_dists[0], pivmeta.PivImageDistribution)
-        has_correct_title = False
-        for image_dist in image_dists:
-            if image_dist.id == "http://example.org/d5b2d0c9-ba74-43eb-b68f-624e1183cb2d":
-                self.assertEqual(image_dist.title,
-                                 "Raw piv image data")
-                has_correct_title = True
-        self.assertTrue(has_correct_title)
+        def test_PivImageDistribution_from_file(self):
+            image_filename = __this_dir__ / 'testdata/piv_challenge.jsonld'
+            assert image_filename.exists()
+            image_dists = ontolutils.query(pivmeta.PivImageDistribution, source=image_filename)
+            self.assertIsInstance(image_dists[0], ontolutils.Thing)
+            self.assertIsInstance(image_dists[0], pivmeta.PivImageDistribution)
+            has_correct_title = False
+            for image_dist in image_dists:
+                if image_dist.id == "http://example.org/d5b2d0c9-ba74-43eb-b68f-624e1183cb2d":
+                    self.assertEqual(image_dist.title,
+                                     "Raw piv image data")
+                    has_correct_title = True
+            self.assertTrue(has_correct_title)
 
-    def test_PivImageDistribution(self):
-        piv_img_dist = pivmeta.PivImageDistribution(
-            label='piv_image_distribution',
-            pivImageType=pivmeta.PivImageType.ExperimentalImage,
-            imageBitDepth=8,
-            numberOfRecords=100
-        )
-        self.assertFalse(piv_img_dist.is_synthetic())
-        self.assertIsInstance(piv_img_dist, ontolutils.Thing)
-        self.assertIsInstance(piv_img_dist, pivmeta.PivImageDistribution)
-        self.assertEqual(piv_img_dist.label, 'piv_image_distribution')
-        self.assertEqual(str(piv_img_dist.piv_image_type),
-                         str(pivmeta.PivImageType.ExperimentalImage.value))
-        self.assertEqual(piv_img_dist.image_bit_depth, 8)
-        self.assertEqual(piv_img_dist.number_of_records, 100)
-        jsonld_string = piv_img_dist.model_dump_jsonld(
-            context={
-                "@import": 'https://raw.githubusercontent.com/matthiasprobst/pivmeta/main/pivmeta_context.jsonld'
-            }
-        )
-        found_dist = ontolutils.query(
-            pivmeta.PivImageDistribution,
-            data=jsonld_string,
-            context={
-                "@import": 'https://raw.githubusercontent.com/matthiasprobst/pivmeta/main/pivmeta_context.jsonld'
-            }
-        )
-        self.assertEqual(len(found_dist), 1)
-        self.assertEqual(found_dist[0].label, 'piv_image_distribution')
-        self.assertEqual(str(found_dist[0].piv_image_type),
-                         str(pivmeta.PivImageType.ExperimentalImage.value))
-        self.assertEqual(found_dist[0].image_bit_depth, 8)
-        self.assertEqual(found_dist[0].number_of_records, 100)
+        def test_PivImageDistribution(self):
+            piv_img_dist = pivmeta.PivImageDistribution(
+                label='piv_image_distribution',
+                pivImageType=pivmeta.PivImageType.ExperimentalImage,
+                imageBitDepth=8,
+                numberOfRecords=100
+            )
+            self.assertFalse(piv_img_dist.is_synthetic())
+            self.assertIsInstance(piv_img_dist, ontolutils.Thing)
+            self.assertIsInstance(piv_img_dist, pivmeta.PivImageDistribution)
+            self.assertEqual(piv_img_dist.label, 'piv_image_distribution')
+            self.assertEqual(str(piv_img_dist.piv_image_type),
+                             str(pivmeta.PivImageType.ExperimentalImage.value))
+            self.assertEqual(piv_img_dist.image_bit_depth, 8)
+            self.assertEqual(piv_img_dist.number_of_records, 100)
+            jsonld_string = piv_img_dist.model_dump_jsonld(
+                context={
+                    "@import": 'https://raw.githubusercontent.com/matthiasprobst/pivmeta/main/pivmeta_context.jsonld'
+                }
+            )
+            found_dist = ontolutils.query(
+                pivmeta.PivImageDistribution,
+                data=jsonld_string,
+                context={
+                    "@import": 'https://raw.githubusercontent.com/matthiasprobst/pivmeta/main/pivmeta_context.jsonld'
+                }
+            )
+            self.assertEqual(len(found_dist), 1)
+            self.assertEqual(found_dist[0].label, 'piv_image_distribution')
+            self.assertEqual(str(found_dist[0].piv_image_type),
+                             str(pivmeta.PivImageType.ExperimentalImage.value))
+            self.assertEqual(found_dist[0].image_bit_depth, 8)
+            self.assertEqual(found_dist[0].number_of_records, 100)
 
     def test_Tool(self):
         tool = m4i.Tool(label='tool1')

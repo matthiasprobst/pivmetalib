@@ -1,6 +1,9 @@
 import json
-import rdflib
 import unittest
+import warnings
+
+import rdflib
+import requests
 
 from pivmetalib import CONTEXT
 from pivmetalib import jsonld
@@ -9,8 +12,15 @@ from pivmetalib import m4i, prov
 
 class TestJSONLD(unittest.TestCase):
 
-    def setUp(self):
+    def setUp(self) -> None:
         self.maxDiff = None
+        try:
+            requests.get('https://github.com/', timeout=5)
+            self.connected = True
+        except (requests.ConnectionError,
+                requests.Timeout) as e:
+            self.connected = False
+            warnings.warn('No internet connection', UserWarning)
 
     def test_merge(self):
         p1 = prov.Person(id='_:b1', firstName='John', lastName='Doe')
@@ -58,24 +68,25 @@ class TestJSONLD(unittest.TestCase):
                 )
             ]
         )
-        jsonld_dict = json.loads(
-            dyn_mean.model_dump_jsonld(
-                context={"@import": CONTEXT}
+        if self.connected:
+            jsonld_dict = json.loads(
+                dyn_mean.model_dump_jsonld(
+                    context={"@import": CONTEXT}
+                )
             )
-        )
 
-        g = rdflib.Graph()
-        g.parse(
-            data=jsonld_dict,
-            format='json-ld')
+            g = rdflib.Graph()
+            g.parse(
+                data=jsonld_dict,
+                format='json-ld')
 
-        for t in g:
-            print(t)
+            for t in g:
+                print(t)
 
-        query = (f"""SELECT ?id
-        WHERE {{
-            ?id rdf:type m4i:Method .
-        }}""")
-        query_result = g.query(query)
+            query = (f"""SELECT ?id
+            WHERE {{
+                ?id rdf:type m4i:Method .
+            }}""")
+            query_result = g.query(query)
 
-        self.assertEqual(len(query_result), 1)
+            self.assertEqual(len(query_result), 1)

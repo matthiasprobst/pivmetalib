@@ -8,7 +8,7 @@ A Python library and high-level interface to work with the [pivmeta ontology](ht
 It allows to describe PIV recordings, software, hardware and other related entities in a state-of-the-art and good
 scientific practice compliant way.
 
-The library is depends on [ontolutils](https://ontology-utils.readthedocs.io/en/latest/), which provides the 
+The library depends on [ontolutils](https://ontology-utils.readthedocs.io/en/latest/), which provides the 
 object-oriented interface to the ontology and the JSON-LD serialization.
 
 

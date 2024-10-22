@@ -1,4 +1,5 @@
 import pathlib
+import warnings
 
 import requests.exceptions
 
@@ -8,7 +9,16 @@ from pivmetalib import dcat
 from pivmetalib import prov
 
 __this_dir__ = pathlib.Path(__file__).parent
+
 CACHE_DIR = pivmetalib.utils.get_cache_dir()
+
+try:
+    requests.get('https://github.com/', timeout=5)
+    connected = True
+except (requests.ConnectionError,
+        requests.Timeout) as e:
+    connected = False
+    warnings.warn('No internet connection', UserWarning)
 
 
 class TestDcat(utils.ClassTest):
@@ -30,74 +40,75 @@ class TestDcat(utils.ClassTest):
         self.assertEqual(resource1.version, '1.0')
         self.assertEqual(str(resource1.identifier), 'http://example.com/resource')
 
-    def test_Distribution(self):
+    if connected:
+        def test_Distribution(self):
 
-        distribution_none_downloadURL = dcat.Distribution(
-            id='_:b2',
-            title='Distribution title',
-            description='Distribution description'
-        )
-        self.assertEqual(distribution_none_downloadURL.id, '_:b2')
-        with self.assertRaises(ValueError):
-            distribution_none_downloadURL.download()
+            distribution_none_downloadURL = dcat.Distribution(
+                id='_:b2',
+                title='Distribution title',
+                description='Distribution description'
+            )
+            self.assertEqual(distribution_none_downloadURL.id, '_:b2')
+            with self.assertRaises(ValueError):
+                distribution_none_downloadURL.download()
 
-        distribution_wrongfile = dcat.Distribution(
-            id='_:b2',
-            title='Distribution title',
-            description='Distribution description',
-            downloadURL='file://path/invalid.txt'
-        )
-        with self.assertRaises(FileNotFoundError):
-            distribution_wrongfile.download()
+            distribution_wrongfile = dcat.Distribution(
+                id='_:b2',
+                title='Distribution title',
+                description='Distribution description',
+                downloadURL='file://path/invalid.txt'
+            )
+            with self.assertRaises(FileNotFoundError):
+                distribution_wrongfile.download()
 
-        distribution1 = dcat.Distribution(
-            id='_:b2',
-            title='Distribution title',
-            description='Distribution description',
-            creator=prov.Person(name='John Doe'),
-            version='1.0',
-            identifier='http://example.com/distribution',
-            accessURL='http://example.com/distribution',
-            downloadURL='http://example.com/distribution/download'
-        )
-        self.assertEqual(distribution1.id, '_:b2')
-        self.assertEqual(distribution1.title, 'Distribution title')
-        self.assertEqual(distribution1.description, 'Distribution description')
-        self.assertIsInstance(distribution1.creator, prov.Person)
-        self.assertEqual(distribution1.creator.name, 'John Doe')
-        self.assertEqual(distribution1.version, '1.0')
-        self.assertEqual(str(distribution1.identifier), 'http://example.com/distribution')
-        self.assertEqual(str(distribution1.access_URL), 'http://example.com/distribution')
-        self.assertEqual(str(distribution1.download_URL), 'http://example.com/distribution/download')
+            distribution1 = dcat.Distribution(
+                id='_:b2',
+                title='Distribution title',
+                description='Distribution description',
+                creator=prov.Person(name='John Doe'),
+                version='1.0',
+                identifier='http://example.com/distribution',
+                accessURL='http://example.com/distribution',
+                downloadURL='http://example.com/distribution/download'
+            )
+            self.assertEqual(distribution1.id, '_:b2')
+            self.assertEqual(distribution1.title, 'Distribution title')
+            self.assertEqual(distribution1.description, 'Distribution description')
+            self.assertIsInstance(distribution1.creator, prov.Person)
+            self.assertEqual(distribution1.creator.name, 'John Doe')
+            self.assertEqual(distribution1.version, '1.0')
+            self.assertEqual(str(distribution1.identifier), 'http://example.com/distribution')
+            self.assertEqual(str(distribution1.access_URL), 'http://example.com/distribution')
+            self.assertEqual(str(distribution1.download_URL), 'http://example.com/distribution/download')
 
-        with self.assertRaises(requests.exceptions.HTTPError):
-            distribution1.download(timeout=60)
+            with self.assertRaises(requests.exceptions.HTTPError):
+                distribution1.download(timeout=60)
 
-        piv_dist = dcat.Distribution(
-            downloadURL=self.test_jsonld_filename
-        )
-        filename = piv_dist.download(timeout=60)
-        self.assertTrue(filename.exists())
-        self.assertEqual(filename.name, 'piv_dataset.json')
-        self.assertIsInstance(filename, pathlib.Path)
+            piv_dist = dcat.Distribution(
+                downloadURL=self.test_jsonld_filename
+            )
+            filename = piv_dist.download(timeout=60)
+            self.assertTrue(filename.exists())
+            self.assertEqual(filename.name, 'piv_dataset.json')
+            self.assertIsInstance(filename, pathlib.Path)
 
-        local_dist = dcat.Distribution(
-            downloadURL=filename
-        )
-        i = 0
-        i_max = 3
-        while i < i_max:
-            try:
-                local_filename = local_dist.download(timeout=60)
-                break
-            except requests.exceptions.HTTPSConnection as e:
-                print(e)
-                i += 1
-        self.assertTrue(local_filename.exists())
-        self.assertEqual(local_filename.name, 'piv_dataset.json')
-        self.assertIsInstance(local_filename, pathlib.Path)
+            local_dist = dcat.Distribution(
+                downloadURL=filename
+            )
+            i = 0
+            i_max = 3
+            while i < i_max:
+                try:
+                    local_filename = local_dist.download(timeout=60)
+                    break
+                except requests.exceptions.HTTPSConnection as e:
+                    print(e)
+                    i += 1
+            self.assertTrue(local_filename.exists())
+            self.assertEqual(local_filename.name, 'piv_dataset.json')
+            self.assertIsInstance(local_filename, pathlib.Path)
 
-        filename.unlink(missing_ok=True)
+            filename.unlink(missing_ok=True)
 
     def test_Dataset(self):
         dataset1 = dcat.Dataset(

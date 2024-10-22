@@ -1,18 +1,29 @@
 import json
 import pathlib
-import rdflib
 import time
+import warnings
 from datetime import datetime
 
 import ontolutils
+import rdflib
+import requests
+from ontolutils.namespacelib import QUDT_UNIT, QUDT_KIND
+from ssnolib import StandardName
+
 import pivmetalib
 import utils
-from ontolutils.namespacelib import QUDT_UNIT, QUDT_KIND
 from pivmetalib import pivmeta, m4i
-from pivmetalib.ssno import StandardName
 
 __this_dir__ = pathlib.Path(__file__).parent
 CACHE_DIR = pivmetalib.utils.get_cache_dir()
+
+try:
+    requests.get('https://github.com/', timeout=5)
+    connected = True
+except (requests.ConnectionError,
+        requests.Timeout) as e:
+    connected = False
+    warnings.warn('No internet connection', UserWarning)
 
 
 class TestM4i(utils.ClassTest):
@@ -58,7 +69,7 @@ class TestM4i(utils.ClassTest):
         var1 = m4i.NumericalVariable(label='Name of the variable',
                                      value=4.2)
         print(var1.model_validate(dict(label='Name of the variable',
-                                     value=4.2)))
+                                       value=4.2)))
         self.assertIsInstance(var1, ontolutils.Thing)
         self.assertIsInstance(var1, m4i.NumericalVariable)
         self.assertEqual(var1.label, 'Name of the variable')
@@ -98,80 +109,81 @@ class TestM4i(utils.ClassTest):
         self.check_jsonld_string(jsonld_string)
         print(jsonld_string)
 
-    def test_method_n_parameters(self):
-        # method with 2 parameters:
-        var1 = m4i.NumericalVariable(value=4.2)
-        var2 = m4i.NumericalVariable(value=5.2)
-        method3 = m4i.Method(label='method3', parameter=[var1, var2])
-        self.assertIsInstance(method3, ontolutils.Thing)
-        self.assertIsInstance(method3, m4i.Method)
-        self.assertEqual(method3.label, 'method3')
-        self.assertIsInstance(method3.parameter, list)
-        self.assertEqual(method3.parameter, [var1, var2])
+    if connected:
+        def test_method_n_parameters(self):
+            # method with 2 parameters:
+            var1 = m4i.NumericalVariable(value=4.2)
+            var2 = m4i.NumericalVariable(value=5.2)
+            method3 = m4i.Method(label='method3', parameter=[var1, var2])
+            self.assertIsInstance(method3, ontolutils.Thing)
+            self.assertIsInstance(method3, m4i.Method)
+            self.assertEqual(method3.label, 'method3')
+            self.assertIsInstance(method3.parameter, list)
+            self.assertEqual(method3.parameter, [var1, var2])
 
-        self.assertEqual(
-            method3.namespaces,
-            {'owl': 'http://www.w3.org/2002/07/owl#',
-             'rdfs': 'http://www.w3.org/2000/01/rdf-schema#',
-             'm4i': 'http://w3id.org/nfdi4ing/metadata4ing#',
-             'schema': 'https://schema.org/'}
-        )
-        jsonld_string = method3.model_dump_jsonld(
-            context={
-                "@import": 'https://raw.githubusercontent.com/matthiasprobst/pivmeta/main/pivmeta_context.jsonld'
-            }
-        )
-        # the namespace must not be change for the same class after the above call
-        self.assertEqual(
-            method3.namespaces,
-            {'owl': 'http://www.w3.org/2002/07/owl#',
-             'rdfs': 'http://www.w3.org/2000/01/rdf-schema#',
-             'm4i': 'http://w3id.org/nfdi4ing/metadata4ing#',
-             'schema': 'https://schema.org/'}
-        )
+            self.assertEqual(
+                method3.namespaces,
+                {'owl': 'http://www.w3.org/2002/07/owl#',
+                 'rdfs': 'http://www.w3.org/2000/01/rdf-schema#',
+                 'm4i': 'http://w3id.org/nfdi4ing/metadata4ing#',
+                 'schema': 'https://schema.org/'}
+            )
+            jsonld_string = method3.model_dump_jsonld(
+                context={
+                    "@import": 'https://raw.githubusercontent.com/matthiasprobst/pivmeta/main/pivmeta_context.jsonld'
+                }
+            )
+            # the namespace must not be change for the same class after the above call
+            self.assertEqual(
+                method3.namespaces,
+                {'owl': 'http://www.w3.org/2002/07/owl#',
+                 'rdfs': 'http://www.w3.org/2000/01/rdf-schema#',
+                 'm4i': 'http://w3id.org/nfdi4ing/metadata4ing#',
+                 'schema': 'https://schema.org/'}
+            )
 
-        self.check_jsonld_string(jsonld_string)
-        self.assertTrue('@import' in json.loads(jsonld_string)['@context'])
+            self.check_jsonld_string(jsonld_string)
+            self.assertTrue('@import' in json.loads(jsonld_string)['@context'])
 
-        print(method3.namespaces)
-        print(method3.urirefs)
+            print(method3.namespaces)
+            print(method3.urirefs)
 
-    def test_parameter_with_standard_name(self):
-        sn1 = StandardName(standard_name='x_velocity',
-                           description='x component of velocity',
-                           canonical_units='m s-1')
-        sn2 = StandardName(standard_name='y_velocity',
-                           description='y component of velocity',
-                           canonical_units='m s-1')
-        var1 = m4i.NumericalVariable(value=4.2, standard_name=sn1)
-        var2 = m4i.NumericalVariable(value=5.2, standard_name=sn2)
-        self.assertIsInstance(var1, ontolutils.Thing)
-        self.assertIsInstance(var1, m4i.NumericalVariable)
-        self.assertIsInstance(var2, m4i.NumericalVariable)
-        self.assertEqual(var1.value, 4.2)
+        def test_parameter_with_standard_name(self):
+            sn1 = StandardName(standard_name='x_velocity',
+                               description='x component of velocity',
+                               unit='m s-1')
+            sn2 = StandardName(standard_name='y_velocity',
+                               description='y component of velocity',
+                               unit='m s-1')
+            var1 = m4i.NumericalVariable(value=4.2, standard_name=sn1)
+            var2 = m4i.NumericalVariable(value=5.2, standard_name=sn2)
+            self.assertIsInstance(var1, ontolutils.Thing)
+            self.assertIsInstance(var1, m4i.NumericalVariable)
+            self.assertIsInstance(var2, m4i.NumericalVariable)
+            self.assertEqual(var1.value, 4.2)
 
-        self.assertEqual(var1.standard_name, sn1)
-        self.assertNotEqual(var1.standard_name, sn2)
+            self.assertEqual(var1.standard_name, sn1)
+            self.assertNotEqual(var1.standard_name, sn2)
 
-        sn1 = StandardName(standard_name='x_velocity',
-                           description='x component of velocity',
-                           canonical_units='m s-1')
-        sn2 = StandardName(standard_name='y_velocity',
-                           description='y component of velocity',
-                           canonical_units='m s-1')
-        var1 = pivmeta.NumericalVariable(value=4.2, standard_name=sn1)
-        var2 = pivmeta.NumericalVariable(value=5.2, standard_name=sn2)
-        self.assertIsInstance(var1, ontolutils.Thing)
-        self.assertIsInstance(var1, pivmeta.NumericalVariable)
-        self.assertEqual(var1.value, 4.2)
+            sn1 = StandardName(standard_name='x_velocity',
+                               description='x component of velocity',
+                               unit='m s-1')
+            sn2 = StandardName(standard_name='y_velocity',
+                               description='y component of velocity',
+                               unit='m s-1')
+            var1 = pivmeta.NumericalVariable(value=4.2, standard_name=sn1)
+            var2 = pivmeta.NumericalVariable(value=5.2, standard_name=sn2)
+            self.assertIsInstance(var1, ontolutils.Thing)
+            self.assertIsInstance(var1, pivmeta.NumericalVariable)
+            self.assertEqual(var1.value, 4.2)
 
-        var1.standard_name = sn1
+            var1.standard_name = sn1
 
-        method = m4i.Method(label='method1')
-        method.parameter = [var1, var2]
+            method = m4i.Method(label='method1')
+            method.parameter = [var1, var2]
 
-        jsonld_string = method.model_dump_jsonld()
-        self.check_jsonld_string(jsonld_string)
+            jsonld_string = method.model_dump_jsonld()
+            self.check_jsonld_string(jsonld_string)
 
     def test_ProcessingStep(self):
         ps1 = m4i.ProcessingStep(label='p1',

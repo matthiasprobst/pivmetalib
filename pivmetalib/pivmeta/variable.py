@@ -1,10 +1,10 @@
 from typing import Union
 
-from pydantic import HttpUrl, field_validator, Field
-
 from ontolutils import namespaces, urirefs
+from pydantic import HttpUrl, field_validator, Field
+from ssnolib import StandardName
+
 from .. import m4i
-from ..ssno import StandardName
 
 
 @namespaces(m4i="http://w3id.org/nfdi4ing/metadata4ing#",
