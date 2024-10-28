@@ -1,6 +1,7 @@
-rdflib
-appdirs
-simplejson
-python-dateutil
-requests
+rdflib>=7.0.0
+appdirs>=1.4.4
+simplejson>=3.19.2
+python-dateutil>=2.9.0
+requests>=2.32.3
 ontolutils==0.4.8
+ssnolib @ git+https://github.com/matthiasprobst/ssnolib@v1.3.0.1a1
