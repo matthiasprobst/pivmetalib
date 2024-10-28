@@ -4,9 +4,9 @@ import warnings
 import ontolutils
 import requests
 from ontolutils import set_logging_level
-from ontolutils.namespacelib import PIVMETA  # the namespace module containing the URI addresses
 
 import pivmetalib
+from pivmetalib import PIVMETA
 from pivmetalib import dcat  # .dcat import Dataset, Distribution
 from pivmetalib import pivmeta  # import PivImageDistribution
 from pivmetalib import prov  # Person
