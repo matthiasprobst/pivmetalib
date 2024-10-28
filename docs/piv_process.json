@@ -7,10 +7,8 @@
         "obo": "http://purl.obolibrary.org/obo/",
         "pivmeta": "https://matthiasprobst.github.io/pivmeta#",
         "ssno": "https://matthiasprobst.github.io/ssno#",
-        "dcat": "http://www.w3.org/ns/dcat#",
-        "dcterms": "http://purl.org/dc/terms/",
-        "prov": "http://www.w3.org/ns/prov#",
         "sd": "https://w3id.org/okn/o/sd#",
+        "prov": "http://www.w3.org/ns/prov#",
         "foaf": "http://xmlns.com/foaf/0.1/"
     },
     "@type": "pivmeta:PIVEvaluation",
@@ -21,7 +19,7 @@
             "schema:description": "The default mode of cross-correlation using FFTs to speed the computation. In principle the sum of pixel-wise multiplication of intensities is computed for each correlation offset (For implementation details please refer to Raffel et al. 2007).",
             "pivmeta:windowWeightingFunction": "https://matthiasprobst.github.io/pivmeta#SquareWindowWeightingFunction",
             "name": "Standard (FFT) Correlation",
-            "@id": "N06b34596c99a41459dab18ee26f2effd"
+            "@id": "_:N7e2b58fe2c714df7965e518bea943753"
         },
         {
             "@type": "m4i:Method",
@@ -32,46 +30,46 @@
                     "@type": "m4i:NumericalVariable",
                     "m4i:hasNumericalValue": 64,
                     "pivmeta:hasStandardName": "https://matthiasprobst.github.io/pivmeta#x_initial_interrogation_window_size",
-                    "@id": "N61b2eebbaa9e44c6a542e48fc90aea7a"
+                    "@id": "_:N0584b865683945a59687e5d7a55df894"
                 },
                 {
                     "@type": "m4i:NumericalVariable",
                     "m4i:hasNumericalValue": 64,
                     "pivmeta:hasStandardName": "https://matthiasprobst.github.io/pivmeta#y_initial_interrogation_window_size",
-                    "@id": "N67f9a0b0117649f88f1cdf2f6e32b892"
+                    "@id": "_:N02840ba560cf450abf56decc818f45bf"
                 },
                 {
                     "@type": "m4i:NumericalVariable",
                     "m4i:hasNumericalValue": 16,
                     "pivmeta:hasStandardName": "https://matthiasprobst.github.io/pivmeta#x_final_interrogation_window_size",
-                    "@id": "N83990d45cdec47418703cd5b285a9329"
+                    "@id": "_:N80b4cb4814dc432d9caa932f08d7d738"
                 },
                 {
                     "@type": "m4i:NumericalVariable",
                     "m4i:hasNumericalValue": 16,
                     "pivmeta:hasStandardName": "https://matthiasprobst.github.io/pivmeta#y_final_interrogation_window_size",
-                    "@id": "Nf4d4d48645ea4486a340a378f7770ea5"
+                    "@id": "_:Nb3b48df2e7ee48a4a372ea3f969606fa"
                 },
                 {
                     "@type": "m4i:NumericalVariable",
                     "m4i:hasNumericalValue": 8,
                     "pivmeta:hasStandardName": "https://matthiasprobst.github.io/pivmeta#x_final_interrogation_window_overlap_size",
-                    "@id": "Nb978281289f046dcad5fbda8b81f90ae"
+                    "@id": "_:Na969020a8b1b4be2b553e81c7ca843cb"
                 },
                 {
                     "@type": "m4i:NumericalVariable",
                     "m4i:hasNumericalValue": 8,
                     "pivmeta:hasStandardName": "https://matthiasprobst.github.io/pivmeta#y_final_interrogation_window_overlap_size",
-                    "@id": "Nf24a0d75c9fc4e3c9b3c238619d596d3"
+                    "@id": "_:Nade1f8cdca6443a48697b11594eef9d6"
                 },
                 {
                     "@type": "m4i:NumericalVariable",
+                    "m4i:hasVariableDescription": "Number of multigrid passes",
                     "m4i:hasNumericalValue": 3,
-                    "description": "Number of multigrid passes",
-                    "@id": "N23a8af42dc8545c9a967fe57037c93dd"
+                    "@id": "_:N00fac52616234e21b7395a49afd1b9d6"
                 }
             ],
-            "@id": "N14d61c045ee948b88f11a7e0c389ce3e"
+            "@id": "_:N3c036ffe8b6847f3b77f529ec88f205b"
         },
         {
             "@type": "pivmeta:OutlierDetectionMethod",
@@ -80,9 +78,9 @@
                 "@type": "m4i:NumericalVariable",
                 "rdfs:label": "threshold",
                 "m4i:hasNumericalValue": 3.0,
-                "@id": "N7fc6bab6333943e3a6198037904a214a"
+                "@id": "_:Na0630b678bb14ae3b731101cbdf3901a"
             },
-            "@id": "N4466a7575e4f4779b128813bfd62acc2"
+            "@id": "_:N7592e50cf91141d2a51b2704e9665ef5"
         },
         {
             "@type": "pivmeta:OutlierDetectionMethod",
@@ -92,16 +90,16 @@
                     "@type": "m4i:NumericalVariable",
                     "rdfs:label": "mean",
                     "m4i:hasNumericalValue": 2.0,
-                    "@id": "Na2f83412badc414a9f2c712c9cbbe38f"
+                    "@id": "_:N499860ef21bb476fb02ab2bb1d085c23"
                 },
                 {
                     "@type": "m4i:NumericalVariable",
                     "rdfs:label": "var",
                     "m4i:hasNumericalValue": 1.0,
-                    "@id": "Ncaf636105827478488446c2c83681b37"
+                    "@id": "_:N5a60c0033b1a4f1c9848b4182394e250"
                 }
             ],
-            "@id": "Nfaf183a92168461f8d360f79fb4578fa"
+            "@id": "_:Nd24d71d44f2244b391959a2a6ab0c5ce"
         }
     ],
     "m4i:precedes": {
@@ -114,30 +112,10 @@
                 "@type": "m4i:NumericalVariable",
                 "rdfs:label": "kernel",
                 "m4i:hasNumericalValue": 2.0,
-                "@id": "Ne43150453019472ea51e7588b7ce6c56"
+                "@id": "_:Nae14fad5266e44b0966bf8d9f448369e"
             },
             "name": "Low-pass filtering",
-            "@id": "N0c6ec5be3df44a69b018db81549f404b"
-        },
-        "m4i:hasOutput": {
-            "@type": "dcat:Dataset",
-            "dcterms:title": "ILA Vortex Pair",
-            "dcat:distribution": [
-                {
-                    "@type": "pivmeta:PivResultDistribution",
-                    "dcterms:title": "Result File",
-                    "dcat:downloadURL": "file:///vp1a.dat",
-                    "@id": "N5bb552efa37b4cffa5c37ccc69915481"
-                },
-                {
-                    "@type": "pivmeta:PivImageDistribution",
-                    "dcterms:title": "ILA Vortex Pair Images",
-                    "download_URL": "https://www.pivtec.com/download/samples/pivimg1.zip",
-                    "piv_image_type": "PivImageType.ExperimentalImage",
-                    "@id": "Na6dc8f326aff4f489c5674167f850059"
-                }
-            ],
-            "@id": "Na2426b5885cc42e1a086882928fe189c"
+            "@id": "_:Ne6f43ac0cb98478bb8105cda32eca679"
         },
         "has_employed_tool": {
             "@type": "pivmeta:PIVSoftware",
@@ -146,12 +124,12 @@
                 "foaf:mbox": "info@pivtec.com",
                 "foaf:name": "PIVTEC GmbH",
                 "schema:url": "https://www.pivtec.com/",
-                "@id": "N200ca2053ace4b54be34428a0b388abe"
+                "@id": "_:Nccd2709f59964541ac9c9a728e5a5ada"
             },
             "sd:hasDocumentation": "https://www.pivtec.com/download/docs/PIVview_v36_Manual.pdf",
-            "@id": "Nf0ee48f6363e41a3abb83c6aaa53626f"
+            "@id": "_:N692a44684cbd4d73a658f99ea8a7eb52"
         },
-        "@id": "N9f0bf913528b4442822693877e1a4c8c"
+        "@id": "_:Ncb83522a233545fb8bf7362f9d67d6eb"
     },
     "has_employed_tool": {
         "@type": "pivmeta:PIVSoftware",
@@ -160,10 +138,10 @@
             "foaf:mbox": "info@pivtec.com",
             "foaf:name": "PIVTEC GmbH",
             "schema:url": "https://www.pivtec.com/",
-            "@id": "N4d529e345268425a9f78c7764a778f5f"
+            "@id": "_:Nccd2709f59964541ac9c9a728e5a5ada"
         },
         "sd:hasDocumentation": "https://www.pivtec.com/download/docs/PIVview_v36_Manual.pdf",
-        "@id": "N107aa9f7c5654297bad4234cfa2d1a3c"
+        "@id": "_:N692a44684cbd4d73a658f99ea8a7eb52"
     },
-    "@id": "Ndda6a379e5db40969d5cb9322ecef87a"
+    "@id": "_:Ne66e8f0ea7864b9bb8c7e4493e42c6f3"
 }

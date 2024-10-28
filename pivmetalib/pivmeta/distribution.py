@@ -5,7 +5,7 @@ import rdflib
 from pydantic import HttpUrl, PositiveInt, field_validator, Field
 
 from ontolutils import namespaces, urirefs
-from ontolutils.namespacelib import PIVMETA
+from pivmetalib import PIVMETA
 from ..dcat import Distribution
 
 
@@ -38,15 +38,15 @@ class PivImageType(Enum):
 
 @namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
 @urirefs(PivDistribution='pivmeta:PivDistribution',
-         filename_pattern='pivmeta:filenamePattern')
+         filenamePattern='pivmeta:filenamePattern')
 class PivDistribution(Distribution):
     """Implementation of pivmeta:PivDistribution
 
     Describes PIV data (images or result data). See also subclasses PivImageDistribution and PivResultDistribution.
     """
-    filename_pattern: str = Field(default=None, alias='filenamePattern')  # e.g. "image_{:04d}.tif"
+    filenamePattern: str = Field(default=None, alias='filename_pattern')  # e.g. "image_{:04d}.tif"
 
-    @field_validator('filename_pattern', mode='before')
+    @field_validator('filenamePattern', mode='before')
     @classmethod
     def _filenamePattern(cls, filenamePattern):
         return filenamePattern.replace('\\\\', '\\')

@@ -1,7 +1,9 @@
-from pydantic import HttpUrl, field_validator
 from typing import Union
 
-from ontolutils import namespaces, urirefs, PIVMETA
+from ontolutils import namespaces, urirefs
+from pydantic import HttpUrl, Field, field_validator
+
+from pivmetalib import PIVMETA
 from .. import m4i
 
 
@@ -13,12 +15,12 @@ class WindowWeightingFunction(m4i.Method):
 
 @namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
 @urirefs(CorrelationMethod='pivmeta:CorrelationMethod',
-         window_weighting_function='pivmeta:windowWeightingFunction')
+         windowWeightingFunction='pivmeta:windowWeightingFunction')
 class CorrelationMethod(m4i.Method):
     """Implementation of pivmeta:CorrelationMethod"""
-    window_weighting_function: Union[HttpUrl, WindowWeightingFunction]
+    windowWeightingFunction: Union[HttpUrl, WindowWeightingFunction] = Field(alias='window_weighting_function')
 
-    @field_validator('window_weighting_function', mode='before')
+    @field_validator('windowWeightingFunction', mode='before')
     @classmethod
     def _windowWeightingFunction(cls, window_weighting_function):
         if isinstance(window_weighting_function, str):

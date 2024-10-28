@@ -229,7 +229,7 @@ class TestPivmeta(utils.ClassTest):
         def test_PivDistribution(self):
             piv_dist = pivmeta.PivDistribution(label='piv_distribution',
                                                filenamePattern=r'img\d{4}_[a,b].tif')
-            self.assertEqual(URIRefManager[pivmeta.PivDistribution]['filename_pattern'], 'pivmeta:filenamePattern')
+            self.assertEqual(URIRefManager[pivmeta.PivDistribution]['filenamePattern'], 'pivmeta:filenamePattern')
 
             self.assertIsInstance(piv_dist, ontolutils.Thing)
             self.assertIsInstance(piv_dist, pivmeta.PivDistribution)

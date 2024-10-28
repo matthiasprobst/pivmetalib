@@ -2,8 +2,10 @@ import logging
 
 from ontolutils import Thing
 from ontolutils.classes import decorator
+
 from . import utils
 from ._version import __version__
+from .namespace import PIVMETA
 
 DEFAULT_LOGGING_LEVEL = logging.WARNING
 _formatter = logging.Formatter(
