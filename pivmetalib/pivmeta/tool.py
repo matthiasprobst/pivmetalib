@@ -7,6 +7,7 @@ from .variable import NumericalVariable
 from .. import sd, m4i
 from ..m4i.variable import NumericalVariable as M4iNumericalVariable
 from ..m4i.variable import TextVariable
+from ..namespace import PIVMETA
 from ..prov import Organization
 from ..schema import SoftwareSourceCode
 
@@ -48,19 +49,42 @@ class Laser(PIVHardware):
     """Pydantic implementation of pivmeta:Laser"""
 
 
+from ssnolib.pimsii import Property
+
+
 @namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
 @urirefs(DigitalCamera="pivmeta:DigitalCamera",
          fnumber="pivmeta:fnumber")
 class DigitalCamera(PIVHardware):
     """Pydantic implementation of pivmeta:DigitalCamera"""
     fnumber: str = None
+    sensor_pixel_width: Optional[Union[int, float, Property]]
+    sensor_pixel_height: Optional[Union[int, float, Property]]
+
+    @field_validator('sensor_pixel_width', mode='before')
+    @classmethod
+    def _sensor_pixel_width(cls, sensor_pixel_width: Union[int, Property]):
+        if isinstance(sensor_pixel_width, (int, float)):
+            return Property(label="sensor_pixel_width",
+                            hasValue=sensor_pixel_width,
+                            hasStandardName=PIVMETA.sensor_pixel_width)
+        return sensor_pixel_width
+
+    @field_validator('sensor_pixel_height', mode='before')
+    @classmethod
+    def _sensor_pixel_height(cls, sensor_pixel_height: Union[int, Property]):
+        if isinstance(sensor_pixel_height, (int, float)):
+            return Property(label="sensor_pixel_height",
+                            hasValue=sensor_pixel_height,
+                            hasStandardName=PIVMETA.sensor_pixel_height)
+        return sensor_pixel_height
 
     # name: str = None
     # cameraType: str = None
     # resolution: ResolutionType = None
     # focalLength: m4i.NumericalVariable = None
     # fnumber: FStopType = None
-    # ccdWidth: m4i.NumericalVariable = None
+    # ccdWidth: Property = None
     # ccdHeight: m4i.NumericalVariable = None
     # ccdSize: m4i.NumericalVariable = None
 
@@ -68,6 +92,11 @@ class DigitalCamera(PIVHardware):
     @classmethod
     def _fnumber(cls, fnumber):
         return str(fnumber)
+
+    # def easy_init(
+    #         self,
+    #         label: str):
+    #     return DigitalCamera()
 
     @classmethod
     def build_minimal(cls,
