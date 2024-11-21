@@ -58,26 +58,26 @@ from ssnolib.pimsii import Property
 class DigitalCamera(PIVHardware):
     """Pydantic implementation of pivmeta:DigitalCamera"""
     fnumber: str = None
-    sensor_pixel_width: Optional[Union[int, float, Property]]
-    sensor_pixel_height: Optional[Union[int, float, Property]]
+    # sensor_pixel_width: Optional[Union[int, float, Property]] = Field(defaut=None, alias="sensor_pixel_width")
+    # sensor_pixel_height: Optional[Union[int, float, Property]] = Field(defaut=None, alias="sensor_pixel_height")
 
-    @field_validator('sensor_pixel_width', mode='before')
-    @classmethod
-    def _sensor_pixel_width(cls, sensor_pixel_width: Union[int, Property]):
-        if isinstance(sensor_pixel_width, (int, float)):
-            return Property(label="sensor_pixel_width",
-                            hasValue=sensor_pixel_width,
-                            hasStandardName=PIVMETA.sensor_pixel_width)
-        return sensor_pixel_width
-
-    @field_validator('sensor_pixel_height', mode='before')
-    @classmethod
-    def _sensor_pixel_height(cls, sensor_pixel_height: Union[int, Property]):
-        if isinstance(sensor_pixel_height, (int, float)):
-            return Property(label="sensor_pixel_height",
-                            hasValue=sensor_pixel_height,
-                            hasStandardName=PIVMETA.sensor_pixel_height)
-        return sensor_pixel_height
+    # @field_validator('sensor_pixel_width', mode='before')
+    # @classmethod
+    # def _sensor_pixel_width(cls, sensor_pixel_width: Union[int, Property]):
+    #     if isinstance(sensor_pixel_width, (int, float)):
+    #         return Property(label="sensor_pixel_width",
+    #                         hasValue=sensor_pixel_width,
+    #                         hasStandardName=PIVMETA.sensor_pixel_width)
+    #     return sensor_pixel_width
+    #
+    # @field_validator('sensor_pixel_height', mode='before')
+    # @classmethod
+    # def _sensor_pixel_height(cls, sensor_pixel_height: Union[int, Property]):
+    #     if isinstance(sensor_pixel_height, (int, float)):
+    #         return Property(label="sensor_pixel_height",
+    #                         hasValue=sensor_pixel_height,
+    #                         hasStandardName=PIVMETA.sensor_pixel_height)
+    #     return sensor_pixel_height
 
     # name: str = None
     # cameraType: str = None
