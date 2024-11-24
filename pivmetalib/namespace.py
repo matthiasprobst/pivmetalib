@@ -26,19 +26,19 @@ class PIVMETA(DefinedNamespace):
     OpticSensor: URIRef  # ['Optic Sensor']
     OutlierDetectionMethod: URIRef  # ['Outlier Detection Method']
     OutlierReplacementScheme: URIRef  # ['Outlier Replacement Scheme']
-    PIVEvaluation: URIRef  # ['piv evaluation']
+    PIVEvaluation: URIRef  # ['PIV evaluation']
     PIVHardware: URIRef  # ['PIV Hardware']
     PIVParticle: URIRef  # ['PIV Particle']
-    PIVSoftware: URIRef  # ['Piv Software']
+    PIVSoftware: URIRef  # ['PIV Software']
     PeakSearchMethod: URIRef  # ['Peak Search Method']
-    PivDistribution: URIRef  # ['piv distribution']
-    PivImageDistribution: URIRef  # ['piv image distribution']
-    PivMaskDistribution: URIRef  # ['piv mask distribution']
-    PivPostProcessing: URIRef  # ['piv post processing']
-    PivPreProcessing: URIRef  # ['piv pre processing']
-    PivProcessingStep: URIRef  # ['piv processing step']
-    PivResultDistribution: URIRef  # ['piv result distribution']
-    PivValidation: URIRef  # ['piv validation']
+    PIVDistribution: URIRef  # ['PIV distribution']
+    PIVImageDistribution: URIRef  # ['PIV image distribution']
+    PIVMaskDistribution: URIRef  # ['PIV mask distribution']
+    PIVPostProcessing: URIRef  # ['PIV post processing']
+    PIVPreProcessing: URIRef  # ['PIV pre processing']
+    PIVProcessingStep: URIRef  # ['PIV processing step']
+    PIVResultDistribution: URIRef  # ['PIV result distribution']
+    PIVValidation: URIRef  # ['PIV validation']
     Singlepass: URIRef  # ['Singlepass']
     Substance: URIRef  # ['Substance']
     SyntheticPIVParticle: URIRef  # ['Synthetic Particle']
@@ -51,7 +51,7 @@ class PIVMETA(DefinedNamespace):
     flagIn: URIRef  # ['flag in']
     hasStandardName: URIRef  # ['has standard name']
     outlierReplacementScheme: URIRef  # ['outlier replacement scheme']
-    pivImageType: URIRef  # ['piv image type']
+    pivImageType: URIRef  # ['PIV image type']
     windowWeightingFunction: URIRef  # ['window weighting function']
     filenamePattern: URIRef  # ['filename pattern']
     fnumber: URIRef  # ['fnumber']
@@ -110,16 +110,16 @@ setattr(PIVMETA, "Outlier_Replacement_Scheme", PIVMETA.OutlierReplacementScheme)
 setattr(PIVMETA, "piv_evaluation", PIVMETA.PIVEvaluation)
 setattr(PIVMETA, "PIV_Hardware", PIVMETA.PIVHardware)
 setattr(PIVMETA, "PIV_Particle", PIVMETA.PIVParticle)
-setattr(PIVMETA, "Piv_Software", PIVMETA.PIVSoftware)
+setattr(PIVMETA, "PIV_Software", PIVMETA.PIVSoftware)
 setattr(PIVMETA, "Peak_Search_Method", PIVMETA.PeakSearchMethod)
-setattr(PIVMETA, "piv_distribution", PIVMETA.PivDistribution)
-setattr(PIVMETA, "piv_image_distribution", PIVMETA.PivImageDistribution)
-setattr(PIVMETA, "piv_mask_distribution", PIVMETA.PivMaskDistribution)
-setattr(PIVMETA, "piv_post_processing", PIVMETA.PivPostProcessing)
-setattr(PIVMETA, "piv_pre_processing", PIVMETA.PivPreProcessing)
-setattr(PIVMETA, "piv_processing_step", PIVMETA.PivProcessingStep)
-setattr(PIVMETA, "piv_result_distribution", PIVMETA.PivResultDistribution)
-setattr(PIVMETA, "piv_validation", PIVMETA.PivValidation)
+setattr(PIVMETA, "piv_distribution", PIVMETA.PIVDistribution)
+setattr(PIVMETA, "piv_image_distribution", PIVMETA.PIVImageDistribution)
+setattr(PIVMETA, "piv_mask_distribution", PIVMETA.PIVMaskDistribution)
+setattr(PIVMETA, "piv_post_processing", PIVMETA.PIVPostProcessing)
+setattr(PIVMETA, "piv_pre_processing", PIVMETA.PIVPreProcessing)
+setattr(PIVMETA, "piv_processing_step", PIVMETA.PIVProcessingStep)
+setattr(PIVMETA, "piv_result_distribution", PIVMETA.PIVResultDistribution)
+setattr(PIVMETA, "piv_validation", PIVMETA.PIVValidation)
 setattr(PIVMETA, "Singlepass", PIVMETA.Singlepass)
 setattr(PIVMETA, "Substance", PIVMETA.Substance)
 setattr(PIVMETA, "Synthetic_Particle", PIVMETA.SyntheticPIVParticle)

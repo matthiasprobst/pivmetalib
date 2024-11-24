@@ -1,0 +1,287 @@
+piv_correlation_coefficient:
+  description: The correlation coefficient is a measure for the quality of the PIV
+    evaluation. It is computed based on the cross-correlation of the interrogation
+    windows.
+  unit: ''
+piv_first_peak_correlation_coefficient:
+  description: The correlation coefficient is a measure for the quality of the PIV
+    evaluation. It is computed based on the cross-correlation of the interrogation
+    windows. The first peak correlation coefficient is the correlation coefficient
+    of the first peak of the cross-correlation function.
+  unit: ''
+piv_second_peak_correlation_coefficient:
+  description: The correlation coefficient is a measure for the quality of the PIV
+    evaluation. It is computed based on the cross-correlation of the interrogation
+    windows. The first peak correlation coefficient is the correlation coefficient
+    of the second peak of the cross-correlation function.
+  unit: ''
+piv_third_peak_correlation_coefficient:
+  description: The correlation coefficient is a measure for the quality of the PIV
+    evaluation. It is computed based on the cross-correlation of the interrogation
+    windows. The first peak correlation coefficient is the correlation coefficient
+    of the third peak of the cross-correlation function.
+  unit: ''
+first_peak_x_displacement:
+  description: Displacement is a vector quantity. X indicates the component in x-axis
+    direction. This component is an in-plane component. The displacement is computed
+    based on the first peak of the cross-correlation function.
+  unit: 'pixel'
+first_peak_y_displacement:
+  description: Displacement is a vector quantity. Y indicates the component in y-axis
+    direction. This component is an in-plane component. The displacement is computed
+    based on the first peak of the cross-correlation function.
+  unit: 'pixel'
+x_derivative_of_x_velocity:
+  description: The standard name x_derivative_of_x_velocity denotes the derivative of the x component of the velocity vector with respect to the x coordinate.
+  unit: 1/s
+x_derivative_of_y_velocity:
+  description: The standard name x_derivative_of_y_velocity denotes the derivative of the y component of the velocity vector with respect to the x coordinate.
+  unit: 1/s
+x_derivative_of_z_velocity:
+  description: The standard name x_derivative_of_z_velocity denotes the derivative of the z component of the velocity vector with respect to the x coordinate.
+  unit: 1/s
+y_derivative_of_x_velocity:
+  description: The standard name y_derivative_of_x_velocity denotes the derivative of the x component of the velocity vector with respect to the y coordinate.
+  unit: 1/s
+y_derivative_of_y_velocity:
+  description: The standard name y_derivative_of_y_velocity denotes the derivative of the y component of the velocity vector with respect to the y coordinate.
+  unit: 1/s
+y_derivative_of_z_velocity:
+  description: The standard name y_derivative_of_z_velocity denotes the derivative of the z component of the velocity vector with respect to the y coordinate.
+  unit: 1/s
+z_derivative_of_x_velocity:
+  description: The standard name z_derivative_of_x_velocity denotes the derivative of the x component of the velocity vector with respect to the z coordinate.
+  unit: 1/s
+z_derivative_of_y_velocity:
+  description: The standard name z_derivative_of_y_velocity denotes the derivative of the y component of the velocity vector with respect to the z coordinate.
+  unit: 1/s
+z_derivative_of_z_velocity:
+  description: The standard name z_derivative_of_z_velocity denotes the derivative of the z component of the velocity vector with respect to the z coordinate.
+  unit: 1/s
+image_particle_density:
+  description: Number of particle images per pixel. Equals the number of particles
+    divided by the image area.
+  unit: '1/pixel'
+image_density:
+  description: The image density is computed based on the source density $N_s$ and the interrogation window size.
+  unit: ''
+image_particle_diameter:
+  description: The diameter of an image particle approximated by a circular Gaussian intensity bell, where the
+    diameter is defined at the e-2 intensity, thus the particle diameter is equal to 4 sigma of the Gaussian
+    distribution. Note, that there might be other definitions, too, however, this one is the most common one in
+    literature.
+  unit: 'pixel'
+arithmetic_mean_of_image_particle_diameter:
+  description: Arithmetic mean of the image particle diameters in the flow. The diameter of an image particle approximated by a circular Gaussian intensity bell, where the
+    diameter is defined at the e-2 intensity, thus the particle diameter is equal to 4 sigma of the Gaussian
+    distribution. Note, that there might be other definitions, too, however, this one is the most common one in
+    literature.
+  unit: 'pixel'
+standard_deviation_of_image_particle_diameter:
+  description: Standard deviation of the image particle diameters in the flow. The diameter of an image particle approximated by a circular Gaussian intensity bell, where the
+    diameter is defined at the e-2 intensity, thus the particle diameter is equal to 4 sigma of the Gaussian
+    distribution. Note, that there might be other definitions, too, however, this one is the most common one in
+    literature.
+  unit: 'pixel'
+image_index:
+  description: Index of a PIV image collection. Starts at 1 and ends at the number of images N.
+  unit: ''
+inplane_velocity:
+  description: The standard name inplane_velocity denotes the magnitude of a two-dimensional velocity vector, which . Plane
+    is spanned by the x and y axis of PIV plane. The PIV plane is the plane illuminated by the laser. The component
+    in the third direction is called outofplane_velocity.
+  unit: m/s
+x_inplane_velocity:
+  description: The standard name inplane_velocity denotes the magnitude of a two-dimensional velocity vector. Plane
+    is spanned by the x and y axis of PIV plane. The PIV plane is the plane illuminated by the laser. x indicates a vector component along the grid x-axis, positive with increasing x.
+  unit: m/s
+y_inplane_velocity:
+  description: The standard name inplane_velocity denotes the magnitude of a two-dimensional velocity vector. Plane
+    is spanned by the x and y axis of PIV plane. The PIV plane is the plane illuminated by the laser. y indicates a vector component along the grid y-axis, positive with increasing x.
+  unit: m/s
+model_laser_sheet_thickness:
+  description: The width of the laser sheet illuminating the seeding particles as used in a model (synthetic
+    PIV. The width is defined at the e-2 intensity of a Gaussian bell curve. However, the laser beam shape must not be
+    Gaussian, but can be more top-hat-like. The shape is defined by the shap factor (laser_sheet_shape_factor).
+  unit: m
+laser_sheet_thickness:
+  description: The laser sheet thickness used in a measurement. For a model laser sheet thickness, use
+    model_laser_sheet_thickness. The use of laser_sheet_thickness has no clear definition, but is where the intensity
+    of the laser sheet drops significantly.
+  unit: m
+model_laser_sheet_shape_factor:
+  description: The shape factor used to model the expanded laser beam. The shape factor is introduced in
+    'Particle Image Velocimetry A Practical Guide' by Raffel et al. (2018). It deforms a Gaussian beam. High
+    values result in a more top-hat-like beam, while low values result in a more Gaussian-like beam.
+  unit: ''
+arithmetic_mean_of_seeding_particle_size:
+  description: The arithmetic mean of the diameter of the seeding particles.
+  unit: m
+  alias: arithmetic_mean_of_seeding_particle_diameter
+standard_deviation_of_seeding_particle_size:
+  description: The standard deviation of the seeding particles sizes.
+  unit: m
+  alias: standard_deviation_of_seeding_particle_diameter
+number_of_particles:
+  description: Number of seeding particles in the image or field of interest. See
+    also image_particle_density.
+  unit: ''
+saturated_pixel_number:
+  description: Number of pixels in the field of interest that exceed the maximal
+    senor count.
+  unit: ''
+second_peak_x_displacement:
+  description: Displacement is a vector quantity. X indicates the component in x-axis
+    direction. This component is an in-plane component. The displacement is computed
+    based on the second peak of the cross-correlation function.
+  unit: 'pixel'
+second_peak_y_displacement:
+  description: Displacement is a vector quantity. Y indicates the component in y-axis
+    direction. This component is an in-plane component. The displacement is computed
+    based on the second peak of the cross-correlation function.
+  unit: 'pixel'
+third_peak_x_displacement:
+  description: Displacement is a vector quantity. X indicates the component in x-axis
+    direction. This component is an in-plane component. The displacement is computed
+    based on the third peak of the cross-correlation function.
+  unit: 'pixel'
+third_peak_y_displacement:
+  description: Displacement is a vector quantity. Y indicates the component in y-axis
+    direction. This component is an in-plane component. The displacement is computed
+    based on the third peak of the cross-correlation function.
+  unit: 'pixel'
+relative_time:
+  description: Recording time since start of recording.
+  unit: s
+magnitude_of_velocity:
+  description: Velocity is defined as a three-dimensional velocity vector. Magnitude denotes the length of the vector.
+  unit: m/s
+x_velocity:
+  description: Velocity is defined as a three-dimensional velocity vector. x indicates a vector component along the grid x-axis, positive with increasing x.
+  unit: m/s
+y_velocity:
+  description: Velocity is defined as a three-dimensional velocity vector. y indicates a vector component along the grid y-axis, positive with increasing y.
+  unit: m/s
+z_velocity:
+  description: Velocity is defined as a three-dimensional velocity vector. z indicates a vector component along the grid y-axis, positive with increasing z.
+  unit: m/s
+displacement:
+  description: PIV pixel displacement magnitude in the image plane.
+  unit: 'pixel'
+x_displacement:
+  description: Displacement is a vector quantity and describes the particle displacement in pixels in the image plane. x indicates a vector component along the grid x-axis, positive with increasing x.
+  unit: 'pixel'
+y_displacement:
+  description: y indicates a vector component along the grid y-axis, positive with increasing y.Displacement is a
+    vector quantity and describes the particle displacement in pixels in the image plane.
+  unit: 'pixel'
+final_interrogation_window_overlap_size:
+  alias: interrogation_window_overlap_size
+  description: Width and height of a square final PIV interrogation window overlap.
+  unit: 'pixel'
+x_final_interrogation_window_overlap_size:
+  alias: x_interrogation_window_overlap_size
+  description: Width of a final PIV interrogation window overlap.
+  unit: 'pixel'
+final_interrogation_window_size:
+  alias: final_interrogation_spot_size
+  description: Width and height of a square final PIV interrogation window.
+  unit: 'pixel'
+x_final_interrogation_window_size:
+  alias: x_final_interrogation_spot_size
+  description: Width of a final PIV interrogation window.
+  unit: 'pixel'
+initial_interrogation_window_size:
+  description: Width and height of a square initial PIV interrogation window (in case of a multi-grid PIV algorithm).
+  unit: 'pixel'
+x_initial_interrogation_window_size:
+  description: Width of a initial PIV interrogation window (in case of a multi-grid PIV algorithm).
+  unit: 'pixel'
+x_pixel_coordinate:
+  description: Pixel coordinate in horizontal direction. It depicts the position of each velocity vector in
+    the result data in pixel unit, where the origin is at the lower left. The coordinate is aligned with the physical
+    coordinate axis (x_coordinate), not the image coordinate (x_image_coordinate) which has its origin in the top
+    left of the image.
+  unit: 'pixel'
+y_final_interrogation_window_overlap_size:
+  alias: interrogation_window_overlap_size
+  description: The height of a final PIV interrogation window overlap.
+  unit: 'pixel'
+y_final_interrogation_window_size:
+  alias: y_final_interrogation_spot_size
+  description: The height of the final PIV interrogation window.
+  unit: 'pixel'
+y_initial_interrogation_window_size:
+  description: Height of the initial PIV interrogation window (in case of a multi-grid PIV algorithm).
+  unit: 'pixel'
+y_pixel_coordinate:
+  description: Pixel coordinate in vertical direction. It depicts the position of each velocity vector in
+    the result data in pixel unit, where the origin is at the lower left. The coordinate is aligned with the physical
+    coordinate axis (y_coordinate), not the image coordinate (y_image_coordinate) which has its origin in the top
+    left of the image.
+  unit: 'pixel'
+x_image_coordinate:
+  description: The spatial coordinate in horizontal direction. The origin is at the top left.
+  unit: 'pixel'
+x_origin_offset:
+  description: The physical offset of the x_image_origin_coordinate in the global coordinate system.
+  unit: 'm'
+y_image_coordinate:
+  description: The spatial coordinate in vertical direction. The origin is in the top left.
+  unit: 'pixel'
+y_origin_offset:
+  description: The physical offset of the y_image_origin_coordinate in the global coordinate system.
+  unit: 'm'
+x_coordinate:
+  description: The spatial coordinate in horizontal direction in the global coordinate system, which is aligned with the sensor orientation.
+    The sensor width therefore corresponds to sensor size in direction of x_coordinate.
+  unit: m
+y_coordinate:
+  description: The spatial coordinate in vertical direction in the global coordinate system, which is aligned with the sensor orientation.
+    The sensor width therefore corresponds to sensor size in direction of y_coordinate.
+  unit: m
+z_coordinate:
+  description: The spatial coordinate in depth direction in the global coordinate system and hence perpendicular to the sensor plane.
+  unit: m
+signal_to_noise_ratio:
+  description: The signal to noise ratio of the PIV evaluation.
+  unit: ''
+least_square_residual_of_z_displacement_reconstruction:
+  description: The least square residual of the z displacement reconstruction in stereo PIV.
+  unit: ''
+piv_scaling_factor:
+  description: Image scaling factor.
+  unit: '1/m'
+image_filter_kernel_size:
+  description: The size of the image filter kernel.
+  unit: ''
+ccd_width:
+  description: The width of a ccd pixel.
+  unit: 'm'
+ccd_height:
+  description: The height of a ccd pixel.
+  unit: 'm'
+focal_length:
+  description: The focal length of a single lens or a lens system like an objective. See also https://www.wikidata.org/wiki/Q193540.
+  unit: 'm'
+sensor_pixel_width:
+  description: The width of the sensor in pixel.
+  unit: 'm'
+sensor_pixel_height:
+  description: The height of the sensor in pixel.
+  unit: 'm'
+sensor_pixel_width_fill_factor:
+  description: Fill factor in horizontal direction. The fill factor of an image sensor array is the ratio of a pixel's light sensitive area to its total area. See https://en.wikipedia.org/wiki/Fill_factor_(image_sensor). The value must be between 0 and 1, where 1 depicts a 100 percent. The higher the fill factor, the more sensitive the sensor.
+  unit: ''
+sensor_pixel_height_fill_factor:
+  description: Fill factor in vertical direction. The fill factor of an image sensor array is the ratio of a pixel's light sensitive area to its total area. See https://en.wikipedia.org/wiki/Fill_factor_(image_sensor). The value must be between 0 and 1, where 1 depicts a 100 percent. The higher the fill factor, the more sensitive the sensor.
+  unit: ''
+image_bit_depth:
+  description: The pixel depth of an image in bits. Typical bit depth are 8 bits or 16 bits.
+  unit: ''
+optical_magnification:
+  description: The optical magnification of the imaging system.
+  unit: 'mm/pixel'
+laser_pulse_delay:
+  description: Time between two laser pulses.
+  unit: s

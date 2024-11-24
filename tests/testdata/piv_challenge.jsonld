@@ -19,8 +19,8 @@
     },
     "dcat:distribution": [
         {
-            "@type": "pivmeta:PivImageDistribution",
-            "dcterms:title": "Raw piv image data",
+            "@type": "pivmeta:PIVImageDistribution",
+            "dcterms:title": "Raw PIV image data",
             "dcat:downloadURL": "https://www.pivchallenge.org/pub/C/C.zip",
             "dcat:mediaType": "https://www.iana.org/assignments/media-types/image/tiff",
             "pivmeta:filenamePattern": "C[0-9][0-9][0-9]_[1,2].tif",
@@ -31,7 +31,7 @@
             "@id": "local:d5b2d0c9-ba74-43eb-b68f-624e1183cb2d"
         },
         {
-            "@type": "pivmeta:PivMaskDistribution",
+            "@type": "pivmeta:PIVMaskDistribution",
             "dcterms:title": "Mask file",
             "dcat:downloadURL": "https://www.pivchallenge.org/pub/C/C.zip",
             "dcat:mediaType": "https://www.iana.org/assignments/media-types/image/tiff",
