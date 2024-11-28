@@ -2,10 +2,11 @@ import abc
 from datetime import datetime
 from typing import Any, List, Union
 
+from ontolutils import Thing, namespaces, urirefs
 from pydantic import Field
+from pydantic import HttpUrl
 from pydantic import field_validator
 
-from ontolutils import Thing, namespaces, urirefs
 from .method import Method
 from .tool import Tool
 from ..schema import ResearchProject
@@ -19,6 +20,9 @@ class Activity(Thing, abc.ABC):
     """m4i:Activity (not intended to use for modeling)"""
 
 
+OneOrMultiThings = Union[Thing, HttpUrl, str, List[Union[Thing, HttpUrl, str]]]
+
+
 @namespaces(m4i="http://w3id.org/nfdi4ing/metadata4ing#",
             schema="https://schema.org/",
             obo="http://purl.obolibrary.org/obo/")
@@ -29,11 +33,11 @@ class Activity(Thing, abc.ABC):
          ends_with='obo:ends_with',
          runtime_assignment='m4i:hasRuntimeAssignment',
          investigates='m4i:investigates',
-         usage_instruction='m4i:usageInstruction',
-         employed_tool='m4i:hasEmployedTool',
+         usageInstruction='m4i:usageInstruction',
+         hasEmployedTool='m4i:hasEmployedTool',
          realizes_method='m4i:realizesMethod',
-         has_input='m4i:hasInput',
-         has_output='m4i:hasOutput',
+         hasInput='m4i:hasInput',
+         hasOutput='m4i:hasOutput',
          part_of='m4i:partOf',
          precedes='m4i:precedes')
 class ProcessingStep(Activity):
@@ -54,13 +58,33 @@ class ProcessingStep(Activity):
     ends_with: Any = None
     runtime_assignment: Assignment = Field(default=None, alias="hasRuntimeAssignment")
     investigates: Thing = None
-    usage_instruction: str = Field(default=None, alias="usageInstruction")
-    employed_tool: Tool = Field(default=None, alias="hasEmployedTool")
+    usageInstruction: str = Field(default=None, alias="usage_instruction")
+    hasEmployedTool: Tool = Field(default=None, alias="has_employed_tool")
     realizes_method: Union[Method, List[Method]] = Field(default=None, alias="realizesMethod")
-    has_input: Thing = Field(default=None, alias="hasInput")
-    has_output: Thing = Field(default=None, alias="hasOutput")
+    hasInput: Thing = Field(default=None, alias="has_input")
+    hasOutput: OneOrMultiThings = Field(default=None, alias="has_output")
     part_of: Union[ResearchProject, "ProcessingStep"] = Field(default=None, alias="partOf")
     precedes: "ProcessingStep" = None
+
+    @field_validator('hasOutput', 'hasInput', mode='before')
+    @classmethod
+    def _one_or_multiple_things(cls, value):
+        if isinstance(value, list):
+            ret_value = []
+            for v in value:
+                if isinstance(v, Thing):
+                    ret_value.append(v)
+                else:
+                    if v.startswith("_:"):
+                        ret_value.append(v)
+                    else:
+                        ret_value.append(str(HttpUrl(v)))
+            return ret_value
+        if isinstance(value, Thing):
+            return value
+        if str(value).startswith("_:"):
+            return value
+        return str(HttpUrl(value))
 
     @field_validator('starts_with', mode='before')
     @classmethod

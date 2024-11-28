@@ -1,7 +1,6 @@
 from .distribution import (PIVDistribution,
                            PIVImageDistribution,
                            PIVResultDistribution,
-                           PIVImageType,
                            PIVMaskDistribution,
                            PIVDataset)
 from .method import (ImageManipulationMethod,

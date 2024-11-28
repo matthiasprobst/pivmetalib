@@ -1,17 +1,19 @@
 import json
 import pathlib
 import time
+import warnings
 from datetime import datetime
 
 import ontolutils
+import requests
 from ontolutils.classes.decorator import URIRefManager
+from ssnolib import StandardName
 
 import pivmetalib
 import utils
 from pivmetalib import pivmeta, prov, m4i
-from ssnolib import StandardName
-import requests
-import warnings
+from pivmetalib.namespace import PIVMETA
+
 __this_dir__ = pathlib.Path(__file__).parent
 CACHE_DIR = pivmetalib.utils.get_cache_dir()
 
@@ -106,7 +108,7 @@ class TestPIVmeta(utils.ClassTest):
         self.check_jsonld_string(jsonld_string)
 
         tool = m4i.Tool(id='_:t1', label='tool1')
-        ps1.employed_tool = tool
+        ps1.hasEmployedTool = tool
         self.assertDictEqual({"@context": {
             "owl": "http://www.w3.org/2002/07/owl#",
             "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
@@ -268,7 +270,7 @@ class TestPIVmeta(utils.ClassTest):
         def test_PIVImageDistribution(self):
             piv_img_dist = pivmeta.PIVImageDistribution(
                 label='piv_image_distribution',
-                pivImageType=pivmeta.PIVImageType.ExperimentalImage,
+                pivImageType=PIVMETA.ExperimentalImage,
                 imageBitDepth=8,
                 numberOfRecords=100
             )
@@ -277,7 +279,7 @@ class TestPIVmeta(utils.ClassTest):
             self.assertIsInstance(piv_img_dist, pivmeta.PIVImageDistribution)
             self.assertEqual(piv_img_dist.label, 'piv_image_distribution')
             self.assertEqual(str(piv_img_dist.piv_image_type),
-                             str(pivmeta.PIVImageType.ExperimentalImage.value))
+                             str(PIVMETA.ExperimentalImage))
             self.assertEqual(piv_img_dist.image_bit_depth, 8)
             self.assertEqual(piv_img_dist.number_of_records, 100)
             jsonld_string = piv_img_dist.model_dump_jsonld(
@@ -295,7 +297,7 @@ class TestPIVmeta(utils.ClassTest):
             self.assertEqual(len(found_dist), 1)
             self.assertEqual(found_dist[0].label, 'piv_image_distribution')
             self.assertEqual(str(found_dist[0].piv_image_type),
-                             str(pivmeta.PIVImageType.ExperimentalImage.value))
+                             str(PIVMETA.ExperimentalImage))
             self.assertEqual(found_dist[0].image_bit_depth, 8)
             self.assertEqual(found_dist[0].number_of_records, 100)
 

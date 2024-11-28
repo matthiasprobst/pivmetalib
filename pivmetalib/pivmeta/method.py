@@ -25,9 +25,9 @@ class CorrelationMethod(m4i.Method):
     def _windowWeightingFunction(cls, window_weighting_function):
         if isinstance(window_weighting_function, str):
             if window_weighting_function.lower() in ('square', 'rectangle', 'none'):
-                return str(PIVMETA.SquareWindowWeightingFunction)
+                return str(PIVMETA.SquareWindow)
             if window_weighting_function.lower() in ('gauss', 'gaussian'):
-                return str(PIVMETA.GaussWindowWeightingFunction)
+                return str(PIVMETA.GaussianWindow)
         return window_weighting_function
 
 

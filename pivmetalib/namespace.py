@@ -5,53 +5,59 @@ from rdflib.term import URIRef
 class PIVMETA(DefinedNamespace):
     # uri = "https://matthiasprobst.github.io/pivmeta#"
     # Generated with pivmetalib
-    BackgroundImageGeneration: URIRef  # ['background image generation']
-    BackgroundSubtractionMethod: URIRef  # ['background subtraction']
+    BackgroundImageGeneration: URIRef  # ['Background Image Generation']
+    BackgroundSubtractionMethod: URIRef  # ['Background Subtraction']
     Camera: URIRef  # ['Camera']
     CorrelationMethod: URIRef  # ['Correlation Method']
     DigitalCamera: URIRef  # ['Digital Camera']
-    FlagCount: URIRef  # ['Flag Count']
+    ExperimentalPIVSetup: URIRef  # ['Experimental PIV Setup']
+    FlagStatistics: URIRef  # ['Flag Statistics']
     FlagVariable: URIRef  # ['Flag Variable']
-    ImageDewarp: URIRef  # ['image dewarp']
-    ImageFilter: URIRef  # ['image filter']
+    ImageDewarping: URIRef  # ['Image Dewarping']
+    ImageFiltering: URIRef  # ['Image Filtering']
     ImageManipulationMethod: URIRef  # ['Image Manipulation Method']
-    ImageRotation: URIRef  # ['image rotation']
-    ImageType: URIRef  # ['Image Type']
+    ImageRotation: URIRef  # ['Image Rotation']
     InterrogationMethod: URIRef  # ['Interrogation Method']
     Laser: URIRef  # ['Laser']
+    Lens: URIRef  # ['Lens']
+    LensSystem: URIRef  # ['Lens System']
     LightSource: URIRef  # ['Light Source']
-    MaskGeneration: URIRef  # ['mask generation']
+    MaskGeneration: URIRef  # ['Mask Generation']
     Multigrid: URIRef  # ['Multigrid']
     Multipass: URIRef  # ['Multipass']
+    Objective: URIRef  # ['Objective']
     OpticSensor: URIRef  # ['Optic Sensor']
+    OpticalComponent: URIRef  # ['Optical Component']
     OutlierDetectionMethod: URIRef  # ['Outlier Detection Method']
     OutlierReplacementScheme: URIRef  # ['Outlier Replacement Scheme']
-    PIVEvaluation: URIRef  # ['PIV evaluation']
-    PIVHardware: URIRef  # ['PIV Hardware']
+    PIVDataset: URIRef  # ['PIV Dataset']
+    PIVDistribution: URIRef  # ['PIV Distribution']
+    PIVEvaluation: URIRef  # ['PIV Evaluation']
+    PIVImageDistribution: URIRef  # ['PIV Image Distribution']
+    PIVMaskDistribution: URIRef  # ['PIV Mask Distribution']
     PIVParticle: URIRef  # ['PIV Particle']
+    PIVPostProcessing: URIRef  # ['PIV Post Processing']
+    PIVPreProcessing: URIRef  # ['Piv Pre processing']
+    PIVProcessingStep: URIRef  # ['PIV Processing Step']
+    PIVRecording: URIRef  # ['PIV Recording']
+    PIVResultDistribution: URIRef  # ['PIV Result Distribution']
+    PIVSetup: URIRef  # ['PIV Setup']
     PIVSoftware: URIRef  # ['PIV Software']
+    PIVValidation: URIRef  # ['PIV Validation']
     PeakSearchMethod: URIRef  # ['Peak Search Method']
-    PIVDistribution: URIRef  # ['PIV distribution']
-    PIVImageDistribution: URIRef  # ['PIV image distribution']
-    PIVMaskDistribution: URIRef  # ['PIV mask distribution']
-    PIVPostProcessing: URIRef  # ['PIV post processing']
-    PIVPreProcessing: URIRef  # ['PIV pre processing']
-    PIVProcessingStep: URIRef  # ['PIV processing step']
-    PIVResultDistribution: URIRef  # ['PIV result distribution']
-    PIVValidation: URIRef  # ['PIV validation']
     Singlepass: URIRef  # ['Singlepass']
-    Substance: URIRef  # ['Substance']
-    SyntheticPIVParticle: URIRef  # ['Synthetic Particle']
+    SyntheticPIVParticle: URIRef  # ['Synthetic PIV Particle']
     TemporalVariable: URIRef  # ['Temporal Variable']
     VirtualCamera: URIRef  # ['Virtual Camera']
     VirtualLaser: URIRef  # ['Virtual Laser']
+    VirtualPIVSetup: URIRef  # ['Virtual PIV Setup']
     VirtualTool: URIRef  # ['Virtual Tool']
     WindowWeightingFunction: URIRef  # ['Window Weighting Function']
     flag: URIRef  # ['flag']
     flagIn: URIRef  # ['flag in']
     hasStandardName: URIRef  # ['has standard name']
     outlierReplacementScheme: URIRef  # ['outlier replacement scheme']
-    pivImageType: URIRef  # ['PIV image type']
+    pivImageType: URIRef  # ['piv image type']
     windowWeightingFunction: URIRef  # ['window weighting function']
     filenamePattern: URIRef  # ['filename pattern']
     fnumber: URIRef  # ['fnumber']
@@ -59,6 +65,7 @@ class PIVMETA(DefinedNamespace):
     hasFlagValue: URIRef  # ['has flag value']
     numberOfRecords: URIRef  # ['number of records']
     timeFormat: URIRef  # ['time format']
+    BlackmanWindow: URIRef  # ['Blackman Window']
     DEHS: URIRef  # ['DEHS']
     ExperimentalImage: URIRef  # ['experimental image']
     FlagActive: URIRef  # ['active']
@@ -86,46 +93,52 @@ class PIVMETA(DefinedNamespace):
     _NS = Namespace("https://matthiasprobst.github.io/pivmeta#")
 
 
-setattr(PIVMETA, "background_image_generation", PIVMETA.BackgroundImageGeneration)
-setattr(PIVMETA, "background_subtraction", PIVMETA.BackgroundSubtractionMethod)
+setattr(PIVMETA, "Background_Image_Generation", PIVMETA.BackgroundImageGeneration)
+setattr(PIVMETA, "Background_Subtraction", PIVMETA.BackgroundSubtractionMethod)
 setattr(PIVMETA, "Camera", PIVMETA.Camera)
 setattr(PIVMETA, "Correlation_Method", PIVMETA.CorrelationMethod)
 setattr(PIVMETA, "Digital_Camera", PIVMETA.DigitalCamera)
-setattr(PIVMETA, "Flag_Count", PIVMETA.FlagCount)
+setattr(PIVMETA, "Experimental_PIV_Setup", PIVMETA.ExperimentalPIVSetup)
+setattr(PIVMETA, "Flag_Statistics", PIVMETA.FlagStatistics)
 setattr(PIVMETA, "Flag_Variable", PIVMETA.FlagVariable)
-setattr(PIVMETA, "image_dewarp", PIVMETA.ImageDewarp)
-setattr(PIVMETA, "image_filter", PIVMETA.ImageFilter)
+setattr(PIVMETA, "Image_Dewarping", PIVMETA.ImageDewarping)
+setattr(PIVMETA, "Image_Filtering", PIVMETA.ImageFiltering)
 setattr(PIVMETA, "Image_Manipulation_Method", PIVMETA.ImageManipulationMethod)
-setattr(PIVMETA, "image_rotation", PIVMETA.ImageRotation)
-setattr(PIVMETA, "Image_Type", PIVMETA.ImageType)
+setattr(PIVMETA, "Image_Rotation", PIVMETA.ImageRotation)
 setattr(PIVMETA, "Interrogation_Method", PIVMETA.InterrogationMethod)
 setattr(PIVMETA, "Laser", PIVMETA.Laser)
+setattr(PIVMETA, "Lens", PIVMETA.Lens)
+setattr(PIVMETA, "Lens_System", PIVMETA.LensSystem)
 setattr(PIVMETA, "Light_Source", PIVMETA.LightSource)
-setattr(PIVMETA, "mask_generation", PIVMETA.MaskGeneration)
+setattr(PIVMETA, "Mask_Generation", PIVMETA.MaskGeneration)
 setattr(PIVMETA, "Multigrid", PIVMETA.Multigrid)
 setattr(PIVMETA, "Multipass", PIVMETA.Multipass)
+setattr(PIVMETA, "Objective", PIVMETA.Objective)
 setattr(PIVMETA, "Optic_Sensor", PIVMETA.OpticSensor)
+setattr(PIVMETA, "Optical_Component", PIVMETA.OpticalComponent)
 setattr(PIVMETA, "Outlier_Detection_Method", PIVMETA.OutlierDetectionMethod)
 setattr(PIVMETA, "Outlier_Replacement_Scheme", PIVMETA.OutlierReplacementScheme)
-setattr(PIVMETA, "piv_evaluation", PIVMETA.PIVEvaluation)
-setattr(PIVMETA, "PIV_Hardware", PIVMETA.PIVHardware)
+setattr(PIVMETA, "PIV_Dataset", PIVMETA.PIVDataset)
+setattr(PIVMETA, "PIV_Distribution", PIVMETA.PIVDistribution)
+setattr(PIVMETA, "PIV_Evaluation", PIVMETA.PIVEvaluation)
+setattr(PIVMETA, "PIV_Image_Distribution", PIVMETA.PIVImageDistribution)
+setattr(PIVMETA, "PIV_Mask_Distribution", PIVMETA.PIVMaskDistribution)
 setattr(PIVMETA, "PIV_Particle", PIVMETA.PIVParticle)
+setattr(PIVMETA, "PIV_Post_Processing", PIVMETA.PIVPostProcessing)
+setattr(PIVMETA, "Piv_Pre_processing", PIVMETA.PIVPreProcessing)
+setattr(PIVMETA, "PIV_Processing_Step", PIVMETA.PIVProcessingStep)
+setattr(PIVMETA, "PIV_Recording", PIVMETA.PIVRecording)
+setattr(PIVMETA, "PIV_Result_Distribution", PIVMETA.PIVResultDistribution)
+setattr(PIVMETA, "PIV_Setup", PIVMETA.PIVSetup)
 setattr(PIVMETA, "PIV_Software", PIVMETA.PIVSoftware)
+setattr(PIVMETA, "PIV_Validation", PIVMETA.PIVValidation)
 setattr(PIVMETA, "Peak_Search_Method", PIVMETA.PeakSearchMethod)
-setattr(PIVMETA, "piv_distribution", PIVMETA.PIVDistribution)
-setattr(PIVMETA, "piv_image_distribution", PIVMETA.PIVImageDistribution)
-setattr(PIVMETA, "piv_mask_distribution", PIVMETA.PIVMaskDistribution)
-setattr(PIVMETA, "piv_post_processing", PIVMETA.PIVPostProcessing)
-setattr(PIVMETA, "piv_pre_processing", PIVMETA.PIVPreProcessing)
-setattr(PIVMETA, "piv_processing_step", PIVMETA.PIVProcessingStep)
-setattr(PIVMETA, "piv_result_distribution", PIVMETA.PIVResultDistribution)
-setattr(PIVMETA, "piv_validation", PIVMETA.PIVValidation)
 setattr(PIVMETA, "Singlepass", PIVMETA.Singlepass)
-setattr(PIVMETA, "Substance", PIVMETA.Substance)
-setattr(PIVMETA, "Synthetic_Particle", PIVMETA.SyntheticPIVParticle)
+setattr(PIVMETA, "Synthetic_PIV_Particle", PIVMETA.SyntheticPIVParticle)
 setattr(PIVMETA, "Temporal_Variable", PIVMETA.TemporalVariable)
 setattr(PIVMETA, "Virtual_Camera", PIVMETA.VirtualCamera)
 setattr(PIVMETA, "Virtual_Laser", PIVMETA.VirtualLaser)
+setattr(PIVMETA, "Virtual_PIV_Setup", PIVMETA.VirtualPIVSetup)
 setattr(PIVMETA, "Virtual_Tool", PIVMETA.VirtualTool)
 setattr(PIVMETA, "Window_Weighting_Function", PIVMETA.WindowWeightingFunction)
 setattr(PIVMETA, "flag", PIVMETA.flag)
@@ -140,6 +153,7 @@ setattr(PIVMETA, "has_flag_meaning", PIVMETA.hasFlagMeaning)
 setattr(PIVMETA, "has_flag_value", PIVMETA.hasFlagValue)
 setattr(PIVMETA, "number_of_records", PIVMETA.numberOfRecords)
 setattr(PIVMETA, "time_format", PIVMETA.timeFormat)
+setattr(PIVMETA, "Blackman_Window", PIVMETA.BlackmanWindow)
 setattr(PIVMETA, "DEHS", PIVMETA.DEHS)
 setattr(PIVMETA, "experimental_image", PIVMETA.ExperimentalImage)
 setattr(PIVMETA, "active", PIVMETA.FlagActive)

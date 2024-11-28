@@ -30,10 +30,7 @@ def make_href(url, text=None):
     return f'<a href="{url}">{url}</a>'
 
 
-class PIVImageType(Enum):
-    """Enumeration of possible PIV image types"""
-    ExperimentalImage = PIVMETA.ExperimentalImage  # https://matthiasprobst.github.io/pivmeta#ExperimentalImage
-    SyntheticImage = PIVMETA.SyntheticImage  # https://matthiasprobst.github.io/pivmeta#SyntheticImage
+
 
 
 @namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
@@ -62,7 +59,7 @@ class PIVImageDistribution(PIVDistribution):
 
     Describes PIV images (e.g. tiff files) which are experimental or synthetic data.
     """
-    piv_image_type: Union[HttpUrl, PIVImageType] = Field(default=None, alias="pivImageType")
+    piv_image_type: Union[HttpUrl, str] = Field(default=None, alias="pivImageType")
     image_bit_depth: PositiveInt = Field(default=None, alias="imageBitDepth")
     number_of_records: PositiveInt = Field(default=None, alias="numberOfRecords")
 
@@ -79,15 +76,11 @@ class PIVImageDistribution(PIVDistribution):
     @field_validator('piv_image_type', mode='before')
     @classmethod
     def _pivImageType(cls, piv_image_type):
-        if isinstance(piv_image_type, rdflib.URIRef):
-            return str(piv_image_type)
-        if isinstance(piv_image_type, PIVImageType):
-            return piv_image_type.value
-        return piv_image_type
+        return str(HttpUrl(piv_image_type))
 
     def is_synthetic(self) -> bool:
         """Returns True if the PIV image is synthetic, False otherwise."""
-        return self.piv_image_type == PIVImageType.SyntheticImage.value
+        return self.piv_image_type == PIVMETA.SyntheticImage
 
 
 @namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
