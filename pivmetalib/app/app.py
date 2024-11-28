@@ -7,7 +7,7 @@ from flask import Flask, render_template, request, redirect, url_for
 from pivmetalib import __version__
 from pivmetalib.app.abstract_databases import AbstractDatabase
 from pivmetalib.app.example_databases import SQLDatabase
-from pivmetalib.pivmeta import Laser
+from pivmetalib.pivmeta import Laser, PIVSoftware
 from pivmetalib.prov import Person
 
 USER_DATA_DIR = pathlib.Path(appdirs.user_data_dir('pivmetalib', version=__version__))
@@ -24,13 +24,17 @@ def trim_dict(d):
 
 def create_app(
         person_database: AbstractDatabase,
+        software_database: AbstractDatabase,
         # laser_database: AbstractDatabase
 ):
     webapp = Flask(__name__)
     webapp.config["databases"] = {}
     webapp.config["databases"]["person"] = person_database
+    webapp.config["databases"]["software"] = software_database
     # webapp.config["databases"]["laser"] = laser_database
-    webapp.config["current_person"] = {"id": "", "orcidId": "", "firstName": "", "lastName": ""}
+    webapp.config["current_selection"] = {}
+    webapp.config["current_selection"]["person"] = {"id": "", "orcidId": "", "firstName": "", "lastName": ""}
+    webapp.config["current_selection"]["software"] = {k: "" for k in software_database.columns}
 
     @webapp.route('/')
     def index():
@@ -65,10 +69,20 @@ def create_app(
         current_selection = webapp.config["current_selection"]["laser"] = {"id": "", "name": "", "wavelength": ""}
         return render_template('laser/index.html', current_selection=current_selection, lasers=data)
 
+    @webapp.route('/software', methods=['GET', 'POST'])
+    def software_page():
+        database = webapp.config["databases"]["software"]
+        if request.method == 'POST':
+            new_data = {k: v for k, v in request.form.items()}
+            sftw = PIVSoftware(**trim_dict(new_data))
+            database.save(sftw)
+        data = database.fetch_all()
+        return render_template('software/dynamic_index.html', fields=database.columns, softwares=data)
+
     @webapp.route('/person', methods=['GET', 'POST'])
     def person_page():
         database = webapp.config["databases"]["person"]
-        current_person = webapp.config["current_person"]
+        current_person = webapp.config["current_selection"]["person"]
 
         persons = database.fetch_all()
         persons_dict = [{"id": p.id, "orcidId": p.orcidId, "firstName": p.firstName, "lastName": p.lastName} for p in
@@ -92,7 +106,7 @@ def create_app(
                 return redirect(url_for('person_page'))
             elif "delete" in request.form:
                 database.delete(id=current_person["id"])
-                webapp.config["current_person"] = {"id": "", "orcidId": "", "firstName": "", "lastName": ""}
+                webapp.config["current_selection"]["person"] = {"id": "", "orcidId": "", "firstName": "", "lastName": ""}
                 return redirect(url_for('person_page'))
                 # return redirect(url_for('index'))
             elif 'preview' in request.form:
@@ -125,10 +139,12 @@ if __name__ == '__main__':
     person_json_file_location.mkdir(parents=True, exist_ok=True)
     # person_db = PersonJSONLDFileDatabase(file_location=person_json_file_location)
     person_db = SQLDatabase(Person)
+    software_db = SQLDatabase(PIVSoftware)
     # laser_db = LaserSQLDatabase(Laser)
     # person_db.reset()
-    webapp = create_app(
+    myapp = create_app(
         person_database=person_db,
+        software_database=software_db,
         # laser_database=laser_db
     )
-    webapp.run(debug=True)
+    myapp.run(debug=True)
