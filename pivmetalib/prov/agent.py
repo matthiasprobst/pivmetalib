@@ -95,7 +95,7 @@ class Person(Agent):
     """
     first_name: str = Field(default=None, alias="firstName")  # foaf:first_name
     last_name: str = Field(default=None, alias="lastName")  # foaf:last_name
-    orcid_id: str = Field(default=None, alias="orcidID")  # m4i:orcidID
+    orcid_id: str = Field(default=None, alias="orcidId")  # m4i:orcidID
     had_role: HttpUrl = Field(default=None, alias="hadRole")  # m4i:hadRole
     was_role_in: Union[HttpUrl, str, Thing] = Field(default=None, alias="wasRoleIn")  # m4i:wasRoleIn
     affiliation: Organization = Field(default=None, alias="affiliation")  # schema:affiliation

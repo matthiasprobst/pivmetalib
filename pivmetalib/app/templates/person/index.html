@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Person Metadata</title>
+
+</head>
+<body>
+    <h1>Person Metadata</h1>
+
+    <!-- Dropdown for selecting a saved person -->
+    <label for="person-dropdown">Select a person:</label>
+    <select id="person-dropdown" onchange="fillPersonData()">
+        <option value="">--Select--</option>
+        {% for person in persons %}
+            <option value="{{ person.id }}">{{ person.firstName }} {{ person.lastName }} ({{ person.orcidId }})</option>
+        {% endfor %}
+    </select>
+    <br>
+
+    <!-- Form for editing/adding person metadata -->
+    <form method="POST">
+        <label for="id">Identifier:</label>
+        <input type="text" id="id" name="id" value="{{ data.id }}"><br><br>
+
+        <label for="orcidId">ORCID:</label>
+        <input type="text" id="orcidId" name="orcidId" value="{{ data.orcidId }}"><br><br>
+
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" name="firstName" value="{{ data.firstName }}"><br><br>
+
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" name="lastName" value="{{ data.lastName }}"><br><br>
+
+        <button type="submit" name="save">Save</button>
+        <button type="submit" name="delete">Delete</button>
+        <button type="submit" name="preview">Preview</button>
+    </form>
+    <p><a href="/">Back to Landing Page</a></p>
+
+
+
+    <script>
+        const persons = {{ persons | tojson }};
+        console.log(persons)
+
+        function fillPersonData() {
+            const personId = document.getElementById("person-dropdown").value;
+            console.log("personId: ", personId);
+            if (personId === "") {
+                // Clear fields if "--Select--" is chosen
+                document.getElementById("id").value = "";
+                document.getElementById("orcidId").value = "";
+                document.getElementById("firstName").value = "";
+                document.getElementById("lastName").value = "";
+            } else {
+                let selectedPerson = null;
+                for (let i = 0; i < persons.length; i++) {
+                    if (persons[i].id === personId) {
+                        selectedPerson = persons[i];
+                        break; // Stop looping once we find the match
+                    }
+                }
+
+                if (selectedPerson) {
+                    console.log("Found person:", selectedPerson);
+                } else {
+                    console.log("No person found with id ", personId);
+                }
+
+                // Log for debugging
+                console.log("Selected person ID:", personId);
+                console.log("Selected person data:", selectedPerson);
+
+                // Fill the form fields with the selected person's data
+                document.getElementById("id").value = selectedPerson.id;
+                document.getElementById("orcidId").value = selectedPerson.orcidId;
+                document.getElementById("firstName").value = selectedPerson.firstName;
+                document.getElementById("lastName").value = selectedPerson.lastName;
+            }
+        }
+    </script>
+</body>
+</html>
