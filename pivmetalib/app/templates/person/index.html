@@ -1,51 +1,79 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Person Metadata</title>
 
+    <!-- Materialize CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+
+    <!-- Material Icons (Optional for icons) -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
 </head>
+
 <body>
-    <h1>Person Metadata</h1>
 
-    <!-- Dropdown for selecting a saved person -->
-    <label for="person-dropdown">Select a person:</label>
-    <select id="person-dropdown" onchange="fillPersonData()">
-        <option value="">--Select--</option>
-        {% for person in persons %}
-            <option value="{{ person.id }}">{{ person.firstName }} {{ person.lastName }} ({{ person.orcidId }})</option>
-        {% endfor %}
-    </select>
-    <br>
+    <div class="container">
+        <h1>Person Metadata</h1>
 
-    <!-- Form for editing/adding person metadata -->
-    <form method="POST">
-        <label for="id">Identifier:</label>
-        <input type="text" id="id" name="id" value="{{ data.id }}"><br><br>
+        <!-- Dropdown for selecting a saved person -->
+        <div class="form-group">
+            <label for="person-dropdown">Select a person:</label>
+            <select id="person-dropdown" class="browser-default" onchange="fillPersonData()">
+                <option value="">--Select--</option>
+                {% for person in persons %}
+                    <option value="{{ person.id }}">{{ person.firstName }} {{ person.lastName }} ({{ person.orcidId }})</option>
+                {% endfor %}
+            </select>
+        </div>
 
-        <label for="orcidId">ORCID:</label>
-        <input type="text" id="orcidId" name="orcidId" value="{{ data.orcidId }}"><br><br>
+        <!-- Form for editing/adding person metadata -->
+        <form method="POST">
+            <div class="form-group">
+                <label for="id">Identifier:</label>
+                <input type="text" id="id" name="id" value="{{ data.id }}" class="validate" required>
+            </div>
 
-        <label for="firstName">First Name:</label>
-        <input type="text" id="firstName" name="firstName" value="{{ data.firstName }}"><br><br>
+            <div class="form-group">
+                <label for="orcidId">ORCID:</label>
+                <input type="text" id="orcidId" name="orcidId" value="{{ data.orcidId }}" class="validate" required>
+            </div>
 
-        <label for="lastName">Last Name:</label>
-        <input type="text" id="lastName" name="lastName" value="{{ data.lastName }}"><br><br>
+            <div class="form-group">
+                <label for="firstName">First Name:</label>
+                <input type="text" id="firstName" name="firstName" value="{{ data.firstName }}" class="validate" required>
+            </div>
 
-        <button type="submit" name="save">Save</button>
-        <button type="submit" name="delete">Delete</button>
-        <button type="submit" name="preview">Preview</button>
-    </form>
-    <p><a href="/">Back to Landing Page</a></p>
+            <div class="form-group">
+                <label for="lastName">Last Name:</label>
+                <input type="text" id="lastName" name="lastName" value="{{ data.lastName }}" class="validate" required>
+            </div>
 
+            <!-- Buttons -->
+            <button type="submit" name="save" class="btn waves-effect waves-light">Save</button>
+            <button type="submit" name="delete" class="btn waves-effect waves-light red">Delete</button>
+            <button type="submit" name="preview" class="btn waves-effect waves-light grey">Preview</button>
+        </form>
 
+        <div class="form-footer">
+            <p><a href="/">Back to Landing Page</a></p>
+        </div>
+    </div>
+
+    <!-- Materialize JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
     <script>
         const persons = {{ persons | tojson }};
-        console.log(persons)
 
         function fillPersonData() {
             const personId = document.getElementById("person-dropdown").value;
             console.log("personId: ", personId);
+
             if (personId === "") {
                 // Clear fields if "--Select--" is chosen
                 document.getElementById("id").value = "";
@@ -55,7 +83,7 @@
             } else {
                 let selectedPerson = null;
                 for (let i = 0; i < persons.length; i++) {
-                    if (persons[i].id === personId) {
+                    if (persons[i].id == personId) {
                         selectedPerson = persons[i];
                         break; // Stop looping once we find the match
                     }
@@ -63,21 +91,18 @@
 
                 if (selectedPerson) {
                     console.log("Found person:", selectedPerson);
+
+                    // Fill the form fields with the selected person's data
+                    document.getElementById("id").value = selectedPerson.id;
+                    document.getElementById("orcidId").value = selectedPerson.orcidId;
+                    document.getElementById("firstName").value = selectedPerson.firstName;
+                    document.getElementById("lastName").value = selectedPerson.lastName;
                 } else {
                     console.log("No person found with id ", personId);
                 }
-
-                // Log for debugging
-                console.log("Selected person ID:", personId);
-                console.log("Selected person data:", selectedPerson);
-
-                // Fill the form fields with the selected person's data
-                document.getElementById("id").value = selectedPerson.id;
-                document.getElementById("orcidId").value = selectedPerson.orcidId;
-                document.getElementById("firstName").value = selectedPerson.firstName;
-                document.getElementById("lastName").value = selectedPerson.lastName;
             }
         }
     </script>
 </body>
+
 </html>

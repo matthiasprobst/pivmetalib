@@ -6,7 +6,8 @@ from flask import Flask, render_template, request, redirect, url_for
 
 from pivmetalib import __version__
 from pivmetalib.app.abstract_databases import AbstractDatabase
-from pivmetalib.app.example_databases import PersonJSONLDFileDatabase, SQLDatabase
+from pivmetalib.app.example_databases import SQLDatabase
+from pivmetalib.pivmeta import Laser
 from pivmetalib.prov import Person
 
 USER_DATA_DIR = pathlib.Path(appdirs.user_data_dir('pivmetalib', version=__version__))
@@ -21,10 +22,14 @@ def trim_dict(d):
     return trimmed
 
 
-def create_app(person_database: AbstractDatabase):
+def create_app(
+        person_database: AbstractDatabase,
+        # laser_database: AbstractDatabase
+):
     webapp = Flask(__name__)
     webapp.config["databases"] = {}
-    webapp.config["databases"]["person_database"] = person_database
+    webapp.config["databases"]["person"] = person_database
+    # webapp.config["databases"]["laser"] = laser_database
     webapp.config["current_person"] = {"id": "", "orcidId": "", "firstName": "", "lastName": ""}
 
     @webapp.route('/')
@@ -53,9 +58,16 @@ def create_app(person_database: AbstractDatabase):
     #     # GET: Render the topic page
     #     return render_template('pivSetup/index.html', data=data_storage["pivSetup"])
 
+    @webapp.route('/laser', methods=['GET', 'POST'])
+    def laser_page():
+        database = webapp.config["databases"]["laser"]
+        data = database.fetch_all()
+        current_selection = webapp.config["current_selection"]["laser"] = {"id": "", "name": "", "wavelength": ""}
+        return render_template('laser/index.html', current_selection=current_selection, lasers=data)
+
     @webapp.route('/person', methods=['GET', 'POST'])
     def person_page():
-        database = webapp.config["databases"]["person_database"]
+        database = webapp.config["databases"]["person"]
         current_person = webapp.config["current_person"]
 
         persons = database.fetch_all()
@@ -113,6 +125,10 @@ if __name__ == '__main__':
     person_json_file_location.mkdir(parents=True, exist_ok=True)
     # person_db = PersonJSONLDFileDatabase(file_location=person_json_file_location)
     person_db = SQLDatabase(Person)
+    # laser_db = LaserSQLDatabase(Laser)
     # person_db.reset()
-    webapp = create_app(person_database=person_db)
+    webapp = create_app(
+        person_database=person_db,
+        # laser_database=laser_db
+    )
     webapp.run(debug=True)
