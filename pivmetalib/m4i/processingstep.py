@@ -27,18 +27,18 @@ OneOrMultiThings = Union[Thing, HttpUrl, str, List[Union[Thing, HttpUrl, str]]]
             schema="https://schema.org/",
             obo="http://purl.obolibrary.org/obo/")
 @urirefs(ProcessingStep='m4i:ProcessingStep',
-         start_time='schema:startTime',
-         end_time='schema:endTime',
-         starts_with='obo:starts_with',
-         ends_with='obo:ends_with',
-         runtime_assignment='m4i:hasRuntimeAssignment',
+         startTime='schema:startTime',
+         endTime='schema:endTime',
+         RO_0002224='obo:RO_0002224',
+         RO_0002230='obo:RO_0002230',
+         hasRuntimeAssignment='m4i:hasRuntimeAssignment',
          investigates='m4i:investigates',
          usageInstruction='m4i:usageInstruction',
          hasEmployedTool='m4i:hasEmployedTool',
-         realizes_method='m4i:realizesMethod',
+         realizesMethod='m4i:realizesMethod',
          hasInput='m4i:hasInput',
          hasOutput='m4i:hasOutput',
-         part_of='m4i:partOf',
+         partOf='m4i:partOf',
          precedes='m4i:precedes')
 class ProcessingStep(Activity):
     """Pydantic Model for m4i:ProcessingStep
@@ -52,18 +52,18 @@ class ProcessingStep(Activity):
     ----------
     tbd
     """
-    start_time: datetime = Field(default=None, alias="startTime")
-    end_time: datetime = Field(default=None, alias="endTime")
-    starts_with: Any = None
-    ends_with: Any = None
-    runtime_assignment: Assignment = Field(default=None, alias="hasRuntimeAssignment")
+    startTime: datetime = Field(default=None, alias="start_time")
+    endTime: datetime = Field(default=None, alias="end_time")
+    RO_0002224: Any =  Field(default=None, alias="starts_with")
+    RO_0002230: Any =  Field(default=None, alias="ends_with")
+    hasRuntimeAssignment: Assignment = Field(default=None, alias="runtime_assignment")
     investigates: Thing = None
     usageInstruction: str = Field(default=None, alias="usage_instruction")
     hasEmployedTool: Tool = Field(default=None, alias="has_employed_tool")
-    realizes_method: Union[Method, List[Method]] = Field(default=None, alias="realizesMethod")
+    realizesMethod: Union[Method, List[Method]] = Field(default=None, alias="realizes_method")
     hasInput: Thing = Field(default=None, alias="has_input")
     hasOutput: OneOrMultiThings = Field(default=None, alias="has_output")
-    part_of: Union[ResearchProject, "ProcessingStep"] = Field(default=None, alias="partOf")
+    partOf: Union[ResearchProject, "ProcessingStep"] = Field(default=None, alias="part_of")
     precedes: "ProcessingStep" = None
 
     @field_validator('hasOutput', 'hasInput', mode='before')
@@ -86,15 +86,31 @@ class ProcessingStep(Activity):
             return value
         return str(HttpUrl(value))
 
-    @field_validator('starts_with', mode='before')
+    @field_validator('RO_0002224', mode='before')
     @classmethod
     def _starts_with(cls, starts_with):
         return _validate_processing_step(starts_with)
 
-    @field_validator('ends_with', mode='before')
+    @field_validator('RO_0002230', mode='before')
     @classmethod
     def _ends_with(cls, ends_with):
         return _validate_processing_step(ends_with)
+
+    @property
+    def starts_with(self):
+        return self.RO_0002224
+
+    @starts_with.setter
+    def starts_with(self, starts_with):
+        self.RO_0002224 = _validate_processing_step(starts_with)
+
+    @property
+    def ends_with(self):
+        return self.RO_0002230
+
+    @ends_with.setter
+    def ends_with(self, ends_with):
+        self.RO_0002230 = _validate_processing_step(ends_with)
 
 
 def _validate_processing_step(ps) -> ProcessingStep:

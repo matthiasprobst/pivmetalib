@@ -113,11 +113,11 @@ class SQLDatabaseSourceAdapter(AbstractDatabaseSourceAdapter):
                         "label": "label",
                         "type": "str",
                         "required": False
-                    },{
+                    }, {
                         "label": "value",
                         "type": "str",
                         "required": False
-                    },{
+                    }, {
                         "label": "standardName",
                         "type": "str",
                         "required": False
@@ -138,8 +138,6 @@ class SQLDatabaseSourceAdapter(AbstractDatabaseSourceAdapter):
                 else:
                     print(f"Cannot associate datatype with field {field}: {_dtype}")
                     self._fields.append(DataField(label=field, datatype="url", required=False).__dict__)
-
-
 
         self._columns = [self.to_camel_case(s) for s in _fields]
         self._create_table()
@@ -261,6 +259,9 @@ class LaserMongoDatabaseSourceAdapter(AbstractDatabaseSourceAdapter):
         self.collection = collection
 
     def fetch_all(self, limit: Optional[int] = None) -> Dict[str, Thing]:
+        pass
+
+    def fields(self) -> List[DataField]:
         pass
 
     def reset(self):

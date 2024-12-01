@@ -119,7 +119,7 @@ class TestPIVmeta(utils.ClassTest):
             "@type": "m4i:ProcessingStep",
             "rdfs:label": "p1",
             "schema:startTime": st1.isoformat(),
-            "obo:starts_with": {
+            "obo:RO_0002224": {
                 "@type": "m4i:ProcessingStep",
                 "rdfs:label": "p2",
                 "schema:startTime": st2.isoformat(),
