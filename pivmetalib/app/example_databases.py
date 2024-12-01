@@ -5,10 +5,11 @@ from typing import Union, Dict, Optional, List
 
 import appdirs
 from ontolutils import Thing
+from pydantic import HttpUrl, AnyUrl, EmailStr
 from ssnolib import __version__
 
 from pivmetalib.prov import Person
-from .abstract_databases import AbstractDatabase
+from .abstract_databases import AbstractDatabaseSourceAdapter, DataField
 
 
 def trim_dict(d):
@@ -19,7 +20,7 @@ def trim_dict(d):
     return trimmed
 
 
-class JSONLDFileDatabase(AbstractDatabase):
+class JSONLDFileDatabaseSourceAdapter(AbstractDatabaseSourceAdapter):
     """A simple JSON-LD file-based database implementation."""
 
     def __init__(self, model_cls, file_location: Union[str, pathlib.Path] = None):
@@ -53,6 +54,10 @@ class JSONLDFileDatabase(AbstractDatabase):
                 found_persons.append(person)
         return found_persons
 
+    @property
+    def fields(self) -> List[DataField]:
+        return [DataField(label=c, datatype="str", required=False) for c in self.model_cls.model_fields.keys()]
+
     def save(self, data: Thing):
         if not isinstance(data, self.model_cls):
             raise ValueError(f"Data must be an instance of {self.model_cls} but is {type(data)}")
@@ -79,17 +84,64 @@ class JSONLDFileDatabase(AbstractDatabase):
         return self.save(data)
 
 
-class PersonJSONLDFileDatabase(JSONLDFileDatabase):
+class PersonJSONLDFileDatabase(JSONLDFileDatabaseSourceAdapter):
     def __init__(self, file_location=None):
         super().__init__(Person, file_location=file_location)
 
 
-class SQLDatabase(AbstractDatabase):
-    def __init__(self, model_cls: Thing):
-        self.db_uri = f"{model_cls.__name__}.db"
+class SQLDatabaseSourceAdapter(AbstractDatabaseSourceAdapter):
+
+    def __init__(self, model_cls: Thing, db_uri=None, ignore_fields=None):
+        if db_uri is None:
+            db_uri = f"{model_cls.__name__}.db"
+        self.db_uri = db_uri
         self.name = model_cls.__name__.lower()
         self.model_cls = model_cls
-        self._columns = [self.to_camel_case(s) for s in list(self.model_cls.model_fields.keys())]
+        if ignore_fields is None:
+            ignore_fields = []
+        _fields = [f for f in self.model_cls.model_fields.keys() if f not in ignore_fields]
+        self._fields = []
+        for field in _fields:
+
+            if field == "hasParameter":
+
+                self._fields.append({
+                    "label": field,
+                    "type": "nested",
+                    "required": False,
+                    "subfields": [{
+                        "label": "label",
+                        "type": "str",
+                        "required": False
+                    },{
+                        "label": "value",
+                        "type": "str",
+                        "required": False
+                    },{
+                        "label": "standardName",
+                        "type": "str",
+                        "required": False
+                    }]
+                })
+
+            else:
+
+                _dtype = self.model_cls.model_fields[field].annotation
+                if _dtype == str:
+                    self._fields.append(DataField(label=field, datatype="str", required=False).__dict__)
+                elif _dtype == int:
+                    self._fields.append(DataField(label=field, datatype="int", required=False).__dict__)
+                elif _dtype is HttpUrl or _dtype is AnyUrl:
+                    self._fields.append(DataField(label=field, datatype="url", required=False).__dict__)
+                elif _dtype is EmailStr:
+                    self._fields.append(DataField(label=field, datatype="email", required=False).__dict__)
+                else:
+                    print(f"Cannot associate datatype with field {field}: {_dtype}")
+                    self._fields.append(DataField(label=field, datatype="url", required=False).__dict__)
+
+
+
+        self._columns = [self.to_camel_case(s) for s in _fields]
         self._create_table()
 
     @classmethod
@@ -101,6 +153,11 @@ class SQLDatabase(AbstractDatabase):
         camel_case = words[0] + ''.join(word.capitalize() for word in words[1:])
 
         return camel_case
+
+    @property
+    def fields(self) -> List[DataField]:
+        print(self._fields)
+        return self._fields
 
     def _create_table(self):
         columns = ", ".join(f"{self.to_camel_case(k)} TEXT" for k in self.columns)
@@ -133,16 +190,9 @@ class SQLDatabase(AbstractDatabase):
         if not rows:
             return {}
         list_of_data_dicts = [{k: v for k, v in zip(self.columns, row)} for row in rows]
-        things = [self.model_cls.parse_obj({k: v for k, v in data_dict.items() if v}) for data_dict in
+        things = [self.model_cls.model_validate({k: v for k, v in data_dict.items() if v}) for data_dict in
                   list_of_data_dicts]
         return {thing.id: thing for thing in things}
-        # conn = sqlite3.connect(self.db_uri)
-        # cursor = conn.cursor()
-        # fields = ", ".join(self.columns)
-        # cursor.execute(f"SELECT {fields} FROM person")
-        # rows = cursor.fetchall()
-        # conn.close()
-        # return [{"orcid": row[0], "first_name": row[1], "last_name": row[2]} for row in rows]
 
     def query(self, limit: Optional[int] = None, **kwargs) -> List:
 
@@ -204,3 +254,111 @@ class SQLDatabase(AbstractDatabase):
 
     def update(self, data: Thing):
         pass
+
+
+class LaserMongoDatabaseSourceAdapter(AbstractDatabaseSourceAdapter):
+    def __init__(self, collection: "Collection"):
+        self.collection = collection
+
+    def fetch_all(self, limit: Optional[int] = None) -> Dict[str, Thing]:
+        pass
+
+    def reset(self):
+        pass
+
+    def delete(self, **kwargs):
+        pass
+
+    def query(self, limit: Optional[int] = None, **kwargs) -> List:
+        pass
+
+    def save(self, data: Thing):
+        pass
+
+    def update(self, data: Thing):
+        pass
+
+# class LaserSQLDatabase(AbstractDatabase):
+#     def __init__(self, db_uri=None):
+#         if db_uri is None:
+#             db_uri = "laser.db"
+#         assert db_uri.endswith(".db"), "Database URI must end with .db"
+#         self.db_uri = db_uri
+#         self.name = "laser"
+#         # self._columns = ["waveLength", "power", "pulseDuration", "pulseEnergy", "beamDiameter",]
+#         self._columns = ["id", "label", "wikidataLink", "waveLength", "pulseEnergy"]
+#         self._create_table()
+#
+#     @property
+#     def columns(self):
+#         return self._columns
+#
+#     def _create_table(self):
+#         columns = ", ".join(f"{k} TEXT" for k in self.columns)
+#         # create tables if not exist:
+#         with sqlite3.connect(self.db_uri) as conn:
+#             cursor = conn.cursor()
+#             cursor.execute(f"CREATE TABLE IF NOT EXISTS {self.name} ({columns})")
+#
+#     def fetch_all(self, limit: Optional[int] = None) -> Dict[str, Thing]:
+#         fields = ", ".join(self.columns)
+#         with sqlite3.connect(self.db_uri) as conn:
+#             cursor = conn.cursor()
+#             if limit:
+#                 cursor.execute(f"SELECT {fields} FROM {self.name} LIMIT {limit}")
+#             else:
+#                 cursor.execute(f"SELECT {fields} FROM {self.name}")
+#             rows = cursor.fetchall()
+#
+#         if not rows:
+#             return {}
+#         list_of_data_dicts = [{k: v for k, v in zip(self.columns, row)} for row in rows]
+#         for data_dict in list_of_data_dicts:
+#             print(data_dict)
+#         things = [Laser.model_validate({k: v for k, v in data_dict.items() if v}) for data_dict in
+#                   list_of_data_dicts]
+#         return {thing.id: thing for thing in things}
+#
+#     def reset(self):
+#         with sqlite3.connect(self.db_uri) as conn:
+#             cursor = conn.cursor()
+#             cursor.execute(f"DROP TABLE IF EXISTS {self.name}")
+#             conn.commit()
+#         self._create_table()
+#
+#     def delete(self, **kwargs):
+#         pass
+#
+#     def query(self, limit: Optional[int] = None, **kwargs) -> List:
+#         pass
+#
+#     def save(self, data: Laser):
+#         # Save or update a person entry
+#
+#         parameters = {}
+#         if data.hasParameter:
+#             if not isinstance(data.hasParameter, list):
+#                 _parameters = [data.hasParameter]
+#             for param in _parameters:
+#                 name = param
+#                 if isinstance(param, str):
+#
+#             if "waveLength" in data.:
+#         data_dict = {
+#             "label": data.label,
+#         }
+#
+#         data_dict = data.model_dump(exclude_none=True)
+#         fields = ", ".join(s for s in data_dict.keys())
+#         data_list = list(data_dict.values())
+#         qs = ", ".join("?" for _ in data_list)
+#         with sqlite3.connect(self.db_uri) as conn:
+#             cursor = conn.cursor()
+#             cursor.execute(f"""
+#                 INSERT OR REPLACE INTO {self.name} ({fields})
+#                 VALUES ({qs})
+#             """, data_list)
+#             conn.commit()
+#
+#     def update(self, data: Laser):
+#         pass

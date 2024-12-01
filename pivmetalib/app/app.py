@@ -5,8 +5,8 @@ import appdirs
 from flask import Flask, render_template, request, redirect, url_for
 
 from pivmetalib import __version__
-from pivmetalib.app.abstract_databases import AbstractDatabase
-from pivmetalib.app.example_databases import SQLDatabase
+from pivmetalib.app.abstract_databases import AbstractDatabaseSourceAdapter
+from pivmetalib.app.example_databases import SQLDatabaseSourceAdapter
 from pivmetalib.pivmeta import Laser, PIVSoftware
 from pivmetalib.prov import Person
 
@@ -23,8 +23,8 @@ def trim_dict(d):
 
 
 def create_app(
-        person_database: AbstractDatabase,
-        software_database: AbstractDatabase,
+        person_database: AbstractDatabaseSourceAdapter,
+        software_database: AbstractDatabaseSourceAdapter,
         # laser_database: AbstractDatabase
 ):
     webapp = Flask(__name__)
@@ -77,7 +77,11 @@ def create_app(
             sftw = PIVSoftware(**trim_dict(new_data))
             database.save(sftw)
         data = database.fetch_all()
-        return render_template('software/dynamic_index.html', fields=database.columns, softwares=data)
+        print("debug", database.fields)
+        return render_template(
+            'software/dynamic_index2.html',
+            fields=database.fields,
+            data=data)
 
     @webapp.route('/person', methods=['GET', 'POST'])
     def person_page():
@@ -138,8 +142,9 @@ if __name__ == '__main__':
     person_json_file_location = USER_DATA_DIR / 'tmp/databases/person'
     person_json_file_location.mkdir(parents=True, exist_ok=True)
     # person_db = PersonJSONLDFileDatabase(file_location=person_json_file_location)
-    person_db = SQLDatabase(Person)
-    software_db = SQLDatabase(PIVSoftware)
+    person_db = SQLDatabaseSourceAdapter(Person)
+    software_db = SQLDatabaseSourceAdapter(PIVSoftware, ignore_fields=["hasPart"])
+    software_db.reset()
     # laser_db = LaserSQLDatabase(Laser)
     # person_db.reset()
     myapp = create_app(

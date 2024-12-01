@@ -6,7 +6,7 @@ from .variable import NumericalVariable, TextVariable
 
 @namespaces(m4i="http://w3id.org/nfdi4ing/metadata4ing#")
 @urirefs(Tool='m4i:Tool',
-         parameter='m4i:hasParameter')
+         hasParameter='m4i:hasParameter')
 class Tool(Thing):
     """Pydantic Model for m4i:ProcessingStep
 
@@ -20,17 +20,17 @@ class Tool(Thing):
     parameter: TextVariable or NumericalVariable or list of them
         Text or numerical variable
     """
-    parameter: Union[TextVariable, NumericalVariable,
-    List[Union[TextVariable, NumericalVariable]]] = Field(default=None, alias="hasParameter")
+    hasParameter: Union[TextVariable, NumericalVariable,
+    List[Union[TextVariable, NumericalVariable]]] = Field(default=None, alias="parameter")
 
     def add_numerical_variable(self, numerical_variable: Union[dict, NumericalVariable]):
         """add numerical variable to tool"""
         if isinstance(numerical_variable, dict):
             numerical_variable = NumericalVariable(**numerical_variable)
         if self.parameter is None:
-            self.parameter = [numerical_variable, ]
-        elif isinstance(self.parameter, list):
-            self.parameter.append(numerical_variable)
+            self.hasParameter = [numerical_variable, ]
+        elif isinstance(self.hasParameter, list):
+            self.hasParameter.append(numerical_variable)
         else:
-            self.parameter = [self.parameter,
+            self.hasParameter = [self.hasParameter,
                                  numerical_variable]
