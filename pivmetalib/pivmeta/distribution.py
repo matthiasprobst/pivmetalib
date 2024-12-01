@@ -1,7 +1,5 @@
-from enum import Enum
 from typing import Union, Any
 
-import rdflib
 from ontolutils import namespaces, urirefs
 from pydantic import HttpUrl, PositiveInt, field_validator, Field
 
@@ -30,9 +28,6 @@ def make_href(url, text=None):
     return f'<a href="{url}">{url}</a>'
 
 
-
-
-
 @namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
 @urirefs(PIVDistribution='pivmeta:PIVDistribution',
          filenamePattern='pivmeta:filenamePattern')
@@ -51,17 +46,17 @@ class PIVDistribution(Distribution):
 
 @namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
 @urirefs(PIVImageDistribution='pivmeta:PIVImageDistribution',
-         piv_image_type='pivmeta:pivImageType',
-         image_bit_depth='pivmeta:imageBitDepth',
-         number_of_records='pivmeta:numberOfRecords')
+         pivImageType='pivmeta:pivImageType',
+         imageBitDepth='pivmeta:imageBitDepth',
+         numberOfRecords='pivmeta:numberOfRecords')
 class PIVImageDistribution(PIVDistribution):
     """Implementation of pivmeta:PIVImageDistribution
 
     Describes PIV images (e.g. tiff files) which are experimental or synthetic data.
     """
-    piv_image_type: Union[HttpUrl, str] = Field(default=None, alias="pivImageType")
-    image_bit_depth: PositiveInt = Field(default=None, alias="imageBitDepth")
-    number_of_records: PositiveInt = Field(default=None, alias="numberOfRecords")
+    pivImageType: Union[HttpUrl, str] = Field(default=None, alias="piv_image_type")
+    imageBitDepth: PositiveInt = Field(default=None, alias="image_bit_depth")
+    numberOfRecords: PositiveInt = Field(default=None, alias="number_of_records")
 
     # def _repr_html_(self):
     #     """Returns the HTML representation of the class"""
@@ -73,7 +68,7 @@ class PIVImageDistribution(PIVDistribution):
     #         return f"{self.__class__.__name__}('{pit}', {make_href(selfdownload_URL)})"
     #     return f"{self.__class__.__name__}({make_href(selfdownload_URL)})"
 
-    @field_validator('piv_image_type', mode='before')
+    @field_validator('pivImageType', mode='before')
     @classmethod
     def _pivImageType(cls, piv_image_type):
         return str(HttpUrl(piv_image_type))

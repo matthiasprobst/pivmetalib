@@ -143,7 +143,7 @@ if __name__ == '__main__':
     person_json_file_location.mkdir(parents=True, exist_ok=True)
     # person_db = PersonJSONLDFileDatabase(file_location=person_json_file_location)
     person_db = SQLDatabaseSourceAdapter(Person)
-    software_db = SQLDatabaseSourceAdapter(PIVSoftware, ignore_fields=["hasPart"])
+    software_db = SQLDatabaseSourceAdapter(PIVSoftware, ignore_fields=["has_part"])
     software_db.reset()
     # laser_db = LaserSQLDatabase(Laser)
     # person_db.reset()

@@ -10,10 +10,18 @@ from .tool import SoftwareSourceCode
 @namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#",
             obo="http://purl.obolibrary.org/obo/")
 @urirefs(PIVSetup="pivmeta:PIVSetup",
-         hasPart="obo:hasPart")
+         BFO_0000051="obo:BFO_0000051")
 class PIVSetup(Thing):
     """Pydantic implementation of pivmeta:PIVSetup"""
-    hasPart: Optional[Union[Thing, List[Thing]]] = Field(alias="has_part", default=None)
+    BFO_0000051: Optional[Union[Thing, List[Thing]]] = Field(alias="has_part", default=None)
+
+    @property
+    def hasPart(self):
+        return self.BFO_0000051
+
+    @hasPart.setter
+    def hasPart(self, value):
+        self.BFO_0000051 = value
 
 
 @namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#",

@@ -16,15 +16,15 @@ class Organization(Thing):
 
 @namespaces(schema="https://schema.org/")
 @urirefs(Person='schema:Person',
-         given_name='schema:givenName',
-         family_name='schema:familyName',
+         givenName='schema:givenName',
+         familyName='schema:familyName',
          email='schema:email',
          affiliation='schema:affiliation'
          )
 class Person(Thing):
     """schema:Person (https://schema.org/Person)"""
-    given_name: str = Field(alias="givenName")
-    family_name: str = Field(alias="familyName", default=None)
+    givenName: str = Field(alias="given_name")
+    familyName: str = Field(alias="family_name", default=None)
     email: str = None
     affiliation: Union[Organization, List[Organization]] = None
 
@@ -41,16 +41,16 @@ class CreativeWork(Thing):
 
 @namespaces(schema="https://schema.org/")
 @urirefs(SoftwareApplication='schema:SoftwareApplication',
-         application_category='schema:applicationCategory',
-         download_URL='schema:downloadURL',
+         applicationCategory='schema:applicationCategory',
+         downloadURL='schema:downloadURL',
          version='schema:softwareVersion')
 class SoftwareApplication(CreativeWork):
     """schema:SoftwareApplication (https://schema.org/SoftwareApplication)"""
-    application_category: Union[str, HttpUrl] = Field(default=None, alias="applicationCategory")
-    download_URL: HttpUrl = Field(default=None, alias="downloadURL")
+    applicationCategory: Union[str, HttpUrl] = Field(default=None, alias="application_category")
+    downloadURL: HttpUrl = Field(default=None, alias="download_URL")
     version: str = Field(default=None, alias="softwareVersion")
 
-    @field_validator('application_category')
+    @field_validator('applicationCategory')
     @classmethod
     def _validate_applicationCategory(cls, application_category: Union[str, HttpUrl]):
         if application_category.startswith('file:'):
@@ -60,8 +60,8 @@ class SoftwareApplication(CreativeWork):
 
 @namespaces(schema="https://schema.org/")
 @urirefs(SoftwareSourceCode='schema:SoftwareSourceCode',
-         code_repository='schema:codeRepository',
-         application_category='schema:applicationCategory')
+         codeRepository='schema:codeRepository',
+         applicationCategory='schema:applicationCategory')
 class SoftwareSourceCode(CreativeWork):
     """Pydantic implementation of schema:SoftwareSourceCode (see https://schema.org/SoftwareSourceCode)
 
@@ -69,10 +69,10 @@ class SoftwareSourceCode(CreativeWork):
 
         More than the below parameters are possible but not explicitly defined here.
     """
-    code_repository: Union[HttpUrl, str] = Field(default=None, alias="codeRepository")
-    application_category: Union[str, HttpUrl] = Field(default=None, alias="applicationCategory")
+    codeRepository: Union[HttpUrl, str] = Field(default=None, alias="code_repository")
+    applicationCategory: Union[str, HttpUrl] = Field(default=None, alias="application_category")
 
-    @field_validator('code_repository')
+    @field_validator('codeRepository')
     @classmethod
     def _validate_code_repository(cls, code_repository: Union[str, HttpUrl]):
         if not isinstance(code_repository, str):
@@ -82,7 +82,7 @@ class SoftwareSourceCode(CreativeWork):
             # return f'{_url}'
         return code_repository
 
-    @field_validator('application_category')
+    @field_validator('applicationCategory')
     @classmethod
     def _validate_applicationCategory(cls, application_category: Union[str, HttpUrl]):
         if application_category.startswith('file:'):

@@ -330,7 +330,7 @@ class TestPIVmeta(utils.ClassTest):
         )
         laser = pivmeta.Laser(label="super duper laser")
         setup = pivmeta.PIVSetup(
-            hasPart=[camera, laser]
+            has_part=[camera, laser]
         )
         self.assertEqual(setup.has_part[0], camera)
         self.assertEqual(setup.has_part[1], laser)

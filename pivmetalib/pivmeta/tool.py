@@ -18,7 +18,7 @@ from ..schema import SoftwareSourceCode
 @urirefs(PIVMetaTool='pivmeta:PIVMetaTool',
          hasParameter='m4i:hasParameter',
          manufacturer='pivmeta:manufacturer',
-         hasPart='obo:BFO_0000051')
+         BFO_0000051='obo:BFO_0000051')
 class PIVMetaTool(m4i.Tool):
     hasParameter: Union[
         TextVariable,
@@ -27,7 +27,15 @@ class PIVMetaTool(m4i.Tool):
         List[Union[TextVariable, NumericalVariable, M4iNumericalVariable]]
     ] = Field(default=None, alias="parameter")
     manufacturer: Organization = None
-    hasPart: Optional[Union[Thing, List[Thing]]] = Field(alias="has_part", default=None)
+    BFO_0000051: Optional[Union[Thing, List[Thing]]] = Field(alias="has_part", default=None)
+
+    @property
+    def hasPart(self):
+        return self.BFO_0000051
+
+    @hasPart.setter
+    def hasPart(self, value):
+        self.BFO_0000051 = value
 
 
 @namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
