@@ -11,12 +11,16 @@
       "dcat:landingPage": "https://www.pivchallenge.org/pub/index.html#a",
       "dcterms:title": "Loss of seeding in the core of a tip vortex",
       "dcterms:modified": "2000-10-26",
-      "dcterms:creator": {
-        "@id": "https://orcid.org/0000-0001-9336-2091",
-        "@type": "prov:Person",
-        "prov:hadRole": "contact person",
-        "personal mailbox": "christian.kaehler@dlr.de",
-        "has ORCID ID": "https://orcid.org/0000-0001-9336-2091"
+      "prov:qualifiedAttribution": {
+        "@type": "prov:Attribution",
+        "prov:agent": {
+          "@id": "https://orcid.org/0000-0001-9336-2091",
+          "@type": "prov:Person",
+          "prov:hadRole": "contact person",
+          "personal mailbox": "christian.kaehler@dlr.de",
+          "has ORCID ID": "https://orcid.org/0000-0001-9336-2091"
+        },
+        "dcat:hadRole": "http://w3id.org/nfdi4ing/metadata4ing#ContactPerson"
       },
       "dcat:distribution": [
         {
