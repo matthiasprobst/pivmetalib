@@ -5,6 +5,7 @@ import warnings
 from datetime import datetime
 
 import ontolutils
+import pydantic
 import rdflib
 import requests
 from ontolutils.namespacelib import QUDT_UNIT, QUDT_KIND
@@ -15,6 +16,9 @@ import utils
 from pivmetalib import pivmeta, m4i
 
 __this_dir__ = pathlib.Path(__file__).parent
+
+from pivmetalib.m4i import ProcessingStep
+
 CACHE_DIR = pivmetalib.utils.get_cache_dir()
 
 try:
@@ -205,13 +209,13 @@ class TestM4i(utils.ClassTest):
         self.check_jsonld_string(jsonld_string)
 
         tool = m4i.Tool(label='tool1')
-        ps1.employed_tool = tool
+        ps1.hasEmployedTool = tool
 
         ps3 = m4i.ProcessingStep(label='p3',
                                  startTime=datetime.now(),
                                  hasEmployedTool=tool,
                                  partOf=ps2)
-        self.assertEqual(ps3.employed_tool, tool)
+        self.assertEqual(ps3.hasEmployedTool, tool)
         self.assertEqual(ps3.part_of, ps2)
 
         ps4 = m4i.ProcessingStep(label='p4',
@@ -237,3 +241,9 @@ class TestM4i(utils.ClassTest):
                                          unit=QUDT_UNIT.M_PER_SEC,
                                          quantity_kind=QUDT_KIND.Velocity))
         self.assertEqual(tool.parameter[1].value, 12.2)
+
+        ps4 = ProcessingStep(label='p4', hasOutput="https://example.org/123")
+        self.assertEqual(ps4.hasOutput, "https://example.org/123")
+
+        with self.assertRaises(pydantic.ValidationError):
+            ProcessingStep(label='p4', hasOutput="123")

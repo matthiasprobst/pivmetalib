@@ -1,4 +1,4 @@
-from pydantic import HttpUrl, AnyUrl
+from pydantic import HttpUrl, AnyUrl, Field
 from typing import Union, List
 
 from .. import schema
@@ -20,11 +20,11 @@ class SourceCode(schema.SoftwareSourceCode):
 @namespaces(schema="https://schema.org/",
             sd="https://w3id.org/okn/o/sd#")
 @urirefs(Software='sd:Software',
-         short_description='sd:shortDescription',
-         has_documentation='sd:hasDocumentation',
-         has_download_URL='schema:downloadURL',
+         shortDescription='sd:shortDescription',
+         hasDocumentation='sd:hasDocumentation',
+         downloadURL='schema:downloadURL',
          author='schema:author',
-         has_source_code='sd:hasSourceCode')
+         hasSourceCode='sd:hasSourceCode')
 class Software(schema.SoftwareApplication):
     """Pdyantic implementation of sd:Software (https://w3id.org/okn/o/sd#Software)
 
@@ -32,8 +32,8 @@ class Software(schema.SoftwareApplication):
 
         More than the below parameters are possible but not explicitly defined here.
     """
-    short_description: str = None
-    has_documentation: AnyUrl = None
-    has_download_URL: HttpUrl = None
+    shortDescription: str = Field(alias="short_description", default=None)
+    hasDocumentation: AnyUrl = Field(alias="has_documentation", default=None)
+    downloadURL: HttpUrl = Field(alias="has_download_URL", default=None)
     author: Union[Person, Organization, List[Union[Person, Organization]]] = None
-    has_source_code: SourceCode = None
+    hasSourceCode: SourceCode = Field(alias="has_source_code", default=None)

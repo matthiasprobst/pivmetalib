@@ -8,7 +8,7 @@ from ontolutils import set_logging_level
 import pivmetalib
 from pivmetalib import PIVMETA
 from pivmetalib import dcat  # .dcat import Dataset, Distribution
-from pivmetalib import pivmeta  # import PivImageDistribution
+from pivmetalib import pivmeta  # import PIVImageDistribution
 from pivmetalib import prov  # Person
 
 set_logging_level('DEBUG')
@@ -33,7 +33,8 @@ class TestQuery(ClassTest):
             self.assertEqual(ds.id, "https://www.pivchallenge.org/pub/index.html#a")
             self.assertEqual(ds.label, "Challenge1A")
             self.assertEqual(ds.description, "Strong vortex (provided by Kaehler) < real > [1280 x 1024]")
-            self.assertEqual(ds.creator.hadRole, "contact person")
+            self.assertEqual(ds.qualifiedAttribution.hadRole, "http://w3id.org/nfdi4ing/metadata4ing#ContactPerson")
+            self.assertEqual(ds.qualifiedAttribution.agent.mbox, "christian.kaehler@dlr.de")
             print(ds)
 
         def test_query(self):
@@ -44,7 +45,7 @@ class TestQuery(ClassTest):
                 landingPage="https://www.pivchallenge.org/pub/index.html#c",
                 description="Different velocity gradients with spatially varying image quality (provided by Okamoto) < synthetic > [256 x 128]",
                 distribution=[
-                    pivmeta.PivImageDistribution(
+                    pivmeta.PIVImageDistribution(
                         title='raw piv image data',
                         downloadURL='https://www.pivchallenge.org/pub/C/C.zip',
                         mediaType='application/zip',
@@ -53,7 +54,7 @@ class TestQuery(ClassTest):
                         filenamePattern="^C\d{3}_\d.tif$",  # the regex for the filename
                         imageBitDepth=8
                     ),
-                    pivmeta.PivMaskDistribution(
+                    pivmeta.PIVMaskDistribution(
                         title='mask data',
                         downloadURL='https://www.pivchallenge.org/pub/C/C.zip',
                         mediaType='application/zip',
@@ -78,7 +79,7 @@ class TestQuery(ClassTest):
                 )
 
             dist = ontolutils.query(
-                pivmeta.PivImageDistribution,
+                pivmeta.PIVImageDistribution,
                 source='piv_challenge.jsonld',
             )
             self.assertEqual(len(dist), 1)
@@ -93,7 +94,7 @@ class TestQuery(ClassTest):
             landingPage="https://www.pivchallenge.org/pub/index.html#c",
             description="Different velocity gradients with spatially varying image quality (provided by Okamoto) < synthetic > [256 x 128]",
             distribution=[
-                pivmeta.PivImageDistribution(
+                pivmeta.PIVImageDistribution(
                     title='raw piv image data',
                     downloadURL='https://www.pivchallenge.org/pub/C/C.zip',
                     mediaType='application/zip',
@@ -102,7 +103,7 @@ class TestQuery(ClassTest):
                     filenamePattern=r"^C\d{3}_\d.tif$",  # the regex for the filename
                     imageBitDepth=8
                 ),
-                pivmeta.PivMaskDistribution(
+                pivmeta.PIVMaskDistribution(
                     title='mask data',
                     downloadURL='https://www.pivchallenge.org/pub/C/C.zip',
                     mediaType='application/zip',

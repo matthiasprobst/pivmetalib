@@ -8,6 +8,7 @@ docs/*.jsonld
 *.pyc
 __pycache__/*
 */.ipynb_checkpoints/*
+*-checkpoint*
 
 # build
 *.egg*
@@ -23,3 +24,4 @@ docs/class_structure_pub.svg
 *.json
 *.jsonld
 docs/piv_process.json
+*.db

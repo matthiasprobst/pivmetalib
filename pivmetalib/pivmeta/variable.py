@@ -11,7 +11,7 @@ from .. import m4i
             ssno="https://matthiasprobst.github.io/ssno#",
             pivmeta="https://matthiasprobst.github.io/pivmeta#")
 @urirefs(NumericalVariable='m4i:NumericalVariable',
-         standard_name='pivmeta:hasStandardName')
+         hasStandardName='pivmeta:hasStandardName')
 class NumericalVariable(m4i.NumericalVariable):
     """Pydantic Model for pivmeta:NumericalVariable
 
@@ -25,9 +25,9 @@ class NumericalVariable(m4i.NumericalVariable):
     standard_name: Union[StandardName, HttpUrl]
         The standard name of the variable
     """
-    standard_name: Union[StandardName, HttpUrl, str] = Field(alias="hasStandardName", default=None)
+    hasStandardName: Union[StandardName, HttpUrl, str] = Field(alias="standard_name", default=None)
 
-    @field_validator("standard_name", mode='before')
+    @field_validator("hasStandardName", mode='before')
     @classmethod
     def _parse_standard_name(cls, standard_name) -> Union[StandardName, str]:
         """Return the standard name as a StandardName object else validate

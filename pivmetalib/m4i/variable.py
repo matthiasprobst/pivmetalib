@@ -26,17 +26,17 @@ class TextVariable(Variable):
 
 @namespaces(m4i="http://w3id.org/nfdi4ing/metadata4ing#")
 @urirefs(NumericalVariable='m4i:NumericalVariable',
-         value='m4i:hasNumericalValue',
-         unit='m4i:hasUnit',
-         quantity_kind='m4i:hasKindOfQuantity')
+         hasNumericalValue='m4i:hasNumericalValue',
+         hasUnit='m4i:hasUnit',
+         hasKindOfQuantity='m4i:hasKindOfQuantity')
 class NumericalVariable(Variable):
     """Pydantic Model for m4i:NumericalVariable"""
-    value: Union[int, float, List[int], List[float]] = Field(alias="hasNumericalValue")
-    unit: str = Field(default=None, alias="hasUnit")  # http://w3id.org/nfdi4ing/metadata4ing#hasUnit
-    quantity_kind: str = Field(default=None,
-                               alias="hasKindOfQuantity")  # http://w3id.org/nfdi4ing/metadata4ing#hasKindOfQuantity
+    hasNumericalValue: Union[int, float, List[int], List[float]] = Field(alias="value")
+    hasUnit: str = Field(default=None, alias="unit")  # http://w3id.org/nfdi4ing/metadata4ing#hasUnit
+    hasKindOfQuantity: str = Field(default=None,
+                               alias="quantity_kind")  # http://w3id.org/nfdi4ing/metadata4ing#hasKindOfQuantity
 
-    @field_validator("unit", mode='before')
+    @field_validator("hasUnit", mode='before')
     @classmethod
     def _parse_unit(cls, unit):
         if unit.startswith("http"):
