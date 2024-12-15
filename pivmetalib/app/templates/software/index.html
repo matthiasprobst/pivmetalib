@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>software Metadata</title>
+
+    <!-- Materialize CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+
+    <!-- Material Icons (Optional for icons) -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Software Metadata</h1>
+
+        <!-- Dropdown for selecting a saved software -->
+        <div class="form-group">
+            <label for="software-dropdown">Select a software:</label>
+            <select id="software-dropdown" class="browser-default" onchange="fillSoftwareData()">
+                <option value="">--Select--</option>
+                {% for software in softwares %}
+                    <option value="{{ software.id }}">{{ software.softwareVersion }} {{ software.description }} ({{ software.label }})</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- Form for editing/adding software metadata -->
+        <form method="POST">
+            <div class="form-group">
+                <label for="id">Identifier:</label>
+                <input type="text" id="id" name="id" value="{{ data.id }}" class="validate" required>
+            </div>
+
+            <div class="form-group">
+                <label for="label">Label:</label>
+                <input type="text" id="label" name="label" value="{{ data.label }}" class="validate" required>
+            </div>
+
+            <div class="form-group">
+                <label for="softwareVersion">First Name:</label>
+                <input type="text" id="softwareVersion" name="softwareVersion" value="{{ data.softwareVersion }}" class="validate" required>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Last Name:</label>
+                <input type="text" id="description" name="description" value="{{ data.description }}" class="validate" required>
+            </div>
+
+            <div class="form-group">
+                <label for="website">Last Name:</label>
+                <input type="text" id="website" name="website" value="{{ data.website }}" class="validate" required>
+            </div>
+
+            <!-- Buttons -->
+            <button type="submit" name="save" class="btn waves-effect waves-light">Save</button>
+            <button type="submit" name="delete" class="btn waves-effect waves-light red">Delete</button>
+            <button type="submit" name="preview" class="btn waves-effect waves-light grey">Preview</button>
+        </form>
+
+        <div class="form-footer">
+            <p><a href="/">Back to Landing Page</a></p>
+        </div>
+    </div>
+
+    <!-- Materialize JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    <script>
+        const softwares = {{ softwares | tojson }};
+
+        function fillSoftwareData() {
+            const softwareId = document.getElementById("software-dropdown").value;
+            console.log("softwareId: ", softwareId);
+
+            if (softwareId === "") {
+                // Clear fields if "--Select--" is chosen
+                document.getElementById("id").value = "";
+                document.getElementById("label").value = "";
+                document.getElementById("softwareVersion").value = "";
+                document.getElementById("description").value = "";
+            } else {
+                let selectedSoftware = null;
+                for (let i = 0; i < softwares.length; i++) {
+                    if (softwares[i].id == softwareId) {
+                        selectedSoftware = softwares[i];
+                        break; // Stop looping once we find the match
+                    }
+                }
+
+                if (selectedSoftware) {
+                    console.log("Found software:", selectedSoftware);
+
+                    // Fill the form fields with the selected software's data
+                    document.getElementById("id").value = selectedSoftware.id;
+                    document.getElementById("label").value = selectedSoftware.label;
+                    document.getElementById("softwareVersion").value = selectedSoftware.softwareVersion;
+                    document.getElementById("description").value = selectedSoftware.description;
+                } else {
+                    console.log("No software found with id ", softwareId);
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

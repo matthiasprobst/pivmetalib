@@ -1,18 +1,31 @@
 from abc import ABC, abstractmethod
+from dataclasses import dataclass
 from typing import Dict, Optional, List
 
 from ontolutils import Thing
 
 
-class AbstractDatabase(ABC):
+@dataclass
+class DataField:
+    label: str
+    datatype: str
+    required: bool
+
+
+class AbstractDatabaseSourceAdapter(ABC):
     @abstractmethod
-    def fetch_all(self, limit:Optional[int]=None) -> Dict[str, Thing]:
+    def fetch_all(self, limit: Optional[int] = None) -> Dict[str, Thing]:
         """Fetch all entries."""
         pass
 
     @abstractmethod
-    def query(self, limit:Optional[int]=None, **kwargs) -> List:
+    def query(self, limit: Optional[int] = None, **kwargs) -> List:
         """query entries by keyword arguments (table column and value)."""
+        pass
+
+    @property
+    @abstractmethod
+    def fields(self) -> List[DataField]:
         pass
 
     @abstractmethod
@@ -21,7 +34,7 @@ class AbstractDatabase(ABC):
         pass
 
     @abstractmethod
-    def delete(self,**kwargs):
+    def delete(self, **kwargs):
         """Delete an object."""
         pass
 
