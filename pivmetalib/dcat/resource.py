@@ -16,6 +16,7 @@ from pydantic import HttpUrl, FileUrl, field_validator, Field
 from ontolutils import Thing
 from ontolutils import urirefs, namespaces
 from ..prov import Person, Organization, Agent
+from ..prov.attribution import Attribution
 from ..utils import download_file
 
 
@@ -50,14 +51,17 @@ class Resource(Thing):
     """
     title: str = None  # dcterms:title
     description: str = None  # dcterms:description
-    creator: Union[Person, Organization] = None  # dcterms:creator
+    creator: Union[HttpUrl, Person, Organization] = None  # dcterms:creator
+    qualifiedAttribution: Union[Attribution, List[Attribution]] = None
     version: str = None  # dcat:version
     identifier: HttpUrl = None  # dcterms:identifier
 
     @field_validator('creator', mode='before')
     @classmethod
     def _parse_creator(cls, creator):
-        # check if creator is a valid person or oragnisation. if both fail, just pass creator data, it will fail later
+        # check if creator is a valid person or organisation. if both fail, just pass creator data, it will fail later
+        if isinstance(creator, str):
+            return str(HttpUrl(creator))
         is_person = False
         is_organisation = False
         try:
@@ -205,14 +209,10 @@ class Dataset(Resource):
         Title of the resource (dcterms:title)
     description: str = None
         Description of the resource (dcterms:description)
-    creator: Agent = None
-        Creator of the resource (dcterms:creator)
     version: str = None
         Version of the resource (dcat:version)
     identifier: HttpUrl = None
         Identifier of the resource (dcterms:identifier)
-    creator: Union[Person, Organization] = None  # dcterms:creator
-        Contact person or Organization of the resource (http://www.w3.org/ns/prov#Person)
     distribution: List[Distribution] = None
         Distribution of the resource (dcat:Distribution)
     landingPage: HttpUrl = None
@@ -224,7 +224,6 @@ class Dataset(Resource):
     """
     identifier: HttpUrl = None  # dcterms:identifier, see https://www.w3.org/TR/vocab-dcat-3/#ex-identifier
     # http://www.w3.org/ns/prov#Person, see https://www.w3.org/TR/vocab-dcat-3/#ex-adms-identifier
-    creator: Agent = None
     distribution: Union[Distribution, List[Distribution]] = None  # dcat:Distribution
     modified: datetime = None  # dcterms:modified
     landingPage: HttpUrl = Field(default=None, alias='landing_page')  # dcat:landingPage

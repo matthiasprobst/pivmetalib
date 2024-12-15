@@ -33,7 +33,8 @@ class TestQuery(ClassTest):
             self.assertEqual(ds.id, "https://www.pivchallenge.org/pub/index.html#a")
             self.assertEqual(ds.label, "Challenge1A")
             self.assertEqual(ds.description, "Strong vortex (provided by Kaehler) < real > [1280 x 1024]")
-            self.assertEqual(ds.creator.hadRole, "contact person")
+            self.assertEqual(ds.qualifiedAttribution.hadRole, "http://w3id.org/nfdi4ing/metadata4ing#ContactPerson")
+            self.assertEqual(ds.qualifiedAttribution.agent.mbox, "christian.kaehler@dlr.de")
             print(ds)
 
         def test_query(self):

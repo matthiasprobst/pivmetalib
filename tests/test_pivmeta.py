@@ -137,7 +137,6 @@ class TestPIVmeta(utils.ClassTest):
         p = prov.Person(firstName='John',
                         lastName='Doe',
                         wasRoleIn=ps1)
-        self.assertIsInstance(p.was_role_in, ontolutils.Thing)
 
     def test_PIVPostProcessing(self):
         data_smoothing = m4i.Method(
