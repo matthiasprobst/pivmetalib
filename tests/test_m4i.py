@@ -10,6 +10,7 @@ import rdflib
 import requests
 from ontolutils.namespacelib import QUDT_UNIT, QUDT_KIND
 from ssnolib import StandardName
+from ssnolib.m4i import NumericalVariable
 
 import pivmetalib
 import utils
@@ -175,10 +176,10 @@ class TestM4i(utils.ClassTest):
             sn2 = StandardName(standard_name='y_velocity',
                                description='y component of velocity',
                                unit='m s-1')
-            var1 = pivmeta.NumericalVariable(value=4.2, standard_name=sn1)
-            var2 = pivmeta.NumericalVariable(value=5.2, standard_name=sn2)
+            var1 = NumericalVariable(value=4.2, standard_name=sn1)
+            var2 = NumericalVariable(value=5.2, standard_name=sn2)
             self.assertIsInstance(var1, ontolutils.Thing)
-            self.assertIsInstance(var1, pivmeta.NumericalVariable)
+            self.assertIsInstance(var1, NumericalVariable)
             self.assertEqual(var1.value, 4.2)
 
             var1.standard_name = sn1

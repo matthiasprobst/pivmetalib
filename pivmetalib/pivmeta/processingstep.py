@@ -3,42 +3,42 @@ from .. import m4i
 
 
 @namespaces(pivmeta='https://matthiasprobst.github.io/pivmeta#')
-@urirefs(PIVProcessingStep='pivmeta:PIVProcessingStep')
-class PIVProcessingStep(m4i.ProcessingStep):
-    """Pydantic Model for pivmeta:PIVProcessingStep"""
+@urirefs(PIVAnalysis='pivmeta:PIVAnalysis')
+class PIVAnalysis(m4i.ProcessingStep):
+    """Pydantic Model for pivmeta:PIVAnalysis"""
 
 
 @namespaces(pivmeta='https://matthiasprobst.github.io/pivmeta#')
-@urirefs(PIVPostProcessing='pivmeta:PIVProcessingStep')
-class PIVPostProcessing(PIVProcessingStep):
+@urirefs(PIVPostProcessing='pivmeta:PIVAnalysis')
+class PIVPostProcessing(PIVAnalysis):
     """Pydantic Model for pivmeta:PIVPostProcessing"""
 
 
 @namespaces(pivmeta='https://matthiasprobst.github.io/pivmeta#')
 @urirefs(PIVPreProcessing='pivmeta:PIVPostProcessing')
-class PIVPreProcessing(PIVProcessingStep):
+class PIVPreProcessing(PIVAnalysis):
     """Pydantic Model for pivmeta:PIVPreProcessing"""
 
 
 @namespaces(pivmeta='https://matthiasprobst.github.io/pivmeta#')
 @urirefs(PIVEvaluation='pivmeta:PIVEvaluation')
-class PIVEvaluation(PIVProcessingStep):
+class PIVEvaluation(PIVAnalysis):
     """Pydantic Model for pivmeta:PIVEvaluation"""
 
 
 @namespaces(pivmeta='https://matthiasprobst.github.io/pivmeta#')
 @urirefs(MaskGeneration='pivmeta:MaskGeneration')
-class MaskGeneration(PIVProcessingStep):
+class MaskGeneration(PIVAnalysis):
     """Pydantic Model for pivmeta:MaskGeneration"""
 
 
 @namespaces(pivmeta='https://matthiasprobst.github.io/pivmeta#')
 @urirefs(ImageRotation='pivmeta:ImageRotation')
-class ImageRotation(PIVProcessingStep):
+class ImageRotation(PIVAnalysis):
     """Pydantic Model for pivmeta:ImageRotation"""
 
 
 @namespaces(pivmeta='https://matthiasprobst.github.io/pivmeta#')
 @urirefs(BackgroundImageGeneration='pivmeta:BackgroundImageGeneration')
-class BackgroundImageGeneration(PIVProcessingStep):
+class BackgroundImageGeneration(PIVAnalysis):
     """Pydantic Model for pivmeta:BackgroundImageGeneration"""

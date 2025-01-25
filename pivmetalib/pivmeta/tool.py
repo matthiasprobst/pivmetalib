@@ -1,46 +1,16 @@
-from typing import Union, List, Optional
+from typing import Optional
 
-from ontolutils import Thing
 from ontolutils import namespaces, urirefs
 from pydantic import field_validator, Field
 
-from .variable import NumericalVariable
-from .. import sd, m4i
-from ..m4i.variable import NumericalVariable as M4iNumericalVariable
-from ..m4i.variable import TextVariable
-from ..prov import Organization
+from .. import sd
+from ..m4i import Tool
 from ..schema import SoftwareSourceCode
-
-
-@namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#",
-            m4i="http://w3id.org/nfdi4ing/metadata4ing#",
-            obo="http://purl.obolibrary.org/obo/")
-@urirefs(PIVMetaTool='pivmeta:PIVMetaTool',
-         hasParameter='m4i:hasParameter',
-         manufacturer='pivmeta:manufacturer',
-         BFO_0000051='obo:BFO_0000051')
-class PIVMetaTool(m4i.Tool):
-    hasParameter: Union[
-        TextVariable,
-        NumericalVariable,
-        M4iNumericalVariable,
-        List[Union[TextVariable, NumericalVariable, M4iNumericalVariable]]
-    ] = Field(default=None, alias="parameter")
-    manufacturer: Organization = None
-    BFO_0000051: Optional[Union[Thing, List[Thing]]] = Field(alias="has_part", default=None)
-
-    @property
-    def hasPart(self):
-        return self.BFO_0000051
-
-    @hasPart.setter
-    def hasPart(self, value):
-        self.BFO_0000051 = value
 
 
 @namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
 @urirefs(OpticalComponent='pivmeta:OpticalComponent')
-class OpticalComponent(PIVMetaTool):
+class OpticalComponent(Tool):
     """Implementation of pivmeta:OpticalComponent"""
 
 
@@ -76,7 +46,7 @@ class Laser(LightSource):
 
 @namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
 @urirefs(PIVSoftware='pivmeta:PIVSoftware')
-class PIVSoftware(PIVMetaTool, sd.Software):
+class PIVSoftware(Tool, sd.Software):
     """Pydantic implementation of pivmeta:PIVSoftware
 
     PIVSoftware is a m4i:Tool. As m4i:Tool does not define properties,
@@ -111,9 +81,9 @@ class DigitalCamera(Camera):
 
 @namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#",
             codemeta="https://codemeta.github.io/terms/")
-@urirefs(DigitalCameraModel="pivmeta:DigitalCameraModel",
+@urirefs(VirtualCamera="pivmeta:VirtualCamera",
          hasSourceCode="codemeta:hasSourceCode")
-class DigitalCameraModel(DigitalCamera):
+class VirtualCamera(DigitalCamera):
     """Pydantic implementation of pivmeta:DigitalCameraModel"""
     hasSourceCode: Optional[SoftwareSourceCode] = Field(alias="source_code", default=None)
 
@@ -129,7 +99,7 @@ class VirtualLaser(LightSource):
 
 @namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
 @urirefs(PIVParticle="pivmeta:PIVParticle")
-class PIVParticle(PIVMetaTool):
+class PIVParticle(Tool):
     """Pydantic implementation of pivmeta:Particle"""
 
 
@@ -140,12 +110,12 @@ setattr(PIVParticle, 'DEHS', 'https://www.wikidata.org/wiki/Q4387284')
             codemeta="https://codemeta.github.io/terms/")
 @urirefs(SyntheticPIVParticle="pivmeta:SyntheticPIVParticle",
          hasSourceCode="codemeta:hasSourceCode")
-class SyntheticPIVParticle(PIVMetaTool):
+class SyntheticPIVParticle(Tool):
     """Pydantic implementation of pivmeta:SyntheticParticle"""
     hasSourceCode: Optional[SoftwareSourceCode] = Field(alias="source_code", default=None)
 
 
 @namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
-@urirefs(NdYAGLaser="pivmeta:Laser")
+@urirefs(NdYAGLaser="pivmeta:NdYAGLaser")
 class NdYAGLaser(Laser):
     """Implementation of pivmeta:NdYAGLaser"""

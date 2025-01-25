@@ -50,6 +50,7 @@ def generate_namespace_file():
         for k, v in iris.items():
             for kk in v["keys"]:
                 key = kk.replace(' ', '_')
+                print(kk)
                 f.write(f'\nsetattr({namespace.upper()}, "{key}", {namespace.upper()}.{k.replace("-", "_")})')
 
 

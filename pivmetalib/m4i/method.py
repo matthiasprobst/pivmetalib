@@ -1,7 +1,9 @@
 from typing import List, Union
 
 from ontolutils import Thing, namespaces, urirefs
-from .variable import Variable, NumericalVariable
+from ssnolib.m4i import NumericalVariable
+
+from .variable import Variable
 
 
 @namespaces(m4i="http://w3id.org/nfdi4ing/metadata4ing#",
@@ -22,7 +24,7 @@ class Method(Thing):
     tbd
     """
     description: str = None
-    parameter: Union[Variable, List[Variable]] = None
+    parameter: Union[Variable, List[Variable], NumericalVariable, List[NumericalVariable]] = None
 
     def add_numerical_variable(self, numerical_variable: Union[dict, NumericalVariable]):
         """add numerical variable to tool"""

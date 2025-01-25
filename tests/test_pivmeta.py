@@ -1,3 +1,4 @@
+import ast
 import json
 import pathlib
 import time
@@ -6,6 +7,7 @@ from datetime import datetime
 
 import ontolutils
 import requests
+import ssnolib
 from ontolutils.classes.decorator import URIRefManager
 from ssnolib import StandardName
 
@@ -27,6 +29,19 @@ except (requests.ConnectionError,
 
 
 class TestPIVmeta(utils.ClassTest):
+
+    def test_python_class_names(self):
+        namespace_names = [str(n).split('#', 1)[-1] for n in list(PIVMETA.__dict__.values())]
+        pivmeta_package_folder = __this_dir__ / "../pivmetalib/pivmeta"
+        ignore = ["NdYAGLaser", ]
+        for filename in pivmeta_package_folder.glob("*.py"):
+            if filename != "__init__.py":
+                with open(filename, "r", encoding="utf-8") as f:
+                    node = ast.parse(f.read(), filename=filename)
+                classes = [n.name for n in ast.walk(node) if isinstance(n, ast.ClassDef)]
+                for cls in classes:
+                    if cls not in ignore:
+                        self.assertTrue(cls in namespace_names, f"Class {cls} in {filename} not in namespace")
 
     def test_PIVSoftware(self):
         pivtec = pivmeta.PIVSoftware(
@@ -113,6 +128,7 @@ class TestPIVmeta(utils.ClassTest):
             "owl": "http://www.w3.org/2002/07/owl#",
             "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
             "m4i": "http://w3id.org/nfdi4ing/metadata4ing#",
+            'pivmeta': 'https://matthiasprobst.github.io/pivmeta#',
             "schema": "https://schema.org/",
             "obo": "http://purl.obolibrary.org/obo/"
         },
@@ -159,7 +175,7 @@ class TestPIVmeta(utils.ClassTest):
                 "obo": "http://purl.obolibrary.org/obo/",
                 "pivmeta": "https://matthiasprobst.github.io/pivmeta#",
             },
-            "@type": "pivmeta:PIVProcessingStep",
+            "@type": "pivmeta:PIVAnalysis",
             "rdfs:label": "Post processing",
             "m4i:realizesMethod": {
                 "@type": "m4i:Method",
@@ -200,10 +216,10 @@ class TestPIVmeta(utils.ClassTest):
         sn2 = StandardName(standard_name='y_velocity',
                            description='y component of velocity',
                            unit='m s-1')
-        var1 = pivmeta.NumericalVariable(value=4.2, standard_name=sn1)
-        var2 = pivmeta.NumericalVariable(value=5.2, standard_name=sn2)
+        var1 = ssnolib.m4i.NumericalVariable(value=4.2, standard_name=sn1)
+        var2 = ssnolib.m4i.NumericalVariable(value=5.2, standard_name=sn2)
         self.assertIsInstance(var1, ontolutils.Thing)
-        self.assertIsInstance(var1, pivmeta.NumericalVariable)
+        self.assertIsInstance(var1, ssnolib.m4i.NumericalVariable)
         self.assertEqual(var1.value, 4.2)
 
         var1.standard_name = sn1

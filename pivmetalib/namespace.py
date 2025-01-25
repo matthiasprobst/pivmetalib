@@ -52,9 +52,10 @@ class PIVMETA(DefinedNamespace):
     VirtualLaser: URIRef  # ['virtual laser']
     VirtualPIVSetup: URIRef  # ['virtual PIV experiment']
     VirtualTool: URIRef  # ['virtual tool']
-    windowWeightingFunction: URIRef  # ['window weighting function']
+    WindowWeightingFunction: URIRef  # ['window weighting function']
     flag: URIRef  # ['flag']
     flagIn: URIRef  # ['flag in']
+    hasWindowWeightingFunction: URIRef  # ['has window weighting function']
     pivImageType: URIRef  # ['piv image type']
     filenamePattern: URIRef  # ['filename pattern']
     fnumber: URIRef  # ['fnumber']
@@ -137,9 +138,10 @@ setattr(PIVMETA, "virtual_camera", PIVMETA.VirtualCamera)
 setattr(PIVMETA, "virtual_laser", PIVMETA.VirtualLaser)
 setattr(PIVMETA, "virtual_PIV_experiment", PIVMETA.VirtualPIVSetup)
 setattr(PIVMETA, "virtual_tool", PIVMETA.VirtualTool)
-setattr(PIVMETA, "window_weighting_function", PIVMETA.windowWeightingFunction)
+setattr(PIVMETA, "window_weighting_function", PIVMETA.WindowWeightingFunction)
 setattr(PIVMETA, "flag", PIVMETA.flag)
 setattr(PIVMETA, "flag_in", PIVMETA.flagIn)
+setattr(PIVMETA, "has_window_weighting_function", PIVMETA.hasWindowWeightingFunction)
 setattr(PIVMETA, "piv_image_type", PIVMETA.pivImageType)
 setattr(PIVMETA, "filename_pattern", PIVMETA.filenamePattern)
 setattr(PIVMETA, "fnumber", PIVMETA.fnumber)

@@ -1,12 +1,20 @@
+from typing import Optional
 from typing import Union, List
-from pydantic import Field
+
 from ontolutils import Thing, namespaces, urirefs
+from pydantic import Field
+
 from .variable import NumericalVariable, TextVariable
+from ..prov import Organization
 
 
-@namespaces(m4i="http://w3id.org/nfdi4ing/metadata4ing#")
+@namespaces(m4i="http://w3id.org/nfdi4ing/metadata4ing#",
+            pivmeta="https://matthiasprobst.github.io/pivmeta#",
+            obo="http://purl.obolibrary.org/obo/")
 @urirefs(Tool='m4i:Tool',
-         hasParameter='m4i:hasParameter')
+         manufacturer='pivmeta:manufacturer',
+         hasParameter='m4i:hasParameter',
+         BFO_0000051='obo:BFO_0000051')
 class Tool(Thing):
     """Pydantic Model for m4i:ProcessingStep
 
@@ -22,6 +30,16 @@ class Tool(Thing):
     """
     hasParameter: Union[TextVariable, NumericalVariable,
     List[Union[TextVariable, NumericalVariable]]] = Field(default=None, alias="parameter")
+    manufacturer: Organization = Field(default=None)
+    BFO_0000051: Optional[Union[Thing, List[Thing]]] = Field(alias="has_part", default=None)
+
+    @property
+    def hasPart(self):
+        return self.BFO_0000051
+
+    @hasPart.setter
+    def hasPart(self, value):
+        self.BFO_0000051 = value
 
     def add_numerical_variable(self, numerical_variable: Union[dict, NumericalVariable]):
         """add numerical variable to tool"""

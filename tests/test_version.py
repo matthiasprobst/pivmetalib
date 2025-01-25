@@ -34,7 +34,7 @@ class TestVersion(unittest.TestCase):
         with open(__this_dir__ / '../README.md', 'r') as f:
             readme = f.read()
 
-        assert "pivmeta-1.0.0-orange" in readme
+        assert "pivmeta-1.1.1-orange" in readme
 
     def test_ssno_url_exists(self):
         """checking if the ssno url exists"""
