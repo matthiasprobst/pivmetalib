@@ -13,7 +13,7 @@ __this_dir__ = pathlib.Path(__file__).parent
 CACHE_DIR = pivmetalib.utils.get_cache_dir()
 
 
-class TestPIVProcess(unittest.TestCase):
+class TestClasses(unittest.TestCase):
 
     def check_jsonld_string(self, jsonld_string):
         g = rdflib.Graph()

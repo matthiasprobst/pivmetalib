@@ -56,6 +56,7 @@ class PIVMETA(DefinedNamespace):
     flag: URIRef  # ['flag']
     flagIn: URIRef  # ['flag in']
     hasWindowWeightingFunction: URIRef  # ['has window weighting function']
+    manufacturer: URIRef  # ['manufacturer']
     pivImageType: URIRef  # ['piv image type']
     filenamePattern: URIRef  # ['filename pattern']
     fnumber: URIRef  # ['fnumber']
@@ -142,6 +143,7 @@ setattr(PIVMETA, "window_weighting_function", PIVMETA.WindowWeightingFunction)
 setattr(PIVMETA, "flag", PIVMETA.flag)
 setattr(PIVMETA, "flag_in", PIVMETA.flagIn)
 setattr(PIVMETA, "has_window_weighting_function", PIVMETA.hasWindowWeightingFunction)
+setattr(PIVMETA, "manufacturer", PIVMETA.manufacturer)
 setattr(PIVMETA, "piv_image_type", PIVMETA.pivImageType)
 setattr(PIVMETA, "filename_pattern", PIVMETA.filenamePattern)
 setattr(PIVMETA, "fnumber", PIVMETA.fnumber)

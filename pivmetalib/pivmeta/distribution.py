@@ -4,21 +4,7 @@ from ontolutils import namespaces, urirefs
 from pydantic import HttpUrl, PositiveInt, field_validator, Field
 
 from pivmetalib import PIVMETA
-from ..dcat import Distribution
-
-
-class PIVDistribution(Distribution):
-    """Implementation of pivmeta:PIVDistribution
-
-    Describes PIV data (images or result data). See also subclasses PIVImageDistribution and PIVResultDistribution.
-    """
-
-
-class PIVResultDistribution(Distribution):
-    """Implementation of pivmeta:PIVResultDistribution
-
-    Describes PIV result data (e.g. csv or hdf files) which are experimental or synthetic data.
-    """
+from pivmetalib.dcat import Distribution
 
 
 def make_href(url, text=None):

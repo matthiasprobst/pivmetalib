@@ -1,5 +1,6 @@
 from ontolutils import urirefs, namespaces
-from .. import m4i
+
+from pivmetalib import m4i
 
 
 @namespaces(pivmeta='https://matthiasprobst.github.io/pivmeta#')

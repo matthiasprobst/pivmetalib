@@ -1,6 +1,8 @@
 import ast
+import importlib
 import json
 import pathlib
+import sys
 import time
 import warnings
 from datetime import datetime
@@ -8,6 +10,7 @@ from datetime import datetime
 import ontolutils
 import requests
 import ssnolib
+from ontolutils import get_urirefs
 from ontolutils.classes.decorator import URIRefManager
 from ssnolib import StandardName
 
@@ -30,18 +33,25 @@ except (requests.ConnectionError,
 
 class TestPIVmeta(utils.ClassTest):
 
-    def test_python_class_names(self):
+    def test_python_classes(self):
         namespace_names = [str(n).split('#', 1)[-1] for n in list(PIVMETA.__dict__.values())]
-        pivmeta_package_folder = __this_dir__ / "../pivmetalib/pivmeta"
+        pivmeta_module_folder = __this_dir__ / "../pivmetalib/pivmeta"
+
+        sys.path.insert(0, str(pivmeta_module_folder.resolve().parent))
+        module = importlib.import_module("pivmeta")
         ignore = ["NdYAGLaser", ]
-        for filename in pivmeta_package_folder.glob("*.py"):
-            if filename != "__init__.py":
+        for filename in pivmeta_module_folder.glob("*.py"):
+            if filename.name != "__init__.py":
                 with open(filename, "r", encoding="utf-8") as f:
                     node = ast.parse(f.read(), filename=filename)
                 classes = [n.name for n in ast.walk(node) if isinstance(n, ast.ClassDef)]
-                for cls in classes:
-                    if cls not in ignore:
-                        self.assertTrue(cls in namespace_names, f"Class {cls} in {filename} not in namespace")
+                for cls_name in classes:
+                    if cls_name not in ignore:
+                        cls = getattr(module, cls_name)
+                        for iri in get_urirefs(cls).values():
+                            if "pivmeta:" in iri:
+                                self.assertIn(iri.split(":", 1)[-1], namespace_names)
+                        self.assertTrue(cls_name in namespace_names, f"Class {cls_name} in {filename} not in namespace")
 
     def test_PIVSoftware(self):
         pivtec = pivmeta.PIVSoftware(
