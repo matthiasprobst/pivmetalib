@@ -7,6 +7,7 @@ from . import utils
 from ._version import __version__
 from .namespace import PIVMETA
 
+
 DEFAULT_LOGGING_LEVEL = logging.WARNING
 _formatter = logging.Formatter(
     '%(asctime)s,%(msecs)d %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s',
@@ -53,4 +54,5 @@ __all__ = (
     '__version__',
     'CONTEXT',
     'CACHE_DIR',
+    'PIVMETA'
 )

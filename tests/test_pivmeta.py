@@ -6,17 +6,20 @@ import sys
 import time
 import warnings
 from datetime import datetime
+from typing import Union, List
 
 import ontolutils
 import requests
 import ssnolib
 from ontolutils import get_urirefs
 from ontolutils.classes.decorator import URIRefManager
+from rdflib import DCAT
 from ssnolib import StandardName
 
 import pivmetalib
 import utils
 from pivmetalib import pivmeta, prov, m4i
+from pivmetalib.dcat import Dataset
 from pivmetalib.namespace import PIVMETA
 
 __this_dir__ = pathlib.Path(__file__).parent
@@ -50,7 +53,8 @@ class TestPIVmeta(utils.ClassTest):
                         cls = getattr(module, cls_name)
                         for iri in get_urirefs(cls).values():
                             if "pivmeta:" in iri:
-                                self.assertIn(iri.split(":", 1)[-1], namespace_names)
+                                self.assertIn(iri.split(":", 1)[-1], namespace_names,
+                                              f'missing class: {iri.split(":", 1)[-1]}')
                         self.assertTrue(cls_name in namespace_names, f"Class {cls_name} in {filename} not in namespace")
 
     def test_PIVSoftware(self):
@@ -185,7 +189,7 @@ class TestPIVmeta(utils.ClassTest):
                 "obo": "http://purl.obolibrary.org/obo/",
                 "pivmeta": "https://matthiasprobst.github.io/pivmeta#",
             },
-            "@type": "pivmeta:PIVAnalysis",
+            "@type": "pivmeta:PIVProcessingStep",
             "rdfs:label": "Post processing",
             "m4i:realizesMethod": {
                 "@type": "m4i:Method",
@@ -243,19 +247,37 @@ class TestPIVmeta(utils.ClassTest):
     def test_make_href(self):
         from pivmetalib.pivmeta.distribution import make_href
         self.assertEqual(
-            make_href('https://matthiasprobst.github.io/pivmeta#PIVImageDistribution', 'pivImageDistribution'),
-            '<a href="https://matthiasprobst.github.io/pivmeta#PIVImageDistribution">pivImageDistribution</a>'
+            make_href('https://matthiasprobst.github.io/pivmeta#PIVDistribution', 'pivImageDistribution'),
+            '<a href="https://matthiasprobst.github.io/pivmeta#PIVDistribution">pivImageDistribution</a>'
         )
         self.assertEqual(
-            make_href('https://matthiasprobst.github.io/pivmeta#PIVImageDistribution'),
-            '<a href="https://matthiasprobst.github.io/pivmeta#PIVImageDistribution">'
-            'https://matthiasprobst.github.io/pivmeta#PIVImageDistribution</a>'
+            make_href('https://matthiasprobst.github.io/pivmeta#PIVDistribution'),
+            '<a href="https://matthiasprobst.github.io/pivmeta#PIVDistribution">'
+            'https://matthiasprobst.github.io/pivmeta#PIVDistribution</a>'
         )
+
+    def test_describe_piv_image(self):
+        camera = pivmeta.VirtualCamera()
+        laser = pivmeta.VirtualLaser()
+        setup = pivmeta.PIVSetup(
+            has_part=[camera, laser]
+        )
+        img_dist = pivmeta.PIVDistribution(
+            image_bit_depth=16
+        )
+        ds = pivmetalib.pivmeta.PIVDataset(
+            label="My PIV Dataset",
+            has_part=[setup],
+            distribution=img_dist
+        )
+        print(ds.serialize(format="ttl"))
 
     if connected:
         def test_PIVDistribution(self):
             piv_dist = pivmeta.PIVDistribution(label='piv_distribution',
+                                               hasDataType=PIVMETA.ExperimentalImage,
                                                filenamePattern=r'img\d{4}_[a,b].tif')
+            self.assertIsInstance(piv_dist.hasDataType, str)
             self.assertEqual(URIRefManager[pivmeta.PIVDistribution]['filenamePattern'], 'pivmeta:filenamePattern')
 
             self.assertIsInstance(piv_dist, ontolutils.Thing)
@@ -281,9 +303,12 @@ class TestPIVmeta(utils.ClassTest):
         def test_PIVImageDistribution_from_file(self):
             image_filename = __this_dir__ / 'testdata/piv_challenge.jsonld'
             assert image_filename.exists()
-            image_dists = ontolutils.query(pivmeta.PIVImageDistribution, source=image_filename)
+            image_dists = ontolutils.query(
+                pivmeta.PIVDistribution,
+                source=image_filename
+            )
             self.assertIsInstance(image_dists[0], ontolutils.Thing)
-            self.assertIsInstance(image_dists[0], pivmeta.PIVImageDistribution)
+            self.assertIsInstance(image_dists[0], pivmeta.PIVDistribution)
             has_correct_title = False
             for image_dist in image_dists:
                 if image_dist.id == "http://example.org/d5b2d0c9-ba74-43eb-b68f-624e1183cb2d":
@@ -292,28 +317,26 @@ class TestPIVmeta(utils.ClassTest):
                     has_correct_title = True
             self.assertTrue(has_correct_title)
 
-        def test_PIVImageDistribution(self):
-            piv_img_dist = pivmeta.PIVImageDistribution(
+        def test_PIVDistribution(self):
+            from pivmetalib.m4i import Variable
+            piv_img_dist = pivmeta.PIVDistribution(
                 label='piv_image_distribution',
-                pivImageType=PIVMETA.ExperimentalImage,
-                imageBitDepth=8,
-                numberOfRecords=100
+                hasDataType=PIVMETA.ExperimentalImage,
+                hasMetric=Variable(label="image_bit_depth", value=8),
             )
-            self.assertFalse(piv_img_dist.is_synthetic())
             self.assertIsInstance(piv_img_dist, ontolutils.Thing)
-            self.assertIsInstance(piv_img_dist, pivmeta.PIVImageDistribution)
+            self.assertIsInstance(piv_img_dist, pivmeta.PIVDistribution)
             self.assertEqual(piv_img_dist.label, 'piv_image_distribution')
-            self.assertEqual(str(piv_img_dist.piv_image_type),
+            self.assertEqual(str(piv_img_dist.hasDataType),
                              str(PIVMETA.ExperimentalImage))
-            self.assertEqual(piv_img_dist.image_bit_depth, 8)
-            self.assertEqual(piv_img_dist.number_of_records, 100)
+            self.assertEqual(piv_img_dist.hasMetric.value, 8)
             jsonld_string = piv_img_dist.model_dump_jsonld(
                 context={
                     "@import": 'https://raw.githubusercontent.com/matthiasprobst/pivmeta/main/pivmeta_context.jsonld'
                 }
             )
             found_dist = ontolutils.query(
-                pivmeta.PIVImageDistribution,
+                pivmeta.PIVDistribution,
                 data=jsonld_string,
                 context={
                     "@import": 'https://raw.githubusercontent.com/matthiasprobst/pivmeta/main/pivmeta_context.jsonld'
@@ -321,10 +344,9 @@ class TestPIVmeta(utils.ClassTest):
             )
             self.assertEqual(len(found_dist), 1)
             self.assertEqual(found_dist[0].label, 'piv_image_distribution')
-            self.assertEqual(str(found_dist[0].piv_image_type),
+            self.assertEqual(str(found_dist[0].hasDataType),
                              str(PIVMETA.ExperimentalImage))
-            self.assertEqual(found_dist[0].image_bit_depth, 8)
-            self.assertEqual(found_dist[0].number_of_records, 100)
+            self.assertEqual(found_dist[0].hasMetric.value, '8')
 
     def test_Tool(self):
         tool = m4i.Tool(label='tool1')
@@ -359,3 +381,26 @@ class TestPIVmeta(utils.ClassTest):
         )
         self.assertEqual(setup.has_part[0], camera)
         self.assertEqual(setup.has_part[1], laser)
+
+    def test_PIVCatalog(self):
+        Catalog = ontolutils.build(
+            namespace=DCAT._NS,
+            namespace_prefix="dcat",
+            class_name='Catalog',
+            properties=[
+                dict(name="dataset", property_type=Union[Dataset, List[Dataset]])
+            ]
+        )
+        ds = Dataset(label='dataset1', distribution=[])
+
+        piv_catalog = Catalog(dataset=ds)
+        serialized = piv_catalog.serialize("ttl")
+        expected_serialized = """@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+[] a dcat:Catalog ;
+    dcat:dataset [ a dcat:Dataset ;
+            rdfs:label "dataset1" ] .
+
+"""
+        self.assertEqual(serialized, expected_serialized)

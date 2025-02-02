@@ -4,42 +4,42 @@ from pivmetalib import m4i
 
 
 @namespaces(pivmeta='https://matthiasprobst.github.io/pivmeta#')
-@urirefs(PIVAnalysis='pivmeta:PIVAnalysis')
-class PIVAnalysis(m4i.ProcessingStep):
-    """Pydantic Model for pivmeta:PIVAnalysis"""
+@urirefs(PIVProcessingStep='pivmeta:PIVProcessingStep')
+class PIVProcessingStep(m4i.ProcessingStep):
+    """Pydantic Model for pivmeta:PIVProcessingStep"""
 
 
 @namespaces(pivmeta='https://matthiasprobst.github.io/pivmeta#')
-@urirefs(PIVPostProcessing='pivmeta:PIVAnalysis')
-class PIVPostProcessing(PIVAnalysis):
+@urirefs(PIVPostProcessing='pivmeta:PIVProcessingStep')
+class PIVPostProcessing(PIVProcessingStep):
     """Pydantic Model for pivmeta:PIVPostProcessing"""
 
 
 @namespaces(pivmeta='https://matthiasprobst.github.io/pivmeta#')
 @urirefs(PIVPreProcessing='pivmeta:PIVPostProcessing')
-class PIVPreProcessing(PIVAnalysis):
+class PIVPreProcessing(PIVProcessingStep):
     """Pydantic Model for pivmeta:PIVPreProcessing"""
 
 
 @namespaces(pivmeta='https://matthiasprobst.github.io/pivmeta#')
 @urirefs(PIVEvaluation='pivmeta:PIVEvaluation')
-class PIVEvaluation(PIVAnalysis):
+class PIVEvaluation(PIVProcessingStep):
     """Pydantic Model for pivmeta:PIVEvaluation"""
 
 
 @namespaces(pivmeta='https://matthiasprobst.github.io/pivmeta#')
-@urirefs(MaskGeneration='pivmeta:MaskGeneration')
-class MaskGeneration(PIVAnalysis):
+@urirefs(PIVMaskGeneration='pivmeta:PIVMaskGeneration')
+class PIVMaskGeneration(PIVProcessingStep):
     """Pydantic Model for pivmeta:MaskGeneration"""
 
 
-@namespaces(pivmeta='https://matthiasprobst.github.io/pivmeta#')
-@urirefs(ImageRotation='pivmeta:ImageRotation')
-class ImageRotation(PIVAnalysis):
-    """Pydantic Model for pivmeta:ImageRotation"""
+# @namespaces(pivmeta='https://matthiasprobst.github.io/pivmeta#')
+# @urirefs(ImageRotation='pivmeta:ImageRotation')
+# class ImageRotation(PIVProcessingStep):
+#     """Pydantic Model for pivmeta:ImageRotation"""
 
 
 @namespaces(pivmeta='https://matthiasprobst.github.io/pivmeta#')
-@urirefs(BackgroundImageGeneration='pivmeta:BackgroundImageGeneration')
-class BackgroundImageGeneration(PIVAnalysis):
+@urirefs(PIVBackgroundGeneration='pivmeta:PIVBackgroundGeneration')
+class PIVBackgroundGeneration(PIVProcessingStep):
     """Pydantic Model for pivmeta:BackgroundImageGeneration"""

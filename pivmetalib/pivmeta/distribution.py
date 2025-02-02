@@ -1,10 +1,11 @@
-from typing import Union, Any
+from typing import Union, List
 
-from ontolutils import namespaces, urirefs
-from pydantic import HttpUrl, PositiveInt, field_validator, Field
+from ontolutils import namespaces, urirefs, Thing
+from pydantic import PositiveInt, field_validator, Field, HttpUrl
 
 from pivmetalib import PIVMETA
-from pivmetalib.dcat import Distribution
+from pivmetalib.dcat import Distribution, Dataset
+from pivmetalib.m4i import Variable
 
 
 def make_href(url, text=None):
@@ -15,71 +16,54 @@ def make_href(url, text=None):
 
 
 @namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
+@urirefs(DataType='pivmeta:DataType')
+class DataType(Thing):
+    """Implementation of pivmeta:DataType"""
+    pass
+
+
+@namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
 @urirefs(PIVDistribution='pivmeta:PIVDistribution',
+         hasDataType='pivmeta:hasDataType',
+         hasMetric='pivmeta:hasMetric',
          filenamePattern='pivmeta:filenamePattern')
 class PIVDistribution(Distribution):
     """Implementation of pivmeta:PIVDistribution
 
-    Describes PIV data (images or result data). See also subclasses PIVImageDistribution and PIVResultDistribution.
+    Describes PIV data (images or result data)
     """
+    hasDataType: Union[HttpUrl, str] = Field(default=None, alias='piv_distribution_type')
     filenamePattern: str = Field(default=None, alias='filename_pattern')  # e.g. "image_{:04d}.tif"
+    hasMetric: Union[Variable, List[Variable]] = Field(default=None, alias='has_metric')
 
     @field_validator('filenamePattern', mode='before')
     @classmethod
     def _filenamePattern(cls, filenamePattern):
         return filenamePattern.replace('\\\\', '\\')
 
-
-@namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
-@urirefs(PIVImageDistribution='pivmeta:PIVImageDistribution',
-         pivImageType='pivmeta:pivImageType',
-         imageBitDepth='pivmeta:imageBitDepth',
-         numberOfRecords='pivmeta:numberOfRecords')
-class PIVImageDistribution(PIVDistribution):
-    """Implementation of pivmeta:PIVImageDistribution
-
-    Describes PIV images (e.g. tiff files) which are experimental or synthetic data.
-    """
-    pivImageType: Union[HttpUrl, str] = Field(default=None, alias="piv_image_type")
-    imageBitDepth: PositiveInt = Field(default=None, alias="image_bit_depth")
-    numberOfRecords: PositiveInt = Field(default=None, alias="number_of_records")
-
-    # def _repr_html_(self):
-    #     """Returns the HTML representation of the class"""
-    #     if str(self.pivImageType) == "https://matthiasprobst.github.io/pivmeta#ExperimentalImage":
-    #         pit = make_href("https://matthiasprobst.github.io/pivmeta#ExperimentalImage", "experimental")
-    #         return f"{self.__class__.__name__}('{pit}', {make_href(selfdownload_URL)})"
-    #     elif str(self.pivImageType) == "https://matthiasprobst.github.io/pivmeta#SyntheticImage":
-    #         pit = make_href("https://matthiasprobst.github.io/pivmeta#SyntheticImage", "synthetic")
-    #         return f"{self.__class__.__name__}('{pit}', {make_href(selfdownload_URL)})"
-    #     return f"{self.__class__.__name__}({make_href(selfdownload_URL)})"
-
-    @field_validator('pivImageType', mode='before')
+    @field_validator('hasDataType', mode='before')
     @classmethod
-    def _pivImageType(cls, piv_image_type):
-        return str(HttpUrl(piv_image_type))
-
-    def is_synthetic(self) -> bool:
-        """Returns True if the PIV image is synthetic, False otherwise."""
-        return self.piv_image_type == PIVMETA.SyntheticImage
+    def _isPIVDistributionType(cls, dist_type):
+        return str(HttpUrl(dist_type))
 
 
-@namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
-@urirefs(PIVMaskDistribution='pivmeta:PIVMaskDistribution')
-class PIVMaskDistribution(PIVDistribution):
-    """Implementation of pivmeta:PIVMaskDistribution"""
+
+# @namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
+# @urirefs(PIVMaskDistribution='pivmeta:PIVMaskDistribution')
+# class PIVMaskDistribution(PIVDistribution):
+#     """Implementation of pivmeta:PIVMaskDistribution"""
 
 
-@namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
-@urirefs(PIVResultDistribution='pivmeta:PIVResultDistribution')
-class PIVResultDistribution(PIVDistribution):
-    """Implementation of pivmeta:PIVResultDistribution"""
+# @namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
+# @urirefs(PIVResultDistribution='pivmeta:PIVResultDistribution')
+# class PIVResultDistribution(PIVDistribution):
+#     """Implementation of pivmeta:PIVResultDistribution"""
 
 
 @namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#",
             dcat="http://www.w3.org/ns/dcat#")
 @urirefs(PIVDataset='pivmeta:PIVDataset',
          distribution='dcat:distribution')
-class PIVDataset(PIVDistribution):
+class PIVDataset(Dataset):
     """Implementation of pivmeta:PIVDataset"""""
-    distribution: Any = Field(alias="distribution", default=None)  # TODO: fix!
+    distribution: Union[Distribution, List[Distribution]] = Field(alias="distribution", default=None)
