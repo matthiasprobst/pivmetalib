@@ -1,6 +1,6 @@
-from .distribution import (VelocimetryDistribution,
+from .distribution import (ImageVelocimetryDistribution,
                            PIVDataType,
-                           VelocimetryDataset)
+                           ImageVelocimetryDataset)
 from .method import (ImageManipulationMethod,
                      InterrogationMethod,
                      CorrelationMethod,
@@ -34,7 +34,7 @@ from .tool import (PIVSoftware,
                    OpticSensor,
                    OpticalComponent)
 
-__all__ = ('VelocimetryDistribution',
+__all__ = ('ImageVelocimetryDistribution',
            'PIVSoftware',
            'ImageManipulationMethod',
            'InterrogationMethod',

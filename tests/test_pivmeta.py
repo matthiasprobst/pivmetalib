@@ -247,13 +247,13 @@ class TestPIVmeta(utils.ClassTest):
     def test_make_href(self):
         from pivmetalib.pivmeta.distribution import make_href
         self.assertEqual(
-            make_href('https://matthiasprobst.github.io/pivmeta#VelocimetryDistribution', 'pivImageDistribution'),
-            '<a href="https://matthiasprobst.github.io/pivmeta#VelocimetryDistribution">pivImageDistribution</a>'
+            make_href('https://matthiasprobst.github.io/pivmeta#ImageVelocimetryDistribution', 'pivImageDistribution'),
+            '<a href="https://matthiasprobst.github.io/pivmeta#ImageVelocimetryDistribution">pivImageDistribution</a>'
         )
         self.assertEqual(
-            make_href('https://matthiasprobst.github.io/pivmeta#VelocimetryDistribution'),
-            '<a href="https://matthiasprobst.github.io/pivmeta#VelocimetryDistribution">'
-            'https://matthiasprobst.github.io/pivmeta#VelocimetryDistribution</a>'
+            make_href('https://matthiasprobst.github.io/pivmeta#ImageVelocimetryDistribution'),
+            '<a href="https://matthiasprobst.github.io/pivmeta#ImageVelocimetryDistribution">'
+            'https://matthiasprobst.github.io/pivmeta#ImageVelocimetryDistribution</a>'
         )
 
     def test_describe_piv_image(self):
@@ -262,10 +262,10 @@ class TestPIVmeta(utils.ClassTest):
         setup = pivmeta.Setup(
             has_part=[camera, laser]
         )
-        img_dist = pivmeta.VelocimetryDistribution(
+        img_dist = pivmeta.ImageVelocimetryDistribution(
             image_bit_depth=16
         )
-        ds = pivmetalib.pivmeta.VelocimetryDataset(
+        ds = pivmetalib.pivmeta.ImageVelocimetryDataset(
             label="My PIV Dataset",
             has_part=[setup],
             distribution=img_dist
@@ -274,14 +274,14 @@ class TestPIVmeta(utils.ClassTest):
 
     if connected:
         def test_VelocimetryDistribution(self):
-            piv_dist = pivmeta.VelocimetryDistribution(label='piv_distribution',
+            piv_dist = pivmeta.ImageVelocimetryDistribution(label='piv_distribution',
                                                hasPIVDataType=PIV.ExperimentalImage,
                                                filenamePattern=r'img\d{4}_[a,b].tif')
             self.assertIsInstance(piv_dist.hasPIVDataType, str)
-            self.assertEqual(URIRefManager[pivmeta.VelocimetryDistribution]['filenamePattern'], 'pivmeta:filenamePattern')
+            self.assertEqual(URIRefManager[pivmeta.ImageVelocimetryDistribution]['filenamePattern'], 'pivmeta:filenamePattern')
 
             self.assertIsInstance(piv_dist, ontolutils.Thing)
-            self.assertIsInstance(piv_dist, pivmeta.VelocimetryDistribution)
+            self.assertIsInstance(piv_dist, pivmeta.ImageVelocimetryDistribution)
             self.assertEqual(piv_dist.label, 'piv_distribution')
             self.assertEqual(piv_dist.filename_pattern, r'img\d{4}_[a,b].tif')
             jsonld_string = piv_dist.model_dump_jsonld(
@@ -290,7 +290,7 @@ class TestPIVmeta(utils.ClassTest):
                 }
             )
             found_dist = ontolutils.query(
-                pivmeta.VelocimetryDistribution,
+                pivmeta.ImageVelocimetryDistribution,
                 data=jsonld_string,
                 context={
                     "@import": 'https://raw.githubusercontent.com/matthiasprobst/pivmeta/main/pivmeta_context.jsonld'
@@ -304,11 +304,11 @@ class TestPIVmeta(utils.ClassTest):
             image_filename = __this_dir__ / 'testdata/piv_challenge.jsonld'
             assert image_filename.exists()
             image_dists = ontolutils.query(
-                pivmeta.VelocimetryDistribution,
+                pivmeta.ImageVelocimetryDistribution,
                 source=image_filename
             )
             self.assertIsInstance(image_dists[0], ontolutils.Thing)
-            self.assertIsInstance(image_dists[0], pivmeta.VelocimetryDistribution)
+            self.assertIsInstance(image_dists[0], pivmeta.ImageVelocimetryDistribution)
             has_correct_title = False
             for image_dist in image_dists:
                 if image_dist.id == "http://example.org/d5b2d0c9-ba74-43eb-b68f-624e1183cb2d":
@@ -317,15 +317,15 @@ class TestPIVmeta(utils.ClassTest):
                     has_correct_title = True
             self.assertTrue(has_correct_title)
 
-        def test_VelocimetryDistribution(self):
+        def test_ImageVelocimetryDistribution(self):
             from pivmetalib.m4i import Variable
-            piv_img_dist = pivmeta.VelocimetryDistribution(
+            piv_img_dist = pivmeta.ImageVelocimetryDistribution(
                 label='piv_image_distribution',
                 hasPIVDataType=PIV.ExperimentalImage,
                 hasMetric=Variable(label="image_bit_depth", value=8),
             )
             self.assertIsInstance(piv_img_dist, ontolutils.Thing)
-            self.assertIsInstance(piv_img_dist, pivmeta.VelocimetryDistribution)
+            self.assertIsInstance(piv_img_dist, pivmeta.ImageVelocimetryDistribution)
             self.assertEqual(piv_img_dist.label, 'piv_image_distribution')
             self.assertEqual(str(piv_img_dist.hasPIVDataType),
                              str(PIV.ExperimentalImage))
@@ -336,7 +336,7 @@ class TestPIVmeta(utils.ClassTest):
                 }
             )
             found_dist = ontolutils.query(
-                pivmeta.VelocimetryDistribution,
+                pivmeta.ImageVelocimetryDistribution,
                 data=jsonld_string,
                 context={
                     "@import": 'https://raw.githubusercontent.com/matthiasprobst/pivmeta/main/pivmeta_context.jsonld'

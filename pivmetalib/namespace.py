@@ -13,6 +13,9 @@ class PIV(DefinedNamespace):
     FlagStatistics: URIRef  # ['flag statistics']
     FlagVariable: URIRef  # ['flag variable']
     ImageManipulationMethod: URIRef  # ['image manipulation method']
+    ImageVelocimetryDataset: URIRef  # ['Image Velocimetry Dataset']
+    ImageVelocimetryDistribution: URIRef  # ['Image Velocimetry Distribution']
+    ImageVelocimetryMethod: URIRef  # ['image velocimetry method']
     InterrogationMethod: URIRef  # ['interrogation method']
     Laser: URIRef  # ['laser']
     Lens: URIRef  # ['lens']
@@ -45,9 +48,6 @@ class PIV(DefinedNamespace):
     Singlepass: URIRef  # ['singlepass']
     SyntheticPIVParticle: URIRef  # ['synthetic PIV particle']
     TemporalVariable: URIRef  # ['temporal variable']
-    VelocimetryDataset: URIRef  # ['Velocimetry Dataset']
-    VelocimetryDistribution: URIRef  # ['Velocimetry Distribution']
-    VelocimetryMethod: URIRef  # ['velocimetry method']
     VirtualCamera: URIRef  # ['virtual camera']
     VirtualLaser: URIRef  # ['virtual laser']
     VirtualSetup: URIRef  # ['virtual setup']
@@ -105,6 +105,9 @@ setattr(PIV, "experimental_setup", PIV.ExperimentalSetup)
 setattr(PIV, "flag_statistics", PIV.FlagStatistics)
 setattr(PIV, "flag_variable", PIV.FlagVariable)
 setattr(PIV, "image_manipulation_method", PIV.ImageManipulationMethod)
+setattr(PIV, "Image_Velocimetry_Dataset", PIV.ImageVelocimetryDataset)
+setattr(PIV, "Image_Velocimetry_Distribution", PIV.ImageVelocimetryDistribution)
+setattr(PIV, "image_velocimetry_method", PIV.ImageVelocimetryMethod)
 setattr(PIV, "interrogation_method", PIV.InterrogationMethod)
 setattr(PIV, "laser", PIV.Laser)
 setattr(PIV, "lens", PIV.Lens)
@@ -137,9 +140,6 @@ setattr(PIV, "Setup", PIV.Setup)
 setattr(PIV, "singlepass", PIV.Singlepass)
 setattr(PIV, "synthetic_PIV_particle", PIV.SyntheticPIVParticle)
 setattr(PIV, "temporal_variable", PIV.TemporalVariable)
-setattr(PIV, "Velocimetry_Dataset", PIV.VelocimetryDataset)
-setattr(PIV, "Velocimetry_Distribution", PIV.VelocimetryDistribution)
-setattr(PIV, "velocimetry_method", PIV.VelocimetryMethod)
 setattr(PIV, "virtual_camera", PIV.VirtualCamera)
 setattr(PIV, "virtual_laser", PIV.VirtualLaser)
 setattr(PIV, "virtual_setup", PIV.VirtualSetup)

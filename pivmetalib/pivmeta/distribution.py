@@ -23,12 +23,12 @@ class PIVDataType(Thing):
 
 
 @namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
-@urirefs(VelocimetryDistribution='pivmeta:VelocimetryDistribution',
+@urirefs(ImageVelocimetryDistribution='pivmeta:ImageVelocimetryDistribution',
          hasPIVDataType='pivmeta:hasPIVDataType',
          hasMetric='pivmeta:hasMetric',
          filenamePattern='pivmeta:filenamePattern')
-class VelocimetryDistribution(Distribution):
-    """Implementation of pivmeta:VelocimetryDistribution
+class ImageVelocimetryDistribution(Distribution):
+    """Implementation of pivmeta:ImageVelocimetryDistribution
 
     Describes PIV data (images or result data)
     """
@@ -50,20 +50,20 @@ class VelocimetryDistribution(Distribution):
 
 # @namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
 # @urirefs(PIVMaskDistribution='pivmeta:PIVMaskDistribution')
-# class PIVMaskDistribution(VelocimetryDistribution):
+# class PIVMaskDistribution(ImageVelocimetryDistribution):
 #     """Implementation of pivmeta:PIVMaskDistribution"""
 
 
 # @namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
 # @urirefs(PIVResultDistribution='pivmeta:PIVResultDistribution')
-# class PIVResultDistribution(VelocimetryDistribution):
+# class PIVResultDistribution(ImageVelocimetryDistribution):
 #     """Implementation of pivmeta:PIVResultDistribution"""
 
 
 @namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#",
             dcat="http://www.w3.org/ns/dcat#")
-@urirefs(VelocimetryDataset='pivmeta:VelocimetryDataset',
+@urirefs(ImageVelocimetryDataset='pivmeta:ImageVelocimetryDataset',
          distribution='dcat:distribution')
-class VelocimetryDataset(Dataset):
-    """Implementation of pivmeta:VelocimetryDataset"""""
+class ImageVelocimetryDataset(Dataset):
+    """Implementation of pivmeta:ImageVelocimetryDataset"""""
     distribution: Union[Distribution, List[Distribution]] = Field(alias="distribution", default=None)

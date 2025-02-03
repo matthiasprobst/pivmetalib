@@ -19,7 +19,7 @@
     },
     "dcat:distribution": [
         {
-            "@type": "pivmeta:VelocimetryDistribution",
+            "@type": "pivmeta:ImageVelocimetryDistribution",
             "dcterms:title": "Raw PIV image data",
             "dcat:downloadURL": "https://www.pivchallenge.org/pub/C/C.zip",
             "dcat:mediaType": "https://www.iana.org/assignments/media-types/image/tiff",

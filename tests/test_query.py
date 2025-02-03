@@ -46,7 +46,7 @@ class TestQuery(ClassTest):
                 landingPage="https://www.pivchallenge.org/pub/index.html#c",
                 description="Different velocity gradients with spatially varying image quality (provided by Okamoto) < synthetic > [256 x 128]",
                 distribution=[
-                    pivmeta.VelocimetryDistribution(
+                    pivmeta.ImageVelocimetryDistribution(
                         title='raw piv image data',
                         downloadURL='https://www.pivchallenge.org/pub/C/C.zip',
                         mediaType='application/zip',
@@ -55,7 +55,7 @@ class TestQuery(ClassTest):
                         filenamePattern="^C\d{3}_\d.tif$",  # the regex for the filename
                         hasMetric=Variable(label="image_bit_depth", value=8),
                     ),
-                    pivmeta.VelocimetryDistribution(
+                    pivmeta.ImageVelocimetryDistribution(
                         title='mask data',
                         downloadURL='https://www.pivchallenge.org/pub/C/C.zip',
                         mediaType='application/zip',
@@ -80,7 +80,7 @@ class TestQuery(ClassTest):
                 )
 
             dist = ontolutils.query(
-                pivmeta.VelocimetryDistribution,
+                pivmeta.ImageVelocimetryDistribution,
                 source='piv_challenge.jsonld',
             )
             self.assertEqual(len(dist), 2)
@@ -97,7 +97,7 @@ class TestQuery(ClassTest):
             landingPage="https://www.pivchallenge.org/pub/index.html#c",
             description="Different velocity gradients with spatially varying image quality (provided by Okamoto) < synthetic > [256 x 128]",
             distribution=[
-                pivmeta.VelocimetryDistribution(
+                pivmeta.ImageVelocimetryDistribution(
                     title='raw piv image data',
                     downloadURL='https://www.pivchallenge.org/pub/C/C.zip',
                     mediaType='application/zip',
@@ -106,7 +106,7 @@ class TestQuery(ClassTest):
                     filenamePattern=r"^C\d{3}_\d.tif$",  # the regex for the filename
                     imageBitDepth=8
                 ),
-                pivmeta.VelocimetryDistribution(
+                pivmeta.ImageVelocimetryDistribution(
                     title='mask data',
                     downloadURL='https://www.pivchallenge.org/pub/C/C.zip',
                     mediaType='application/zip',
