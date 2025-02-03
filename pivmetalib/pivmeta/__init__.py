@@ -1,6 +1,6 @@
-from .distribution import (PIVDistribution,
-                           DataType,
-                           PIVDataset)
+from .distribution import (VelocimetryDistribution,
+                           PIVDataType,
+                           VelocimetryDataset)
 from .method import (ImageManipulationMethod,
                      InterrogationMethod,
                      CorrelationMethod,
@@ -10,7 +10,7 @@ from .method import (ImageManipulationMethod,
                      Multigrid,
                      WindowWeightingFunction
                      )
-from .pivsetup import (PIVSetup, VirtualPIVSetup, ExperimentalPIVSetup)
+from .pivsetup import (Setup, VirtualSetup, ExperimentalSetup)
 from .processingstep import (PIVProcessingStep,
                              PIVMaskGeneration,
                              PIVPreProcessing,
@@ -34,7 +34,7 @@ from .tool import (PIVSoftware,
                    OpticSensor,
                    OpticalComponent)
 
-__all__ = ('PIVDistribution',
+__all__ = ('VelocimetryDistribution',
            'PIVSoftware',
            'ImageManipulationMethod',
            'InterrogationMethod',
@@ -50,7 +50,7 @@ __all__ = ('PIVDistribution',
            'Laser',
            'VirtualLaser',
            'VirtualCamera',
-           'DataType',
+           'PIVDataType',
            'PIVParticle',
            'SyntheticPIVParticle',
            'NdYAGLaser',
@@ -63,4 +63,7 @@ __all__ = ('PIVDistribution',
            'LensSystem',
            'Camera',
            'OpticSensor',
-           'WindowWeightingFunction')
+           'WindowWeightingFunction',
+           'Setup',
+           'VirtualSetup',
+           'ExperimentalSetup')

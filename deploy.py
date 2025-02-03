@@ -10,7 +10,7 @@ __this_dir__ = pathlib.Path(__file__).parent
 def generate_namespace_file():
     """Generate namespace.py file from pivmeta_context.jsonld"""
 
-    namespace = 'pivmeta'
+    namespace = 'piv'
 
     context_file = CACHE_DIR / 'pivmeta_context.jsonld'
     context_file.unlink(missing_ok=True)  # force download

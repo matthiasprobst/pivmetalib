@@ -3,7 +3,7 @@ from typing import Union, List
 from ontolutils import namespaces, urirefs, Thing
 from pydantic import PositiveInt, field_validator, Field, HttpUrl
 
-from pivmetalib import PIVMETA
+from pivmetalib import PIV
 from pivmetalib.dcat import Distribution, Dataset
 from pivmetalib.m4i import Variable
 
@@ -16,23 +16,23 @@ def make_href(url, text=None):
 
 
 @namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
-@urirefs(DataType='pivmeta:DataType')
-class DataType(Thing):
-    """Implementation of pivmeta:DataType"""
+@urirefs(PIVDataType='pivmeta:PIVDataType')
+class PIVDataType(Thing):
+    """Implementation of pivmeta:PIVDataType"""
     pass
 
 
 @namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
-@urirefs(PIVDistribution='pivmeta:PIVDistribution',
-         hasDataType='pivmeta:hasDataType',
+@urirefs(VelocimetryDistribution='pivmeta:VelocimetryDistribution',
+         hasPIVDataType='pivmeta:hasPIVDataType',
          hasMetric='pivmeta:hasMetric',
          filenamePattern='pivmeta:filenamePattern')
-class PIVDistribution(Distribution):
-    """Implementation of pivmeta:PIVDistribution
+class VelocimetryDistribution(Distribution):
+    """Implementation of pivmeta:VelocimetryDistribution
 
     Describes PIV data (images or result data)
     """
-    hasDataType: Union[HttpUrl, str] = Field(default=None, alias='piv_distribution_type')
+    hasPIVDataType: Union[HttpUrl, str] = Field(default=None, alias='has_piv_data_type')
     filenamePattern: str = Field(default=None, alias='filename_pattern')  # e.g. "image_{:04d}.tif"
     hasMetric: Union[Variable, List[Variable]] = Field(default=None, alias='has_metric')
 
@@ -41,29 +41,29 @@ class PIVDistribution(Distribution):
     def _filenamePattern(cls, filenamePattern):
         return filenamePattern.replace('\\\\', '\\')
 
-    @field_validator('hasDataType', mode='before')
+    @field_validator('hasPIVDataType', mode='before')
     @classmethod
-    def _isPIVDistributionType(cls, dist_type):
+    def _hasPIVDataType(cls, dist_type):
         return str(HttpUrl(dist_type))
 
 
 
 # @namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
 # @urirefs(PIVMaskDistribution='pivmeta:PIVMaskDistribution')
-# class PIVMaskDistribution(PIVDistribution):
+# class PIVMaskDistribution(VelocimetryDistribution):
 #     """Implementation of pivmeta:PIVMaskDistribution"""
 
 
 # @namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
 # @urirefs(PIVResultDistribution='pivmeta:PIVResultDistribution')
-# class PIVResultDistribution(PIVDistribution):
+# class PIVResultDistribution(VelocimetryDistribution):
 #     """Implementation of pivmeta:PIVResultDistribution"""
 
 
 @namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#",
             dcat="http://www.w3.org/ns/dcat#")
-@urirefs(PIVDataset='pivmeta:PIVDataset',
+@urirefs(VelocimetryDataset='pivmeta:VelocimetryDataset',
          distribution='dcat:distribution')
-class PIVDataset(Dataset):
-    """Implementation of pivmeta:PIVDataset"""""
+class VelocimetryDataset(Dataset):
+    """Implementation of pivmeta:VelocimetryDataset"""""
     distribution: Union[Distribution, List[Distribution]] = Field(alias="distribution", default=None)

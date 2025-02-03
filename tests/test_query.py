@@ -6,7 +6,7 @@ import requests
 from ontolutils import set_logging_level
 
 import pivmetalib
-from pivmetalib import PIVMETA
+from pivmetalib import PIV
 from pivmetalib import dcat  # .dcat import Dataset, Distribution
 from pivmetalib import pivmeta
 from pivmetalib import prov  # Person
@@ -46,16 +46,16 @@ class TestQuery(ClassTest):
                 landingPage="https://www.pivchallenge.org/pub/index.html#c",
                 description="Different velocity gradients with spatially varying image quality (provided by Okamoto) < synthetic > [256 x 128]",
                 distribution=[
-                    pivmeta.PIVDistribution(
+                    pivmeta.VelocimetryDistribution(
                         title='raw piv image data',
                         downloadURL='https://www.pivchallenge.org/pub/C/C.zip',
                         mediaType='application/zip',
-                        pivImageType=PIVMETA.SyntheticImage,
+                        pivImageType=PIV.SyntheticImage,
                         numberOfRecords=1,  # It contains one double image
                         filenamePattern="^C\d{3}_\d.tif$",  # the regex for the filename
                         hasMetric=Variable(label="image_bit_depth", value=8),
                     ),
-                    pivmeta.PIVDistribution(
+                    pivmeta.VelocimetryDistribution(
                         title='mask data',
                         downloadURL='https://www.pivchallenge.org/pub/C/C.zip',
                         mediaType='application/zip',
@@ -80,12 +80,14 @@ class TestQuery(ClassTest):
                 )
 
             dist = ontolutils.query(
-                pivmeta.PIVDistribution,
+                pivmeta.VelocimetryDistribution,
                 source='piv_challenge.jsonld',
             )
             self.assertEqual(len(dist), 2)
-            self.assertEqual(sorted(dist)[0].title, 'raw piv image data')
-            self.assertEqual(sorted(dist)[0].filename_pattern, '^C\d{3}_\d.tif$')
+            titles = [d.title for d in dist]
+            filename_patterns = [d.filename_pattern for d in dist]
+            self.assertIn('raw piv image data', titles)
+            self.assertIn('^C\d{3}_\d.tif$', filename_patterns)
 
     def test_query_dataset(self):
         ds = dcat.Dataset(
@@ -95,16 +97,16 @@ class TestQuery(ClassTest):
             landingPage="https://www.pivchallenge.org/pub/index.html#c",
             description="Different velocity gradients with spatially varying image quality (provided by Okamoto) < synthetic > [256 x 128]",
             distribution=[
-                pivmeta.PIVDistribution(
+                pivmeta.VelocimetryDistribution(
                     title='raw piv image data',
                     downloadURL='https://www.pivchallenge.org/pub/C/C.zip',
                     mediaType='application/zip',
-                    pivImageType=PIVMETA.SyntheticImage,
+                    pivImageType=PIV.SyntheticImage,
                     numberOfRecords=1,  # It contains one double image
                     filenamePattern=r"^C\d{3}_\d.tif$",  # the regex for the filename
                     imageBitDepth=8
                 ),
-                pivmeta.PIVDistribution(
+                pivmeta.VelocimetryDistribution(
                     title='mask data',
                     downloadURL='https://www.pivchallenge.org/pub/C/C.zip',
                     mediaType='application/zip',

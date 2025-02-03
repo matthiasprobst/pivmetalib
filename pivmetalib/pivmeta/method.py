@@ -3,7 +3,7 @@ from typing import Union
 from ontolutils import namespaces, urirefs
 from pydantic import HttpUrl, Field, field_validator
 
-from pivmetalib import PIVMETA, m4i
+from pivmetalib import PIV, m4i
 
 
 @namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
@@ -24,9 +24,9 @@ class CorrelationMethod(m4i.Method):
     def _hasWindowWeightingFunction(cls, window_weighting_function):
         if isinstance(window_weighting_function, str):
             if window_weighting_function.lower() in ('square', 'rectangle', 'none'):
-                return str(PIVMETA.SquareWindow)
+                return str(PIV.SquareWindow)
             if window_weighting_function.lower() in ('gauss', 'gaussian'):
-                return str(PIVMETA.GaussianWindow)
+                return str(PIV.GaussianWindow)
         return window_weighting_function
 
 

@@ -2,15 +2,14 @@ from rdflib.namespace import DefinedNamespace, Namespace
 from rdflib.term import URIRef
 
 
-class PIVMETA(DefinedNamespace):
+class PIV(DefinedNamespace):
     # uri = "https://matthiasprobst.github.io/pivmeta#"
     # Generated with pivmetalib
     BackgroundSubtractionMethod: URIRef  # ['background subtraction method']
     Camera: URIRef  # ['camera']
     CorrelationMethod: URIRef  # ['correlation method']
-    DataType: URIRef  # ['piv data type']
     DigitalCamera: URIRef  # ['digital camera']
-    ExperimentalPIVSetup: URIRef  # ['experimental PIV setup']
+    ExperimentalSetup: URIRef  # ['experimental setup']
     FlagStatistics: URIRef  # ['flag statistics']
     FlagVariable: URIRef  # ['flag variable']
     ImageManipulationMethod: URIRef  # ['image manipulation method']
@@ -30,8 +29,8 @@ class PIVMETA(DefinedNamespace):
     PIVAnalysis: URIRef  # ['PIV Analysis']
     PIVBackgroundGeneration: URIRef  # ['PIV background generation']
     PIVCalibration: URIRef  # ['PIV calibration']
+    PIVDataType: URIRef  # ['PIV data type']
     PIVDataset: URIRef  # ['PIV dataset']
-    PIVDistribution: URIRef  # ['PIV distribution']
     PIVEvaluation: URIRef  # ['PIV evaluation']
     PIVMaskGeneration: URIRef  # ['PIV mask generation']
     PIVParticle: URIRef  # ['PIV particle']
@@ -39,22 +38,28 @@ class PIVMETA(DefinedNamespace):
     PIVPreProcessing: URIRef  # ['PIV pre processing']
     PIVProcessingStep: URIRef  # ['PIV Processing step']
     PIVRecording: URIRef  # ['PIV recording']
-    PIVSetup: URIRef  # ['PIV setup']
     PIVSoftware: URIRef  # ['PIV software']
+    PTVDataset: URIRef  # ['PTV Dataset']
     PeakSearchMethod: URIRef  # ['peak search method']
+    Setup: URIRef  # ['Setup']
     Singlepass: URIRef  # ['singlepass']
     SyntheticPIVParticle: URIRef  # ['synthetic PIV particle']
     TemporalVariable: URIRef  # ['temporal variable']
+    VelocimetryDataset: URIRef  # ['Velocimetry Dataset']
+    VelocimetryDistribution: URIRef  # ['Velocimetry Distribution']
+    VelocimetryMethod: URIRef  # ['velocimetry method']
     VirtualCamera: URIRef  # ['virtual camera']
     VirtualLaser: URIRef  # ['virtual laser']
-    VirtualPIVSetup: URIRef  # ['virtual PIV experiment']
+    VirtualSetup: URIRef  # ['virtual setup']
     VirtualTool: URIRef  # ['virtual tool']
     WindowWeightingFunction: URIRef  # ['window weighting function']
     flag: URIRef  # ['flag']
     flagIn: URIRef  # ['flag in']
-    hasDataType: URIRef  # ['has PIV data type']
     hasMetric: URIRef  # ['has metric']
+    hasPIVDataType: URIRef  # ['has PIV data type']
+    hasSetup: URIRef  # ['has setup']
     hasWindowWeightingFunction: URIRef  # ['has window weighting function']
+    isSetupFor: URIRef  # ['is setup for']
     manufacturer: URIRef  # ['manufacturer']
     filenamePattern: URIRef  # ['filename pattern']
     fnumber: URIRef  # ['fnumber']
@@ -67,19 +72,19 @@ class PIVMETA(DefinedNamespace):
     FlagActive: URIRef  # ['active']
     GaussianWindow: URIRef  # ['Gaussian window']
     HannWindow: URIRef  # ['Hann window']
+    Image: URIRef  # ['image']
     ImageDewarping: URIRef  # ['image dewarping']
     ImageFiltering: URIRef  # ['image filtering']
     ImageHorizontalFlip: URIRef  # ['image horizontal flip']
     Interpolation: URIRef  # ['interpolation']
     LeftRightFlip: URIRef  # ['left right flip']
+    Mask: URIRef  # ['mask']
     MilliM_PER_PIXEL: URIRef  # ['millimeter per pixel']
     PER_PIXEL: URIRef  # ['per pixel']
-    PIVData: URIRef  # ['PIV data']
-    PIVImage: URIRef  # ['PIV image']
-    PIVMask: URIRef  # ['PIV mask']
-    ParticleImageVelocimetry: URIRef  # ['Particle Image Velocimetry']
-    ParticleTrackingVelocimetry: URIRef  # ['Particle Tracking Velocimetry']
+    PIV: URIRef  # ['Particle Image Velocimetry']
+    PTV: URIRef  # ['Particle Tracking Velocimetry']
     ReEvaluateWithLargerSample: URIRef  # ['re-evaluate with larger sample']
+    ResultData: URIRef  # ['result data']
     SpatialResolution: URIRef  # ['spatial resolution']
     SplitImage: URIRef  # ['split image']
     SquareWindow: URIRef  # ['square window']
@@ -87,91 +92,96 @@ class PIVMETA(DefinedNamespace):
     TopBottomFlip: URIRef  # ['top bottom flip']
     TryLowerOrderPeaks: URIRef  # ['try lower order peaks']
     TukeyWindow: URIRef  # ['Tukey window']
-    microPIV: URIRef  # ['Micro PIV']
+    microPIV: URIRef  # ['Micro Particle Image Velocimetry']
 
     _NS = Namespace("https://matthiasprobst.github.io/pivmeta#")
 
 
-setattr(PIVMETA, "background_subtraction_method", PIVMETA.BackgroundSubtractionMethod)
-setattr(PIVMETA, "camera", PIVMETA.Camera)
-setattr(PIVMETA, "correlation_method", PIVMETA.CorrelationMethod)
-setattr(PIVMETA, "piv_data_type", PIVMETA.DataType)
-setattr(PIVMETA, "digital_camera", PIVMETA.DigitalCamera)
-setattr(PIVMETA, "experimental_PIV_setup", PIVMETA.ExperimentalPIVSetup)
-setattr(PIVMETA, "flag_statistics", PIVMETA.FlagStatistics)
-setattr(PIVMETA, "flag_variable", PIVMETA.FlagVariable)
-setattr(PIVMETA, "image_manipulation_method", PIVMETA.ImageManipulationMethod)
-setattr(PIVMETA, "interrogation_method", PIVMETA.InterrogationMethod)
-setattr(PIVMETA, "laser", PIVMETA.Laser)
-setattr(PIVMETA, "lens", PIVMETA.Lens)
-setattr(PIVMETA, "lens_system", PIVMETA.LensSystem)
-setattr(PIVMETA, "light_source", PIVMETA.LightSource)
-setattr(PIVMETA, "minimum_intensity_background_subtraction_method", PIVMETA.MinimumIntensityBackgroundSubtractionMethod)
-setattr(PIVMETA, "multigrid", PIVMETA.Multigrid)
-setattr(PIVMETA, "multipass", PIVMETA.Multipass)
-setattr(PIVMETA, "objective", PIVMETA.Objective)
-setattr(PIVMETA, "optic_sensor", PIVMETA.OpticSensor)
-setattr(PIVMETA, "optical_component", PIVMETA.OpticalComponent)
-setattr(PIVMETA, "outlier_detection_method", PIVMETA.OutlierDetectionMethod)
-setattr(PIVMETA, "outlier_replacement_scheme", PIVMETA.outlierReplacementScheme)
-setattr(PIVMETA, "PIV_Analysis", PIVMETA.PIVAnalysis)
-setattr(PIVMETA, "PIV_background_generation", PIVMETA.PIVBackgroundGeneration)
-setattr(PIVMETA, "PIV_calibration", PIVMETA.PIVCalibration)
-setattr(PIVMETA, "PIV_dataset", PIVMETA.PIVDataset)
-setattr(PIVMETA, "PIV_distribution", PIVMETA.PIVDistribution)
-setattr(PIVMETA, "PIV_evaluation", PIVMETA.PIVEvaluation)
-setattr(PIVMETA, "PIV_mask_generation", PIVMETA.PIVMaskGeneration)
-setattr(PIVMETA, "PIV_particle", PIVMETA.PIVParticle)
-setattr(PIVMETA, "PIV_post_processing", PIVMETA.PIVPostProcessing)
-setattr(PIVMETA, "PIV_pre_processing", PIVMETA.PIVPreProcessing)
-setattr(PIVMETA, "PIV_Processing_step", PIVMETA.PIVProcessingStep)
-setattr(PIVMETA, "PIV_recording", PIVMETA.PIVRecording)
-setattr(PIVMETA, "PIV_setup", PIVMETA.PIVSetup)
-setattr(PIVMETA, "PIV_software", PIVMETA.PIVSoftware)
-setattr(PIVMETA, "peak_search_method", PIVMETA.PeakSearchMethod)
-setattr(PIVMETA, "singlepass", PIVMETA.Singlepass)
-setattr(PIVMETA, "synthetic_PIV_particle", PIVMETA.SyntheticPIVParticle)
-setattr(PIVMETA, "temporal_variable", PIVMETA.TemporalVariable)
-setattr(PIVMETA, "virtual_camera", PIVMETA.VirtualCamera)
-setattr(PIVMETA, "virtual_laser", PIVMETA.VirtualLaser)
-setattr(PIVMETA, "virtual_PIV_experiment", PIVMETA.VirtualPIVSetup)
-setattr(PIVMETA, "virtual_tool", PIVMETA.VirtualTool)
-setattr(PIVMETA, "window_weighting_function", PIVMETA.WindowWeightingFunction)
-setattr(PIVMETA, "flag", PIVMETA.flag)
-setattr(PIVMETA, "flag_in", PIVMETA.flagIn)
-setattr(PIVMETA, "has_PIV_data_type", PIVMETA.hasDataType)
-setattr(PIVMETA, "has_metric", PIVMETA.hasMetric)
-setattr(PIVMETA, "has_window_weighting_function", PIVMETA.hasWindowWeightingFunction)
-setattr(PIVMETA, "manufacturer", PIVMETA.manufacturer)
-setattr(PIVMETA, "filename_pattern", PIVMETA.filenamePattern)
-setattr(PIVMETA, "fnumber", PIVMETA.fnumber)
-setattr(PIVMETA, "has_flag_meaning", PIVMETA.hasFlagMeaning)
-setattr(PIVMETA, "has_flag_value", PIVMETA.hasFlagValue)
-setattr(PIVMETA, "time_format", PIVMETA.timeFormat)
-setattr(PIVMETA, "blackman_window", PIVMETA.BlackmanWindow)
-setattr(PIVMETA, "DEHS", PIVMETA.DEHS)
-setattr(PIVMETA, "experimental_image", PIVMETA.ExperimentalImage)
-setattr(PIVMETA, "active", PIVMETA.FlagActive)
-setattr(PIVMETA, "Gaussian_window", PIVMETA.GaussianWindow)
-setattr(PIVMETA, "Hann_window", PIVMETA.HannWindow)
-setattr(PIVMETA, "image_dewarping", PIVMETA.ImageDewarping)
-setattr(PIVMETA, "image_filtering", PIVMETA.ImageFiltering)
-setattr(PIVMETA, "image_horizontal_flip", PIVMETA.ImageHorizontalFlip)
-setattr(PIVMETA, "interpolation", PIVMETA.Interpolation)
-setattr(PIVMETA, "left_right_flip", PIVMETA.LeftRightFlip)
-setattr(PIVMETA, "millimeter_per_pixel", PIVMETA.MilliM_PER_PIXEL)
-setattr(PIVMETA, "per_pixel", PIVMETA.PER_PIXEL)
-setattr(PIVMETA, "PIV_data", PIVMETA.PIVData)
-setattr(PIVMETA, "PIV_image", PIVMETA.PIVImage)
-setattr(PIVMETA, "PIV_mask", PIVMETA.PIVMask)
-setattr(PIVMETA, "Particle_Image_Velocimetry", PIVMETA.ParticleImageVelocimetry)
-setattr(PIVMETA, "Particle_Tracking_Velocimetry", PIVMETA.ParticleTrackingVelocimetry)
-setattr(PIVMETA, "re-evaluate_with_larger_sample", PIVMETA.ReEvaluateWithLargerSample)
-setattr(PIVMETA, "spatial_resolution", PIVMETA.SpatialResolution)
-setattr(PIVMETA, "split_image", PIVMETA.SplitImage)
-setattr(PIVMETA, "square_window", PIVMETA.SquareWindow)
-setattr(PIVMETA, "synthetic_image", PIVMETA.SyntheticImage)
-setattr(PIVMETA, "top_bottom_flip", PIVMETA.TopBottomFlip)
-setattr(PIVMETA, "try_lower_order_peaks", PIVMETA.TryLowerOrderPeaks)
-setattr(PIVMETA, "Tukey_window", PIVMETA.TukeyWindow)
-setattr(PIVMETA, "Micro_PIV", PIVMETA.microPIV)
+setattr(PIV, "background_subtraction_method", PIV.BackgroundSubtractionMethod)
+setattr(PIV, "camera", PIV.Camera)
+setattr(PIV, "correlation_method", PIV.CorrelationMethod)
+setattr(PIV, "digital_camera", PIV.DigitalCamera)
+setattr(PIV, "experimental_setup", PIV.ExperimentalSetup)
+setattr(PIV, "flag_statistics", PIV.FlagStatistics)
+setattr(PIV, "flag_variable", PIV.FlagVariable)
+setattr(PIV, "image_manipulation_method", PIV.ImageManipulationMethod)
+setattr(PIV, "interrogation_method", PIV.InterrogationMethod)
+setattr(PIV, "laser", PIV.Laser)
+setattr(PIV, "lens", PIV.Lens)
+setattr(PIV, "lens_system", PIV.LensSystem)
+setattr(PIV, "light_source", PIV.LightSource)
+setattr(PIV, "minimum_intensity_background_subtraction_method", PIV.MinimumIntensityBackgroundSubtractionMethod)
+setattr(PIV, "multigrid", PIV.Multigrid)
+setattr(PIV, "multipass", PIV.Multipass)
+setattr(PIV, "objective", PIV.Objective)
+setattr(PIV, "optic_sensor", PIV.OpticSensor)
+setattr(PIV, "optical_component", PIV.OpticalComponent)
+setattr(PIV, "outlier_detection_method", PIV.OutlierDetectionMethod)
+setattr(PIV, "outlier_replacement_scheme", PIV.outlierReplacementScheme)
+setattr(PIV, "PIV_Analysis", PIV.PIVAnalysis)
+setattr(PIV, "PIV_background_generation", PIV.PIVBackgroundGeneration)
+setattr(PIV, "PIV_calibration", PIV.PIVCalibration)
+setattr(PIV, "PIV_data_type", PIV.PIVDataType)
+setattr(PIV, "PIV_dataset", PIV.PIVDataset)
+setattr(PIV, "PIV_evaluation", PIV.PIVEvaluation)
+setattr(PIV, "PIV_mask_generation", PIV.PIVMaskGeneration)
+setattr(PIV, "PIV_particle", PIV.PIVParticle)
+setattr(PIV, "PIV_post_processing", PIV.PIVPostProcessing)
+setattr(PIV, "PIV_pre_processing", PIV.PIVPreProcessing)
+setattr(PIV, "PIV_Processing_step", PIV.PIVProcessingStep)
+setattr(PIV, "PIV_recording", PIV.PIVRecording)
+setattr(PIV, "PIV_software", PIV.PIVSoftware)
+setattr(PIV, "PTV_Dataset", PIV.PTVDataset)
+setattr(PIV, "peak_search_method", PIV.PeakSearchMethod)
+setattr(PIV, "Setup", PIV.Setup)
+setattr(PIV, "singlepass", PIV.Singlepass)
+setattr(PIV, "synthetic_PIV_particle", PIV.SyntheticPIVParticle)
+setattr(PIV, "temporal_variable", PIV.TemporalVariable)
+setattr(PIV, "Velocimetry_Dataset", PIV.VelocimetryDataset)
+setattr(PIV, "Velocimetry_Distribution", PIV.VelocimetryDistribution)
+setattr(PIV, "velocimetry_method", PIV.VelocimetryMethod)
+setattr(PIV, "virtual_camera", PIV.VirtualCamera)
+setattr(PIV, "virtual_laser", PIV.VirtualLaser)
+setattr(PIV, "virtual_setup", PIV.VirtualSetup)
+setattr(PIV, "virtual_tool", PIV.VirtualTool)
+setattr(PIV, "window_weighting_function", PIV.WindowWeightingFunction)
+setattr(PIV, "flag", PIV.flag)
+setattr(PIV, "flag_in", PIV.flagIn)
+setattr(PIV, "has_metric", PIV.hasMetric)
+setattr(PIV, "has_PIV_data_type", PIV.hasPIVDataType)
+setattr(PIV, "has_setup", PIV.hasSetup)
+setattr(PIV, "has_window_weighting_function", PIV.hasWindowWeightingFunction)
+setattr(PIV, "is_setup_for", PIV.isSetupFor)
+setattr(PIV, "manufacturer", PIV.manufacturer)
+setattr(PIV, "filename_pattern", PIV.filenamePattern)
+setattr(PIV, "fnumber", PIV.fnumber)
+setattr(PIV, "has_flag_meaning", PIV.hasFlagMeaning)
+setattr(PIV, "has_flag_value", PIV.hasFlagValue)
+setattr(PIV, "time_format", PIV.timeFormat)
+setattr(PIV, "blackman_window", PIV.BlackmanWindow)
+setattr(PIV, "DEHS", PIV.DEHS)
+setattr(PIV, "experimental_image", PIV.ExperimentalImage)
+setattr(PIV, "active", PIV.FlagActive)
+setattr(PIV, "Gaussian_window", PIV.GaussianWindow)
+setattr(PIV, "Hann_window", PIV.HannWindow)
+setattr(PIV, "image", PIV.Image)
+setattr(PIV, "image_dewarping", PIV.ImageDewarping)
+setattr(PIV, "image_filtering", PIV.ImageFiltering)
+setattr(PIV, "image_horizontal_flip", PIV.ImageHorizontalFlip)
+setattr(PIV, "interpolation", PIV.Interpolation)
+setattr(PIV, "left_right_flip", PIV.LeftRightFlip)
+setattr(PIV, "mask", PIV.Mask)
+setattr(PIV, "millimeter_per_pixel", PIV.MilliM_PER_PIXEL)
+setattr(PIV, "per_pixel", PIV.PER_PIXEL)
+setattr(PIV, "Particle_Image_Velocimetry", PIV.PIV)
+setattr(PIV, "Particle_Tracking_Velocimetry", PIV.PTV)
+setattr(PIV, "re-evaluate_with_larger_sample", PIV.ReEvaluateWithLargerSample)
+setattr(PIV, "result_data", PIV.ResultData)
+setattr(PIV, "spatial_resolution", PIV.SpatialResolution)
+setattr(PIV, "split_image", PIV.SplitImage)
+setattr(PIV, "square_window", PIV.SquareWindow)
+setattr(PIV, "synthetic_image", PIV.SyntheticImage)
+setattr(PIV, "top_bottom_flip", PIV.TopBottomFlip)
+setattr(PIV, "try_lower_order_peaks", PIV.TryLowerOrderPeaks)
+setattr(PIV, "Tukey_window", PIV.TukeyWindow)
+setattr(PIV, "Micro_Particle_Image_Velocimetry", PIV.microPIV)
