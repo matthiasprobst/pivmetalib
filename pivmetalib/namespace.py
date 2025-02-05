@@ -27,8 +27,8 @@ class PIV(DefinedNamespace):
     Objective: URIRef  # ['objective']
     OpticSensor: URIRef  # ['optic sensor']
     OpticalComponent: URIRef  # ['optical component']
-    OutlierDetectionMethod: URIRef  # ['outlier detection method']
-    outlierReplacementScheme: URIRef  # ['outlier replacement scheme']
+    OutlierDetectionMethod: URIRef  # ['Outlier detection method']
+    OutlierReplacementScheme: URIRef  # ['Outlier replacement scheme']
     PIVAnalysis: URIRef  # ['PIV Analysis']
     PIVBackgroundGeneration: URIRef  # ['PIV background generation']
     PIVCalibration: URIRef  # ['PIV calibration']
@@ -61,6 +61,7 @@ class PIV(DefinedNamespace):
     hasWindowWeightingFunction: URIRef  # ['has window weighting function']
     isSetupFor: URIRef  # ['is setup for']
     manufacturer: URIRef  # ['manufacturer']
+    outlierReplacementScheme: URIRef  # ['outlier replacement scheme']
     filenamePattern: URIRef  # ['filename pattern']
     fnumber: URIRef  # ['fnumber']
     hasFlagMeaning: URIRef  # ['has flag meaning']
@@ -119,8 +120,8 @@ setattr(PIV, "multipass", PIV.Multipass)
 setattr(PIV, "objective", PIV.Objective)
 setattr(PIV, "optic_sensor", PIV.OpticSensor)
 setattr(PIV, "optical_component", PIV.OpticalComponent)
-setattr(PIV, "outlier_detection_method", PIV.OutlierDetectionMethod)
-setattr(PIV, "outlier_replacement_scheme", PIV.outlierReplacementScheme)
+setattr(PIV, "Outlier_detection_method", PIV.OutlierDetectionMethod)
+setattr(PIV, "Outlier_replacement_scheme", PIV.OutlierReplacementScheme)
 setattr(PIV, "PIV_Analysis", PIV.PIVAnalysis)
 setattr(PIV, "PIV_background_generation", PIV.PIVBackgroundGeneration)
 setattr(PIV, "PIV_calibration", PIV.PIVCalibration)
@@ -153,6 +154,7 @@ setattr(PIV, "has_setup", PIV.hasSetup)
 setattr(PIV, "has_window_weighting_function", PIV.hasWindowWeightingFunction)
 setattr(PIV, "is_setup_for", PIV.isSetupFor)
 setattr(PIV, "manufacturer", PIV.manufacturer)
+setattr(PIV, "outlier_replacement_scheme", PIV.outlierReplacementScheme)
 setattr(PIV, "filename_pattern", PIV.filenamePattern)
 setattr(PIV, "fnumber", PIV.fnumber)
 setattr(PIV, "has_flag_meaning", PIV.hasFlagMeaning)
