@@ -19,6 +19,7 @@ from ..prov import Person, Organization, Agent
 from ..prov.attribution import Attribution
 from ..utils import download_file
 
+from pivmetalib.m4i.processingstep import ProcessingStep
 
 @namespaces(dcat="http://www.w3.org/ns/dcat#",
             dcterms="http://purl.org/dc/terms/", )
@@ -85,13 +86,17 @@ class Resource(Thing):
         return creator
 
 
-@namespaces(dcat="http://www.w3.org/ns/dcat#")
+@namespaces(dcat="http://www.w3.org/ns/dcat#",
+            prov="http://www.w3.org/ns/prov#",
+            dcterms="http://purl.org/dc/terms/")
 @urirefs(Distribution='dcat:Distribution',
          downloadURL='dcat:downloadURL',
          accessURL='dcat:accessURL',
          mediaType='dcat:mediaType',
          byteSize='dcat:byteSize',
-         keyword='dcat:keyword')
+         keyword='dcat:keyword',
+         hasPart='dcterms:hasPart',
+         wasGeneratedBy='prov:wasGeneratedBy')
 class Distribution(Resource):
     """Implementation of dcat:Distribution
 
@@ -116,6 +121,8 @@ class Distribution(Resource):
     mediaType: HttpUrl = Field(default=None, alias='media_type')  # dcat:mediaType
     byteSize: int = Field(default=None, alias='byte_size')  # dcat:byteSize
     keyword: List[str] = None  # dcat:keyword
+    wasGeneratedBy: ProcessingStep = Field(default=None, alias='was_generated_by')  # prov:wasGeneratedBy
+    hasPart: Union[Thing, List[Thing]] = Field(default=None, alias='has_part')  # dcterms:hasPart
 
     def _repr_html_(self):
         """Returns the HTML representation of the class"""

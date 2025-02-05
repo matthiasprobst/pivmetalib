@@ -14,7 +14,7 @@ from ssnolib.m4i import NumericalVariable
 
 import pivmetalib
 import utils
-from pivmetalib import pivmeta, m4i
+from pivmetalib import m4i
 
 __this_dir__ = pathlib.Path(__file__).parent
 
@@ -189,6 +189,15 @@ class TestM4i(utils.ClassTest):
 
             jsonld_string = method.model_dump_jsonld()
             self.check_jsonld_string(jsonld_string)
+
+        def test_parameter_with_standard_name2(self):
+            var_sn = NumericalVariable(
+                value=32.3,
+                hasStandardName=StandardName(standard_name='x_velocity',
+                                             description='x component of velocity',
+                                             unit='m s-1')
+            )
+            print(var_sn.hasStandardName)
 
     def test_ProcessingStep(self):
         ps1 = m4i.ProcessingStep(label='p1',

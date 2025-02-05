@@ -19,14 +19,18 @@
     },
     "dcat:distribution": [
         {
-            "@type": "pivmeta:PIVImageDistribution",
+            "@type": "pivmeta:ImageVelocimetryDistribution",
             "dcterms:title": "Raw PIV image data",
             "dcat:downloadURL": "https://www.pivchallenge.org/pub/C/C.zip",
             "dcat:mediaType": "https://www.iana.org/assignments/media-types/image/tiff",
             "pivmeta:filenamePattern": "C[0-9][0-9][0-9]_[1,2].tif",
             "pivmeta:pivImageType": "https://matthiasprobst.github.io/pivmeta#SyntheticImage",
-            "pivmeta:imageBitDepth": "8",
-            "pivmeta:numberOfRecords": "1",
+            "pivmeta:hasMetric": {
+                "@type": "m4i:Variable",
+                "rdfs:label": "image_bit_depth",
+                "value": 8,
+                "@id": "_:N6ff6e254864e487e88fc6ae37858bb38"
+            },
             "compressedFormat": "application/zip",
             "@id": "local:d5b2d0c9-ba74-43eb-b68f-624e1183cb2d"
         },
