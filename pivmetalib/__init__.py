@@ -49,7 +49,7 @@ def get_iri_fields(obj: Thing):
             iri_fields[k] = f'{full_ns}{key}'
     return iri_fields
 
-
+PIVMETA = PIV
 __all__ = (
     '__version__',
     'CONTEXT',

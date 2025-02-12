@@ -187,3 +187,5 @@ setattr(PIV, "top_bottom_flip", PIV.TopBottomFlip)
 setattr(PIV, "try_lower_order_peaks", PIV.TryLowerOrderPeaks)
 setattr(PIV, "Tukey_window", PIV.TukeyWindow)
 setattr(PIV, "Micro_Particle_Image_Velocimetry", PIV.microPIV)
+
+PIVMETA = PIV  # alias

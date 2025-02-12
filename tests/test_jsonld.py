@@ -7,7 +7,9 @@ import requests
 
 from pivmetalib import CONTEXT
 from pivmetalib import jsonld
-from pivmetalib import m4i, prov
+from pivmetalib import prov
+from pivmetalib.m4i import Method
+from pivmetalib.m4i import NumericalVariable
 
 
 class TestJSONLD(unittest.TestCase):
@@ -55,14 +57,14 @@ class TestJSONLD(unittest.TestCase):
             json.loads(p12))
 
     def test_correct_namespaces(self):
-        dyn_mean = m4i.Method(
+        dyn_mean = Method(
             name='dynamic mean test',
             parameter=[
-                m4i.NumericalVariable(
+                NumericalVariable(
                     name='mean',
                     value=2.0
                 ),
-                m4i.NumericalVariable(
+                NumericalVariable(
                     name='var',
                     value=1.0
                 )

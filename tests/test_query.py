@@ -4,13 +4,13 @@ import warnings
 import ontolutils
 import requests
 from ontolutils import set_logging_level
+from ssnolib.pimsii import Variable
 
 import pivmetalib
 from pivmetalib import PIV
 from pivmetalib import dcat  # .dcat import Dataset, Distribution
 from pivmetalib import pivmeta
 from pivmetalib import prov  # Person
-from pivmetalib.m4i import Variable
 
 set_logging_level('DEBUG')
 __this_dir__ = pathlib.Path(__file__).parent

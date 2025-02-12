@@ -3,8 +3,8 @@ from typing import Union, List
 
 from ontolutils import Thing, namespaces, urirefs
 from pydantic import Field
+from pivmetalib.m4i import NumericalVariable, TextVariable
 
-from .variable import NumericalVariable, TextVariable
 from ..prov import Organization
 
 
@@ -25,7 +25,7 @@ class Tool(Thing):
 
     Parameters
     ----------
-    parameter: TextVariable or NumericalVariable or list of them
+    hasParameter: TextVariable or NumericalVariable or list of them
         Text or numerical variable
     """
     hasParameter: Union[TextVariable, NumericalVariable,

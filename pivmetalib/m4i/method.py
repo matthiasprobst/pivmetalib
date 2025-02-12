@@ -1,9 +1,8 @@
 from typing import List, Union
 
 from ontolutils import Thing, namespaces, urirefs
-from ssnolib.m4i import NumericalVariable
-
-from .variable import Variable
+from pivmetalib.m4i import NumericalVariable
+from ssnolib.pimsii import Variable
 
 
 @namespaces(m4i="http://w3id.org/nfdi4ing/metadata4ing#",

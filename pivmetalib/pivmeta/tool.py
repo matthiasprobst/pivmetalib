@@ -84,7 +84,7 @@ class DigitalCamera(Camera):
 @urirefs(VirtualCamera="pivmeta:VirtualCamera",
          hasSourceCode="codemeta:hasSourceCode")
 class VirtualCamera(DigitalCamera):
-    """Pydantic implementation of pivmeta:DigitalCameraModel"""
+    """Pydantic implementation of pivmeta:VirtualCamera"""
     hasSourceCode: Optional[SoftwareSourceCode] = Field(alias="source_code", default=None)
 
 
@@ -93,7 +93,7 @@ class VirtualCamera(DigitalCamera):
 @urirefs(VirtualLaser="pivmeta:VirtualLaser",
          hasSourceCode="codemeta:hasSourceCode")
 class VirtualLaser(LightSource):
-    """Pydantic implementation of pivmeta:LaserModel"""
+    """Pydantic implementation of pivmeta:VirtualLaser"""
     hasSourceCode: Optional[SoftwareSourceCode] = Field(alias="source_code", default=None)
 
 

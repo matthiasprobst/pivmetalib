@@ -1,11 +1,10 @@
 from typing import Union, List
 
 from ontolutils import namespaces, urirefs, Thing
-from pydantic import PositiveInt, field_validator, Field, HttpUrl
+from pydantic import field_validator, Field, HttpUrl
+from ssnolib.pimsii import Variable
 
-from pivmetalib import PIV
 from pivmetalib.dcat import Distribution, Dataset
-from pivmetalib.m4i import Variable
 
 
 def make_href(url, text=None):
@@ -45,7 +44,6 @@ class ImageVelocimetryDistribution(Distribution):
     @classmethod
     def _hasPIVDataType(cls, dist_type):
         return str(HttpUrl(dist_type))
-
 
 
 # @namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")

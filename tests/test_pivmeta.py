@@ -15,11 +15,14 @@ from ontolutils import get_urirefs
 from ontolutils.classes.decorator import URIRefManager
 from rdflib import DCAT
 from ssnolib import StandardName
+from pivmetalib.m4i import NumericalVariable
+from ssnolib.pimsii import Variable
 
 import pivmetalib
 import utils
-from pivmetalib import pivmeta, prov, m4i
+from pivmetalib import pivmeta, prov
 from pivmetalib.dcat import Dataset
+from pivmetalib.m4i import ProcessingStep, Tool, Method
 from pivmetalib.namespace import PIV
 
 __this_dir__ = pathlib.Path(__file__).parent
@@ -108,9 +111,9 @@ class TestPIVmeta(utils.ClassTest):
         self.assertIsInstance(mycompany2, pivmeta.PIVSoftware)
 
     def test_NumericalVariable(self):
-        var = m4i.NumericalVariable(value=4.2)
+        var = NumericalVariable(value=4.2)
         self.assertIsInstance(var, ontolutils.Thing)
-        self.assertIsInstance(var, m4i.NumericalVariable)
+        self.assertIsInstance(var, NumericalVariable)
         self.assertEqual(var.value, 4.2)
 
         jsonld_string = var.model_dump_jsonld()
@@ -119,24 +122,24 @@ class TestPIVmeta(utils.ClassTest):
 
     def test_ProcessingStep(self):
         st1 = datetime.now()
-        ps1 = m4i.ProcessingStep(id='_:p1', label='p1', startTime=st1)
+        ps1 = ProcessingStep(id='_:p1', label='p1', startTime=st1)
         time.sleep(1)
         st2 = datetime.now()
-        ps2 = m4i.ProcessingStep(id='_:p2', label='p2', startTime=st2)
+        ps2 = ProcessingStep(id='_:p2', label='p2', startTime=st2)
 
         ps1.starts_with = ps2
 
         self.assertTrue(ps2.start_time > ps1.start_time)
         self.assertIsInstance(ps1, ontolutils.Thing)
-        self.assertIsInstance(ps1, m4i.ProcessingStep)
+        self.assertIsInstance(ps1, ProcessingStep)
         self.assertIsInstance(ps1.starts_with, ontolutils.Thing)
-        self.assertIsInstance(ps1.starts_with, m4i.ProcessingStep)
+        self.assertIsInstance(ps1.starts_with, ProcessingStep)
         self.assertEqual(ps1.starts_with, ps2)
 
         jsonld_string = ps1.model_dump_jsonld()
         self.check_jsonld_string(jsonld_string)
 
-        tool = m4i.Tool(id='_:t1', label='tool1')
+        tool = Tool(id='_:t1', label='tool1')
         ps1.hasEmployedTool = tool
         self.assertDictEqual({"@context": {
             "owl": "http://www.w3.org/2002/07/owl#",
@@ -164,16 +167,16 @@ class TestPIVmeta(utils.ClassTest):
         },
             json.loads(ps1.model_dump_jsonld()))
 
-        p = prov.Person(firstName='John',
-                        lastName='Doe',
-                        wasRoleIn=ps1)
+        prov.Person(firstName='John',
+                    lastName='Doe',
+                    wasRoleIn=ps1)
 
     def test_PIVPostProcessing(self):
-        data_smoothing = m4i.Method(
+        data_smoothing = Method(
             id='_:ms1',
             name='Low-pass filtering',
             description='applies a low-pass filtering on the data using a Gaussian weighted kernel of specified width to reduce spurious noise.',
-            parameter=m4i.NumericalVariable(id="_:param1", label='kernel', value=2.0)
+            parameter=NumericalVariable(id="_:param1", label='kernel', hasNumericalValue=2.0)
         )
         post = pivmeta.PIVPostProcessing(
             id='_:pp1',
@@ -188,6 +191,8 @@ class TestPIVmeta(utils.ClassTest):
                 "schema": "https://schema.org/",
                 "obo": "http://purl.obolibrary.org/obo/",
                 "pivmeta": "https://matthiasprobst.github.io/pivmeta#",
+                "pims": "http://www.molmod.info/semantics/pims-ii.ttl#",
+                "ssno": "https://matthiasprobst.github.io/ssno#"
             },
             "@type": "pivmeta:PIVProcessingStep",
             "rdfs:label": "Post processing",
@@ -214,11 +219,11 @@ class TestPIVmeta(utils.ClassTest):
         sn2 = StandardName(standardName='y_velocity',
                            description='y component of velocity',
                            unit='m s-1')
-        var1 = m4i.NumericalVariable(value=4.2, standard_name=sn1)
-        var2 = m4i.NumericalVariable(value=5.2, standard_name=sn2)
+        var1 = NumericalVariable(value=4.2, standard_name=sn1)
+        var2 = NumericalVariable(value=5.2, standard_name=sn2)
         self.assertIsInstance(var1, ontolutils.Thing)
-        self.assertIsInstance(var1, m4i.NumericalVariable)
-        self.assertIsInstance(var2, m4i.NumericalVariable)
+        self.assertIsInstance(var1, NumericalVariable)
+        self.assertIsInstance(var2, NumericalVariable)
         self.assertEqual(var1.value, 4.2)
 
         self.assertEqual(var1.standard_name, sn1)
@@ -238,7 +243,7 @@ class TestPIVmeta(utils.ClassTest):
 
         var1.standard_name = sn1
 
-        method = m4i.Method(label='method1')
+        method = Method(label='method1')
         method.parameter = [var1, var2]
 
         jsonld_string = method.model_dump_jsonld()
@@ -275,10 +280,11 @@ class TestPIVmeta(utils.ClassTest):
     if connected:
         def test_VelocimetryDistribution(self):
             piv_dist = pivmeta.ImageVelocimetryDistribution(label='piv_distribution',
-                                               hasPIVDataType=PIV.ExperimentalImage,
-                                               filenamePattern=r'img\d{4}_[a,b].tif')
+                                                            hasPIVDataType=PIV.ExperimentalImage,
+                                                            filenamePattern=r'img\d{4}_[a,b].tif')
             self.assertIsInstance(piv_dist.hasPIVDataType, str)
-            self.assertEqual(URIRefManager[pivmeta.ImageVelocimetryDistribution]['filenamePattern'], 'pivmeta:filenamePattern')
+            self.assertEqual(URIRefManager[pivmeta.ImageVelocimetryDistribution]['filenamePattern'],
+                             'pivmeta:filenamePattern')
 
             self.assertIsInstance(piv_dist, ontolutils.Thing)
             self.assertIsInstance(piv_dist, pivmeta.ImageVelocimetryDistribution)
@@ -318,7 +324,6 @@ class TestPIVmeta(utils.ClassTest):
             self.assertTrue(has_correct_title)
 
         def test_ImageVelocimetryDistribution(self):
-            from pivmetalib.m4i import Variable
             piv_img_dist = pivmeta.ImageVelocimetryDistribution(
                 label='piv_image_distribution',
                 hasPIVDataType=PIV.ExperimentalImage,
@@ -349,9 +354,9 @@ class TestPIVmeta(utils.ClassTest):
             self.assertEqual(found_dist[0].hasMetric.value, '8')
 
     def test_Tool(self):
-        tool = m4i.Tool(label='tool1')
+        tool = Tool(label='tool1')
         self.assertIsInstance(tool, ontolutils.Thing)
-        self.assertIsInstance(tool, m4i.Tool)
+        self.assertIsInstance(tool, Tool)
         self.assertEqual(tool.label, 'tool1')
 
         jsonld_string = tool.model_dump_jsonld()
