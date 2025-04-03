@@ -147,6 +147,8 @@ class TestPIVmeta(utils.ClassTest):
             "m4i": "http://w3id.org/nfdi4ing/metadata4ing#",
             'pivmeta': 'https://matthiasprobst.github.io/pivmeta#',
             "schema": "https://schema.org/",
+            'skos': 'http://www.w3.org/2004/02/skos/core#',
+            'dcterms': 'http://purl.org/dc/terms/',
             "obo": "http://purl.obolibrary.org/obo/"
         },
             "@type": "m4i:ProcessingStep",
@@ -192,7 +194,9 @@ class TestPIVmeta(utils.ClassTest):
                 "obo": "http://purl.obolibrary.org/obo/",
                 "pivmeta": "https://matthiasprobst.github.io/pivmeta#",
                 "pims": "http://www.molmod.info/semantics/pims-ii.ttl#",
-                "ssno": "https://matthiasprobst.github.io/ssno#"
+                "ssno": "https://matthiasprobst.github.io/ssno#",
+                 'skos': 'http://www.w3.org/2004/02/skos/core#',
+                 'dcterms': 'http://purl.org/dc/terms/',
             },
             "@type": "pivmeta:PIVProcessingStep",
             "rdfs:label": "Post processing",

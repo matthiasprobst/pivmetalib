@@ -131,6 +131,8 @@ class TestM4i(utils.ClassTest):
                 {'owl': 'http://www.w3.org/2002/07/owl#',
                  'rdfs': 'http://www.w3.org/2000/01/rdf-schema#',
                  'm4i': 'http://w3id.org/nfdi4ing/metadata4ing#',
+                 'skos': 'http://www.w3.org/2004/02/skos/core#',
+                 'dcterms': 'http://purl.org/dc/terms/',
                  'schema': 'https://schema.org/'}
             )
             jsonld_string = method3.model_dump_jsonld(
@@ -144,14 +146,13 @@ class TestM4i(utils.ClassTest):
                 {'owl': 'http://www.w3.org/2002/07/owl#',
                  'rdfs': 'http://www.w3.org/2000/01/rdf-schema#',
                  'm4i': 'http://w3id.org/nfdi4ing/metadata4ing#',
+                 'skos': 'http://www.w3.org/2004/02/skos/core#',
+                 'dcterms': 'http://purl.org/dc/terms/',
                  'schema': 'https://schema.org/'}
             )
 
             self.check_jsonld_string(jsonld_string)
             self.assertTrue('@import' in json.loads(jsonld_string)['@context'])
-
-            print(method3.namespaces)
-            print(method3.urirefs)
 
         def test_parameter_with_standard_name(self):
             sn1 = StandardName(standard_name='x_velocity',

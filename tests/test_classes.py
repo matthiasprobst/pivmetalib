@@ -1,12 +1,12 @@
 import pathlib
 import unittest
 
+import ontolutils
 import pydantic
 import rdflib
-
-import ontolutils
-import pivmetalib
 from ontolutils import urirefs, namespaces, Thing
+
+import pivmetalib
 from pivmetalib import pivmeta, prov
 
 __this_dir__ = pathlib.Path(__file__).parent
@@ -45,7 +45,9 @@ class TestClasses(unittest.TestCase):
             pivmetalib.get_iri_fields(tc),
             {'Testclass': 'https://www.example.com/Testclass',
              'Thing': 'http://www.w3.org/2002/07/owl#Thing',
-             'firstName': 'foaf:firstName',
+             'firstName': 'foaf:firstName', 'relation': 'http://purl.org/dc/terms/relation',
+             'closeMatch': 'http://www.w3.org/2004/02/skos/core#closeMatch',
+             'exactMatch': 'http://www.w3.org/2004/02/skos/core#exactMatch',
              'label': 'http://www.w3.org/2000/01/rdf-schema#label'}
         )
 
@@ -62,6 +64,9 @@ class TestClasses(unittest.TestCase):
             {'Testclass2': 'https://www.example.com/Testclass2',
              'Thing': 'http://www.w3.org/2002/07/owl#Thing',
              'firstName': 'foaf:firstName',
+             'relation': 'http://purl.org/dc/terms/relation',
+             'closeMatch': 'http://www.w3.org/2004/02/skos/core#closeMatch',
+             'exactMatch': 'http://www.w3.org/2004/02/skos/core#exactMatch',
              'label': 'http://www.w3.org/2000/01/rdf-schema#label'}
         )
 
@@ -79,6 +84,9 @@ class TestClasses(unittest.TestCase):
             {'Thing': 'http://www.w3.org/2002/07/owl#Thing',
              'label': 'http://www.w3.org/2000/01/rdf-schema#label',
              'name': 'http://example.com/name',
+             'relation': 'http://purl.org/dc/terms/relation',
+             'closeMatch': 'http://www.w3.org/2004/02/skos/core#closeMatch',
+             'exactMatch': 'http://www.w3.org/2004/02/skos/core#exactMatch',
              'age': 'http://example.com/age'}
         )
 

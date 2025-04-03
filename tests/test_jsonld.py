@@ -36,7 +36,9 @@ class TestJSONLD(unittest.TestCase):
                     "m4i": 'http://w3id.org/nfdi4ing/metadata4ing#',
                     "schema": "https://schema.org/",
                     "prov": "http://www.w3.org/ns/prov#",
-                    "foaf": "http://xmlns.com/foaf/0.1/"
+                    "foaf": "http://xmlns.com/foaf/0.1/",
+                    'skos': 'http://www.w3.org/2004/02/skos/core#',
+                    'dcterms': 'http://purl.org/dc/terms/',
                 }
             ],
             "@graph": [
