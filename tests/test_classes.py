@@ -7,7 +7,8 @@ import rdflib
 from ontolutils import urirefs, namespaces, Thing
 
 import pivmetalib
-from pivmetalib import pivmeta, prov
+from ontolutils.ex import prov
+from pivmetalib import pivmeta
 
 __this_dir__ = pathlib.Path(__file__).parent
 CACHE_DIR = pivmetalib.utils.get_cache_dir()
@@ -43,12 +44,14 @@ class TestClasses(unittest.TestCase):
         self.assertEqual(tc.firstName, 'John')
         self.assertDictEqual(
             pivmetalib.get_iri_fields(tc),
-            {'Testclass': 'https://www.example.com/Testclass',
-             'Thing': 'http://www.w3.org/2002/07/owl#Thing',
-             'firstName': 'foaf:firstName', 'relation': 'http://purl.org/dc/terms/relation',
+            {'Thing': 'http://www.w3.org/2002/07/owl#Thing',
+             'label': 'http://www.w3.org/2000/01/rdf-schema#label',
+             'about': 'https://schema.org/about',
+             'relation': 'http://purl.org/dc/terms/relation',
              'closeMatch': 'http://www.w3.org/2004/02/skos/core#closeMatch',
              'exactMatch': 'http://www.w3.org/2004/02/skos/core#exactMatch',
-             'label': 'http://www.w3.org/2000/01/rdf-schema#label'}
+             'Testclass': 'https://www.example.com/Testclass',
+             'firstName': 'foaf:firstName'}
         )
 
         @namespaces(ex='https://www.example.com/')
@@ -61,13 +64,14 @@ class TestClasses(unittest.TestCase):
         self.assertEqual(tc2.firstName, 'John')
         self.assertDictEqual(
             pivmetalib.get_iri_fields(tc2),
-            {'Testclass2': 'https://www.example.com/Testclass2',
-             'Thing': 'http://www.w3.org/2002/07/owl#Thing',
-             'firstName': 'foaf:firstName',
+            {'Thing': 'http://www.w3.org/2002/07/owl#Thing',
+             'label': 'http://www.w3.org/2000/01/rdf-schema#label',
+             'about': 'https://schema.org/about',
              'relation': 'http://purl.org/dc/terms/relation',
              'closeMatch': 'http://www.w3.org/2004/02/skos/core#closeMatch',
              'exactMatch': 'http://www.w3.org/2004/02/skos/core#exactMatch',
-             'label': 'http://www.w3.org/2000/01/rdf-schema#label'}
+             'Testclass2': 'https://www.example.com/Testclass2',
+             'firstName': 'foaf:firstName'}
         )
 
         @urirefs(name="http://example.com/name", age="http://example.com/age")
@@ -83,10 +87,11 @@ class TestClasses(unittest.TestCase):
             pivmetalib.get_iri_fields(em),
             {'Thing': 'http://www.w3.org/2002/07/owl#Thing',
              'label': 'http://www.w3.org/2000/01/rdf-schema#label',
-             'name': 'http://example.com/name',
+             'about': 'https://schema.org/about',
              'relation': 'http://purl.org/dc/terms/relation',
              'closeMatch': 'http://www.w3.org/2004/02/skos/core#closeMatch',
              'exactMatch': 'http://www.w3.org/2004/02/skos/core#exactMatch',
+             'name': 'http://example.com/name',
              'age': 'http://example.com/age'}
         )
 

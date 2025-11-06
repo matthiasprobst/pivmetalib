@@ -4,8 +4,8 @@ from ontolutils import namespaces, urirefs
 from pydantic import field_validator, Field
 
 from pivmetalib import sd
-from pivmetalib.m4i import Tool
-from pivmetalib.schema import SoftwareSourceCode
+from ontolutils.ex.m4i import Tool
+from ontolutils.ex.schema import SoftwareSourceCode
 
 
 @namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")

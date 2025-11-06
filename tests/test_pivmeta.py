@@ -13,16 +13,16 @@ import requests
 import ssnolib
 from ontolutils import get_urirefs
 from ontolutils.classes.decorator import URIRefManager
+from ontolutils.ex import prov
+from ontolutils.ex.dcat import Dataset
 from rdflib import DCAT
 from ssnolib import StandardName
-from pivmetalib.m4i import NumericalVariable
 from ssnolib.pimsii import Variable
 
 import pivmetalib
 import utils
-from pivmetalib import pivmeta, prov
-from pivmetalib.dcat import Dataset
-from pivmetalib.m4i import ProcessingStep, Tool, Method
+from pivmetalib import pivmeta
+from ontolutils.ex.m4i import ProcessingStep, Tool, Method, NumericalVariable
 from pivmetalib.namespace import PIV
 
 __this_dir__ = pathlib.Path(__file__).parent
@@ -153,11 +153,13 @@ class TestPIVmeta(utils.ClassTest):
         },
             "@type": "m4i:ProcessingStep",
             "rdfs:label": "p1",
-            "schema:startTime": st1.isoformat(),
+            "schema:startTime": {'@type': 'http://www.w3.org/2001/XMLSchema#dateTime',
+                                 '@value': st1.isoformat()},
             "obo:RO_0002224": {
                 "@type": "m4i:ProcessingStep",
                 "rdfs:label": "p2",
-                "schema:startTime": st2.isoformat(),
+                "schema:startTime": {'@type': 'http://www.w3.org/2001/XMLSchema#dateTime',
+                                     '@value': st2.isoformat()},
                 "@id": "_:p2"
             },
             "m4i:hasEmployedTool": {
@@ -194,9 +196,8 @@ class TestPIVmeta(utils.ClassTest):
                 "obo": "http://purl.obolibrary.org/obo/",
                 "pivmeta": "https://matthiasprobst.github.io/pivmeta#",
                 "pims": "http://www.molmod.info/semantics/pims-ii.ttl#",
-                "ssno": "https://matthiasprobst.github.io/ssno#",
-                 'skos': 'http://www.w3.org/2004/02/skos/core#',
-                 'dcterms': 'http://purl.org/dc/terms/',
+                'skos': 'http://www.w3.org/2004/02/skos/core#',
+                'dcterms': 'http://purl.org/dc/terms/',
             },
             "@type": "pivmeta:PIVProcessingStep",
             "rdfs:label": "Post processing",
@@ -239,10 +240,10 @@ class TestPIVmeta(utils.ClassTest):
         sn2 = StandardName(standard_name='y_velocity',
                            description='y component of velocity',
                            unit='m s-1')
-        var1 = ssnolib.m4i.NumericalVariable(value=4.2, standard_name=sn1)
-        var2 = ssnolib.m4i.NumericalVariable(value=5.2, standard_name=sn2)
+        var1 = NumericalVariable(value=4.2, standard_name=sn1)
+        var2 = NumericalVariable(value=5.2, standard_name=sn2)
         self.assertIsInstance(var1, ontolutils.Thing)
-        self.assertIsInstance(var1, ssnolib.m4i.NumericalVariable)
+        self.assertIsInstance(var1, NumericalVariable)
         self.assertEqual(var1.value, 4.2)
 
         var1.standard_name = sn1
@@ -264,6 +265,28 @@ class TestPIVmeta(utils.ClassTest):
             '<a href="https://matthiasprobst.github.io/pivmeta#ImageVelocimetryDistribution">'
             'https://matthiasprobst.github.io/pivmeta#ImageVelocimetryDistribution</a>'
         )
+
+    def test_virtual_setup(self):
+        camera = pivmeta.VirtualCamera(
+            label='virtual_camera',
+            manufacturer=dict(name='Virtual Camera Manufacturer'),
+            model='Virtual Camera Model',
+            serialNumber='123456'
+        )
+        laser = pivmeta.VirtualLaser(label="virtual_laser")
+        software = pivmeta.PIVSoftware(
+            label='virtual_software',
+        )
+        setup = pivmeta.VirtualSetup(
+            has_part=[camera, laser],
+            usesSoftware=software
+        )
+        self.assertEqual(setup.has_part[0], camera)
+        self.assertEqual(setup.has_part[1], laser)
+        self.assertEqual(setup.usesSoftware, software)
+
+        jsonld_string = setup.model_dump_jsonld()
+        self.check_jsonld_string(jsonld_string)
 
     def test_describe_piv_image(self):
         camera = pivmeta.VirtualCamera()

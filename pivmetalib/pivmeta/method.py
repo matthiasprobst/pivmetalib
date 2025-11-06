@@ -3,7 +3,8 @@ from typing import Union
 from ontolutils import namespaces, urirefs
 from pydantic import HttpUrl, Field, field_validator
 
-from pivmetalib import PIV, m4i
+from ontolutils.ex import m4i
+from pivmetalib import PIV
 
 
 @namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")

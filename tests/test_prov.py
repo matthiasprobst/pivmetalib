@@ -5,7 +5,7 @@ import pathlib
 
 import pivmetalib
 import utils
-from pivmetalib import prov
+from ontolutils.ex import prov
 
 __this_dir__ = pathlib.Path(__file__).parent
 CACHE_DIR = pivmetalib.utils.get_cache_dir()

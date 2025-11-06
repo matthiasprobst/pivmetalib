@@ -4,7 +4,7 @@ from ontolutils import Thing
 from ontolutils import namespaces, urirefs
 from pydantic import Field
 
-from .tool import SoftwareSourceCode
+from pivmetalib.sd import Software
 
 
 @namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#",
@@ -27,10 +27,10 @@ class Setup(Thing):
 @namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#",
             codemeta="https://codemeta.github.io/terms/")
 @urirefs(VirtualSetup="pivmeta:VirtualSetup",
-         hasSourceCode="codemeta:hasSourceCode")
+         usesSoftware="codemeta:usesSoftware")
 class VirtualSetup(Setup):
     """Pydantic implementation of pivmeta:VirtualSetup"""
-    hasSourceCode: Optional[SoftwareSourceCode] = Field(alias="source_code", default=None)
+    usesSoftware: Optional[Union[Software, List[Software]]] = Field(alias="uses_software", default=None)
 
 
 @namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")

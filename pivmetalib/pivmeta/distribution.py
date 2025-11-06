@@ -4,8 +4,7 @@ from ontolutils import namespaces, urirefs, Thing
 from pydantic import field_validator, Field, HttpUrl
 from ssnolib.pimsii import Variable
 
-from pivmetalib.dcat import Distribution, Dataset
-
+from ontolutils.ex.dcat import Distribution, Dataset
 
 def make_href(url, text=None):
     """Returns a HTML link to the given URL"""
