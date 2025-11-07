@@ -10,19 +10,19 @@ from typing import Union, List
 
 import ontolutils
 import requests
-import ssnolib
 from ontolutils import get_urirefs
 from ontolutils.classes.decorator import URIRefManager
 from ontolutils.ex import prov
 from ontolutils.ex.dcat import Dataset
+from ontolutils.ex.m4i import ProcessingStep, Tool, Method
 from rdflib import DCAT
 from ssnolib import StandardName
 from ssnolib.pimsii import Variable
+from ssnolib.m4i import NumericalVariable
 
 import pivmetalib
 import utils
 from pivmetalib import pivmeta
-from ontolutils.ex.m4i import ProcessingStep, Tool, Method, NumericalVariable
 from pivmetalib.namespace import PIV
 
 __this_dir__ = pathlib.Path(__file__).parent
@@ -198,6 +198,7 @@ class TestPIVmeta(utils.ClassTest):
                 "pims": "http://www.molmod.info/semantics/pims-ii.ttl#",
                 'skos': 'http://www.w3.org/2004/02/skos/core#',
                 'dcterms': 'http://purl.org/dc/terms/',
+                'ssno': 'https://matthiasprobst.github.io/ssno#'
             },
             "@type": "pivmeta:PIVProcessingStep",
             "rdfs:label": "Post processing",
