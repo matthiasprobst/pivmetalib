@@ -42,7 +42,7 @@ class PIV(DefinedNamespace):
     PIVProcessingStep: URIRef  # ['PIV Processing step']
     PIVRecording: URIRef  # ['PIV recording']
     PIVSoftware: URIRef  # ['PIV software']
-    PTVDataset: URIRef  # ['PTV Dataset']
+    PTVDataset: URIRef  # ['PTV dataset']
     PeakSearchMethod: URIRef  # ['peak search method']
     Setup: URIRef  # ['Setup']
     Singlepass: URIRef  # ['singlepass']
@@ -62,15 +62,26 @@ class PIV(DefinedNamespace):
     isSetupFor: URIRef  # ['is setup for']
     manufacturer: URIRef  # ['manufacturer']
     outlierReplacementScheme: URIRef  # ['outlier replacement scheme']
+    usesAcquisitionSoftware: URIRef  # ['uses acquisition software']
+    usesAnalysisSoftware: URIRef  # ['uses analysis software']
+    usesSoftware: URIRef  # ['uses software']
     filenamePattern: URIRef  # ['filename pattern']
     fnumber: URIRef  # ['fnumber']
     hasFlagMeaning: URIRef  # ['has flag meaning']
     hasFlagValue: URIRef  # ['has flag value']
-    timeFormat: URIRef  # ['time format']
+    timeValue: URIRef  # ['time value']
     BlackmanWindow: URIRef  # ['blackman window']
     DEHS: URIRef  # ['DEHS']
     ExperimentalImage: URIRef  # ['experimental image']
     FlagActive: URIRef  # ['active']
+    FlagDisabled: URIRef  # ['disabled']
+    FlagFiltered: URIRef  # ['filtered']
+    FlagInactive: URIRef  # ['inactive']
+    FlagInterpolated: URIRef  # ['interpolated']
+    FlagManualEdit: URIRef  # ['manualedit']
+    FlagMasked: URIRef  # ['masked']
+    FlagNoResult: URIRef  # ['noresult']
+    FlagReplaced: URIRef  # ['replaced']
     GaussianWindow: URIRef  # ['Gaussian window']
     HannWindow: URIRef  # ['Hann window']
     Image: URIRef  # ['image']
@@ -84,6 +95,7 @@ class PIV(DefinedNamespace):
     PER_PIXEL: URIRef  # ['per pixel']
     PIV: URIRef  # ['Particle Image Velocimetry']
     PTV: URIRef  # ['Particle Tracking Velocimetry']
+    ProcessedImage: URIRef  # ['processed image']
     ReEvaluateWithLargerSample: URIRef  # ['re-evaluate with larger sample']
     ResultData: URIRef  # ['result data']
     SpatialResolution: URIRef  # ['spatial resolution']
@@ -135,7 +147,7 @@ setattr(PIV, "PIV_pre_processing", PIV.PIVPreProcessing)
 setattr(PIV, "PIV_Processing_step", PIV.PIVProcessingStep)
 setattr(PIV, "PIV_recording", PIV.PIVRecording)
 setattr(PIV, "PIV_software", PIV.PIVSoftware)
-setattr(PIV, "PTV_Dataset", PIV.PTVDataset)
+setattr(PIV, "PTV_dataset", PIV.PTVDataset)
 setattr(PIV, "peak_search_method", PIV.PeakSearchMethod)
 setattr(PIV, "Setup", PIV.Setup)
 setattr(PIV, "singlepass", PIV.Singlepass)
@@ -155,15 +167,26 @@ setattr(PIV, "has_window_weighting_function", PIV.hasWindowWeightingFunction)
 setattr(PIV, "is_setup_for", PIV.isSetupFor)
 setattr(PIV, "manufacturer", PIV.manufacturer)
 setattr(PIV, "outlier_replacement_scheme", PIV.outlierReplacementScheme)
+setattr(PIV, "uses_acquisition_software", PIV.usesAcquisitionSoftware)
+setattr(PIV, "uses_analysis_software", PIV.usesAnalysisSoftware)
+setattr(PIV, "uses_software", PIV.usesSoftware)
 setattr(PIV, "filename_pattern", PIV.filenamePattern)
 setattr(PIV, "fnumber", PIV.fnumber)
 setattr(PIV, "has_flag_meaning", PIV.hasFlagMeaning)
 setattr(PIV, "has_flag_value", PIV.hasFlagValue)
-setattr(PIV, "time_format", PIV.timeFormat)
+setattr(PIV, "time_value", PIV.timeValue)
 setattr(PIV, "blackman_window", PIV.BlackmanWindow)
 setattr(PIV, "DEHS", PIV.DEHS)
 setattr(PIV, "experimental_image", PIV.ExperimentalImage)
 setattr(PIV, "active", PIV.FlagActive)
+setattr(PIV, "disabled", PIV.FlagDisabled)
+setattr(PIV, "filtered", PIV.FlagFiltered)
+setattr(PIV, "inactive", PIV.FlagInactive)
+setattr(PIV, "interpolated", PIV.FlagInterpolated)
+setattr(PIV, "manualedit", PIV.FlagManualEdit)
+setattr(PIV, "masked", PIV.FlagMasked)
+setattr(PIV, "noresult", PIV.FlagNoResult)
+setattr(PIV, "replaced", PIV.FlagReplaced)
 setattr(PIV, "Gaussian_window", PIV.GaussianWindow)
 setattr(PIV, "Hann_window", PIV.HannWindow)
 setattr(PIV, "image", PIV.Image)
@@ -177,6 +200,7 @@ setattr(PIV, "millimeter_per_pixel", PIV.MilliM_PER_PIXEL)
 setattr(PIV, "per_pixel", PIV.PER_PIXEL)
 setattr(PIV, "Particle_Image_Velocimetry", PIV.PIV)
 setattr(PIV, "Particle_Tracking_Velocimetry", PIV.PTV)
+setattr(PIV, "processed_image", PIV.ProcessedImage)
 setattr(PIV, "re-evaluate_with_larger_sample", PIV.ReEvaluateWithLargerSample)
 setattr(PIV, "result_data", PIV.ResultData)
 setattr(PIV, "spatial_resolution", PIV.SpatialResolution)
@@ -187,5 +211,3 @@ setattr(PIV, "top_bottom_flip", PIV.TopBottomFlip)
 setattr(PIV, "try_lower_order_peaks", PIV.TryLowerOrderPeaks)
 setattr(PIV, "Tukey_window", PIV.TukeyWindow)
 setattr(PIV, "Micro_Particle_Image_Velocimetry", PIV.microPIV)
-
-PIVMETA = PIV  # alias
