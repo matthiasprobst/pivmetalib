@@ -25,6 +25,7 @@ import utils
 from pivmetalib import pivmeta
 from pivmetalib.namespace import PIV
 
+from pivmetalib.pivmeta.variable import TemporalVariable
 __this_dir__ = pathlib.Path(__file__).parent
 CACHE_DIR = pivmetalib.utils.get_cache_dir()
 
@@ -280,11 +281,13 @@ class TestPIVmeta(utils.ClassTest):
         )
         setup = pivmeta.VirtualSetup(
             has_part=[camera, laser],
-            usesSoftware=software
+            usesSoftware=software,
+            usesAnalysisSoftware=software
         )
         self.assertEqual(setup.has_part[0], camera)
         self.assertEqual(setup.has_part[1], laser)
         self.assertEqual(setup.usesSoftware, software)
+        self.assertEqual(setup.usesAnalysisSoftware, software)
 
         jsonld_string = setup.model_dump_jsonld()
         self.check_jsonld_string(jsonld_string)
@@ -437,3 +440,18 @@ class TestPIVmeta(utils.ClassTest):
 
 """
         self.assertEqual(serialized, expected_serialized)
+
+    def test_TemporalVariable(self):
+        today_date = datetime.now().date()
+        temp_var = TemporalVariable(
+            time_value=today_date,
+            label='time'
+        )
+        self.assertIsInstance(temp_var, ontolutils.Thing)
+        self.assertIsInstance(temp_var, TemporalVariable)
+        self.assertEqual(temp_var.label, 'time')
+        self.assertEqual(temp_var.timeValue, today_date)
+
+        jsonld_string = temp_var.model_dump_jsonld()
+        self.check_jsonld_string(jsonld_string)
+        print(temp_var.serialize("ttl"))

@@ -21,9 +21,9 @@ class Setup(Thing):
     BFO_0000051: Optional[Union[Thing, List[Thing]]] = Field(alias="has_part", default=None)
     usesSoftware: Optional[Union[Software, List[Software]]] = Field(alias="uses_software", default=None)
 
-    usesAnalysisSoftware: Optional[Union[Software, List[Software]]] = Field(alias="uses analysis software",
+    usesAnalysisSoftware: Optional[Union[Software, List[Software]]] = Field(alias="uses_analysis_software",
                                                                             default=None)
-    usesAcquisitionSoftware: Optional[Union[Software, List[Software]]] = Field(alias="uses acquisitions software",
+    usesAcquisitionSoftware: Optional[Union[Software, List[Software]]] = Field(alias="uses_acquisitions_software",
                                                                                default=None)
 
     @property
