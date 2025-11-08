@@ -1,0 +1,576 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF
+   xmlns:dcat="http://www.w3.org/ns/dcat#"
+   xmlns:dcterms="http://purl.org/dc/terms/"
+   xmlns:foaf="http://xmlns.com/foaf/0.1/"
+   xmlns:m4i="http://w3id.org/nfdi4ing/metadata4ing#"
+   xmlns:prov="http://www.w3.org/ns/prov#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:schema="https://schema.org/"
+   xmlns:ssno="https://matthiasprobst.github.io/ssno#"
+>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardNameTable"/>
+    <dcterms:title>Standard Name Table for Particle Image Velociemtry data</dcterms:title>
+    <schema:version>1.2.0</schema:version>
+    <dcterms:description>This table provides standard names for the description of PIV data. It is an initial version covering the most basic properties of planar PIV data.</dcterms:description>
+    <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2024-11-17</dcterms:created>
+    <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2025-11-07</dcterms:modified>
+    <prov:qualifiedAttribution rdf:resource="https://doi.org/10.5281/zenodo.17550472#qualifiedAttribution/author/1"/>
+    <prov:qualifiedAttribution rdf:resource="https://doi.org/10.5281/zenodo.17550472#qualifiedAttribution/author/2"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#piv_correlation_coefficient"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#piv_first_peak_correlation_coefficient"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#piv_second_peak_correlation_coefficient"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#piv_third_peak_correlation_coefficient"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#first_peak_x_displacement"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#first_peak_y_displacement"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#x_derivative_of_x_velocity"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#x_derivative_of_y_velocity"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#x_derivative_of_z_velocity"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#y_derivative_of_x_velocity"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#y_derivative_of_y_velocity"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#y_derivative_of_z_velocity"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#z_derivative_of_x_velocity"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#z_derivative_of_y_velocity"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#z_derivative_of_z_velocity"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#image_particle_density"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#image_density"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#image_particle_diameter"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#arithmetic_mean_of_image_particle_diameter"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#standard_deviation_of_image_particle_diameter"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#image_index"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#inplane_velocity"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#x_inplane_velocity"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#y_inplane_velocity"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#model_laser_sheet_thickness"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#laser_sheet_thickness"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#model_laser_sheet_shape_factor"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#arithmetic_mean_of_seeding_particle_size"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#standard_deviation_of_seeding_particle_size"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#number_of_particles"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#saturated_pixel_number"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#second_peak_x_displacement"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#second_peak_y_displacement"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#third_peak_x_displacement"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#third_peak_y_displacement"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#relative_time"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#magnitude_of_velocity"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#x_velocity"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#y_velocity"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#z_velocity"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#displacement"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#x_displacement"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#y_displacement"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#final_interrogation_window_overlap_size"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#x_final_interrogation_window_overlap_size"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#final_interrogation_window_size"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#x_final_interrogation_window_size"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#initial_interrogation_window_size"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#x_initial_interrogation_window_size"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#x_pixel_coordinate"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#y_final_interrogation_window_overlap_size"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#y_final_interrogation_window_size"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#y_initial_interrogation_window_size"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#y_pixel_coordinate"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#x_image_coordinate"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#x_origin_offset"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#y_image_coordinate"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#y_origin_offset"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#x_coordinate"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#y_coordinate"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#z_coordinate"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#signal_to_noise_ratio"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#least_square_residual_of_z_displacement_reconstruction"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#piv_scaling_factor"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#image_filter_kernel_size"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#ccd_width"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#ccd_height"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#focal_length"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#sensor_pixel_width"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#sensor_pixel_height"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#sensor_pixel_width_fill_factor"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#sensor_pixel_height_fill_factor"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#image_bit_depth"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#optical_magnification"/>
+    <ssno:standardNames rdf:resource="https://doi.org/10.5281/zenodo.17550472#laser_pulse_delay"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#x_displacement">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>x_displacement</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/PIXEL"/>
+    <ssno:description>Displacement is a vector quantity and describes the particle displacement in pixels in the image plane. x indicates a vector component along the grid x-axis, positive with increasing x.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#y_derivative_of_z_velocity">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>y_derivative_of_z_velocity</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/PER-SEC"/>
+    <ssno:description>The standard name y_derivative_of_z_velocity denotes the derivative of the z component of the velocity vector with respect to the y coordinate.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#piv_first_peak_correlation_coefficient">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>piv_first_peak_correlation_coefficient</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/UNITLESS"/>
+    <ssno:description>The correlation coefficient is a measure for the quality of the PIV evaluation. It is computed based on the cross-correlation of the interrogation windows. The first peak correlation coefficient is the correlation coefficient of the first peak of the cross-correlation function.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#optical_magnification">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>optical_magnification</ssno:standardName>
+    <ssno:unit rdf:resource="https://matthiasprobst.github.io/pivmeta#MilliM-PER-PIXEL"/>
+    <ssno:description>The optical magnification of the imaging system.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#ccd_height">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>ccd_height</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/M"/>
+    <ssno:description>The height of a ccd pixel.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#initial_interrogation_window_size">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>initial_interrogation_window_size</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/PIXEL"/>
+    <ssno:description>Width and height of a square initial PIV interrogation window (in case of a multi-grid PIV algorithm).</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#image_particle_density">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>image_particle_density</ssno:standardName>
+    <ssno:unit rdf:resource="https://matthiasprobst.github.io/pivmeta#PER-PIXEL"/>
+    <ssno:description>Number of particle images per pixel. Equals the number of particles divided by the image area.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#final_interrogation_window_overlap_size">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>final_interrogation_window_overlap_size</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/PIXEL"/>
+    <ssno:description>Width and height of a square final PIV interrogation window overlap.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://orcid.org/0000-0001-8729-0482">
+    <rdf:type rdf:resource="http://www.w3.org/ns/prov#Person"/>
+    <foaf:firstName>Matthias</foaf:firstName>
+    <foaf:lastName>Probst</foaf:lastName>
+    <m4i:orcidId rdf:resource="https://orcid.org/0000-0001-8729-0482"/>
+    <schema:affiliation rdf:resource="https://ror.org/04t3en479"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#piv_second_peak_correlation_coefficient">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>piv_second_peak_correlation_coefficient</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/UNITLESS"/>
+    <ssno:description>The correlation coefficient is a measure for the quality of the PIV evaluation. It is computed based on the cross-correlation of the interrogation windows. The first peak correlation coefficient is the correlation coefficient of the second peak of the cross-correlation function.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#model_laser_sheet_shape_factor">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>model_laser_sheet_shape_factor</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/UNITLESS"/>
+    <ssno:description>The shape factor used to model the expanded laser beam. The shape factor is introduced in 'Particle Image Velocimetry A Practical Guide' by Raffel et al. (2018). It deforms a Gaussian beam. High values result in a more top-hat-like beam, while low values result in a more Gaussian-like beam.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#first_peak_y_displacement">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>first_peak_y_displacement</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/PIXEL"/>
+    <ssno:description>Displacement is a vector quantity. Y indicates the component in y-axis direction. This component is an in-plane component. The displacement is computed based on the first peak of the cross-correlation function.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#image_filter_kernel_size">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>image_filter_kernel_size</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/UNITLESS"/>
+    <ssno:description>The size of the image filter kernel.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#y_displacement">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>y_displacement</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/PIXEL"/>
+    <ssno:description>y indicates a vector component along the grid y-axis, positive with increasing y.Displacement is a vector quantity and describes the particle displacement in pixels in the image plane.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#z_coordinate">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>z_coordinate</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/M"/>
+    <ssno:description>The spatial coordinate in depth direction in the global coordinate system and hence perpendicular to the sensor plane.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#number_of_particles">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>number_of_particles</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/UNITLESS"/>
+    <ssno:description>Number of seeding particles in the image or field of interest. See also image_particle_density.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#sensor_pixel_height_fill_factor">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>sensor_pixel_height_fill_factor</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/UNITLESS"/>
+    <ssno:description>Fill factor in vertical direction. The fill factor of an image sensor array is the ratio of a pixel's light sensitive area to its total area. See https://en.wikipedia.org/wiki/Fill_factor_(image_sensor). The value must be between 0 and 1, where 1 depicts a 100 percent. The higher the fill factor, the more sensitive the sensor.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#focal_length">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>focal_length</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/M"/>
+    <ssno:description>The focal length of a single lens or a lens system like an objective. See also https://www.wikidata.org/wiki/Q193540.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#laser_sheet_thickness">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>laser_sheet_thickness</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/M"/>
+    <ssno:description>The laser sheet thickness used in a measurement. For a model laser sheet thickness, use model_laser_sheet_thickness. The use of laser_sheet_thickness has no clear definition, but is where the intensity of the laser sheet drops significantly.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#x_derivative_of_y_velocity">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>x_derivative_of_y_velocity</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/PER-SEC"/>
+    <ssno:description>The standard name x_derivative_of_y_velocity denotes the derivative of the y component of the velocity vector with respect to the x coordinate.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#z_derivative_of_x_velocity">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>z_derivative_of_x_velocity</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/PER-SEC"/>
+    <ssno:description>The standard name z_derivative_of_x_velocity denotes the derivative of the x component of the velocity vector with respect to the z coordinate.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#y_final_interrogation_window_size">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>y_final_interrogation_window_size</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/PIXEL"/>
+    <ssno:description>The height of the final PIV interrogation window.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#x_coordinate">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>x_coordinate</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/M"/>
+    <ssno:description>The spatial coordinate in horizontal direction in the global coordinate system, which is aligned with the sensor orientation. The sensor width therefore corresponds to sensor size in direction of x_coordinate.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#saturated_pixel_number">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>saturated_pixel_number</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/UNITLESS"/>
+    <ssno:description>Number of pixels in the field of interest that exceed the maximal senor count.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#x_pixel_coordinate">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>x_pixel_coordinate</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/PIXEL"/>
+    <ssno:description>Pixel coordinate in horizontal direction. It depicts the position of each velocity vector in the result data in pixel unit, where the origin is at the lower left. The coordinate is aligned with the physical coordinate axis (x_coordinate), not the image coordinate (x_image_coordinate) which has its origin in the top left of the image.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#x_inplane_velocity">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>x_inplane_velocity</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/M-PER-SEC"/>
+    <ssno:description>The standard name inplane_velocity denotes the magnitude of a two-dimensional velocity vector. Plane is spanned by the x and y axis of PIV plane. The PIV plane is the plane illuminated by the laser. x indicates a vector component along the grid x-axis, positive with increasing x.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#sensor_pixel_width">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>sensor_pixel_width</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/M"/>
+    <ssno:description>The width of the sensor in pixel.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#arithmetic_mean_of_image_particle_diameter">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>arithmetic_mean_of_image_particle_diameter</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/PIXEL"/>
+    <ssno:description>Arithmetic mean of the image particle diameters in the flow. The diameter of an image particle approximated by a circular Gaussian intensity bell, where the diameter is defined at the e-2 intensity, thus the particle diameter is equal to 4 sigma of the Gaussian distribution. Note, that there might be other definitions, too, however, this one is the most common one in literature.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#z_derivative_of_z_velocity">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>z_derivative_of_z_velocity</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/PER-SEC"/>
+    <ssno:description>The standard name z_derivative_of_z_velocity denotes the derivative of the z component of the velocity vector with respect to the z coordinate.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#qualifiedAttribution/author/1">
+    <rdf:type rdf:resource="http://www.w3.org/ns/prov#Attribution"/>
+    <prov:agent rdf:resource="https://orcid.org/0000-0001-8729-0482"/>
+    <dcat:hadRole rdf:resource="http://w3id.org/nfdi4ing/metadata4ing#ContactPerson"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#piv_third_peak_correlation_coefficient">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>piv_third_peak_correlation_coefficient</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/UNITLESS"/>
+    <ssno:description>The correlation coefficient is a measure for the quality of the PIV evaluation. It is computed based on the cross-correlation of the interrogation windows. The first peak correlation coefficient is the correlation coefficient of the third peak of the cross-correlation function.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#third_peak_y_displacement">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>third_peak_y_displacement</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/PIXEL"/>
+    <ssno:description>Displacement is a vector quantity. Y indicates the component in y-axis direction. This component is an in-plane component. The displacement is computed based on the third peak of the cross-correlation function.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#y_coordinate">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>y_coordinate</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/M"/>
+    <ssno:description>The spatial coordinate in vertical direction in the global coordinate system, which is aligned with the sensor orientation. The sensor width therefore corresponds to sensor size in direction of y_coordinate.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#image_index">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>image_index</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/UNITLESS"/>
+    <ssno:description>Index of a PIV image collection. Starts at 1 and ends at the number of images N.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#signal_to_noise_ratio">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>signal_to_noise_ratio</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/UNITLESS"/>
+    <ssno:description>The signal to noise ratio of the PIV evaluation.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#sensor_pixel_width_fill_factor">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>sensor_pixel_width_fill_factor</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/UNITLESS"/>
+    <ssno:description>Fill factor in horizontal direction. The fill factor of an image sensor array is the ratio of a pixel's light sensitive area to its total area. See https://en.wikipedia.org/wiki/Fill_factor_(image_sensor). The value must be between 0 and 1, where 1 depicts a 100 percent. The higher the fill factor, the more sensitive the sensor.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#x_initial_interrogation_window_size">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>x_initial_interrogation_window_size</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/PIXEL"/>
+    <ssno:description>Width of a initial PIV interrogation window (in case of a multi-grid PIV algorithm).</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#y_inplane_velocity">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>y_inplane_velocity</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/M-PER-SEC"/>
+    <ssno:description>The standard name inplane_velocity denotes the magnitude of a two-dimensional velocity vector. Plane is spanned by the x and y axis of PIV plane. The PIV plane is the plane illuminated by the laser. y indicates a vector component along the grid y-axis, positive with increasing x.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#least_square_residual_of_z_displacement_reconstruction">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>least_square_residual_of_z_displacement_reconstruction</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/UNITLESS"/>
+    <ssno:description>The least square residual of the z displacement reconstruction in stereo PIV.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#displacement">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>displacement</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/PIXEL"/>
+    <ssno:description>PIV pixel displacement magnitude in the image plane.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#laser_pulse_delay">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>laser_pulse_delay</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/SEC"/>
+    <ssno:description>Time between two laser pulses.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#relative_time">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>relative_time</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/SEC"/>
+    <ssno:description>Recording time since start of recording.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://ror.org/04t3en479">
+    <rdf:type rdf:resource="http://www.w3.org/ns/prov#Organization"/>
+    <foaf:name>Karlsruhe Institute of Technology, Institute of Thermal Turbomachinery</foaf:name>
+    <m4i:hasRorId rdf:resource="https://ror.org/04t3en479"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#sensor_pixel_height">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>sensor_pixel_height</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/M"/>
+    <ssno:description>The height of the sensor in pixel.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://orcid.org/0000-0001-9560-500X">
+    <rdf:type rdf:resource="http://www.w3.org/ns/prov#Person"/>
+    <foaf:firstName>Balazs</foaf:firstName>
+    <foaf:lastName>Pritz</foaf:lastName>
+    <m4i:orcidId rdf:resource="https://orcid.org/0000-0001-9560-500X"/>
+    <schema:affiliation rdf:resource="https://ror.org/04t3en479"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#image_particle_diameter">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>image_particle_diameter</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/PIXEL"/>
+    <ssno:description>The diameter of an image particle approximated by a circular Gaussian intensity bell, where the diameter is defined at the e-2 intensity, thus the particle diameter is equal to 4 sigma of the Gaussian distribution. Note, that there might be other definitions, too, however, this one is the most common one in literature.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#x_origin_offset">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>x_origin_offset</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/M"/>
+    <ssno:description>The physical offset of the x_image_origin_coordinate in the global coordinate system.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#y_velocity">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>y_velocity</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/M-PER-SEC"/>
+    <ssno:description>Velocity is defined as a three-dimensional velocity vector. y indicates a vector component along the grid y-axis, positive with increasing y.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#x_derivative_of_x_velocity">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>x_derivative_of_x_velocity</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/PER-SEC"/>
+    <ssno:description>The standard name x_derivative_of_x_velocity denotes the derivative of the x component of the velocity vector with respect to the x coordinate.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#piv_correlation_coefficient">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>piv_correlation_coefficient</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/UNITLESS"/>
+    <ssno:description>The correlation coefficient is a measure for the quality of the PIV evaluation. It is computed based on the cross-correlation of the interrogation windows.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#magnitude_of_velocity">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>magnitude_of_velocity</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/M-PER-SEC"/>
+    <ssno:description>Velocity is defined as a three-dimensional velocity vector. Magnitude denotes the length of the vector.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#second_peak_x_displacement">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>second_peak_x_displacement</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/PIXEL"/>
+    <ssno:description>Displacement is a vector quantity. X indicates the component in x-axis direction. This component is an in-plane component. The displacement is computed based on the second peak of the cross-correlation function.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#third_peak_x_displacement">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>third_peak_x_displacement</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/PIXEL"/>
+    <ssno:description>Displacement is a vector quantity. X indicates the component in x-axis direction. This component is an in-plane component. The displacement is computed based on the third peak of the cross-correlation function.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#y_final_interrogation_window_overlap_size">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>y_final_interrogation_window_overlap_size</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/PIXEL"/>
+    <ssno:description>The height of a final PIV interrogation window overlap.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#y_image_coordinate">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>y_image_coordinate</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/PIXEL"/>
+    <ssno:description>The spatial coordinate in vertical direction. The origin is in the top left.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#image_bit_depth">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>image_bit_depth</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/UNITLESS"/>
+    <ssno:description>The pixel depth of an image in bits. Typical bit depth are 8 bits or 16 bits.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#y_initial_interrogation_window_size">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>y_initial_interrogation_window_size</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/PIXEL"/>
+    <ssno:description>Height of the initial PIV interrogation window (in case of a multi-grid PIV algorithm).</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#piv_scaling_factor">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>piv_scaling_factor</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/PER-M"/>
+    <ssno:description>Image scaling factor.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#ccd_width">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>ccd_width</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/M"/>
+    <ssno:description>The width of a ccd pixel.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#y_origin_offset">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>y_origin_offset</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/M"/>
+    <ssno:description>The physical offset of the y_image_origin_coordinate in the global coordinate system.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#y_pixel_coordinate">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>y_pixel_coordinate</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/PIXEL"/>
+    <ssno:description>Pixel coordinate in vertical direction. It depicts the position of each velocity vector in the result data in pixel unit, where the origin is at the lower left. The coordinate is aligned with the physical coordinate axis (y_coordinate), not the image coordinate (y_image_coordinate) which has its origin in the top left of the image.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#x_derivative_of_z_velocity">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>x_derivative_of_z_velocity</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/PER-SEC"/>
+    <ssno:description>The standard name x_derivative_of_z_velocity denotes the derivative of the z component of the velocity vector with respect to the x coordinate.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#final_interrogation_window_size">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>final_interrogation_window_size</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/PIXEL"/>
+    <ssno:description>Width and height of a square final PIV interrogation window.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#arithmetic_mean_of_seeding_particle_size">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>arithmetic_mean_of_seeding_particle_size</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/M"/>
+    <ssno:description>The arithmetic mean of the diameter of the seeding particles.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#image_density">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>image_density</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/UNITLESS"/>
+    <ssno:description>The image density is computed based on the source density $N_s$ and the interrogation window size.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#standard_deviation_of_seeding_particle_size">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>standard_deviation_of_seeding_particle_size</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/M"/>
+    <ssno:description>The standard deviation of the seeding particles sizes.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#inplane_velocity">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>inplane_velocity</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/M-PER-SEC"/>
+    <ssno:description>The standard name inplane_velocity denotes the magnitude of a two-dimensional velocity vector, which . Plane is spanned by the x and y axis of PIV plane. The PIV plane is the plane illuminated by the laser. The component in the third direction is called outofplane_velocity.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#first_peak_x_displacement">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>first_peak_x_displacement</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/PIXEL"/>
+    <ssno:description>Displacement is a vector quantity. X indicates the component in x-axis direction. This component is an in-plane component. The displacement is computed based on the first peak of the cross-correlation function.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#second_peak_y_displacement">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>second_peak_y_displacement</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/PIXEL"/>
+    <ssno:description>Displacement is a vector quantity. Y indicates the component in y-axis direction. This component is an in-plane component. The displacement is computed based on the second peak of the cross-correlation function.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#z_derivative_of_y_velocity">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>z_derivative_of_y_velocity</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/PER-SEC"/>
+    <ssno:description>The standard name z_derivative_of_y_velocity denotes the derivative of the y component of the velocity vector with respect to the z coordinate.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#x_velocity">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>x_velocity</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/M-PER-SEC"/>
+    <ssno:description>Velocity is defined as a three-dimensional velocity vector. x indicates a vector component along the grid x-axis, positive with increasing x.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#qualifiedAttribution/author/2">
+    <rdf:type rdf:resource="http://www.w3.org/ns/prov#Attribution"/>
+    <prov:agent rdf:resource="https://orcid.org/0000-0001-9560-500X"/>
+    <dcat:hadRole rdf:resource="http://w3id.org/nfdi4ing/metadata4ing#Supervisor"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#y_derivative_of_x_velocity">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>y_derivative_of_x_velocity</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/PER-SEC"/>
+    <ssno:description>The standard name y_derivative_of_x_velocity denotes the derivative of the x component of the velocity vector with respect to the y coordinate.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#standard_deviation_of_image_particle_diameter">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>standard_deviation_of_image_particle_diameter</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/PIXEL"/>
+    <ssno:description>Standard deviation of the image particle diameters in the flow. The diameter of an image particle approximated by a circular Gaussian intensity bell, where the diameter is defined at the e-2 intensity, thus the particle diameter is equal to 4 sigma of the Gaussian distribution. Note, that there might be other definitions, too, however, this one is the most common one in literature.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#x_final_interrogation_window_overlap_size">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>x_final_interrogation_window_overlap_size</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/PIXEL"/>
+    <ssno:description>Width of a final PIV interrogation window overlap.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#model_laser_sheet_thickness">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>model_laser_sheet_thickness</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/M"/>
+    <ssno:description>The width of the laser sheet illuminating the seeding particles as used in a model (synthetic PIV. The width is defined at the e-2 intensity of a Gaussian bell curve. However, the laser beam shape must not be Gaussian, but can be more top-hat-like. The shape is defined by the shap factor (laser_sheet_shape_factor).</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#x_final_interrogation_window_size">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>x_final_interrogation_window_size</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/PIXEL"/>
+    <ssno:description>Width of a final PIV interrogation window.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#z_velocity">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>z_velocity</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/M-PER-SEC"/>
+    <ssno:description>Velocity is defined as a three-dimensional velocity vector. z indicates a vector component along the grid y-axis, positive with increasing z.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#y_derivative_of_y_velocity">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>y_derivative_of_y_velocity</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/PER-SEC"/>
+    <ssno:description>The standard name y_derivative_of_y_velocity denotes the derivative of the y component of the velocity vector with respect to the y coordinate.</ssno:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://doi.org/10.5281/zenodo.17550472#x_image_coordinate">
+    <rdf:type rdf:resource="https://matthiasprobst.github.io/ssno#StandardName"/>
+    <ssno:standardName>x_image_coordinate</ssno:standardName>
+    <ssno:unit rdf:resource="http://qudt.org/vocab/unit/PIXEL"/>
+    <ssno:description>The spatial coordinate in horizontal direction. The origin is at the top left.</ssno:description>
+  </rdf:Description>
+</rdf:RDF>

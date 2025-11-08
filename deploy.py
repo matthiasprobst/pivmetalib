@@ -27,6 +27,7 @@ def generate_namespace_file():
     iris = {}
     for k, v in context['@context'].items():
         if '@id' in v:
+            print(v)
             if namespace in v['@id']:
                 name = v["@id"].rsplit(":", 1)[-1]
                 if name not in iris:
@@ -48,6 +49,7 @@ def generate_namespace_file():
         f.write('\n\n')
 
         for k, v in iris.items():
+            print(k)
             for kk in v["keys"]:
                 key = kk.replace(' ', '_')
                 print(kk)

@@ -5,13 +5,18 @@ from rdflib.term import URIRef
 class PIV(DefinedNamespace):
     # uri = "https://matthiasprobst.github.io/pivmeta#"
     # Generated with pivmetalib
+    Flag: URIRef  # ['Flag']
+    FlagScheme: URIRef  # ['flag scheme']
+    FlagMapping: URIRef  # ['flag mapping']
+    FlagValue: URIRef  # ['flag value']
+    FlagSchemeType: URIRef  # ['flag scheme type']
+    BitwiseFlagScheme: URIRef  # ['bitwise flag scheme']
+    EnumeratedFlagScheme: URIRef  # ['enumerated flag scheme']
     BackgroundSubtractionMethod: URIRef  # ['background subtraction method']
     Camera: URIRef  # ['camera']
     CorrelationMethod: URIRef  # ['correlation method']
     DigitalCamera: URIRef  # ['digital camera']
     ExperimentalSetup: URIRef  # ['experimental setup']
-    FlagStatistics: URIRef  # ['flag statistics']
-    FlagVariable: URIRef  # ['flag variable']
     ImageManipulationMethod: URIRef  # ['image manipulation method']
     ImageVelocimetryDataset: URIRef  # ['Image Velocimetry Dataset']
     ImageVelocimetryDistribution: URIRef  # ['Image Velocimetry Distribution']
@@ -53,8 +58,13 @@ class PIV(DefinedNamespace):
     VirtualSetup: URIRef  # ['virtual setup']
     VirtualTool: URIRef  # ['virtual tool']
     WindowWeightingFunction: URIRef  # ['window weighting function']
+    hasFlagScheme: URIRef  # ['has flag scheme']
     flag: URIRef  # ['flag']
     flagIn: URIRef  # ['flag in']
+    allowedFlag: URIRef  # ['allowed flag']
+    usesFlagSchemeType: URIRef  # ['uses flag scheme type']
+    mapsToFlag: URIRef  # ['maps to flag']
+    hasFlagMapping: URIRef  # ['has flag mapping']
     hasMetric: URIRef  # ['has metric']
     hasPIVDataType: URIRef  # ['has PIV data type']
     hasSetup: URIRef  # ['has setup']
@@ -67,22 +77,15 @@ class PIV(DefinedNamespace):
     usesSoftware: URIRef  # ['uses software']
     filenamePattern: URIRef  # ['filename pattern']
     fnumber: URIRef  # ['fnumber']
-    hasFlagMeaning: URIRef  # ['has flag meaning']
+    mask: URIRef  # ['mask']
+    meaning: URIRef  # ['meaning']
     hasFlagValue: URIRef  # ['has flag value']
     timeValue: URIRef  # ['time value']
     BlackmanWindow: URIRef  # ['blackman window']
     DEHS: URIRef  # ['DEHS']
     ExperimentalImage: URIRef  # ['experimental image']
-    FlagActive: URIRef  # ['active']
-    FlagDisabled: URIRef  # ['disabled']
-    FlagFiltered: URIRef  # ['filtered']
-    FlagInactive: URIRef  # ['inactive']
-    FlagInterpolated: URIRef  # ['interpolated']
-    FlagManualEdit: URIRef  # ['manualedit']
-    FlagMasked: URIRef  # ['masked']
-    FlagNoResult: URIRef  # ['noresult']
-    FlagReplaced: URIRef  # ['replaced']
     GaussianWindow: URIRef  # ['Gaussian window']
+    HammingWindow: URIRef  # ['Hamming window']
     HannWindow: URIRef  # ['Hann window']
     Image: URIRef  # ['image']
     ImageDewarping: URIRef  # ['image dewarping']
@@ -90,7 +93,7 @@ class PIV(DefinedNamespace):
     ImageHorizontalFlip: URIRef  # ['image horizontal flip']
     Interpolation: URIRef  # ['interpolation']
     LeftRightFlip: URIRef  # ['left right flip']
-    Mask: URIRef  # ['mask']
+    Mask: URIRef  # ['Mask']
     MilliM_PER_PIXEL: URIRef  # ['millimeter per pixel']
     PER_PIXEL: URIRef  # ['per pixel']
     PIV: URIRef  # ['Particle Image Velocimetry']
@@ -110,13 +113,18 @@ class PIV(DefinedNamespace):
     _NS = Namespace("https://matthiasprobst.github.io/pivmeta#")
 
 
+setattr(PIV, "Flag", PIV.Flag)
+setattr(PIV, "flag_scheme", PIV.FlagScheme)
+setattr(PIV, "flag_mapping", PIV.FlagMapping)
+setattr(PIV, "flag_value", PIV.FlagValue)
+setattr(PIV, "flag_scheme_type", PIV.FlagSchemeType)
+setattr(PIV, "bitwise_flag_scheme", PIV.BitwiseFlagScheme)
+setattr(PIV, "enumerated_flag_scheme", PIV.EnumeratedFlagScheme)
 setattr(PIV, "background_subtraction_method", PIV.BackgroundSubtractionMethod)
 setattr(PIV, "camera", PIV.Camera)
 setattr(PIV, "correlation_method", PIV.CorrelationMethod)
 setattr(PIV, "digital_camera", PIV.DigitalCamera)
 setattr(PIV, "experimental_setup", PIV.ExperimentalSetup)
-setattr(PIV, "flag_statistics", PIV.FlagStatistics)
-setattr(PIV, "flag_variable", PIV.FlagVariable)
 setattr(PIV, "image_manipulation_method", PIV.ImageManipulationMethod)
 setattr(PIV, "Image_Velocimetry_Dataset", PIV.ImageVelocimetryDataset)
 setattr(PIV, "Image_Velocimetry_Distribution", PIV.ImageVelocimetryDistribution)
@@ -158,8 +166,13 @@ setattr(PIV, "virtual_laser", PIV.VirtualLaser)
 setattr(PIV, "virtual_setup", PIV.VirtualSetup)
 setattr(PIV, "virtual_tool", PIV.VirtualTool)
 setattr(PIV, "window_weighting_function", PIV.WindowWeightingFunction)
+setattr(PIV, "has_flag_scheme", PIV.hasFlagScheme)
 setattr(PIV, "flag", PIV.flag)
 setattr(PIV, "flag_in", PIV.flagIn)
+setattr(PIV, "allowed_flag", PIV.allowedFlag)
+setattr(PIV, "uses_flag_scheme_type", PIV.usesFlagSchemeType)
+setattr(PIV, "maps_to_flag", PIV.mapsToFlag)
+setattr(PIV, "has_flag_mapping", PIV.hasFlagMapping)
 setattr(PIV, "has_metric", PIV.hasMetric)
 setattr(PIV, "has_PIV_data_type", PIV.hasPIVDataType)
 setattr(PIV, "has_setup", PIV.hasSetup)
@@ -172,22 +185,15 @@ setattr(PIV, "uses_analysis_software", PIV.usesAnalysisSoftware)
 setattr(PIV, "uses_software", PIV.usesSoftware)
 setattr(PIV, "filename_pattern", PIV.filenamePattern)
 setattr(PIV, "fnumber", PIV.fnumber)
-setattr(PIV, "has_flag_meaning", PIV.hasFlagMeaning)
+setattr(PIV, "mask", PIV.mask)
+setattr(PIV, "meaning", PIV.meaning)
 setattr(PIV, "has_flag_value", PIV.hasFlagValue)
 setattr(PIV, "time_value", PIV.timeValue)
 setattr(PIV, "blackman_window", PIV.BlackmanWindow)
 setattr(PIV, "DEHS", PIV.DEHS)
 setattr(PIV, "experimental_image", PIV.ExperimentalImage)
-setattr(PIV, "active", PIV.FlagActive)
-setattr(PIV, "disabled", PIV.FlagDisabled)
-setattr(PIV, "filtered", PIV.FlagFiltered)
-setattr(PIV, "inactive", PIV.FlagInactive)
-setattr(PIV, "interpolated", PIV.FlagInterpolated)
-setattr(PIV, "manualedit", PIV.FlagManualEdit)
-setattr(PIV, "masked", PIV.FlagMasked)
-setattr(PIV, "noresult", PIV.FlagNoResult)
-setattr(PIV, "replaced", PIV.FlagReplaced)
 setattr(PIV, "Gaussian_window", PIV.GaussianWindow)
+setattr(PIV, "Hamming_window", PIV.HammingWindow)
 setattr(PIV, "Hann_window", PIV.HannWindow)
 setattr(PIV, "image", PIV.Image)
 setattr(PIV, "image_dewarping", PIV.ImageDewarping)
@@ -195,7 +201,7 @@ setattr(PIV, "image_filtering", PIV.ImageFiltering)
 setattr(PIV, "image_horizontal_flip", PIV.ImageHorizontalFlip)
 setattr(PIV, "interpolation", PIV.Interpolation)
 setattr(PIV, "left_right_flip", PIV.LeftRightFlip)
-setattr(PIV, "mask", PIV.Mask)
+setattr(PIV, "Mask", PIV.Mask)
 setattr(PIV, "millimeter_per_pixel", PIV.MilliM_PER_PIXEL)
 setattr(PIV, "per_pixel", PIV.PER_PIXEL)
 setattr(PIV, "Particle_Image_Velocimetry", PIV.PIV)
