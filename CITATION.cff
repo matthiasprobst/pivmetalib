@@ -5,7 +5,7 @@ authors:
     given-names: "Matthias"
     orcid: "https://orcid.org/0000-0001-8729-0482"
 title: "pivmetalib"
-version: 2.1.1.0
+version: 3.0.0.0
 doi: 10.5281/zenodo.17558536
 date-released: 2025-11-08
 url: "https://github.com/matthiasprobst/pivmetalib"

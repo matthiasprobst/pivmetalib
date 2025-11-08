@@ -33,11 +33,17 @@ from .tool import (PIVSoftware,
                    LightSource,
                    OpticSensor,
                    OpticalComponent)
-from .variable import TemporalVariable, FlagStatistics, FlagVariable
+from .variable import TemporalVariable, Flag, FlagValue, FlagMapping, FlagScheme, FlagSchemeType, BitwiseFlagScheme, \
+    EnumeratedFlagScheme
 
 __all__ = ('TemporalVariable',
-           'FlagStatistics',
-           'FlagVariable',
+           'Flag',
+           'FlagValue',
+           'FlagMapping',
+           'FlagScheme',
+           'FlagSchemeType',
+           'BitwiseFlagScheme',
+           'EnumeratedFlagScheme',
            'ImageVelocimetryDistribution',
            'PIVSoftware',
            'ImageManipulationMethod',

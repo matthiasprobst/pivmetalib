@@ -47,11 +47,11 @@ class TestVersion(unittest.TestCase):
         pivmeta_version = '.'.join(pivmeta_version_splitted[:3])
         assert f"pivmeta-{pivmeta_version}-orange" in readme
 
-    def test_ssno_url_exists(self):
+    def test_pivmeta_url_exists(self):
         """checking if the ssno url exists"""
         _version = pivmetalib.__version__.split('.')
-        _ssno_version = f'{_version[0]}.{_version[1]}.{_version[2]}'
-        url = f'https://matthiasprobst.github.io/pivmeta/{_ssno_version}/'
+        _pivmeta_version = f'{_version[0]}.{_version[1]}.{_version[2]}'
+        url = f'https://matthiasprobst.github.io/pivmeta/{_pivmeta_version}/'
         assert requests.get(url).status_code == 200
 
 

@@ -2,8 +2,8 @@
 
 ![Tests](https://github.com/matthiasprobst/pivmetalib/actions/workflows/tests.yml/badge.svg)
 ![DOCS](https://codecov.io/gh/matthiasprobst/pivmetalib/branch/main/graph/badge.svg)
-![pyvers](https://img.shields.io/badge/python-3.8%20%7C%203.9%20%7C%203.10%20%7C%203.11%20%7C%203.12-blue)
-![pivmeta](https://img.shields.io/badge/pivmeta-2.1.1-orange)
+![pyvers](https://img.shields.io/badge/python-3.9%20%7C%203.10%20%7C%203.11%20%7C%203.12%20%7C%203.13-blue)
+![pivmeta](https://img.shields.io/badge/pivmeta-3.0.0-orange)
 
 A Python library and high-level interface to work with the [pivmeta ontology](https://matthiasprobst.github.io/pivmeta/). 
 It allows to describe PIV recordings, software, hardware and other related entities in a state-of-the-art and good
@@ -37,41 +37,29 @@ software = pivmeta.PIVSoftware(
         url='https://github.com/OpenPIV/openpiv-python',
     ),
     description='OpenPIV is an open source Particle Image Velocimetry analysis software written in Python and Cython',
-    software_version="0.26.0a0",
-    has_documentation='https://openpiv.readthedocs.io/en/latest/',
+    softwareVersion="0.26.0a0",
+    hasDocumentation='https://openpiv.readthedocs.io/en/latest/',
 )
 
-from pprint import pprint
-
-pprint(software.model_dump(exclude_none=True)
+print(software.serialize("ttl"))
 ```
 
-This will result in the following JSON-LD representation:
+This will result in the following TTL representation:
 
-```bash
-{
-    "@context": {
-        "@import": "https://raw.githubusercontent.com/matthiasprobst/pivmeta/main/pivmeta_context.jsonld"
-    },
-    "@graph": [
-        {
-            "@id": "https://local-domain.org/9c0696ff-7b0f-43a5-9d36-afca62f0f374",
-            "@type": "prov:Organization",
-            "foaf:name": "OpenPIV",
-            "schema:url": "https://github.com/OpenPIV/openpiv-python"
-        },
-        {
-            "@id": "https://local-domain.org/82675f3e-8887-4a76-a62c-cc1119857735",
-            "@type": "Piv Software",
-            "schema:author": {
-                "@id": "https://local-domain.org/9c0696ff-7b0f-43a5-9d36-afca62f0f374"
-            },
-            "schema:description": "OpenPIV is an open source Particle Image Velocimetry analysis software written in Python and Cython",
-            "schema:softwareVersion": "0.26.0a0",
-            "sd:hasDocumentation": "https://openpiv.readthedocs.io/en/latest/"
-        }
-    ]
-}
+```turtle
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix pivmeta: <https://matthiasprobst.github.io/pivmeta#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix schema: <https://schema.org/> .
+@prefix sd: <https://w3id.org/okn/o/sd#> .
+
+[] a pivmeta:PIVSoftware ;
+    schema:author [ a prov:Organization ;
+            foaf:name "OpenPIV" ;
+            schema:url <https://github.com/OpenPIV/openpiv-python> ] ;
+    schema:description "OpenPIV is an open source Particle Image Velocimetry analysis software written in Python and Cython" ;
+    schema:version "0.26.0a0" ;
+    sd:hasDocumentation <https://openpiv.readthedocs.io/en/latest/> .
 ```
 
 

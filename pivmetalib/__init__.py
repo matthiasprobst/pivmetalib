@@ -7,6 +7,8 @@ from . import utils
 from ._version import __version__
 from .namespace import PIV
 
+from ontolutils.ex import prov
+
 
 DEFAULT_LOGGING_LEVEL = logging.WARNING
 _formatter = logging.Formatter(
@@ -54,5 +56,6 @@ __all__ = (
     '__version__',
     'CONTEXT',
     'CACHE_DIR',
-    'PIV'
+    'PIV',
+    'prov'
 )
