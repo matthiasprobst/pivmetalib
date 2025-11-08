@@ -33,10 +33,11 @@ from .tool import (PIVSoftware,
                    LightSource,
                    OpticSensor,
                    OpticalComponent)
-from .variable import TemporalVariable, FlagStatistics
+from .variable import TemporalVariable, FlagStatistics, FlagVariable
 
 __all__ = ('TemporalVariable',
            'FlagStatistics',
+           'FlagVariable',
            'ImageVelocimetryDistribution',
            'PIVSoftware',
            'ImageManipulationMethod',
