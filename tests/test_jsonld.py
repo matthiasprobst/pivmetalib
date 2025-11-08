@@ -7,9 +7,8 @@ import requests
 
 from pivmetalib import CONTEXT
 from pivmetalib import jsonld
-from pivmetalib import prov
-from pivmetalib.m4i import Method
-from pivmetalib.m4i import NumericalVariable
+from ontolutils.ex import prov
+from ontolutils.ex.m4i import Method, NumericalVariable
 
 
 class TestJSONLD(unittest.TestCase):

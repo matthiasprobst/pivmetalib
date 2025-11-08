@@ -4,15 +4,15 @@
   "license": "https://spdx.org/licenses/MIT",
   "codeRepository": "git+https://github.com/matthiasprobst/pivmetalib",
   "name": "pivmetalib",
-  "version": "2.0.0.1",
+  "version": "2.1.1.0",
   "description": "A Python library for working with the pivmeta ontology.",
   "programmingLanguage": [
     "Python 3",
-    "Python 3.8",
     "Python 3.9",
     "Python 3.10",
     "Python 3.11",
-    "Python 3.12"
+    "Python 3.12",
+    "Python 3.13"
   ],
   "operatingSystem": [
     "Linux",
@@ -27,6 +27,7 @@
       "familyName": "Probst",
       "email": "matthias.probst@kit.edu",
       "affiliation": {
+        "@id": "https://ror.org/04t3en479",
         "@type": "Organization",
         "name": "Karlsruhe Institute of Technology, Institute of Thermal Turbomachinery"
       }

@@ -8,17 +8,14 @@ import ontolutils
 import pydantic
 import rdflib
 import requests
+from ontolutils.ex.m4i import Tool, Method, ProcessingStep, NumericalVariable
 from ontolutils.namespacelib import QUDT_UNIT, QUDT_KIND
 from ssnolib import StandardName
-from pivmetalib.m4i import NumericalVariable
 
 import pivmetalib
 import utils
-from pivmetalib.m4i import Tool, Method
 
 __this_dir__ = pathlib.Path(__file__).parent
-
-from pivmetalib.m4i import ProcessingStep
 
 CACHE_DIR = pivmetalib.utils.get_cache_dir()
 

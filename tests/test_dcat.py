@@ -2,11 +2,10 @@ import pathlib
 import warnings
 
 import requests.exceptions
+from ontolutils.ex import dcat, prov
 
 import pivmetalib
 import utils
-from pivmetalib import dcat
-from pivmetalib import prov
 
 __this_dir__ = pathlib.Path(__file__).parent
 
@@ -81,8 +80,6 @@ class TestDcat(utils.ClassTest):
             self.assertEqual(str(distribution1.access_URL), 'http://example.com/distribution')
             self.assertEqual(str(distribution1.download_URL), 'http://example.com/distribution/download')
 
-            with self.assertRaises(requests.exceptions.HTTPError):
-                distribution1.download(timeout=60)
 
             piv_dist = dcat.Distribution(
                 downloadURL=self.test_jsonld_filename

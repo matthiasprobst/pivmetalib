@@ -6,11 +6,15 @@ import requests
 from ontolutils.classes.utils import download_file
 
 import pivmetalib
+from pivmetalib import sd
 import utils
 from pivmetalib import __version__
-from pivmetalib.schema import SoftwareSourceCode
+from ontolutils.ex.schema import SoftwareSourceCode
+from ontolutils.ex.schema import Person
 
 __this_dir__ = pathlib.Path(__file__).parent
+
+
 CACHE_DIR = pivmetalib.utils.get_cache_dir()
 
 try:
@@ -54,3 +58,39 @@ class TestCodemeta(utils.ClassTest):
                 ssc.author[0].affiliation.name,
                 "Karlsruhe Institute of Technology, Institute of Thermal Turbomachinery"
             )
+
+            self.assertEqual(
+                ssc.author[0].affiliation.id,
+                "https://ror.org/04t3en479"
+            )
+
+            self.assertEqual(
+                ssc.author[0].id,
+                "https://orcid.org/0000-0001-8729-0482"
+            )
+
+            self.assertIsInstance(
+                ssc.author[0],
+                Person
+            )
+
+        def test_software_source_code_classmethod_from_codemeta(self):
+            codemeta_filename = __this_dir__ / '../codemeta.json'
+            ssc = SoftwareSourceCode.from_codemeta(codemeta_filename)
+            self.assertEqual(ssc.name, 'pivmetalib')
+            self.assertEqual(ssc.code_repository, "git+https://github.com/matthiasprobst/pivmetalib")
+            self.assertEqual(ssc.version, __version__)
+            self.assertEqual(len(ssc.author), 1)
+
+            self.assertEqual(ssc.author[0].given_name, "Matthias")
+            self.assertEqual(ssc.author[0].family_name, "Probst")
+
+            self.assertEqual(
+                ssc.author[0].affiliation.name,
+                "Karlsruhe Institute of Technology, Institute of Thermal Turbomachinery"
+            )
+
+        def test_source_code_from_codemeta(self):
+            codemeta_filename = __this_dir__ / '../codemeta.json'
+            sc = sd.SourceCode.from_codemeta(codemeta_filename)
+            self.assertEqual(sc.name, 'pivmetalib')

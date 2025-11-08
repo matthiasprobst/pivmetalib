@@ -1,6 +1,5 @@
 from ontolutils import urirefs, namespaces
-
-from pivmetalib import m4i
+from ontolutils.ex import m4i
 
 
 @namespaces(pivmeta='https://matthiasprobst.github.io/pivmeta#')

@@ -1,5 +1,6 @@
-from .software import Software
+from .software import Software, SourceCode
 
 __all__ = (
     'Software',
+    'SourceCode',
 )

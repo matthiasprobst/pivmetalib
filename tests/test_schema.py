@@ -3,14 +3,15 @@ import pathlib
 import ontolutils
 import pivmetalib
 import utils
-from pivmetalib.schema import SoftwareApplication, SoftwareSourceCode
-from pivmetalib.schema.thing import Thing as SchemaThing
+from ontolutils.ex.schema import SoftwareApplication, SoftwareSourceCode
+from ontolutils.ex.schema.thing import Thing as SchemaThing
 
 __this_dir__ = pathlib.Path(__file__).parent
 CACHE_DIR = pivmetalib.utils.get_cache_dir()
 
 
 class TestSchema(utils.ClassTest):
+
     def test_SchemaThing(self):
         thing1 = SchemaThing(label='thing1')
         self.assertEqual(thing1.label, 'thing1')

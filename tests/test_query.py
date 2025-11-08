@@ -8,9 +8,9 @@ from ssnolib.pimsii import Variable
 
 import pivmetalib
 from pivmetalib import PIV
-from pivmetalib import dcat  # .dcat import Dataset, Distribution
+from ontolutils.ex import dcat  # .dcat import Dataset, Distribution
 from pivmetalib import pivmeta
-from pivmetalib import prov  # Person
+from ontolutils.ex import prov  # Person
 
 set_logging_level('DEBUG')
 __this_dir__ = pathlib.Path(__file__).parent

@@ -1,10 +1,10 @@
 from typing import Union, List
 
 from ontolutils import namespaces, urirefs, Thing
+from ontolutils.ex.dcat import Distribution, Dataset
 from pydantic import field_validator, Field, HttpUrl
+from ssnolib.m4i import NumericalVariable
 from ssnolib.pimsii import Variable
-
-from pivmetalib.dcat import Distribution, Dataset
 
 
 def make_href(url, text=None):
@@ -33,7 +33,8 @@ class ImageVelocimetryDistribution(Distribution):
     """
     hasPIVDataType: Union[HttpUrl, str] = Field(default=None, alias='has_piv_data_type')
     filenamePattern: str = Field(default=None, alias='filename_pattern')  # e.g. "image_{:04d}.tif"
-    hasMetric: Union[Variable, List[Variable]] = Field(default=None, alias='has_metric')
+    hasMetric: Union[Variable, NumericalVariable, List[Union[Variable, NumericalVariable]]] = Field(default=None,
+                                                                                                    alias='has_metric')
 
     @field_validator('filenamePattern', mode='before')
     @classmethod
