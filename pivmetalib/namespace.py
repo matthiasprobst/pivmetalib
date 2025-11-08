@@ -8,7 +8,6 @@ class PIV(DefinedNamespace):
     Flag: URIRef  # ['Flag']
     FlagScheme: URIRef  # ['flag scheme']
     FlagMapping: URIRef  # ['flag mapping']
-    FlagValue: URIRef  # ['flag value']
     FlagSchemeType: URIRef  # ['flag scheme type']
     BitwiseFlagScheme: URIRef  # ['bitwise flag scheme']
     EnumeratedFlagScheme: URIRef  # ['enumerated flag scheme']
@@ -59,8 +58,6 @@ class PIV(DefinedNamespace):
     VirtualTool: URIRef  # ['virtual tool']
     WindowWeightingFunction: URIRef  # ['window weighting function']
     hasFlagScheme: URIRef  # ['has flag scheme']
-    flag: URIRef  # ['flag']
-    flagIn: URIRef  # ['flag in']
     allowedFlag: URIRef  # ['allowed flag']
     usesFlagSchemeType: URIRef  # ['uses flag scheme type']
     mapsToFlag: URIRef  # ['maps to flag']
@@ -116,7 +113,6 @@ class PIV(DefinedNamespace):
 setattr(PIV, "Flag", PIV.Flag)
 setattr(PIV, "flag_scheme", PIV.FlagScheme)
 setattr(PIV, "flag_mapping", PIV.FlagMapping)
-setattr(PIV, "flag_value", PIV.FlagValue)
 setattr(PIV, "flag_scheme_type", PIV.FlagSchemeType)
 setattr(PIV, "bitwise_flag_scheme", PIV.BitwiseFlagScheme)
 setattr(PIV, "enumerated_flag_scheme", PIV.EnumeratedFlagScheme)
@@ -167,8 +163,6 @@ setattr(PIV, "virtual_setup", PIV.VirtualSetup)
 setattr(PIV, "virtual_tool", PIV.VirtualTool)
 setattr(PIV, "window_weighting_function", PIV.WindowWeightingFunction)
 setattr(PIV, "has_flag_scheme", PIV.hasFlagScheme)
-setattr(PIV, "flag", PIV.flag)
-setattr(PIV, "flag_in", PIV.flagIn)
 setattr(PIV, "allowed_flag", PIV.allowedFlag)
 setattr(PIV, "uses_flag_scheme_type", PIV.usesFlagSchemeType)
 setattr(PIV, "maps_to_flag", PIV.mapsToFlag)

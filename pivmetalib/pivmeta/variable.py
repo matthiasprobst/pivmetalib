@@ -39,20 +39,6 @@ class Flag(NumericalVariable):
 
 @namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
 @urirefs(
-    FlagValue='pivmeta:FlagValue',
-    hasFlagValue='pivmeta:hasFlagValue',
-)
-class FlagValue(NumericalVariable):
-    """Concrete stored value on data (bitmask or enumerated integer)."""
-    hasFlagValue: Optional[NonNegativeInt] = Field(
-        default=None,
-        description="Concrete integer value stored with the data (bitwise OR of flag masks, or a single enumerated value).",
-        alias="has flag value"
-    )
-
-
-@namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
-@urirefs(
     FlagMapping='pivmeta:FlagMapping',
     mapsToFlag='pivmeta:mapsToFlag',
     hasFlagValue='pivmeta:hasFlagValue',

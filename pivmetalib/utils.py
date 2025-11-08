@@ -1,11 +1,14 @@
-import appdirs
-import json
+from __future__ import annotations
+
 import logging
 import pathlib
+from typing import Dict, List, Union, Optional
+
+import appdirs
 import rdflib
 import requests
-from typing import List
-from typing import Union
+from rdflib import Graph, Namespace, URIRef
+from rdflib.util import guess_format
 
 logger = logging.getLogger(__package__)
 logger.setLevel('DEBUG')
@@ -143,3 +146,98 @@ def download_file(url,
         f.write(content)
 
     return dest_filename
+
+
+PIV = Namespace("https://matthiasprobst.github.io/pivmeta#")
+SKOS = Namespace("http://www.w3.org/2004/02/skos/core#")
+HDF5 = Namespace("http://purl.allotrope.org/ontologies/hdf5/1.8#")
+XSD = Namespace("http://www.w3.org/2001/XMLSchema#")
+
+SCHEME_QUERY = """
+SELECT ?flag ?label ?meaning ?mask WHERE {
+  VALUES ?scheme { <%(scheme)s> }
+  ?scheme  <https://matthiasprobst.github.io/pivmeta#allowedFlag> ?flag .
+  ?flag    <https://matthiasprobst.github.io/pivmeta#mask> ?mask .
+  OPTIONAL { ?flag <http://www.w3.org/2004/02/skos/core#prefLabel> ?label . }
+  OPTIONAL { ?flag <https://matthiasprobst.github.io/pivmeta#meaning> ?meaning . }
+}
+"""
+
+ALL_FLAGS_QUERY = """
+SELECT ?flag ?label ?meaning ?mask WHERE {
+  ?flag a <https://matthiasprobst.github.io/pivmeta#Flag> ;
+        <https://matthiasprobst.github.io/pivmeta#mask> ?mask .
+  OPTIONAL { ?flag <http://www.w3.org/2004/02/skos/core#prefLabel> ?label . }
+  OPTIONAL { ?flag <https://matthiasprobst.github.io/pivmeta#meaning> ?meaning . }
+}
+"""
+
+
+def _ensure_graph(graph_or_path: Union[str, Graph]) -> Graph:
+    if isinstance(graph_or_path, Graph):
+        return graph_or_path
+    g = Graph()
+    g.bind("piv", PIV)
+    g.bind("skos", SKOS)
+    g.bind("hdf5", HDF5)
+    g.bind("xsd", XSD)
+    fmt = guess_format(graph_or_path)  # ttl, json-ld, xml, nt, etc.
+    if fmt is None:
+        if "@prefix" in graph_or_path:
+            fmt = "ttl"
+    g.parse(data=graph_or_path, format=fmt)
+    return g
+
+
+def _label_of(flag_uri: URIRef, label_lit, meaning_lit) -> str:
+    # Prefer skos:prefLabel, then piv:meaning, then localname
+    if label_lit:
+        return str(label_lit)
+    if meaning_lit:
+        return str(meaning_lit)
+    s = str(flag_uri)
+    if "#" in s:
+        return s.rsplit("#", 1)[1]
+    if "/" in s:
+        return s.rstrip("/").rsplit("/", 1)[-1]
+    return s
+
+
+def get_flag_table(
+        graph_or_path: Union[str, Graph],
+        scheme: Optional[str] = None
+) -> List[Dict[str, Union[str, int]]]:
+    """
+    Returns a list of dicts: [{'uri': str, 'label': str, 'mask': int}, ...]
+    If `scheme` is provided (IRI string), restricts to that scheme's piv:allowedFlag.
+    """
+    g = _ensure_graph(graph_or_path)
+    q = SCHEME_QUERY % {"scheme": scheme} if scheme else ALL_FLAGS_QUERY
+
+    rows = g.query(q)
+    table: List[Dict[str, Union[str, int]]] = []
+    seen = set()  # avoid duplicates
+
+    for flag, label, meaning, mask in rows:
+        key = (str(flag), int(mask.toPython()))
+        if key in seen:
+            continue
+        seen.add(key)
+        table.append({
+            "uri": str(flag),
+            "label": _label_of(flag, label, meaning),
+            "mask": int(mask.toPython()),
+        })
+    # Stable sort by mask value
+    table.sort(key=lambda r: r["mask"])
+    return table
+
+
+def get_flag_dict(
+        graph_or_path: Union[str, Graph],
+        scheme: Optional[str] = None
+) -> Dict[str, int]:
+    """
+    Convenience: returns {label: mask}. If duplicate labels occur, last one wins.
+    """
+    return {row["label"]: row["mask"] for row in get_flag_table(graph_or_path, scheme)}
