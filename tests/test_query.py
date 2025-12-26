@@ -4,13 +4,13 @@ import warnings
 import ontolutils
 import requests
 from ontolutils import set_logging_level
+from ontolutils.ex import dcat  # .dcat import Dataset, Distribution
+from ontolutils.ex import prov  # Person
 from ssnolib.pimsii import Variable
 
 import pivmetalib
 from pivmetalib import PIV
-from ontolutils.ex import dcat  # .dcat import Dataset, Distribution
 from pivmetalib import pivmeta
-from ontolutils.ex import prov  # Person
 
 set_logging_level('DEBUG')
 __this_dir__ = pathlib.Path(__file__).parent
@@ -35,8 +35,8 @@ class TestQuery(ClassTest):
             self.assertEqual(ds.label, "Challenge1A")
             self.assertEqual(ds.description, "Strong vortex (provided by Kaehler) < real > [1280 x 1024]")
             self.assertEqual(ds.qualifiedAttribution.hadRole, "http://w3id.org/nfdi4ing/metadata4ing#ContactPerson")
+            print(ds.serialize("ttl"))
             self.assertEqual(ds.qualifiedAttribution.agent.mbox, "christian.kaehler@dlr.de")
-            print(ds)
 
         def test_query(self):
             ds = dcat.Dataset(

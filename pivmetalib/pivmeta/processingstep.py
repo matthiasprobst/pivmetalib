@@ -2,43 +2,43 @@ from ontolutils import urirefs, namespaces
 from ontolutils.ex import m4i
 
 
-@namespaces(pivmeta='https://matthiasprobst.github.io/pivmeta#')
-@urirefs(PIVProcessingStep='pivmeta:PIVProcessingStep')
+@namespaces(piv='https://matthiasprobst.github.io/pivmeta#')
+@urirefs(PIVProcessingStep='piv:PIVProcessingStep')
 class PIVProcessingStep(m4i.ProcessingStep):
-    """Pydantic Model for pivmeta:PIVProcessingStep"""
+    """Pydantic Model for piv:PIVProcessingStep"""
 
 
-@namespaces(pivmeta='https://matthiasprobst.github.io/pivmeta#')
-@urirefs(PIVPostProcessing='pivmeta:PIVProcessingStep')
+@namespaces(piv='https://matthiasprobst.github.io/pivmeta#')
+@urirefs(PIVPostProcessing='piv:PIVProcessingStep')
 class PIVPostProcessing(PIVProcessingStep):
-    """Pydantic Model for pivmeta:PIVPostProcessing"""
+    """Pydantic Model for piv:PIVPostProcessing"""
 
 
-@namespaces(pivmeta='https://matthiasprobst.github.io/pivmeta#')
-@urirefs(PIVPreProcessing='pivmeta:PIVPostProcessing')
+@namespaces(piv='https://matthiasprobst.github.io/pivmeta#')
+@urirefs(PIVPreProcessing='piv:PIVPostProcessing')
 class PIVPreProcessing(PIVProcessingStep):
-    """Pydantic Model for pivmeta:PIVPreProcessing"""
+    """Pydantic Model for piv:PIVPreProcessing"""
 
 
-@namespaces(pivmeta='https://matthiasprobst.github.io/pivmeta#')
-@urirefs(PIVEvaluation='pivmeta:PIVEvaluation')
+@namespaces(piv='https://matthiasprobst.github.io/pivmeta#')
+@urirefs(PIVEvaluation='piv:PIVEvaluation')
 class PIVEvaluation(PIVProcessingStep):
-    """Pydantic Model for pivmeta:PIVEvaluation"""
+    """Pydantic Model for piv:PIVEvaluation"""
 
 
-@namespaces(pivmeta='https://matthiasprobst.github.io/pivmeta#')
-@urirefs(PIVMaskGeneration='pivmeta:PIVMaskGeneration')
+@namespaces(piv='https://matthiasprobst.github.io/pivmeta#')
+@urirefs(PIVMaskGeneration='piv:PIVMaskGeneration')
 class PIVMaskGeneration(PIVProcessingStep):
-    """Pydantic Model for pivmeta:MaskGeneration"""
+    """Pydantic Model for piv:MaskGeneration"""
 
 
-# @namespaces(pivmeta='https://matthiasprobst.github.io/pivmeta#')
-# @urirefs(ImageRotation='pivmeta:ImageRotation')
+# @namespaces(piv='https://matthiasprobst.github.io/pivmeta#')
+# @urirefs(ImageRotation='piv:ImageRotation')
 # class ImageRotation(PIVProcessingStep):
-#     """Pydantic Model for pivmeta:ImageRotation"""
+#     """Pydantic Model for piv:ImageRotation"""
 
 
-@namespaces(pivmeta='https://matthiasprobst.github.io/pivmeta#')
-@urirefs(PIVBackgroundGeneration='pivmeta:PIVBackgroundGeneration')
+@namespaces(piv='https://matthiasprobst.github.io/pivmeta#')
+@urirefs(PIVBackgroundGeneration='piv:PIVBackgroundGeneration')
 class PIVBackgroundGeneration(PIVProcessingStep):
-    """Pydantic Model for pivmeta:BackgroundImageGeneration"""
+    """Pydantic Model for piv:BackgroundImageGeneration"""

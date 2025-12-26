@@ -7,17 +7,17 @@ from pydantic import Field
 from pivmetalib.sd import Software
 
 
-@namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#",
+@namespaces(piv="https://matthiasprobst.github.io/pivmeta#",
             obo="http://purl.obolibrary.org/obo/",
             codemeta="https://codemeta.github.io/terms/")
-@urirefs(Setup="pivmeta:Setup",
+@urirefs(Setup="piv:Setup",
          BFO_0000051="obo:BFO_0000051",
          usesSoftware="codemeta:usesSoftware",
-         usesAnalysisSoftware="pivmeta:usesAnalysisSoftware",
-         usesAcquisitionSoftware="pivmeta:usesAcquisitionSoftware",
+         usesAnalysisSoftware="piv:usesAnalysisSoftware",
+         usesAcquisitionSoftware="piv:usesAcquisitionSoftware",
          )
 class Setup(Thing):
-    """Pydantic implementation of pivmeta:Setup"""
+    """Pydantic implementation of piv:Setup"""
     BFO_0000051: Optional[Union[Thing, List[Thing]]] = Field(alias="has_part", default=None)
     usesSoftware: Optional[Union[Software, List[Software]]] = Field(alias="uses_software", default=None)
 
@@ -35,14 +35,14 @@ class Setup(Thing):
         self.BFO_0000051 = value
 
 
-@namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
-@urirefs(VirtualSetup="pivmeta:VirtualSetup",
+@namespaces(piv="https://matthiasprobst.github.io/pivmeta#")
+@urirefs(VirtualSetup="piv:VirtualSetup",
          usesSoftware="codemeta:usesSoftware")
 class VirtualSetup(Setup):
-    """Pydantic implementation of pivmeta:VirtualSetup"""
+    """Pydantic implementation of piv:VirtualSetup"""
 
 
-@namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
-@urirefs(ExperimentalSetup="pivmeta:ExperimentalSetup")
+@namespaces(piv="https://matthiasprobst.github.io/pivmeta#")
+@urirefs(ExperimentalSetup="piv:ExperimentalSetup")
 class ExperimentalSetup(Setup):
-    """Pydantic implementation of pivmeta:ExperimentalSetup"""
+    """Pydantic implementation of piv:ExperimentalSetup"""

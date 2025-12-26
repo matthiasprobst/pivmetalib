@@ -1,7 +1,8 @@
-from typing import Union, List
+from typing import Union, List, Optional
 
 from ontolutils import namespaces, urirefs, Thing
 from ontolutils.ex.dcat import Distribution, Dataset
+from ontolutils.typing import ResourceType
 from pydantic import field_validator, Field, HttpUrl
 from ssnolib.m4i import NumericalVariable
 from ssnolib.pimsii import Variable
@@ -14,26 +15,27 @@ def make_href(url, text=None):
     return f'<a href="{url}">{url}</a>'
 
 
-@namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
-@urirefs(PIVDataType='pivmeta:PIVDataType')
+@namespaces(piv="https://matthiasprobst.github.io/pivmeta#")
+@urirefs(PIVDataType='piv:PIVDataType')
 class PIVDataType(Thing):
-    """Implementation of pivmeta:PIVDataType"""
+    """Implementation of piv:PIVDataType"""
     pass
 
 
-@namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
-@urirefs(ImageVelocimetryDistribution='pivmeta:ImageVelocimetryDistribution',
-         hasPIVDataType='pivmeta:hasPIVDataType',
-         hasMetric='pivmeta:hasMetric',
-         filenamePattern='pivmeta:filenamePattern')
+@namespaces(piv="https://matthiasprobst.github.io/pivmeta#")
+@urirefs(ImageVelocimetryDistribution='piv:ImageVelocimetryDistribution',
+         hasPIVDataType='piv:hasPIVDataType',
+         hasMetric='piv:hasMetric',
+         filenamePattern='piv:filenamePattern')
 class ImageVelocimetryDistribution(Distribution):
-    """Implementation of pivmeta:ImageVelocimetryDistribution
+    """Implementation of piv:ImageVelocimetryDistribution
 
     Describes PIV data (images or result data)
     """
-    hasPIVDataType: Union[HttpUrl, str] = Field(default=None, alias='has_piv_data_type')
-    filenamePattern: str = Field(default=None, alias='filename_pattern')  # e.g. "image_{:04d}.tif"
-    hasMetric: Union[Variable, NumericalVariable, List[Union[Variable, NumericalVariable]]] = Field(default=None,
+    hasPIVDataType: Optional[Union[ResourceType, str]] = Field(default=None, alias='has_piv_data_type')
+    filenamePattern: Optional[str] = Field(default=None, alias='filename_pattern')  # e.g. "image_{:04d}.tif"
+    hasMetric: Optional[Union[Variable, NumericalVariable, List[Union[Variable, NumericalVariable]]]] = Field(
+        default=None,
                                                                                                     alias='has_metric')
 
     @field_validator('filenamePattern', mode='before')
@@ -47,22 +49,22 @@ class ImageVelocimetryDistribution(Distribution):
         return str(HttpUrl(dist_type))
 
 
-# @namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
-# @urirefs(PIVMaskDistribution='pivmeta:PIVMaskDistribution')
+# @namespaces(piv="https://matthiasprobst.github.io/pivmeta#")
+# @urirefs(PIVMaskDistribution='piv:PIVMaskDistribution')
 # class PIVMaskDistribution(ImageVelocimetryDistribution):
-#     """Implementation of pivmeta:PIVMaskDistribution"""
+#     """Implementation of piv:PIVMaskDistribution"""
 
 
-# @namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
-# @urirefs(PIVResultDistribution='pivmeta:PIVResultDistribution')
+# @namespaces(piv="https://matthiasprobst.github.io/pivmeta#")
+# @urirefs(PIVResultDistribution='piv:PIVResultDistribution')
 # class PIVResultDistribution(ImageVelocimetryDistribution):
-#     """Implementation of pivmeta:PIVResultDistribution"""
+#     """Implementation of piv:PIVResultDistribution"""
 
 
-@namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#",
+@namespaces(piv="https://matthiasprobst.github.io/pivmeta#",
             dcat="http://www.w3.org/ns/dcat#")
-@urirefs(ImageVelocimetryDataset='pivmeta:ImageVelocimetryDataset',
+@urirefs(ImageVelocimetryDataset='piv:ImageVelocimetryDataset',
          distribution='dcat:distribution')
 class ImageVelocimetryDataset(Dataset):
-    """Implementation of pivmeta:ImageVelocimetryDataset"""""
+    """Implementation of piv:ImageVelocimetryDataset"""""
     distribution: Union[Distribution, List[Distribution]] = Field(alias="distribution", default=None)

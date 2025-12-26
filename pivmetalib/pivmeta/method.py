@@ -1,23 +1,23 @@
 from typing import Union
 
 from ontolutils import namespaces, urirefs
+from ontolutils.ex import m4i
 from pydantic import HttpUrl, Field, field_validator
 
-from ontolutils.ex import m4i
 from pivmetalib import PIV
 
 
-@namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
-@urirefs(WindowWeightingFunction='pivmeta:WindowWeightingFunction')
+@namespaces(piv="https://matthiasprobst.github.io/pivmeta#")
+@urirefs(WindowWeightingFunction='piv:WindowWeightingFunction')
 class WindowWeightingFunction(m4i.Method):
-    """Implementation of pivmeta:CorrelationMethod"""
+    """Implementation of piv:CorrelationMethod"""
 
 
-@namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
-@urirefs(CorrelationMethod='pivmeta:CorrelationMethod',
-         hasWindowWeightingFunction='pivmeta:hasWindowWeightingFunction')
+@namespaces(piv="https://matthiasprobst.github.io/pivmeta#")
+@urirefs(CorrelationMethod='piv:CorrelationMethod',
+         hasWindowWeightingFunction='piv:hasWindowWeightingFunction')
 class CorrelationMethod(m4i.Method):
-    """Implementation of pivmeta:CorrelationMethod"""
+    """Implementation of piv:CorrelationMethod"""
     hasWindowWeightingFunction: Union[HttpUrl, WindowWeightingFunction] = Field(alias='has_window_weighting_function')
 
     @field_validator('hasWindowWeightingFunction', mode='before')
@@ -31,37 +31,37 @@ class CorrelationMethod(m4i.Method):
         return window_weighting_function
 
 
-@namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
-@urirefs(InterrogationMethod='pivmeta:InterrogationMethod')
+@namespaces(piv="https://matthiasprobst.github.io/pivmeta#")
+@urirefs(InterrogationMethod='piv:InterrogationMethod')
 class InterrogationMethod(m4i.Method):
-    """Implementation of pivmeta:InterrogationMethod"""
+    """Implementation of piv:InterrogationMethod"""
 
 
-@namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
-@urirefs(ImageManipulationMethod='pivmeta:ImageManipulationMethod')
+@namespaces(piv="https://matthiasprobst.github.io/pivmeta#")
+@urirefs(ImageManipulationMethod='piv:ImageManipulationMethod')
 class ImageManipulationMethod(m4i.Method):
-    """Implementation of pivmeta:ImageManipulationMethod"""
+    """Implementation of piv:ImageManipulationMethod"""
 
 
-@namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
-@urirefs(OutlierDetectionMethod='pivmeta:OutlierDetectionMethod')
+@namespaces(piv="https://matthiasprobst.github.io/pivmeta#")
+@urirefs(OutlierDetectionMethod='piv:OutlierDetectionMethod')
 class OutlierDetectionMethod(m4i.Method):
-    """Implementation of pivmeta:OutlierDetectionMethod"""
+    """Implementation of piv:OutlierDetectionMethod"""
 
 
-@namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
-@urirefs(Multigrid='pivmeta:Multigrid')
+@namespaces(piv="https://matthiasprobst.github.io/pivmeta#")
+@urirefs(Multigrid='piv:Multigrid')
 class Multigrid(InterrogationMethod):
-    """Implementation of pivmeta:MultiGrid"""
+    """Implementation of piv:MultiGrid"""
 
 
-@namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
-@urirefs(Multipass='pivmeta:Multipass')
+@namespaces(piv="https://matthiasprobst.github.io/pivmeta#")
+@urirefs(Multipass='piv:Multipass')
 class Multipass(InterrogationMethod):
-    """Implementation of pivmeta:Multipass"""
+    """Implementation of piv:Multipass"""
 
 
-@namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
-@urirefs(Singlepass='pivmeta:Singlepass')
+@namespaces(piv="https://matthiasprobst.github.io/pivmeta#")
+@urirefs(Singlepass='piv:Singlepass')
 class Singlepass(InterrogationMethod):
-    """Implementation of pivmeta:Singlepass"""
+    """Implementation of piv:Singlepass"""

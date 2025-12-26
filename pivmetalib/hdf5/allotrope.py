@@ -9,12 +9,12 @@ from ..pivmeta import FlagScheme
 
 
 @namespaces(
-    pivmeta="https://matthiasprobst.github.io/pivmeta#",
+    piv="https://matthiasprobst.github.io/pivmeta#",
     hdf5="http://purl.allotrope.org/ontologies/hdf5/1.8#",
 )
 @urirefs(
     Dataset='hdf5:Dataset',
-    hasFlagScheme='pivmeta:hasFlagScheme',
+    hasFlagScheme='piv:hasFlagScheme',
 )
 class Dataset(BaseDataset):
     """Pydantic Model for Allotrope HDF5 Dataset"""

@@ -16,8 +16,8 @@
         "prov:agent": {
           "@id": "https://orcid.org/0000-0001-9336-2091",
           "@type": "prov:Person",
-          "personal mailbox": "christian.kaehler@dlr.de",
-          "has ORCID ID": "https://orcid.org/0000-0001-9336-2091"
+          "mbox": "christian.kaehler@dlr.de",
+          "orcidId": "https://orcid.org/0000-0001-9336-2091"
         },
         "dcat:hadRole": "http://w3id.org/nfdi4ing/metadata4ing#ContactPerson"
       },

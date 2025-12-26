@@ -8,9 +8,9 @@ from pydantic import Field, NonNegativeInt
 from ssnolib.m4i import NumericalVariable
 
 
-@namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
-@urirefs(TemporalVariable='pivmeta:TemporalVariable',
-         timeValue='pivmeta:timeValue')
+@namespaces(piv="https://matthiasprobst.github.io/pivmeta#")
+@urirefs(TemporalVariable='piv:TemporalVariable',
+         timeValue='piv:timeValue')
 class TemporalVariable(TextVariable):
     """A variable with a canonical time value (date or dateTimeStamp) given in piv:timeValue."""
     timeValue: Optional[Union[datetime, date, Union[List[date]], List[datetime]]] = Field(
@@ -20,10 +20,10 @@ class TemporalVariable(TextVariable):
     )
 
 
-@namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
-@urirefs(Flag='pivmeta:Flag',
-         mask='pivmeta:mask',
-         meaning='pivmeta:meaning',
+@namespaces(piv="https://matthiasprobst.github.io/pivmeta#")
+@urirefs(Flag='piv:Flag',
+         mask='piv:mask',
+         meaning='piv:meaning',
          )
 class Flag(NumericalVariable):
     """flag atom"""
@@ -37,11 +37,11 @@ class Flag(NumericalVariable):
     )
 
 
-@namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
+@namespaces(piv="https://matthiasprobst.github.io/pivmeta#")
 @urirefs(
-    FlagMapping='pivmeta:FlagMapping',
-    mapsToFlag='pivmeta:mapsToFlag',
-    hasFlagValue='pivmeta:hasFlagValue',
+    FlagMapping='piv:FlagMapping',
+    mapsToFlag='piv:mapsToFlag',
+    hasFlagValue='piv:hasFlagValue',
 )
 class FlagMapping(Thing):
     """Associates a concrete integer value with a piv:Flag within a scheme."""
@@ -57,21 +57,21 @@ class FlagMapping(Thing):
     )
 
 
-@namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
+@namespaces(piv="https://matthiasprobst.github.io/pivmeta#")
 @urirefs(
-    FlagSchemeType='pivmeta:FlagSchemeType',
+    FlagSchemeType='piv:FlagSchemeType',
 )
 class FlagSchemeType(Thing):
     """Superclass for scheme interpretation types (bitwise / enumerated)."""
     pass
 
 
-@namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
+@namespaces(piv="https://matthiasprobst.github.io/pivmeta#")
 @urirefs(
-    FlagScheme='pivmeta:FlagScheme',
-    allowedFlag='pivmeta:allowedFlag',
-    usesFlagSchemeType='pivmeta:usesFlagSchemeType',
-    hasFlagMapping='pivmeta:hasFlagMapping',
+    FlagScheme='piv:FlagScheme',
+    allowedFlag='piv:allowedFlag',
+    usesFlagSchemeType='piv:usesFlagSchemeType',
+    hasFlagMapping='piv:hasFlagMapping',
 )
 class FlagScheme(Thing):
     """Declares the set of valid flags and how values are interpreted."""
@@ -89,18 +89,18 @@ class FlagScheme(Thing):
     )
 
 
-@namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
+@namespaces(piv="https://matthiasprobst.github.io/pivmeta#")
 @urirefs(
-    BitwiseFlagScheme='pivmeta:BitwiseFlagScheme',
+    BitwiseFlagScheme='piv:BitwiseFlagScheme',
 )
 class BitwiseFlagScheme(FlagSchemeType):
     """Bitwise interpretation: flags combine via OR; recover with AND using each flag's mask."""
     pass
 
 
-@namespaces(pivmeta="https://matthiasprobst.github.io/pivmeta#")
+@namespaces(piv="https://matthiasprobst.github.io/pivmeta#")
 @urirefs(
-    EnumeratedFlagScheme='pivmeta:EnumeratedFlagScheme',
+    EnumeratedFlagScheme='piv:EnumeratedFlagScheme',
 )
 class EnumeratedFlagScheme(FlagSchemeType):
     """Enumerated interpretation: values represent mutually exclusive states."""
