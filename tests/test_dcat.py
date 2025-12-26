@@ -3,6 +3,7 @@ import warnings
 
 import requests.exceptions
 from ontolutils.ex import dcat, prov
+from ontolutils.ex.prov import Person
 
 import pivmetalib
 import utils
@@ -87,7 +88,6 @@ class TestDcat(utils.ClassTest):
             filename = piv_dist.download(timeout=60)
             self.assertTrue(filename.exists())
             self.assertEqual(filename.name, 'piv_dataset.json')
-            from ontolutils.ex.prov import Person
             person = Person.from_jsonld(filename)
             self.assertEqual(1, len(person))
             self.assertIsInstance(person[0], prov.Person)
