@@ -1,9 +1,9 @@
 from typing import Optional
 
 from ontolutils import namespaces, urirefs
-from ontolutils.ex.m4i import Tool
 from ontolutils.ex.schema import SoftwareSourceCode
 from pydantic import field_validator, Field
+from ssnolib.m4i import Tool
 
 from pivmetalib import sd
 
