@@ -12,7 +12,7 @@ import ontolutils
 import requests
 from ontolutils import get_urirefs
 from ontolutils.classes.decorator import URIRefManager
-from ontolutils.ex import prov, dcat, m4i
+from ontolutils.ex import prov, m4i, dcat
 from rdflib import DCAT
 from ssnolib import StandardName
 from ssnolib.m4i import NumericalVariable
@@ -22,6 +22,7 @@ import pivmetalib
 import utils
 from pivmetalib import pivmeta
 from pivmetalib.namespace import PIV
+from pivmetalib.pivmeta import ImageVelocimetryDistribution, FlagScheme, EnumeratedFlagScheme
 from pivmetalib.pivmeta.variable import TemporalVariable
 
 __this_dir__ = pathlib.Path(__file__).parent
@@ -52,6 +53,7 @@ class TestPIVmeta(utils.ClassTest):
                 classes = [n.name for n in ast.walk(node) if isinstance(n, ast.ClassDef)]
                 for cls_name in classes:
                     if cls_name not in ignore:
+                        print(cls_name)
                         cls = getattr(module, cls_name)
                         for iri in get_urirefs(cls).values():
                             if "piv:" in iri:
@@ -467,3 +469,34 @@ class TestPIVmeta(utils.ClassTest):
         jsonld_string = temp_var.model_dump_jsonld()
         self.check_jsonld_string(jsonld_string)
         print(temp_var.serialize("ttl"))
+
+    def test_flags(self):
+        flag_scheme = FlagScheme(
+            id="http://example.org/flagscheme1",
+            label="PIV Quality Flags",
+            description="Quality flags for PIV data",
+            usesFlagSchemeType=EnumeratedFlagScheme(),
+            allowedFlag=[
+                pivmeta.Flag(
+                    label="Good",
+                    description="Good quality vector",
+                    mask=1,
+                    meaning="Vector is of good quality",
+                ),
+                pivmeta.Flag(
+                    label="Bad",
+                    description="Bad quality vector",
+                    mask=0,
+                    meaning="Vector is of bad quality",
+                ),
+            ]
+        )
+        ivd = ImageVelocimetryDistribution(
+            id="http://example.org/ivd1",
+            hasFlagScheme=flag_scheme
+        )
+        ttl = ivd.serialize("ttl")
+        self.assertEqual(2, len(ivd.hasFlagScheme.allowedFlag))
+
+        flag = flag_scheme.get_flags(mask=1)
+        self.assertEqual(flag[0].mask, 1)

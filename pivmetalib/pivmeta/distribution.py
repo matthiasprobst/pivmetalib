@@ -1,11 +1,15 @@
-from typing import Union, List, Optional
+from typing import List
+from typing import Union, Optional
 
-from ontolutils import namespaces, urirefs, Thing
-from ontolutils.ex.dcat import Distribution, Dataset
+from ontolutils import Thing
+from ontolutils import urirefs, namespaces
 from ontolutils.typing import ResourceType
 from pydantic import field_validator, Field, HttpUrl
 from ssnolib.m4i import NumericalVariable
 from ssnolib.pimsii import Variable
+
+from pivmetalib.dcat import Dataset, Distribution
+from .variable import FlagScheme
 
 
 def make_href(url, text=None):
@@ -26,7 +30,8 @@ class PIVDataType(Thing):
 @urirefs(ImageVelocimetryDistribution='piv:ImageVelocimetryDistribution',
          hasPIVDataType='piv:hasPIVDataType',
          hasMetric='piv:hasMetric',
-         filenamePattern='piv:filenamePattern')
+         filenamePattern='piv:filenamePattern',
+         hasFlagScheme='piv:hasFlagScheme', )
 class ImageVelocimetryDistribution(Distribution):
     """Implementation of piv:ImageVelocimetryDistribution
 
@@ -36,7 +41,12 @@ class ImageVelocimetryDistribution(Distribution):
     filenamePattern: Optional[str] = Field(default=None, alias='filename_pattern')  # e.g. "image_{:04d}.tif"
     hasMetric: Optional[Union[Variable, NumericalVariable, List[Union[Variable, NumericalVariable]]]] = Field(
         default=None,
-                                                                                                    alias='has_metric')
+        alias='has_metric')
+    hasFlagScheme: Optional[Union[FlagScheme, ResourceType]] = Field(
+        default=None,
+        description="Flag scheme associated with this dataset",
+        alias='has_flag_scheme'
+    )
 
     @field_validator('filenamePattern', mode='before')
     @classmethod
@@ -49,22 +59,21 @@ class ImageVelocimetryDistribution(Distribution):
         return str(HttpUrl(dist_type))
 
 
-# @namespaces(piv="https://matthiasprobst.github.io/pivmeta#")
-# @urirefs(PIVMaskDistribution='piv:PIVMaskDistribution')
-# class PIVMaskDistribution(ImageVelocimetryDistribution):
-#     """Implementation of piv:PIVMaskDistribution"""
-
-
-# @namespaces(piv="https://matthiasprobst.github.io/pivmeta#")
-# @urirefs(PIVResultDistribution='piv:PIVResultDistribution')
-# class PIVResultDistribution(ImageVelocimetryDistribution):
-#     """Implementation of piv:PIVResultDistribution"""
-
-
 @namespaces(piv="https://matthiasprobst.github.io/pivmeta#",
             dcat="http://www.w3.org/ns/dcat#")
 @urirefs(ImageVelocimetryDataset='piv:ImageVelocimetryDataset',
-         distribution='dcat:distribution')
+         distribution='dcat:distribution',
+         hasFlagScheme='piv:hasFlagScheme',
+         )
 class ImageVelocimetryDataset(Dataset):
     """Implementation of piv:ImageVelocimetryDataset"""""
     distribution: Union[Distribution, List[Distribution]] = Field(alias="distribution", default=None)
+    hasFlagScheme: Optional[Union[FlagScheme, ResourceType]] = Field(
+        default=None,
+        description="Flag scheme associated with this dataset",
+        alias='has_flag_scheme'
+    )
+
+
+ImageVelocimetryDistribution.model_rebuild()
+ImageVelocimetryDataset.model_rebuild()

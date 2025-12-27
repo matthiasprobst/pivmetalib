@@ -4,8 +4,7 @@ import warnings
 import ontolutils
 import requests
 from ontolutils import set_logging_level
-from ontolutils.ex import dcat  # .dcat import Dataset, Distribution
-from ontolutils.ex import prov  # Person
+from ontolutils.ex import prov, dcat
 from ssnolib.pimsii import Variable
 
 import pivmetalib

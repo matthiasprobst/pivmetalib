@@ -3,7 +3,6 @@ from typing import Optional, Union, List
 
 from ontolutils import namespaces, urirefs, Thing
 from ontolutils.ex.m4i import TextVariable
-from ontolutils.typing import ResourceType
 from pydantic import Field, NonNegativeInt
 from ssnolib.m4i import NumericalVariable
 
@@ -62,7 +61,7 @@ class FlagMapping(Thing):
     FlagSchemeType='piv:FlagSchemeType',
 )
 class FlagSchemeType(Thing):
-    """Superclass for scheme interpretation types (bitwise / enumerated)."""
+    """Describes how flag values are interpreted (bitwise vs enumerated)."""
     pass
 
 
@@ -77,16 +76,42 @@ class FlagScheme(Thing):
     """Declares the set of valid flags and how values are interpreted."""
     allowedFlag: Optional[List[Flag]] = Field(
         default=None,
+        alias="allowed_flag",
         description="The atomic flags allowed in this scheme."
     )
-    usesFlagSchemeType: Optional[Union[FlagSchemeType, ResourceType]] = Field(
+    usesFlagSchemeType: Optional[FlagSchemeType] = Field(
         default=None,
+        alias="uses_flag_scheme_type",
         description="Scheme type: bitwise or enumerated."
     )
     hasFlagMapping: Optional[List[FlagMapping]] = Field(
         default=None,
+        alias="has_flag_mapping",
         description="Explicit value-to-flag mappings (useful for enumerations and lookups)."
     )
+
+    def get_flags(self, mask: int) -> List[Flag]:
+        if self.usesFlagSchemeType is None:
+            raise ValueError("Flag scheme type is not defined.")
+        scheme_type = self.usesFlagSchemeType
+        if isinstance(scheme_type, BitwiseFlagScheme):
+            out = []
+            for flag in self.allowedFlag or []:
+                if flag.mask is not None and (flag.mask & mask) != 0:
+                    out.append(flag)
+            return out
+        elif isinstance(scheme_type, EnumeratedFlagScheme):
+            out = []
+            for flag in self.allowedFlag or []:
+                if flag.mask == mask:
+                    out.append(flag)
+            mapping = self.hasFlagMapping or []
+            for map_entry in mapping:
+                if map_entry.hasFlagValue == mask and map_entry.mapsToFlag is not None:
+                    out.append(map_entry.mapsToFlag)
+            return out
+        else:
+            raise ValueError("Unknown flag scheme type.")
 
 
 @namespaces(piv="https://matthiasprobst.github.io/pivmeta#")
@@ -95,7 +120,6 @@ class FlagScheme(Thing):
 )
 class BitwiseFlagScheme(FlagSchemeType):
     """Bitwise interpretation: flags combine via OR; recover with AND using each flag's mask."""
-    pass
 
 
 @namespaces(piv="https://matthiasprobst.github.io/pivmeta#")

@@ -36,7 +36,7 @@ class TestVersion(unittest.TestCase):
 
     def test_readme(self):
         """checking if the version in the README.md is the same as the one of the toolbox"""
-        with open(__this_dir__ / "../README.md", "r") as f:
+        with open(__this_dir__ / "../README.md", "r", encoding="utf-8") as f:
             readme = f.read()
 
         pivmeta_version_splitted = self.this_version.split(".")

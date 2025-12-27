@@ -2,7 +2,7 @@ import pathlib
 import warnings
 
 import requests.exceptions
-from ontolutils.ex import dcat, prov
+from ontolutils.ex import prov, dcat
 from ontolutils.ex.prov import Person
 
 import pivmetalib
@@ -39,6 +39,7 @@ class TestDcat(utils.ClassTest):
         self.assertEqual(resource1.creator.name, 'John Doe')
         self.assertEqual(resource1.version, '1.0')
         self.assertEqual(str(resource1.identifier), 'http://example.com/resource')
+        print(resource1.serialize("ttl"))
 
     if connected:
         def test_Distribution(self):

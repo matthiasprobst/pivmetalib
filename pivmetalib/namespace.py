@@ -106,6 +106,15 @@ class PIV(DefinedNamespace):
     TryLowerOrderPeaks: URIRef  # ['try lower order peaks']
     TukeyWindow: URIRef  # ['Tukey window']
     microPIV: URIRef  # ['Micro Particle Image Velocimetry']
+    FlagInactive: URIRef  # ['inactive']
+    FlagActive: URIRef  # ['active']
+    FlagMasked: URIRef  # ['masked']
+    FlagNoResult: URIRef  # ['noresult']
+    FlagDisabled: URIRef  # ['disabled']
+    FlagFiltered: URIRef  # ['filtered']
+    FlagInterpolated: URIRef  # ['interpolated']
+    FlagReplaced: URIRef  # ['replaced']
+    FlagManualEdit: URIRef  # ['manualedit']
 
     _NS = Namespace("https://matthiasprobst.github.io/pivmeta#")
 
@@ -211,3 +220,12 @@ setattr(PIV, "top_bottom_flip", PIV.TopBottomFlip)
 setattr(PIV, "try_lower_order_peaks", PIV.TryLowerOrderPeaks)
 setattr(PIV, "Tukey_window", PIV.TukeyWindow)
 setattr(PIV, "Micro_Particle_Image_Velocimetry", PIV.microPIV)
+setattr(PIV, "inactive", PIV.FlagInactive)
+setattr(PIV, "active", PIV.FlagActive)
+setattr(PIV, "masked", PIV.FlagMasked)
+setattr(PIV, "noresult", PIV.FlagNoResult)
+setattr(PIV, "disabled", PIV.FlagDisabled)
+setattr(PIV, "filtered", PIV.FlagFiltered)
+setattr(PIV, "interpolated", PIV.FlagInterpolated)
+setattr(PIV, "replaced", PIV.FlagReplaced)
+setattr(PIV, "manualedit", PIV.FlagManualEdit)
