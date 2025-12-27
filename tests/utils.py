@@ -1,10 +1,11 @@
-import rdflib
 import unittest
+
+import rdflib
 
 
 class ClassTest(unittest.TestCase):
-    test_jsonld_filename = 'https://raw.githubusercontent.com/matthiasprobst/pivmetalib/main/tests/testdata/piv_dataset.json'
-    test_jsonld_zipped_filename = 'https://raw.githubusercontent.com/matthiasprobst/pivmetalib/main/tests/testdata/piv_dataset.zip'
+    test_jsonld_filename = 'https://raw.githubusercontent.com/matthiasprobst/pivmetalib/dev-dependency-update/tests/testdata/piv_dataset.json'
+    test_jsonld_zipped_filename = 'https://raw.githubusercontent.com/matthiasprobst/pivmetalib/dev-dependency-update/tests/testdata/piv_dataset.zip'
 
     def setUp(self):
         self.maxDiff = None

@@ -4,3 +4,80 @@ requires = [
     "wheel"
 ]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "pivmetalib"
+version = "3.1.0.1"
+authors = [
+    { name = "Matthias Probst", email = "matthias.probst@kit.edu" }
+]
+description = "A Python library for working with the pivmeta ontology."
+readme = "README.md"
+license = "MIT"
+classifiers = [
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Operating System :: OS Independent",
+    "Development Status :: 4 - Beta",
+]
+keywords = ["piv", "particle-image-velocimetry", "ontology", "metadata"]
+urls = { "Homepage" = "https://github.com/matthiasprobst/pivmetalib" }
+
+dependencies = [
+    "rdflib>=7.0.0",
+    "appdirs>=1.4.4",
+    "simplejson>=3.19.2",
+    "python-dateutil>=2.9.0",
+    "requests>=2.32.4",
+    "ontolutils>=0.27.0,<0.28.0",
+    "ssnolib==2.2.0.3",
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest>=8.4.2",
+    "pytest-cov>=5.0.0",
+    "pylint>=3.2.6",
+    "pyyaml>=6.0.2",
+    "xmltodict>=1.0.0",
+    "h5rdmtoolbox>=2.5.4,<3.0.0",
+    "toml>=0.10.0",
+]
+complete = [
+    "pivmetalib[test]",
+]
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["pivmetalib*"]
+
+[tool.pytest.ini_options]
+python_files = "test_*.py"
+testpaths = ["tests"]
+
+[tool.coverage.paths]
+source = ["pivmetalib"]
+
+[tool.coverage.run]
+relative_files = false
+omit = [
+    "tests/*",
+    "*/_version.py",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "@abstractmethod",
+    "@abc.abstractmethod",
+    "pragma: no cover",
+    "def __repr__",
+    "def __hash__",
+    "def __str__",
+    "def _repr_html_",
+]

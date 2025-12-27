@@ -12,12 +12,12 @@ from pivmetalib.sd import Software
             schema="https://schema.org/",
             obo="http://purl.obolibrary.org/obo/",
             codemeta="https://codemeta.github.io/terms/",
-            pivmeta="https://matthiasprobst.github.io/pivmeta#"
+            piv="https://matthiasprobst.github.io/pivmeta#"
             )
 @urirefs(ProcessingStep='m4i:ProcessingStep',
          usesSoftware="codemeta:usesSoftware",
-         usesAnalysisSoftware="pivmeta:usesAnalysisSoftware",
-         usesAcquisitionSoftware="pivmeta:usesAcquisitionSoftware",
+         usesAnalysisSoftware="piv:usesAnalysisSoftware",
+         usesAcquisitionSoftware="piv:usesAcquisitionSoftware",
          )
 class ProcessingStep(BaseProcessingStep):
     usesSoftware: Optional[Union[Software, List[Software]]] = Field(alias="uses_software", default=None)

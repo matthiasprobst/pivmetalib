@@ -1,6 +1,7 @@
 from .distribution import (ImageVelocimetryDistribution,
                            PIVDataType,
-                           ImageVelocimetryDataset)
+                           ImageVelocimetryDataset
+                           )
 from .method import (ImageManipulationMethod,
                      InterrogationMethod,
                      CorrelationMethod,

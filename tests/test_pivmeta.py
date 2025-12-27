@@ -12,20 +12,19 @@ import ontolutils
 import requests
 from ontolutils import get_urirefs
 from ontolutils.classes.decorator import URIRefManager
-from ontolutils.ex import prov
-from ontolutils.ex.dcat import Dataset
-from ontolutils.ex.m4i import ProcessingStep, Tool, Method
+from ontolutils.ex import prov, m4i, dcat
 from rdflib import DCAT
 from ssnolib import StandardName
-from ssnolib.pimsii import Variable
 from ssnolib.m4i import NumericalVariable
+from ssnolib.pimsii import Variable
 
 import pivmetalib
 import utils
 from pivmetalib import pivmeta
 from pivmetalib.namespace import PIV
-
+from pivmetalib.pivmeta import ImageVelocimetryDistribution, FlagScheme, EnumeratedFlagScheme
 from pivmetalib.pivmeta.variable import TemporalVariable
+
 __this_dir__ = pathlib.Path(__file__).parent
 CACHE_DIR = pivmetalib.utils.get_cache_dir()
 
@@ -54,9 +53,10 @@ class TestPIVmeta(utils.ClassTest):
                 classes = [n.name for n in ast.walk(node) if isinstance(n, ast.ClassDef)]
                 for cls_name in classes:
                     if cls_name not in ignore:
+                        print(cls_name)
                         cls = getattr(module, cls_name)
                         for iri in get_urirefs(cls).values():
-                            if "pivmeta:" in iri:
+                            if "piv:" in iri:
                                 self.assertIn(iri.split(":", 1)[-1], namespace_names,
                                               f'missing class: {iri.split(":", 1)[-1]}')
                         self.assertTrue(cls_name in namespace_names, f"Class {cls_name} in {filename} not in namespace")
@@ -72,7 +72,7 @@ class TestPIVmeta(utils.ClassTest):
         )
         with open('software.jsonld', 'w') as f:
             f.write(pivtec.model_dump_jsonld())
-        print(ontolutils.query(pivmeta.PIVSoftware, source='software.jsonld'))
+
         pathlib.Path('software.jsonld').unlink(missing_ok=True)
 
         mycompany = pivmeta.PIVSoftware(
@@ -122,25 +122,38 @@ class TestPIVmeta(utils.ClassTest):
         self.check_jsonld_string(jsonld_string)
 
     def test_ProcessingStep(self):
-        st1 = datetime.now()
-        ps1 = ProcessingStep(id='_:p1', label='p1', startTime=st1)
+        st1 = datetime(2025, 12, 26, 20, 2, 53, 856965)
+        ps1 = m4i.ProcessingStep(id='_:p1', label='p1', startTime=st1)
         time.sleep(1)
-        st2 = datetime.now()
-        ps2 = ProcessingStep(id='_:p2', label='p2', startTime=st2)
+        st2 = datetime(2025, 12, 26, 20, 2, 54, 857671)
+        ps2 = m4i.ProcessingStep(id='_:p2', label='p2', startTime=st2)
 
         ps1.starts_with = ps2
 
         self.assertTrue(ps2.start_time > ps1.start_time)
         self.assertIsInstance(ps1, ontolutils.Thing)
-        self.assertIsInstance(ps1, ProcessingStep)
+        self.assertIsInstance(ps1, m4i.ProcessingStep)
         self.assertIsInstance(ps1.starts_with, ontolutils.Thing)
-        self.assertIsInstance(ps1.starts_with, ProcessingStep)
+        self.assertIsInstance(ps1.starts_with, m4i.ProcessingStep)
         self.assertEqual(ps1.starts_with, ps2)
 
-        jsonld_string = ps1.model_dump_jsonld()
-        self.check_jsonld_string(jsonld_string)
+        ttl = ps1.serialize("ttl")
+        self.assertEqual(ttl, """@prefix m4i: <http://w3id.org/nfdi4ing/metadata4ing#> .
+@prefix obo: <http://purl.obolibrary.org/obo/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <https://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-        tool = Tool(id='_:t1', label='tool1')
+[] a m4i:ProcessingStep ;
+    rdfs:label "p1" ;
+    obo:RO_0002224 [ a m4i:ProcessingStep ;
+            rdfs:label "p2" ;
+            schema:startTime "2025-12-26T20:02:54.857671"^^xsd:dateTime ] ;
+    schema:startTime "2025-12-26T20:02:53.856965"^^xsd:dateTime .
+
+""")
+
+        tool = m4i.Tool(id='_:t1', label='tool1')
         ps1.hasEmployedTool = tool
         self.assertDictEqual({"@context": {
             "owl": "http://www.w3.org/2002/07/owl#",
@@ -148,6 +161,7 @@ class TestPIVmeta(utils.ClassTest):
             "m4i": "http://w3id.org/nfdi4ing/metadata4ing#",
             'pivmeta': 'https://matthiasprobst.github.io/pivmeta#',
             "schema": "https://schema.org/",
+            'prov': 'http://www.w3.org/ns/prov#',
             'skos': 'http://www.w3.org/2004/02/skos/core#',
             'dcterms': 'http://purl.org/dc/terms/',
             "obo": "http://purl.obolibrary.org/obo/"
@@ -177,7 +191,7 @@ class TestPIVmeta(utils.ClassTest):
                     wasRoleIn=ps1)
 
     def test_PIVPostProcessing(self):
-        data_smoothing = Method(
+        data_smoothing = m4i.Method(
             id='_:ms1',
             name='Low-pass filtering',
             description='applies a low-pass filtering on the data using a Gaussian weighted kernel of specified width to reduce spurious noise.',
@@ -188,36 +202,23 @@ class TestPIVmeta(utils.ClassTest):
             label='Post processing',
             realizesMethod=data_smoothing
         )
-        self.assertDictEqual({
-            "@context": {
-                "owl": "http://www.w3.org/2002/07/owl#",
-                "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
-                "m4i": "http://w3id.org/nfdi4ing/metadata4ing#",
-                "schema": "https://schema.org/",
-                "obo": "http://purl.obolibrary.org/obo/",
-                "pivmeta": "https://matthiasprobst.github.io/pivmeta#",
-                "pims": "http://www.molmod.info/semantics/pims-ii.ttl#",
-                'skos': 'http://www.w3.org/2004/02/skos/core#',
-                'dcterms': 'http://purl.org/dc/terms/',
-                'ssno': 'https://matthiasprobst.github.io/ssno#'
-            },
-            "@type": "pivmeta:PIVProcessingStep",
-            "rdfs:label": "Post processing",
-            "m4i:realizesMethod": {
-                "@type": "m4i:Method",
-                "schema:description": "applies a low-pass filtering on the data using a Gaussian weighted kernel of specified width to reduce spurious noise.",
-                "m4i:hasParameter": {
-                    "@type": "m4i:NumericalVariable",
-                    "rdfs:label": "kernel",
-                    "m4i:hasNumericalValue": 2.0,
-                    "@id": "_:param1"
-                },
-                "name": "Low-pass filtering",
-                "@id": "_:ms1"
-            },
-            "@id": "_:pp1"
-        },
-            json.loads(post.model_dump_jsonld()))
+        ttl = post.serialize("ttl")
+
+        self.assertEqual(ttl, """@prefix m4i: <http://w3id.org/nfdi4ing/metadata4ing#> .
+@prefix piv: <https://matthiasprobst.github.io/pivmeta#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <https://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+[] a piv:PIVProcessingStep ;
+    rdfs:label "Post processing" ;
+    m4i:realizesMethod [ a m4i:Method ;
+            m4i:hasParameter [ a m4i:NumericalVariable ;
+                    rdfs:label "kernel" ;
+                    m4i:hasNumericalValue 2e+00 ] ;
+            schema:description "applies a low-pass filtering on the data using a Gaussian weighted kernel of specified width to reduce spurious noise." ] .
+
+""")
 
     def test_parameter_with_standard_name(self):
         sn1 = StandardName(standardName='x_velocity',
@@ -250,7 +251,7 @@ class TestPIVmeta(utils.ClassTest):
 
         var1.standard_name = sn1
 
-        method = Method(label='method1')
+        method = m4i.Method(label='method1')
         method.parameter = [var1, var2]
 
         jsonld_string = method.model_dump_jsonld()
@@ -315,7 +316,7 @@ class TestPIVmeta(utils.ClassTest):
                                                             filenamePattern=r'img\d{4}_[a,b].tif')
             self.assertIsInstance(piv_dist.hasPIVDataType, str)
             self.assertEqual(URIRefManager[pivmeta.ImageVelocimetryDistribution]['filenamePattern'],
-                             'pivmeta:filenamePattern')
+                             'piv:filenamePattern')
 
             self.assertIsInstance(piv_dist, ontolutils.Thing)
             self.assertIsInstance(piv_dist, pivmeta.ImageVelocimetryDistribution)
@@ -329,6 +330,7 @@ class TestPIVmeta(utils.ClassTest):
             found_dist = ontolutils.query(
                 pivmeta.ImageVelocimetryDistribution,
                 data=jsonld_string,
+                format="json-ld",
                 context={
                     "@import": 'https://raw.githubusercontent.com/matthiasprobst/pivmeta/main/pivmeta_context.jsonld'
                 }
@@ -366,14 +368,26 @@ class TestPIVmeta(utils.ClassTest):
             self.assertEqual(str(piv_img_dist.hasPIVDataType),
                              str(PIV.ExperimentalImage))
             self.assertEqual(piv_img_dist.hasMetric.value, 8)
-            jsonld_string = piv_img_dist.model_dump_jsonld(
-                context={
-                    "@import": 'https://raw.githubusercontent.com/matthiasprobst/pivmeta/main/pivmeta_context.jsonld'
-                }
-            )
+            ttl = piv_img_dist.serialize("ttl", context={
+                "@import": 'https://raw.githubusercontent.com/matthiasprobst/pivmeta/main/pivmeta_context.jsonld'})
+            self.assertEqual(ttl, """@prefix pims: <http://www.molmod.info/semantics/pims-ii.ttl#> .
+@prefix piv: <https://matthiasprobst.github.io/pivmeta#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+[] a piv:ImageVelocimetryDistribution ;
+    rdfs:label "piv_image_distribution" ;
+    piv:hasMetric [ a pims:Variable ;
+            rdfs:label "image_bit_depth" ;
+            piv:value 8 ] ;
+    piv:hasPIVDataType piv:ExperimentalImage .
+
+""")
+
             found_dist = ontolutils.query(
                 pivmeta.ImageVelocimetryDistribution,
-                data=jsonld_string,
+                data=ttl,
+                format="ttl",
                 context={
                     "@import": 'https://raw.githubusercontent.com/matthiasprobst/pivmeta/main/pivmeta_context.jsonld'
                 }
@@ -385,9 +399,9 @@ class TestPIVmeta(utils.ClassTest):
             self.assertEqual(found_dist[0].hasMetric.value, '8')
 
     def test_Tool(self):
-        tool = Tool(label='tool1')
+        tool = m4i.Tool(label='tool1')
         self.assertIsInstance(tool, ontolutils.Thing)
-        self.assertIsInstance(tool, Tool)
+        self.assertIsInstance(tool, m4i.Tool)
         self.assertEqual(tool.label, 'tool1')
 
         jsonld_string = tool.model_dump_jsonld()
@@ -424,10 +438,10 @@ class TestPIVmeta(utils.ClassTest):
             namespace_prefix="dcat",
             class_name='Catalog',
             properties=[
-                dict(name="dataset", property_type=Union[Dataset, List[Dataset]])
+                dict(name="dataset", property_type=Union[dcat.Dataset, List[dcat.Dataset]])
             ]
         )
-        ds = Dataset(label='dataset1', distribution=[])
+        ds = dcat.Dataset(label='dataset1', distribution=[])
 
         piv_catalog = Catalog(dataset=ds)
         serialized = piv_catalog.serialize("ttl")
@@ -455,3 +469,34 @@ class TestPIVmeta(utils.ClassTest):
         jsonld_string = temp_var.model_dump_jsonld()
         self.check_jsonld_string(jsonld_string)
         print(temp_var.serialize("ttl"))
+
+    def test_flags(self):
+        flag_scheme = FlagScheme(
+            id="http://example.org/flagscheme1",
+            label="PIV Quality Flags",
+            description="Quality flags for PIV data",
+            usesFlagSchemeType=EnumeratedFlagScheme(),
+            allowedFlag=[
+                pivmeta.Flag(
+                    label="Good",
+                    description="Good quality vector",
+                    mask=1,
+                    meaning="Vector is of good quality",
+                ),
+                pivmeta.Flag(
+                    label="Bad",
+                    description="Bad quality vector",
+                    mask=0,
+                    meaning="Vector is of bad quality",
+                ),
+            ]
+        )
+        ivd = ImageVelocimetryDistribution(
+            id="http://example.org/ivd1",
+            hasFlagScheme=flag_scheme
+        )
+        ttl = ivd.serialize("ttl")
+        self.assertEqual(2, len(ivd.hasFlagScheme.allowedFlag))
+
+        flag = flag_scheme.get_flags(mask=1)
+        self.assertEqual(flag[0].mask, 1)

@@ -27,7 +27,6 @@ def generate_namespace_file():
     iris = {}
     for k, v in context['@context'].items():
         if '@id' in v:
-            print(v)
             if namespace in v['@id']:
                 name = v["@id"].rsplit(":", 1)[-1]
                 if name not in iris:

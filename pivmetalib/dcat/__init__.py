@@ -1,7 +1,7 @@
-from .resource import Dataset, DatasetSeries, Distribution
+from .resource import Resource, Distribution, Dataset
 
 __all__ = (
-    'Dataset',
-    'DatasetSeries',
+    'Resource',
     'Distribution',
+    'Dataset',
 )

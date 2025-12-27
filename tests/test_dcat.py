@@ -2,7 +2,8 @@ import pathlib
 import warnings
 
 import requests.exceptions
-from ontolutils.ex import dcat, prov
+from ontolutils.ex import prov, dcat
+from ontolutils.ex.prov import Person
 
 import pivmetalib
 import utils
@@ -38,6 +39,7 @@ class TestDcat(utils.ClassTest):
         self.assertEqual(resource1.creator.name, 'John Doe')
         self.assertEqual(resource1.version, '1.0')
         self.assertEqual(str(resource1.identifier), 'http://example.com/resource')
+        print(resource1.serialize("ttl"))
 
     if connected:
         def test_Distribution(self):
@@ -87,6 +89,11 @@ class TestDcat(utils.ClassTest):
             filename = piv_dist.download(timeout=60)
             self.assertTrue(filename.exists())
             self.assertEqual(filename.name, 'piv_dataset.json')
+            person = Person.from_jsonld(filename)
+            self.assertEqual(1, len(person))
+            self.assertIsInstance(person[0], prov.Person)
+            self.assertEqual(person[0].mbox, "christian.kaehler@dlr.de")
+
             self.assertIsInstance(filename, pathlib.Path)
 
             local_dist = dcat.Distribution(
