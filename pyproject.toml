@@ -32,7 +32,7 @@ dependencies = [
     "simplejson>=3.19.2",
     "python-dateutil>=2.9.0",
     "requests>=2.32.4",
-    "ontolutils>=0.27.0,<0.28.0",
+    "ontolutils>=0.27.5,<0.28.0",
     "ssnolib==2.2.0.3",
 ]
 

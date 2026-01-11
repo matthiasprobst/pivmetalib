@@ -1,3 +1,5 @@
+<div align="center">
+
 # pivmetalib
 
 [![Tests](https://github.com/matthiasprobst/pivmetalib/actions/workflows/tests.yml/badge.svg)](https://github.com/matthiasprobst/pivmetalib/actions/workflows/tests.yml)
@@ -10,6 +12,11 @@
 A Python library and high-level interface to work with the [pivmeta ontology](https://matthiasprobst.github.io/pivmeta/).
 It allows you to describe PIV recordings, software, hardware and other related entities in a state-of-the-art and
 scientifically compliant way.
+
+
+</div>
+
+---
 
 The library depends on [ontolutils](https://ontology-utils.readthedocs.io/en/latest/), which provides the 
 object-oriented interface to the ontology and the JSON-LD serialization.
