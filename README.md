@@ -47,25 +47,19 @@ software = pivmeta.PIVSoftware(
 print(software.serialize("jsonld"))
 ```
 
-**📚 Want to learn more?
-** → [Complete User Guide](docs/USER_GUIDE.md) | [Examples](docs/examples/) | [API Reference](docs/reference/api.md)
-
 ---
 
 ## 📖 Table of Contents
 
-- [What You Can Do with pivmetalib](#-what-you-can-do-with-pivmetalib)
-- [Installation](#-installation)
-- [User Journey Guide](#-user-journey-guide)
-- [Key Features](#-key-features)
-- [Documentation](#-documentation)
-- [Examples](#-examples)
-- [Contribution](#-contribution)
-- [Troubleshooting](#-troubleshooting)
+- [What You Can Do with pivmetalib](#what-you-can-do-with-pivmetalib)
+- [Installation](#installation)
+- [User Guide](#user-guide)
+- [Key Features](#key-features)
+- [Examples](#examples)
 
 ---
 
-## 🎯 What You Can Do with pivmetalib
+## What You Can Do with pivmetalib
 
 ### For **Researchers**
 
@@ -77,7 +71,7 @@ print(software.serialize("jsonld"))
 - **Tool Interoperability**: Enable metadata exchange between different PIV tools
 - **Long-term Preservation**: Store metadata in standards-compliant formats (JSON-LD, TTL)
 
-## 💻 Installation
+## Installation
 
 ### Basic Installation
 
@@ -113,7 +107,7 @@ print(f"pivmetalib version: {pivmetalib.__version__}")
 
 ---
 
-## 🗺️ User Guide
+## User Guide
 
 Choose your path based on your background and goals:
 
@@ -156,9 +150,9 @@ Choose your path based on your background and goals:
 
 ---
 
-## 💡 Examples
+## Examples
 
-### 🚀 **Quick Examples**
+### **Quick Examples**
 
 **Describe PIV Software:**
 
@@ -197,13 +191,13 @@ software_list = query(cls=PIVSoftware, source='metadata.jsonld')
 
 ---
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
 
 ---
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - Built on [ontolutils](https://ontology-utils.readthedocs.io/en/latest/) for ontology handling
 - Integrates with [pivmeta ontology](https://matthiasprobst.github.io/pivmeta/) for PIV metadata standards
