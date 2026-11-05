@@ -7,7 +7,7 @@
 [![Python Versions](https://img.shields.io/badge/python-3.9%20%7C%203.10%20%7C%203.11%20%7C%203.12%20%7C%203.13-blue)](https://pypi.org/project/pivmetalib/)
 [![PyPI Version](https://img.shields.io/badge/pivmeta-3.1.0-orange)](https://pypi.org/project/pivmetalib/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Documentation](https://img.shields.io/badge/docs-latest-brightgreen)](docs/README.md)
+[![Documentation](https://img.shields.io/badge/docs-latest-brightgreen)](docs/GettingStarted.ipynb)
 
 A Python library and high-level interface to work with the [pivmeta ontology](https://matthiasprobst.github.io/pivmeta/).
 It allows you to describe PIV recordings, software, hardware and other related entities in a state-of-the-art and
@@ -117,6 +117,9 @@ Choose your path based on your background and goals:
 2. [Describe Your First Recording](docs/Describe_a_PIV_recording.ipynb) - Complete dataset workflow
 3. [PIV Processing with OpenPIV](docs/Describe_PIV_eval_with_openPIV.ipynb) - Processing pipeline documentation
 4. [Result File Documentation](docs/Describe_PIV_Result_File.ipynb) - Publishing your results
+
+For tool authors, see [OpenPIV integration and related projects](docs/INTEGRATIONS.md)
+for the role of metadata export and its relationship to formats such as AeroX.
 
 ---
 
